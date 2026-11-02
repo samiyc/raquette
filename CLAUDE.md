@@ -4,8 +4,9 @@ Guidance for Claude Code in this repository.
 
 ## Project
 
-Table tennis in simulation: a duel, the ball's trajectory, its spin (Magnus) and its height, a robot, then the gamepad.
-Tennis and badminton may follow, hence the name.
+Table tennis in simulation: a duel, the ball's trajectory, its spin (Magnus) and its height, a robot, a mouse player to
+test the robot's limits, then self-play, where the big gains are expected (Sami, 2/11/2026). The gamepad comes later, if it
+still serves. Tennis and badminton may follow, hence the name.
 
 Created 2/11/2026, a client of `mcts-commun` like `mcts-urgences`, `mcts-entrepot` and `mcts-cuisine`, siblings in
 `E:\Dev\My projects\`. **No `mcts-` in the name** (Sami, 30/10/2026): he doubts this game needs MCTS. The search is
@@ -24,8 +25,8 @@ project needing the same physics is what would move it to the library.
 - **Prose docs are in French**, as the owner works; code, comments and identifiers are English.
 - **Node 24, ES modules, no build step**: the same modules run under Node (tests, benches) and in the browser page.
   Modules that decide import no `node:*`.
-- **What decides is pure and tested** (`npm test`, `node --test`); the page only draws and listens. The gamepad comes
-  through the browser's Gamepad API behind a plain function, so that tests can simulate it.
+- **What decides is pure and tested** (`npm test`, `node --test`); the page only draws and listens. Inputs (the
+  mouse, later the gamepad) go through a plain function, so that tests can simulate them.
 - **Randomness is seeded** (`createRng` of `mcts-commun`): a rally and a search replay from their seed.
 - **A simple rule first** (return to the centre of the table), measured on the same seeds; a search must beat it,
   paired over the same seeds, with its interval. A quick screen rejects, it never promotes (lopin's lesson).

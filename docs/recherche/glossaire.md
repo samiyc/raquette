@@ -52,6 +52,7 @@ les articles.
 | **La frappe** | la raquette pousse la balle, selon sa normale | `drive` de l'intention |
 | **La poussette** (*push*) | un coup court et coupé, près de la table | R3 |
 | **Le bloc** (*block*) | un renvoi presque passif d'une balle rapide | une frappe faible |
+| **Le contre** (*counter*) | renvoyer tôt la vitesse et l'effet adverses, avec peu de geste | R4 |
 | **Le top**, le topspin (*loop*) | un coup très brossé, l'attaque de base | R3 |
 | **La frappe à plat**, **le smash** | un coup très rapide, peu d'effet | R3 |
 | **Le flip** | une petite attaque sur une balle courte, au-dessus de la table | — |
@@ -97,5 +98,10 @@ les articles.
 | **Le profil** | le joueur en chiffres : portée, vitesses, dispersions | `profile` |
 | **Une paire**, en mesure | une graine jouée deux fois, chaque joueur servant une fois | `paired` de la lib |
 | **Le témoin A/A** | une version contre elle-même, pour vérifier l'arène | les tests de J3 |
+| **Le secteur**, le champ d'action | ce que le bras atteint sans déplacement : 220° face au filet, dans la portée et la bande de hauteur | `reach` du profil |
+| **L'ordre** | ce qu'un clic demande : une cible de déplacement ou une zone visée | `orderOf` |
+| **L'autojeu** (*self-play*) | des robots qui jouent entre eux pour progresser | J7 |
+| **Le panel** | les adversaires figés qu'une variante doit aussi battre | J7 |
+| **Le banc de positions** | les positions perdues par le robot, rejouées à chaque variante | J4 |
 
 [lois]: https://www.tabletennisengland.co.uk/content/uploads/2026/07/Laws-of-Table-Tennis-2026-27.pdf

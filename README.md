@@ -1,7 +1,7 @@
 # Raquette
 
-Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot puis la manette.
-Le tennis et le badminton pourront suivre.
+Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, un joueur à la
+souris pour éprouver ce robot, puis l'autojeu. Le tennis et le badminton pourront suivre.
 
 Client de [`mcts-commun`](../mcts-commun/README.md). Le nom n'a pas de préfixe `mcts-` : rien ne dit encore que ce jeu
 a besoin de MCTS (Sami, 30/10/2026). La recherche sera choisie par la mesure, contre une règle simple : renvoyer au

@@ -1,8 +1,13 @@
 # Le modèle de Raquette : le cadrage (2/11/2026)
 
-Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, puis la manette. Ce
-document fixe ce qu'on va construire et comment on saura que ça marche. **Il n'y a encore ni modèle ni recherche dans
-`src/`.**
+Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, un joueur à la souris
+pour éprouver ce robot, puis l'autojeu. Ce document fixe ce qu'on va construire et comment on saura que ça marche. **Il n'y a
+encore ni modèle ni recherche dans `src/`.**
+
+**Le cap, précisé par Sami le 2/11/2026.** Tout représenter en 2D vue de dessus sera complexe, mais le jeu reste surtout de l'analyse,
+du positionnement et des trajectoires. Le joueur humain est simplifié pour finir des parties, à la souris et au pas à pas, et il sert à **vérifier
+les limites du robot**. Les gros progrès viendront à long terme de l'**autojeu**, où l'effet, le contre et la physique pèsent
+davantage. Le joueur humain ne change donc rien à la physique : seule son entrée est simple.
 
 Les chiffres viennent de [`recherche/chiffres.md`](recherche/chiffres.md) (les sources, jusqu'où chacune a été lue). Une
 valeur marquée **H** est une hypothèse, avec sa question dans [`recherche/questions.md`](recherche/questions.md) :
@@ -78,7 +83,7 @@ fera pareil, et il faut qu'elle n'y gagne rien.
 
 **Le reproductible.** Le pas ne contient que `+ − × /` et `sqrt`, exacts sur tout moteur JavaScript : ni `sin`, ni `cos`, ni
 `pow`. Les orientations sont des vecteurs, pas des angles. Une partie rejouée donne donc la même balle sous Node et dans
-n'importe quel navigateur, tant que les angles de la manette ou des règles sont convertis une seule fois, puis gardés.
+n'importe quel navigateur, tant que les angles des règles sont convertis une seule fois, puis gardés.
 
 ## 4. Les joueurs
 
@@ -91,6 +96,8 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 | Temps de réaction après la frappe adverse | 0,20 s | Q-P4 |
 | Vitesse et accélération du corps, sur le plan du sol | 3 m/s, 8 m/s² | Q-P5 |
 | Portée du bras depuis le corps | 0,8 m | Q-P5 |
+| Champ d'action autour du corps | **220°, axe fixe vers le filet (Sami, 2/11/2026)** ; 110° de chaque côté de l'axe | Q-P5 |
+| Bande de hauteur atteignable | du plateau moins 0,5 m au plateau plus 1,2 m | Q-P5 |
 | Préparation avant la frappe | 0,15 s | Q-P6 |
 | Vitesse de raquette maximale | 20 m/s | Q-P7 |
 | Dispersion de l'orientation de la raquette | 3° | Q-P1 |
@@ -98,10 +105,16 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 | Croissance de la dispersion quand le temps manque | ×2 sans préparation | Q-P2 |
 
 **Le corps** est un point sur le sol, qui ne franchit pas la table. **La raquette n'a pas de bras** : pas de geste simulé,
-pas de cinématique. Un joueur s'engage sur un instant et un point du trajet de la balle. Si, à cet instant, le point est à
-portée et que la préparation a eu lieu, le contact a lieu.
+pas de cinématique. Un joueur s'engage sur un instant et un point du trajet de la balle. Si, à cet instant, le point est dans
+le secteur et que la préparation a eu lieu, le contact a lieu.
 
-**Le coup** passe par quatre étapes, les mêmes pour une règle, une recherche ou la manette :
+**Le secteur** est ce que le bras atteint sans déplacement : une distance de 0,8 m au plus sur le plan, un angle d'au plus
+110° avec l'axe du joueur, et la bande de hauteur. Les 140° du dos restent hors d'atteinte : une balle passée derrière le
+joueur l'oblige à reculer, ou elle est perdue. L'axe est fixe, sans état ni paramètre de plus : le robot et Sami ont le même.
+Le test reste sans trigonométrie : le produit scalaire du vecteur unitaire vers la balle et de l'axe se compare à la
+constante `cos 110° = −0,3420…`. Un axe qui pivote vers la balle ne reviendrait que sur un avis d'entraîneur (Q-P5).
+
+**Le coup** passe par quatre étapes, les mêmes pour une règle, une recherche ou la souris :
 
 1. **L'intention** : un point visé sur le camp adverse, une vitesse de frappe, un brossage (la vitesse tangente de
    raquette, donc l'effet voulu), l'instant du contact, et où aller ensuite. C'est ce qui se décide.
@@ -122,7 +135,7 @@ l'ISMCTS de la lib a un rôle à jouer.
 
 | Horloge | Fréquence | Ce qu'elle fait |
 |---|---|---|
-| Simulation | 240 Hz, fixe | la balle, le corps, les contacts ; une entrée de manette lue par pas ou par image |
+| Simulation | 240 Hz, fixe | la balle, le corps, les contacts ; un clic s'applique au pas où il arrive |
 | Page | 60 Hz | 4 pas par image à vitesse réelle ; le dessin ne décide rien |
 | Décision | à chaque coup | l'intention, une fois après la frappe adverse, plus le temps de réaction |
 
@@ -149,6 +162,7 @@ règle simple. On mesure donc, dans l'ordre :
 | **R1**, « loin de lui » | viser le coin du camp le plus éloigné de l'adversaire, à 20 cm des lignes (H) | **le modèle récompense-t-il le placement ?** |
 | **R2**, « prudent » | R1, et frapper moins fort quand le temps de préparation manque | le coût réel de la dispersion |
 | **R3**, « effet » | R2, plus du lift en attaque, du coupé sur une balle courte | la force de Magnus vaut-elle quelque chose dans ce modèle ? |
+| **R4**, « contre » | R3, plus un coup de contre sur une balle rapide : une raquette peu rapide, un contact tôt | renvoyer la vitesse et l'effet adverses rapporte-t-il ? |
 
 **R1 sert de garde-fou.** Si viser loin de l'adversaire ne bat pas viser le centre, le modèle ne récompense pas le placement,
 et le jeu n'en est pas un : on corrige le modèle avant d'écrire la moindre recherche. Le pendant : si R1 écrase R0 à 90 %,
@@ -186,7 +200,7 @@ Un écrémage rapide rejette, il ne promeut jamais.
   surapprend le bruit.
 
 **Ce qu'on rapporte**, en plus de l'écart : la longueur des échanges, la cause de chaque fin (filet, hors table, balle pas
-rejointe, limite), la part des points du serveur, et les graines avec la commande pour rejouer.
+rejointe, hors secteur, limite), la part des points du serveur, et les graines avec la commande pour rejouer.
 
 **Sans horloge.** Une mesure fixe un budget (`budget` de `createClimb`), jamais une échéance, pour ne pas dépendre de la
 charge de la file. Le temps se mesure à part, au banc. La recherche a son propre flux de tirages, séparé de celui du monde,
@@ -220,11 +234,11 @@ la 3e et à la 5e balle (Djokic) restent, elles, une vérification indépendante
 
 ## 8. La recherche, plus tard
 
-**Rien n'est écrit, rien n'est choisi.** Ce qui suit dit seulement dans quel ordre on essaiera, une fois R0 à R3 mesurées.
+**Rien n'est écrit, rien n'est choisi.** Ce qui suit dit seulement dans quel ordre on essaiera, une fois R0 à R4 mesurées.
 Le jeu est à information complète au départ, et les coups sont des nombres continus : `docs/algorithmes.md` de la lib, § 3,
 désigne l'escalade.
 
-1. **Le témoin** : Monte-Carlo à plat sur quelques intentions de R3, pour savoir ce qu'une simulation gagne seule.
+1. **Le témoin** : Monte-Carlo à plat sur quelques intentions de la meilleure règle, pour savoir ce qu'une simulation gagne seule.
 2. **`createClimb`** sur les 8 gènes d'un coup (point visé x et y, vitesse, brossage de deux composantes, instant, position
    ensuite x et y), contre un modèle fixe de l'adversaire, la meilleure règle.
 3. **Le miroir** : l'adversaire prédit par une seconde escalade, ce qui a tant payé à Mad Pod Racing (60/60 contre 39/60, le REX de codingame).
@@ -243,6 +257,32 @@ désigne l'escalade.
 **La note** est façonnée, terme par terme, chaque terme mesuré par ablation : la recette du REX de codingame
 (`mcts-codingame/docs/rex-strategies.md`, § 2).
 
+### L'autojeu, après la première recherche (J7)
+
+C'est de là que Sami attend les gros progrès. La lib n'a rien pour cela : il vivra donc dans `raquette`, et ne remontera à la
+lib que si un second projet en a besoin.
+
+**Un robot qui ne joue que contre sa lignée se trompe.** Sur CodinGame, trois gains locaux se sont évaporés sur le site
+(`mcts-codingame/docs/rex-strategies.md`, « L'arène ne mesure que contre notre lignée »), et une prédiction paraît trop forte
+contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici, il n'y a pas de site pour corriger. D'où :
+
+- **un panel figé** : les règles R0 à R4, les versions gelées, des sparrings qui jouent autrement, et les positions que le
+  robot a perdues contre Sami ;
+- **la règle d'adoption** : une variante bat sa version **et** le panel, par paires, sur des graines neuves ;
+- **Sami comme juge extérieur** : ses parties à la souris sont, avec l'entraîneur, le seul adversaire qui ne vient pas de la
+  lignée (Q-P17, Q-P18).
+
+**Ce que l'autojeu apprend** reste à trancher à J7. Recommandation : les poids de la note, d'abord par ablation, puis réglés
+automatiquement ; pas de réseau de neurones au départ.
+
+**L'autojeu cherchera les failles de la physique**, comme le rappelle Sony. Les bornes du § 3 sont là pour ça, et les
+corrections résiduelles de Conti reviendraient si un robot gagnait dans une zone où le modèle est faux.
+
+**L'effet pourrait ne presque rien rapporter.** Avec une lecture parfaite et une visée exacte, un effet adverse ne coûte que
+de la marge (§ 4) : l'autojeu n'y trouverait alors pas ce que Sami en attend. R3 contre R2, puis R4 contre R3, le diront à J5.
+Si l'effet ne rapporte pas, on ajoute une erreur de lecture (Q-P9) : le jeu devient à information cachée, et l'ISMCTS a son
+rôle.
+
 ## 9. Ce qu'on prend de la lib, et d'ailleurs
 
 **De `mcts-commun` :**
@@ -250,12 +290,12 @@ désigne l'escalade.
 | Module | Ce qui sert | Quand |
 |---|---|---|
 | `random.js` | `createRng`, `streamOf` (un flux par joueur et par coup) | J1 |
-| `measure.js` | `paired`, `wilson`, `sprt`, `eloScore` | J4 |
-| `trace.js` | `progress`, pour les jobs | J4 |
+| `measure.js` | `paired`, `wilson`, `sprt`, `eloScore` | J5 |
+| `trace.js` | `progress`, pour les jobs | J5 |
 | `web/theme.css`, `bin/serve.js` | l'allure commune, la page sur le port 4804 | J2 |
 | `replay-keys.js` | `replayKeys`, `replayHint`, `nextSpeed`, `within` pour le lecteur | J2 |
 | `climb.js` | `createClimb` | J6 |
-| `mcts-backlog`, `mcts-board` | la file, `--slot`, le tableau | dès J4 |
+| `mcts-backlog`, `mcts-board` | la file, `--slot`, le tableau | dès J5 |
 
 **Ce qu'on ne prend pas, et pourquoi :**
 
@@ -282,7 +322,7 @@ licence à porter et du code de bot dans un dépôt qui pourrait devenir public.
 lui, une recherche jusqu'au budget, une note façonnée, un modèle de l'adversaire. Et le budget de travail de la lib : aucune
 collection de la jeune génération pendant une décision (`tests/`, à J6).
 
-## 10. La page et la manette
+## 10. La page et la souris
 
 **La page**, au premier jalon : la table vue de dessus, sur un fond sépia (le Khaki de Notepad++, que préfère Sami), avec
 `mcts-commun/web/theme.css` en premier. Le thème a un mode sombre automatique : la page doit fixer ses couleurs dans les deux
@@ -297,11 +337,35 @@ cas ou choisir le clair.
 
 Les couleurs seront vérifiées pour un daltonien, et contre le fond sépia.
 
-**Le lecteur** : un échange se rejoue depuis sa graine, ses deux profils et les entrées de la manette, avec `replayKeys`.
-L'échelle de temps est courte : `step` d'un pas de 1/60 s, `bigStep` de 0,1 s, ralenti jusqu'à 1/8 (H).
+**Le lecteur** : un échange se rejoue depuis sa graine, ses deux profils et les clics, avec `replayKeys`. L'échelle de temps
+est courte : `step` d'un pas de 1/60 s, `bigStep` de 0,1 s, ralenti jusqu'à 1/8 (H).
 
-**La manette** passe par une fonction simple, `readPad(gamepad) → { move, aim, power, spin }`, nourrie par la Gamepad API
-dans la page et par un tableau dans les tests. Ce que dit la spécification :
+**La souris** (Sami, 2/11/2026) : le clic gauche sur le plan donne la cible de déplacement, le clic droit sur la table la zone
+visée. Une fonction pure, `orderOf(click, view) → { moveTo } | { aimAt }`, traduit le clic : la page l'appelle, et les tests lui
+passent des clics simulés. La page empêche le menu contextuel (`preventDefault` sur `contextmenu`).
+
+**Ce qui est simplifié, seulement dans l'entrée :**
+
+- le clic droit donne le point visé ; la force (8 m/s), l'absence de brossage et le contact au sommet du rebond sont ceux de
+  R0 ; sans nouveau clic, la dernière cible reste, et la première est le centre ;
+- le contact se fait tout seul si la balle passe dans le secteur.
+
+**Ce qui ne l'est pas : les limites sont celles du robot.** Réaction, vitesse, secteur et préparation restent les mêmes, et les
+clics comptent jusqu'au début de la préparation : la pause donne du temps pour réfléchir, pas pour courir. **La dispersion est
+celle du robot par défaut** (Sami, 2/11/2026), avec un curseur de 0 à 100 %, dont la valeur s'affiche à côté du score. Sans elle,
+Sami battrait le robot par sa précision, ce qui ne dirait rien des limites du robot. Un score à une autre valeur reste une
+exploration, pas une mesure.
+
+**Ce que la page montre :** le secteur autour de chaque joueur, le cercle de dispersion attendue autour de la cible, et la
+cause de chaque fin d'échange.
+
+**Le pas à pas** : une pause automatique à chaque frappe du robot (désactivable), une touche « événement suivant » (frappe,
+rebond, contact), un pas de 1/60 s, les vitesses de 1/8 à ×1.
+
+**Vérifier les limites du robot** : une position que le robot a perdue s'exporte (sa graine, ses clics, le coup en cause) vers un
+banc de positions, rejoué à chaque variante. Ce banc nourrit le panel de l'autojeu (§ 8).
+
+**La manette, plus tard** (J8, si elle sert encore) : `readPad(gamepad)`, sur le même principe. Ce que dit la spécification :
 
 - la disposition standard : axes 0-1 pour le stick gauche, 2-3 pour le droit, de −1 à 1, **le bas est positif** ; boutons
   0-3 à droite, 4-7 sur la tranche (gâchettes 6 et 7 analogiques), 12-15 pour la croix ([W3C][w3c]) ;
@@ -310,38 +374,30 @@ dans la page et par un tableau dans les tests. Ce que dit la spécification :
 - rien n'apparaît avant qu'un bouton ait été pressé sur la page ; `mapping` peut être vide sur certaines manettes, et la
   zone morte est à notre charge ([MDN][mdn], [W3C][w3c]).
 
-**Le schéma proposé** (Q-S4) :
-
-- le stick gauche déplace le joueur ;
-- le stick droit vise, sur le camp adverse ;
-- la gâchette droite dose la force ;
-- la croix choisit l'effet : haut pour le lift, bas pour le coupé, gauche et droite pour le latéral ;
-- le contact se fait tout seul quand la balle est à portée, au sommet du rebond.
-
-La manette reçoit la même dispersion et les mêmes limites que le robot. Une balle met de 0,2 à 0,5 s à traverser : à vitesse réelle,
-c'est dur au stick, d'où une vitesse de jeu réglable (Q-S4).
-
 [w3c]: https://w3c.github.io/gamepad/
 [mdn]: https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API
 
 ## 11. Les jalons
 
 Chacun a ses tests et un commit, et rien de l'étape suivante n'est écrit avant. La feuille de route demande la table, la balle,
-le rebond et ses couleurs, puis un échange robot contre robot, puis la manette.
+le rebond et ses couleurs, puis un échange robot contre robot, puis la manette ; Sami a placé la souris d'abord, avant les
+mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de la visée avant de lancer de longues séries.
 
 | Jalon | Ce qu'il livre | Ce qui dit qu'il est fait |
 |---|---|---|
 | **J0** | ce cadrage | les docs, les questions tranchées |
 | **J1** | la balle : vol, table, filet (`src/ball/`), les tests de référence du § 7 | ces tests passent ; les tables de coefficients sont relues contre l'article ; la première empreinte, le banc |
 | **J2** | la page : la table, une balle lancée, le rebond, les couleurs, le bandeau | Sami la regarde, les calculs de `chiffres.md` § 8 sont refaits en tests ; le changelog |
-| **J3** | la raquette, la visée, le corps, un échange R0 contre R0 | l'A/A exact à l'octet ; les fins d'échange par cause |
-| **J4** | les mesures : R0 à R3 par paires, calibration | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange |
-| **J5** | la manette, le lecteur | une manette simulée dans les tests, un échange joué et rejoué par Sami |
-| **J6** | la première recherche, contre la meilleure règle | l'écart, son intervalle, le témoin à 4 fois le budget, 0 collection par décision |
+| **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause |
+| **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
+| **J5** | les mesures : R0 à R4 par paires, calibration | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange |
+| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | l'écart, son intervalle, le témoin à 4 fois le budget, 0 collection par décision |
+| **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
+| **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 
 **La découpe du code, à J1 et J3**, pour tenir le budget de lint (40 lignes par fonction, 220 par fichier) : `src/ball/`
 (`coefficients`, `flight`, `table`), `src/racket.js`, `src/aim.js`, `src/player.js`, `src/rally.js`, `src/rules/`,
-`src/pad.js`, `scripts/duel.js`.
+`src/mouse.js`, `scripts/duel.js`.
 
 ## 12. Ce qui est laissé de côté, et les risques
 
@@ -355,7 +411,7 @@ le rebond et ses couleurs, puis un échange robot contre robot, puis la manette.
 | Le bord de table, le filet qui laisse passer | une réponse à Q-P15 |
 | Les picots, l'anti-top | Q-P14 ; le chiffre est déjà là pour l'anti-top |
 | Le geste, le bras | rien de prévu : on cherche le coup, pas le geste |
-| Le double, le tennis, le badminton | après J6 |
+| Le double, le tennis, le badminton | après J7 |
 
 **Les risques, du plus au moins sérieux :**
 
@@ -368,3 +424,5 @@ le rebond et ses couleurs, puis un échange robot contre robot, puis la manette.
    tous les plans : c'est le premier banc de J3.
 4. **Une règle à plat peut être imbattable** si le modèle ne punit rien : c'est le doute de Sami sur MCTS. Dans ce cas, le
    résultat honnête du projet est : « la règle R2 suffit dans ce modèle ».
+5. **L'autojeu peut tourner en rond ou exploiter le modèle.** Le panel figé et Sami servent de garde-fous (§ 8), sans garantie :
+   un gain ne se lit jamais hors du modèle.

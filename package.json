@@ -2,7 +2,7 @@
   "name": "raquette",
   "version": "0.1.0",
   "private": true,
-  "description": "Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot et la manette.",
+  "description": "Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, la souris et l'autojeu.",
   "type": "module",
   "engines": {
     "node": ">=24"
