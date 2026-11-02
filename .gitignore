@@ -1,0 +1,39 @@
+# ---- Dependencies -------------------------------------------------------
+node_modules/
+
+# ---- Test / lint output -------------------------------------------------
+coverage/
+.eslintcache
+*.lcov
+
+# ---- Editors & IDEs -----------------------------------------------------
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+*.swp
+*~
+.claude/settings.local.json
+
+# ---- OS clutter ---------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# ---- Logs ---------------------------------------------------------------
+*.log
+npm-debug.log*
+
+# ---- Local env ----------------------------------------------------------
+.env
+.env.local
+
+# ---- Generated ----------------------------------------------------------
+# Working files a script can write again.
+tmp/
+# The games played on the page, saved automatically.
+replays/
+# The traces of mcts-commun (MCTS_TRACE=1) and the page server's failed requests.
+logs/

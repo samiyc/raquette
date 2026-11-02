@@ -1,0 +1,32 @@
+{
+  "name": "raquette",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot et la manette.",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=4",
+    "test:coverage": "node --test --test-concurrency=4 --experimental-test-coverage --test-coverage-exclude=tests/** --test-coverage-lines=93 --test-coverage-branches=90 --test-coverage-functions=90",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "types": "tsc -p .",
+    "check": "npm run lint && npm run types && npm test",
+    "prepare": "git config core.hooksPath .githooks"
+  },
+  "author": "Sami",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "mcts-commun": "file:../mcts-commun"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^24.19.2",
+    "eslint": "^9.39.5",
+    "eslint-plugin-sonarjs": "^4.2.2",
+    "globals": "^17.13.0",
+    "typescript": "^5.9.3"
+  }
+}
