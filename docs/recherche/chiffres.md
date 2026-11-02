@@ -71,9 +71,25 @@ fois le coude et un coefficient.
 | 13,5 | −5,6e−4 | 0,383 | 550 | −3,571e−7 | 5,357e−4 | −0,0893 |
 | 17,0 | −4,48e−4 | 0,371 | 650 | −1,000e−7 | 2,300e−4 | −0,0375 |
 
-Ces tables viennent d'une extraction de texte d'un PDF à deux colonnes : **à vérifier sur la figure 2 de l'article**
-avant de les figer dans une empreinte (J1). Le raccord au coude n'est pas tout à fait continu : à 13,5 m/s, 0,075 d'un côté
-et 0,097 de l'autre (**C**), à regarder de près, car la ligne 13,5 n'a pas son étiquette dans le texte extrait.
+**Relues le 2/11/2026**, en mise en page exacte et contre les figures de l'article :
+
+- la table I colle à sa figure 1, regardée à l'œil ;
+- la table II colle à la figure 2, lue au pixel, à 0,001 près ;
+- la ligne 13,5 de la table III est bien celle-là ;
+- **la table III ne colle pas à la figure 2 aux vitesses hautes**, au-dessus du coude (**C**) :
+
+| v (m/s) | ω (rad/s) | `C_M` de la table | `C_M` de la figure |
+|---|---|---|---|
+| 7,5 | 600 ; 900 | 0,089 ; 0,050 | 0,091 ; 0,047 |
+| 10,5 | 750 ; 900 | 0,104 ; 0,095 | 0,099 ; 0,083 |
+| 13,5 | 600 ; 900 | 0,104 ; 0,104 | 0,087 ; 0,095 |
+| 17 | 700 ; 900 | 0,075 ; 0,089 | 0,088 ; 0,110 |
+
+Sur la figure, la courbe est continue au coude. Dans la table, elle saute à 13,5 m/s, de 0,075 à 0,097. **Le code garde la
+table imprimée**, la seule valeur écrite, avec un test qui fixe ce saut. L'écart touche les effets au-delà de 90 tr/s environ.
+Il vaut 2 à 5 m/s² de force de Magnus à ces vitesses, soit jusqu'à une dizaine de centimètres sur un vol de 0,2 s. Une recherche
+pourrait exploiter le saut : à surveiller, si elle se met à jouer juste au-dessus de 550 rad/s. Une question aux auteurs réglerait
+le point.
 
 | Autre chiffre | Valeur | Source | Statut |
 |---|---|---|---|
@@ -144,6 +160,7 @@ Deux laboratoires trouvent la même pente de restitution, vers 0,02 par m/s.
 | Effet de six jeunes joueurs confirmés et d'un entraîneur, en top | 117 ± 29 tr/s | [[kidokoro]] | R |
 | Vitesse dans cette étude, 0,15 s après la ligne de fond | 23 m/s | [[kidokoro]] | R |
 | À même vitesse de départ : ≥ 110 tr/s contre ≤ 80 tr/s | 1,4 m/s de plus, et 27 ± 5 ms de moins pour arriver 1 m derrière la ligne | [[kidokoro]] | R |
+| Le même écart dans notre modèle, 80 contre 110 tr/s, coups de 14 à 22 m/s | 1,1 à 2,1 m/s, 21 à 29 ms (**C**, J1) ; rien de net à 10 ou 12 m/s. Le départ de l'étude n'a pas été lu : un accord d'ordre de grandeur, pas une validation | calcul | C |
 | Joueurs confirmés selon une autre source | environ 60 tr/s | [[gossard-serve]] citant Inaba et al. | L2 |
 | Vitesse typique de jeu | 20 à 30 m/s, sans référence | [[schneider]] | R |
 | Le passage à 40 mm | 5 à 10 % de vitesse et d'effet en moins que la balle de 38 mm | [[schneider]] | R |
@@ -181,9 +198,10 @@ Ils apprennent le geste sur un vrai bras. Raquette ne simule pas de bras : elle 
 
 ## 8. Ce qui est calculé ici
 
-Calculs de cadrage du 2/11/2026 : arithmétique déterministe sous Node 24, non versionnée. Ils restent à refaire dans les
-tests de J1 (`docs/modele.md`, § 11), avec `ρ = 1,2`. Les trajectoires servent à comparer des méthodes : ce ne sont pas
-toutes des coups valides.
+Calculs du 2/11/2026, avec `ρ = 1,2`. Depuis J1, `tests/ball-references.test.js` les refait : les coefficients constants,
+l'écart le long du vol, l'arithmétique des points, et le pas de temps seulement en ordre de grandeur (RK2 sous le millimètre,
+Euler au-delà du centimètre). Le banc refait le coût. Les trajectoires servent à comparer des méthodes : ce ne sont pas toutes
+des coups valides.
 
 **La vitesse limite et le freinage.** Vitesse limite 8,0 à 8,7 m/s (`C_D` 0,55 à 0,47). Freinage de traînée 52 m/s² à
 20 m/s, 118 m/s² à 30 m/s : à ces vitesses, la traînée pèse 5 à 12 fois le poids.
@@ -198,8 +216,13 @@ toutes des coups valides.
 | Euler semi-implicite, 12 m/s et 120 tr/s | 209 mm | 104 mm | 52 mm | 26 mm |
 | RK2, 12 m/s et 120 tr/s | 1,6 mm | 0,36 mm | **0,10 mm** | 0,02 mm |
 
-**Le coût d'un pas.** RK2 sur `Float64Array`, coefficients constants : **24 ns** par pas, un seul passage sur cette
-machine, sans allocation. Un ordre de grandeur, à remesurer au banc avec les tables de coefficients.
+**Le coût d'un pas.** RK2 sur `Float64Array`, coefficients constants : 24 ns par pas (cadrage). **Avec les tables, au banc
+de J1 (`npm run bench`, 20 millions de pas, un passage, machine à 8 % de charge) : 113 ns pour le vol seul, 171 ns avec la
+table, le filet et le sol**, soit environ 15 µs pour un vol de 90 pas.
+
+**Sans collection de mémoire une fois le code chaud** (un test en compte 0 sur un million de pas), à condition de faire passer
+les nombres par des tableaux. Une première version en causait 1 595 sur 12 millions de pas au banc : un nombre flottant passé à
+une fonction non inlinée, ou renvoyé par elle, est alloué.
 
 **Un coefficient de Magnus constant s'éloigne de la table.** Point de chute comparé au modèle complet de Conti, RK2 à 2 kHz,
 en 2D, ρ = 1,2, départ à 25 cm de haut. La colonne du milieu reprend le `k_m` de Gossard :
@@ -217,10 +240,24 @@ La force de Magnus sature : à 13,5 m/s, elle pousse à 9 m/s² dès 150 rad/s, 
 Un `k_m` constant donne 2,3 m/s² à 150 rad/s, soit quatre fois moins : d'où les écarts à faible effet. Le creux de
 traînée explique les −18,3 cm du top rapide : `C_D` y descend à 0,37.
 
-**Ce que ce calcul ne dit pas.** Il compare deux modèles, pas un modèle à la réalité. Et il reste à réconcilier avec Conti, qui
-annonce 15,8 mm d'erreur en médiane sur un vol pour le modèle de référence, sans doute à coefficients constants. Les deux
-ne mesurent pas la même chose : une erreur au long d'un vol observé, contre un point de chute, très sensible parce que la
-balle arrive rasante. L'écart reste à comprendre à J1 ; en attendant, on prend les tables.
+**Ce que ce calcul ne dit pas.** Il compare deux modèles, pas un modèle à la réalité. Et Conti annonce 15,8 mm d'erreur
+quadratique médiane sur un vol pour le modèle de référence de Nakashima, à première vue incompatible avec ces écarts.
+
+**L'écart, regardé à J1.** Le même écart entre le `k_m` constant et les tables, mesuré de trois façons :
+
+| Coup d'essai | Au point de chute | Erreur quadratique le long du vol | La même, le départ ajusté |
+|---|---|---|---|
+| 5 m/s, coupé 30 tr/s | 6,7 cm | 31 mm | 3,7 mm |
+| 10 m/s, lift 40 tr/s | 42,6 cm | 64 mm | 8,6 mm |
+| 15 m/s, lift 60 tr/s | 67,3 cm | 80 mm | 9,0 mm |
+| 18 m/s, lift 117 tr/s | 15,0 cm | 92 mm | 12,3 mm |
+| 25 m/s, lift 20 tr/s | 99,0 cm | 66 mm | 8,6 mm |
+
+Deux effets, donc : une balle rasante amplifie une petite erreur de hauteur en une grande erreur de chute, et un départ ajusté
+sur les observations absorbe l'essentiel d'une force mal estimée. **Si Conti ajuste le départ de chaque segment, ce que le texte
+lu ne dit pas, leurs 15,8 mm et nos écarts ne se contredisent plus (hypothèse, C)**, et leur mesure dit alors peu de chose du point
+de chute à partir d'un départ connu. Or c'est ce qui compte ici : un coup part d'un état connu, sans observation pour le corriger.
+On garde donc les tables. Le `k_m` de Gossard n'est pas forcément celui de Nakashima, dont les coefficients n'ont pas été lus.
 
 **Le test du rebond.** Lâchée de 30 cm, la balle arrive à 2,37 m/s, traînée comprise.
 

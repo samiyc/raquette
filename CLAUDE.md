@@ -37,6 +37,11 @@ project needing the same physics is what would move it to the library.
   `TEST_CONCURRENCY=2` while measures run): lint, types, tests. Never skip the hook.
 - **The lint budget is lopin's** (`eslint.config.js`: 40 lines a function, 220 a file, complexity 8): a module that
   outgrows it is split along its seams, the limit is never raised.
+- **The fingerprints** (`tests/fingerprint.test.js`) hash what the simulation does. A refactor changes none; a change meant
+  to alter the model updates its hash and says so in the commit, with the measures before and after.
+- **The simulation must not allocate** (`npm run bench`, and a test): on Mad Pod Racing, the garbage collector pushed turns
+  to 72 ms out of 75. In the flight step, doubles travel in typed arrays: passed to or returned from a call V8 does not
+  inline, each becomes a heap number.
 - **Types come from JSDoc** (`npm run types`); the shapes the modules hand each other are in `src/types.js`.
 - **Commit straight to `main`; push only when Sami asks.** The GitHub repository is his to create, private.
 
@@ -44,14 +49,10 @@ project needing the same physics is what would move it to the library.
 
 Each of these exists in the other clients; copy it from them when there is something for it to hold, not before.
 
-- **The fingerprints** (`tests/fingerprint.test.js`), with the first model: a hash of what the simulation does. A
-  refactor changes none; a change meant to alter the model updates its hash and says so in the commit, with the
-  measures before and after.
 - **The page**: `npm run page`, `node node_modules/mcts-commun/bin/serve.js 4804` (4800 to 4803 are taken), with
   `mcts-commun/web/theme.css` first. Sami prefers sepia, the Khaki of Notepad++, to white.
 - **The changelog** as data (`docs/changelog.json`, `npm run changelog`), with the first version shown on the page.
-- **The bench** (`npm run bench`, `scripts/search-bench.js`), with the first search. The simulation must not allocate:
-  on Mad Pod Racing, the garbage collector pushed turns to 72 ms out of 75 until the simulation stopped allocating.
+- **The search bench** (`scripts/search-bench.js`), with the first search.
 
 ## The machine
 

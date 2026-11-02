@@ -25,8 +25,8 @@ Cinq constats, qui orientent la suite :
 3. **Le maillon faible, c'est la raquette.** Chez Sony, l'erreur sur le point de chute reste de 15 cm en médiane, et
    l'aérodynamique n'y compte presque pas. Polir le vol au-delà de quelques centimètres ne sert à rien.
 4. **Le coefficient de Magnus doit suivre l'effet.** Avec le coefficient constant d'un article de 2026, un top à 15 m/s
-   tombe 67 cm plus loin qu'avec la table de Sony AI (`chiffres.md`, § 8). Un écart à comprendre à J1 : Sony annonce moins
-   de 2 cm d'erreur sur un vol pour son modèle de référence.
+   tombe 67 cm plus loin qu'avec la table de Sony AI (`chiffres.md`, § 8). Sony annonce pourtant moins de 2 cm d'erreur sur un
+   vol pour son modèle de référence ; le même § 8 propose une explication, sans la prouver.
 5. **Ce qui fait perdre un point n'a pas de source.** Personne ne publie la dispersion d'une frappe, ni le temps de
    réaction d'un pongiste en chiffres. Or sans cette dispersion, deux robots s'échangent la balle sans fin. Ces valeurs
    sont donc des hypothèses, calibrées puis soumises à un entraîneur.
@@ -67,8 +67,11 @@ al. (`chiffres.md`, § 2), avec les tables de `C_D` et de `C_M`. Masse 2,7 g, ra
 `ρ = 1,2` (H, Q-P15). L'effet reste constant pendant le vol, comme chez Gossard et al.
 
 **Le pas de temps** : **RK2 à 240 Hz**. L'erreur sur le point de chute est de 0,1 à 0,3 mm, là où Euler semi-implicite
-en fait 50 à 70 (`chiffres.md`, § 8). Le pas coûte environ 24 ns à coefficients constants ; le banc dira ce qu'y ajoutent
-les tables. S'il dépasse 100 ns, on précalcule une grille de coefficients.
+en fait 50 à 70 (`chiffres.md`, § 8). Le pas coûte 113 ns en vol, 171 ns avec la table et le filet (le banc, J1).
+
+**Le seuil de 100 ns est dépassé, et il n'y a pas de grille pour l'instant.** Le cadrage prévoyait une grille de coefficients
+au-delà de 100 ns. Mais un vol coûte environ 15 µs, ce qui reste dans l'estimation de 50 µs par plan du § 7, et une grille
+lisserait le coude de `C_M`. Elle reviendra si le banc de J3 montre qu'un plan coûte trop cher.
 
 **La table et le filet.** À 25 m/s, la balle fait 10 cm par pas, et le filet n'en fait que 15 : on cherche donc le premier
 franchissement de `z = r` et de `x = 0` à l'intérieur du pas, par interpolation. C'est le geste de `meetTime` dans
