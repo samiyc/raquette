@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "node --test --test-concurrency=4",
-    "test:coverage": "node --test --test-concurrency=4 --experimental-test-coverage --test-coverage-exclude=tests/** --test-coverage-lines=93 --test-coverage-branches=90 --test-coverage-functions=90",
+    "test:coverage": "node --test --test-concurrency=4 --experimental-test-coverage --test-coverage-include=src/** --test-coverage-lines=93 --test-coverage-branches=90 --test-coverage-functions=90",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "types": "tsc -p .",
