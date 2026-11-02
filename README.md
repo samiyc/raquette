@@ -7,7 +7,10 @@ Client de [`mcts-commun`](../mcts-commun/README.md). Le nom n'a pas de préfixe 
 a besoin de MCTS (Sami, 30/10/2026). La recherche sera choisie par la mesure, contre une règle simple : renvoyer au
 centre de la table.
 
-**État** : le dépôt existe, sans modèle. Le cadrage vient d'abord (`docs/modele.md`, `docs/recherche/`).
+**État** (2/11/2026) : le cadrage est écrit, sans code de modèle ni de recherche : [`docs/modele.md`](docs/modele.md) (le
+modèle, les règles à battre, les mesures, les jalons) et [`docs/recherche/`](docs/recherche/README.md) (les chiffres et
+leurs sources, le glossaire, les questions, le prompt de recherche). Prochain jalon : la balle, son vol et son rebond, avec
+ses tests contre les valeurs publiées.
 
 ## Les commandes
 

@@ -1,0 +1,370 @@
+# Le modèle de Raquette : le cadrage (2/11/2026)
+
+Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, puis la manette. Ce
+document fixe ce qu'on va construire et comment on saura que ça marche. **Il n'y a encore ni modèle ni recherche dans
+`src/`.**
+
+Les chiffres viennent de [`recherche/chiffres.md`](recherche/chiffres.md) (les sources, jusqu'où chacune a été lue). Une
+valeur marquée **H** est une hypothèse, avec sa question dans [`recherche/questions.md`](recherche/questions.md) :
+`Q-Sn` pour Sami, `Q-Pn` pour un professionnel.
+
+## 1. Ce que la recherche a déjà changé
+
+Cinq constats, qui orientent la suite :
+
+1. **La physique se trouve publiée, et récente.** Sony AI a publié en juin 2026 un modèle de vol, de table et de
+   raquette, ajusté sur 277 parties. Inutile de l'inventer.
+2. **Elle ne viendra presque pas de `mcts-codingame`.** Ni Mad Pod Racing ni Fantastic Bits n'ont de hauteur, de gravité
+   ou d'effet : ce sont des disques sur un plan, avec un frottement par tour. On y reprend la recette (§ 9), pas les
+   formules. La feuille de route le laissait attendre davantage.
+3. **Le maillon faible, c'est la raquette.** Chez Sony, l'erreur sur le point de chute reste de 15 cm en médiane, et
+   l'aérodynamique n'y compte presque pas. Polir le vol au-delà de quelques centimètres ne sert à rien.
+4. **Le coefficient de Magnus doit suivre l'effet.** Avec le coefficient constant d'un article de 2026, un top à 15 m/s
+   tombe 67 cm plus loin qu'avec la table de Sony AI (`chiffres.md`, § 8). Un écart à comprendre à J1 : Sony annonce moins
+   de 2 cm d'erreur sur un vol pour son modèle de référence.
+5. **Ce qui fait perdre un point n'a pas de source.** Personne ne publie la dispersion d'une frappe, ni le temps de
+   réaction d'un pongiste en chiffres. Or sans cette dispersion, deux robots s'échangent la balle sans fin. Ces valeurs
+   sont donc des hypothèses, calibrées puis soumises à un entraîneur.
+
+## 2. Ce qui se passe
+
+Un échange : un joueur sert, la balle vole et rebondit, l'autre la rejoint et la renvoie, jusqu'à la faute. Une partie est
+une suite d'échanges, indépendants : la fatigue et la mémoire de l'adversaire ne sont pas modélisées.
+
+**Le repère.** L'origine est au centre de la table, au niveau du plateau. `x` va d'un joueur à l'autre, le filet en
+`x = 0`, les lignes de fond en `x = ±1,37`. `y` va de côté, les lignes en `y = ±0,7625`. `z` monte, le plateau en `z = 0`,
+le sol en `z = −0,76`. En m, m/s et rad/s ; un effet positif autour de `y`, pour une balle qui va vers `x` croissant, est
+un lift.
+
+**Les règles retenues** (les Lois de l'ITTF, `chiffres.md`, § 1) :
+
+- une balle valide touche le camp adverse, directement ou après avoir touché le filet ;
+- la faute : le filet sans passer, le camp adverse manqué, la balle qui rebondit deux fois, l'obstruction, la balle pas
+  rejointe à temps ;
+- la manche à 11, 2 d'écart, le service qui tourne tous les 2 points, à chaque point à partir de 10-10. **Elle vit sur la
+  page**, les mesures comptent des échanges (§ 7).
+
+**Les simplifications** (toutes reprises au § 12) :
+
+- un service stylisé : pas de lancer, un contact au-dessus de la ligne de fond (Q-S6) ;
+- pas de balle de bord : le plateau est un rectangle à plat ;
+- une balle qui touche le filet s'arrête là, ce qui est une faute si elle n'a pas encore passé (H, Q-P15) ;
+- pas de vent, l'air à 20 °C ;
+- un seul revêtement, un backside offensif (Q-P14).
+
+**Une limite d'échange** : 60 coups (H). Un échange qui l'atteint vaut un partage (0,5), et il est compté à part. Une série
+qui en a beaucoup signale un modèle sans faute.
+
+## 3. La balle
+
+**Son état** tient en 9 nombres, dans un `Float64Array` : position, vitesse, effet. **Le vol** est l'équation de Conti et
+al. (`chiffres.md`, § 2), avec les tables de `C_D` et de `C_M`. Masse 2,7 g, rayon 0,02 m (la Loi), `g = 9,81` et
+`ρ = 1,2` (H, Q-P15). L'effet reste constant pendant le vol, comme chez Gossard et al.
+
+**Le pas de temps** : **RK2 à 240 Hz**. L'erreur sur le point de chute est de 0,1 à 0,3 mm, là où Euler semi-implicite
+en fait 50 à 70 (`chiffres.md`, § 8). Le pas coûte environ 24 ns à coefficients constants ; le banc dira ce qu'y ajoutent
+les tables. S'il dépasse 100 ns, on précalcule une grille de coefficients.
+
+**La table et le filet.** À 25 m/s, la balle fait 10 cm par pas, et le filet n'en fait que 15 : on cherche donc le premier
+franchissement de `z = r` et de `x = 0` à l'intérieur du pas, par interpolation. C'est le geste de `meetTime` dans
+Fantastic Bits, ici contre un plan.
+
+**Le rebond** est celui de Nakashima, en glissement ou en roulement, avec `μ = 0,25` et `e = 0,98 − 0,02 |v_z|`. On laisse
+de côté les corrections résiduelles de Conti (§ 12) : elles ne gagnent que 14 à 30 %.
+
+**Les bornes** : 35 m/s et 1 000 rad/s, les maxima publiés. La recherche ne doit pas pouvoir sortir du domaine où le
+modèle a été ajusté : Sony rappelle qu'un adversaire cherche justement les trajectoires que le modèle gère mal. Une escalade
+fera pareil, et il faut qu'elle n'y gagne rien.
+
+**Le reproductible.** Le pas ne contient que `+ − × /` et `sqrt`, exacts sur tout moteur JavaScript : ni `sin`, ni `cos`, ni
+`pow`. Les orientations sont des vecteurs, pas des angles. Une partie rejouée donne donc la même balle sous Node et dans
+n'importe quel navigateur, tant que les angles de la manette ou des règles sont convertis une seule fois, puis gardés.
+
+## 4. Les joueurs
+
+Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6), avec des valeurs d'un bon joueur de club
+(Q-S1). Elles sont regroupées dans un profil de joueur, qu'un entraîneur pourra corriger sans toucher au code.
+
+| Grandeur | Valeur de départ | Question |
+|---|---|---|
+| Position d'attente | centre, 0,5 m derrière la ligne de fond | Q-P12 |
+| Temps de réaction après la frappe adverse | 0,20 s | Q-P4 |
+| Vitesse et accélération du corps, sur le plan du sol | 3 m/s, 8 m/s² | Q-P5 |
+| Portée du bras depuis le corps | 0,8 m | Q-P5 |
+| Préparation avant la frappe | 0,15 s | Q-P6 |
+| Vitesse de raquette maximale | 20 m/s | Q-P7 |
+| Dispersion de l'orientation de la raquette | 3° | Q-P1 |
+| Dispersion de la vitesse de raquette | 6 % | Q-P1 |
+| Croissance de la dispersion quand le temps manque | ×2 sans préparation | Q-P2 |
+
+**Le corps** est un point sur le sol, qui ne franchit pas la table. **La raquette n'a pas de bras** : pas de geste simulé,
+pas de cinématique. Un joueur s'engage sur un instant et un point du trajet de la balle. Si, à cet instant, le point est à
+portée et que la préparation a eu lieu, le contact a lieu.
+
+**Le coup** passe par quatre étapes, les mêmes pour une règle, une recherche ou la manette :
+
+1. **L'intention** : un point visé sur le camp adverse, une vitesse de frappe, un brossage (la vitesse tangente de
+   raquette, donc l'effet voulu), l'instant du contact, et où aller ensuite. C'est ce qui se décide.
+2. **La visée** (`aim`) : les deux inclinaisons de raquette qui envoient la balle sur le point visé, trouvées par quelques
+   itérations de Newton, chacune simulant un vol. C'est de la balistique, partagée, et ce n'est pas la recherche : une règle
+   en a besoin autant qu'elle. Si aucune inclinaison ne passe le filet, le coup n'est pas jouable. Elle lit la balle **telle
+   que le joueur la perçoit**.
+3. **L'exécution** : la dispersion du § 4 s'applique à la raquette, tirée d'un flux à graine.
+4. **Le contact** : le modèle de Conti, avec la balle **vraie** et la raquette **bruitée** : restitution normale et
+   tangente, raideur tangente (`chiffres.md`, § 4), sans son réseau de neurones.
+
+Cette construction donne son sens à l'effet adverse sans rien ajouter : un effet bien lu est compensé par la visée et ne
+coûte que de la marge ; un effet mal lu renvoie la balle de travers. Au début, la balle se lit sans erreur. **Le jour où
+elle se lit avec une erreur (Q-P9), le jeu devient à information cachée**, et c'est alors, et seulement alors, que
+l'ISMCTS de la lib a un rôle à jouer.
+
+## 5. Le temps
+
+| Horloge | Fréquence | Ce qu'elle fait |
+|---|---|---|
+| Simulation | 240 Hz, fixe | la balle, le corps, les contacts ; une entrée de manette lue par pas ou par image |
+| Page | 60 Hz | 4 pas par image à vitesse réelle ; le dessin ne décide rien |
+| Décision | à chaque coup | l'intention, une fois après la frappe adverse, plus le temps de réaction |
+
+Une balle met de 0,2 à 0,5 s à traverser (`chiffres.md`, § 8). Sous Node, la décision ne connaît pas l'horloge : elle a un
+budget en plans (§ 7). Dans la page, ce budget est découpé sur les images ou passé à un *worker*, et le temps se mesure sur
+le navigateur, pas sur notre horloge, comme l'a appris Hypersonic.
+
+## 6. La règle simple à battre
+
+**R0, « renvoyer au centre »**, c'est la règle de la feuille de route, lue ainsi (Q-S2) :
+
+- viser le centre du camp adverse, `x = 0,685` et `y = 0` ;
+- frapper à 8 m/s (H), sans brossage ;
+- prendre la balle au sommet de son rebond, ou au dernier instant à portée si le sommet échappe ;
+- après le coup, retourner à la position d'attente ;
+- servir long et au centre, sans effet.
+
+**R0 n'est pas la barre finale, seulement la première.** Comme à la cuisine, une recherche se compare à la **meilleure**
+règle simple. On mesure donc, dans l'ordre :
+
+| Règle | Ce qu'elle ajoute | Ce que dit sa mesure |
+|---|---|---|
+| **R0** | le centre | le témoin |
+| **R1**, « loin de lui » | viser le coin du camp le plus éloigné de l'adversaire, à 20 cm des lignes (H) | **le modèle récompense-t-il le placement ?** |
+| **R2**, « prudent » | R1, et frapper moins fort quand le temps de préparation manque | le coût réel de la dispersion |
+| **R3**, « effet » | R2, plus du lift en attaque, du coupé sur une balle courte | la force de Magnus vaut-elle quelque chose dans ce modèle ? |
+
+**R1 sert de garde-fou.** Si viser loin de l'adversaire ne bat pas viser le centre, le modèle ne récompense pas le placement,
+et le jeu n'en est pas un : on corrige le modèle avant d'écrire la moindre recherche. Le pendant : si R1 écrase R0 à 90 %,
+la dispersion est trop faible ou les déplacements trop lents.
+
+Les paramètres de chaque règle se règlent sur des graines de calibration, puis sont figés, et ne servent plus pour les
+mesures.
+
+## 7. Les mesures
+
+**L'unité est l'échange**, parce qu'il est indépendant et bon marché. Une manche se déduit (`chiffres.md`, § 8).
+
+**La paire.** Une graine donne deux échanges : A sert, puis B sert, chacun avec les mêmes tirages de dispersion. Le score
+de A sur la graine est son nombre de points, 0, 1 ou 2. `paired(scoresA, scoresB)` rend l'écart moyen avec son intervalle à
+95 %, et la part des points de A vaut `0,5 + écart / 4`.
+
+**Les tirages restent alignés.** Chaque tirage de dispersion vient de `streamOf(graine, indice)`, avec un indice qui dépend
+du rôle (serveur ou receveur) et du numéro du coup, pas d'un compteur partagé. Deux joueurs reçoivent ainsi le même tirage au
+coup `k`, même si leurs échanges ont divergé plus tôt. La graine perd de sa force au fil de l'échange : on publiera le gain
+de variance réel de la paire, plutôt que de le supposer.
+
+**Le seuil d'adoption.** Une variante est adoptée si la borne basse de l'écart est au-dessus de 0, confirmée sur des graines
+neuves quand elle passe de peu. **Le plus petit gain qui vaille : 52 % des points**, soit 57,7 % des manches et 66,5 % des
+matchs, un écart de 0,08 (Q-S3). Pour l'intervalle : 2 401 échanges pour ±2 points, c'est-à-dire 1 200 graines environ.
+
+**La séquence.** `sprt(écarts, { h0: 0, h1: 0.08 })` arrête une série tranchée, et elle se rapporte toujours avec `paired`.
+Un écrémage rapide rejette, il ne promeut jamais.
+
+**Les témoins :**
+
+- **A/A exact.** La même règle des deux côtés : à graine égale, échanger les joueurs donne l'échange miroir, à l'octet, écart
+  0. C'est un test, pas une statistique, et il attrape tout biais de côté.
+- **A/A statistique.** Une version contre elle-même sur des indices de tirage décalés : l'intervalle doit contenir 0.
+- **Plus de budget.** Une recherche à 4 fois son budget doit battre sa version courante. Sinon, elle plafonne, ou elle
+  surapprend le bruit.
+
+**Ce qu'on rapporte**, en plus de l'écart : la longueur des échanges, la cause de chaque fin (filet, hors table, balle pas
+rejointe, limite), la part des points du serveur, et les graines avec la commande pour rejouer.
+
+**Sans horloge.** Une mesure fixe un budget (`budget` de `createClimb`), jamais une échéance, pour ne pas dépendre de la
+charge de la file. Le temps se mesure à part, au banc. La recherche a son propre flux de tirages, séparé de celui du monde,
+sinon un plan de plus décalerait la dispersion.
+
+**Où ça tourne.** Une estimation à vérifier au banc : un plan coûte quelques vols, soit de l'ordre de 50 µs (H), donc 1 000
+plans par coup font 50 ms, un échange de 5 coups 250 ms, et 2 400 échanges 10 min sur un fil. Une série longue passe par la
+file, en jobs d'un fil, de 30 min au plus, avec `progress` ; un test court passe par `--slot`.
+
+**La mesure ne prouve que dans le modèle.** Un gain ne dit rien du vrai ping-pong tant que les hypothèses du § 4 n'ont pas
+été confrontées à un entraîneur.
+
+### Se comparer à du public
+
+La feuille de route met « – » pour ce banc : aucun banc de duels n'existe. Mais la physique peut se comparer à des chiffres
+publiés, comme les moteurs CodinGame le faisaient au site : **un simulateur n'est cru qu'une fois rejoué contre la
+référence**. Les tests de J1 :
+
+| Test | La référence | Tolérance (H) |
+|---|---|---|
+| Rebond depuis 30 cm | environ 23 cm (Loi 2.1.3) ; 24 cm calculés | ±1,5 cm |
+| Vitesse limite en chute | 8,0 à 8,7 m/s (`C_D` publié) | ±0,2 m/s |
+| Top ≥ 110 tr/s contre ≤ 80 tr/s, à même départ | 1,4 m/s de plus, 27 ± 5 ms de moins (Kidokoro) | le signe et l'ordre de grandeur |
+| Effet du rebond sur la vitesse horizontale | de −3,1 à +2,6 m/s (Kidokoro) | dans cette plage, sur les mêmes conditions |
+| Un fort coupé repart en arrière | qualitatif (Conti) | le signe |
+| Roulement et glissement se raccordent à α = 0,4 | la dérivation (`chiffres.md`, § 3) | exact |
+
+**La calibration, à ne pas confondre.** R0 contre R0 doit donner autour de 4 à 5 coups par échange (Glynn, l'extrait d'une
+autre étude). On règle la dispersion pour y arriver : c'est un ajustement, pas une preuve. Les parts de points au service, à
+la 3e et à la 5e balle (Djokic) restent, elles, une vérification indépendante, une fois le service en place.
+
+## 8. La recherche, plus tard
+
+**Rien n'est écrit, rien n'est choisi.** Ce qui suit dit seulement dans quel ordre on essaiera, une fois R0 à R3 mesurées.
+Le jeu est à information complète au départ, et les coups sont des nombres continus : `docs/algorithmes.md` de la lib, § 3,
+désigne l'escalade.
+
+1. **Le témoin** : Monte-Carlo à plat sur quelques intentions de R3, pour savoir ce qu'une simulation gagne seule.
+2. **`createClimb`** sur les 8 gènes d'un coup (point visé x et y, vitesse, brossage de deux composantes, instant, position
+   ensuite x et y), contre un modèle fixe de l'adversaire, la meilleure règle.
+3. **Le miroir** : l'adversaire prédit par une seconde escalade, ce qui a tant payé à Mad Pod Racing (60/60 contre 39/60, le REX de codingame).
+4. **L'ISMCTS** : seulement si la balle se lit avec une erreur ou si l'adversaire est inconnu, et que l'escalade plafonne.
+5. **Pas de faisceau** : rien n'est discret ici.
+
+**Deux écueils propres au ping-pong :**
+
+- **Le plan n'est pas stable d'un coup à l'autre.** Mad Pod Racing décale son plan à chaque tour ; ici, le coup d'après
+  dépend d'une réponse qui n'a pas encore eu lieu. `shift` ne servira sans doute à rien : à mesurer par ablation.
+- **Le bruit trompe l'escalade.** Mad Pod Racing était déterministe. Ici, noter un plan sur un seul tirage récompense la
+  chance. On notera chaque plan sur K tirages communs à la décision (K = 4, H), avec une note de marge (distance au filet et
+  aux lignes en écarts-types, temps qui reste à l'adversaire). Et on vérifiera sur des tirages frais que le plan gagnant
+  vaut ce que sa note annonçait.
+
+**La note** est façonnée, terme par terme, chaque terme mesuré par ablation : la recette du REX de codingame
+(`mcts-codingame/docs/rex-strategies.md`, § 2).
+
+## 9. Ce qu'on prend de la lib, et d'ailleurs
+
+**De `mcts-commun` :**
+
+| Module | Ce qui sert | Quand |
+|---|---|---|
+| `random.js` | `createRng`, `streamOf` (un flux par joueur et par coup) | J1 |
+| `measure.js` | `paired`, `wilson`, `sprt`, `eloScore` | J4 |
+| `trace.js` | `progress`, pour les jobs | J4 |
+| `web/theme.css`, `bin/serve.js` | l'allure commune, la page sur le port 4804 | J2 |
+| `replay-keys.js` | `replayKeys`, `replayHint`, `nextSpeed`, `within` pour le lecteur | J2 |
+| `climb.js` | `createClimb` | J6 |
+| `mcts-backlog`, `mcts-board` | la file, `--slot`, le tableau | dès J4 |
+
+**Ce qu'on ne prend pas, et pourquoi :**
+
+- `grid` (pas de grille) et `schedule` ;
+- `events` (une simulation à pas fixe) ;
+- `beam` et `pool` (pas de coups discrets) ;
+- `mcts`, tant que le jeu reste à information complète.
+
+**Ce qui manque à la lib : rien pour l'instant.** La physique reste chez nous, jusqu'à ce qu'un second projet en ait besoin.
+
+**De `mcts-codingame`, à lire seulement, sans importer ni modifier :**
+
+| Fichier | Ce qu'on en retient |
+|---|---|
+| `mad-pod-racing/src/fastsim.js`, `fantastic-bits/src/fast/` | la forme d'une simulation sans allocation, en tableaux typés, vérifiée champ par champ contre un moteur plus lent |
+| `mad-pod-racing/src/search.js` | les mutations, le plan décalé, la prédiction en miroir |
+| `fantastic-bits/engine/collide.js` | le premier contact à l'intérieur d'un pas (`meetTime`, `wallTime`) |
+| `mad-pod-racing/engine/race.js` | rien à copier : c'est un portage sous licence MIT de l'arbitre de robostac, et ni son frottement ni ses arrondis ne s'appliquent ici |
+
+**On réécrit plutôt que de copier.** Il s'agit de peu de lignes et de formules connues. Cela évite à la fois une mention de
+licence à porter et du code de bot dans un dépôt qui pourrait devenir public.
+
+**La recette reprise**, celle des trois bots en Légende : un moteur lisible et testé, une simulation rapide vérifiée contre
+lui, une recherche jusqu'au budget, une note façonnée, un modèle de l'adversaire. Et le budget de travail de la lib : aucune
+collection de la jeune génération pendant une décision (`tests/`, à J6).
+
+## 10. La page et la manette
+
+**La page**, au premier jalon : la table vue de dessus, sur un fond sépia (le Khaki de Notepad++, que préfère Sami), avec
+`mcts-commun/web/theme.css` en premier. Le thème a un mode sombre automatique : la page doit fixer ses couleurs dans les deux
+cas ou choisir le clair.
+
+**Les couleurs de la balle :**
+
+- **l'effet** : une teinte, rouge pour le lift, bleu pour le coupé, plus intense quand il est fort, et une petite flèche pour
+  le latéral ;
+- **la hauteur** : la taille de la balle, et le décalage de son ombre sur la table ;
+- **un bandeau de profil** sous la table (Q-S5) : vue de dessus seule, on ne voit pas si la balle passe le filet.
+
+Les couleurs seront vérifiées pour un daltonien, et contre le fond sépia.
+
+**Le lecteur** : un échange se rejoue depuis sa graine, ses deux profils et les entrées de la manette, avec `replayKeys`.
+L'échelle de temps est courte : `step` d'un pas de 1/60 s, `bigStep` de 0,1 s, ralenti jusqu'à 1/8 (H).
+
+**La manette** passe par une fonction simple, `readPad(gamepad) → { move, aim, power, spin }`, nourrie par la Gamepad API
+dans la page et par un tableau dans les tests. Ce que dit la spécification :
+
+- la disposition standard : axes 0-1 pour le stick gauche, 2-3 pour le droit, de −1 à 1, **le bas est positif** ; boutons
+  0-3 à droite, 4-7 sur la tranche (gâchettes 6 et 7 analogiques), 12-15 pour la croix ([W3C][w3c]) ;
+- on lit `navigator.getGamepads()` à chaque image, sans garder l'objet : les événements ne signalent que le branchement
+  ([MDN][mdn]) ;
+- rien n'apparaît avant qu'un bouton ait été pressé sur la page ; `mapping` peut être vide sur certaines manettes, et la
+  zone morte est à notre charge ([MDN][mdn], [W3C][w3c]).
+
+**Le schéma proposé** (Q-S4) :
+
+- le stick gauche déplace le joueur ;
+- le stick droit vise, sur le camp adverse ;
+- la gâchette droite dose la force ;
+- la croix choisit l'effet : haut pour le lift, bas pour le coupé, gauche et droite pour le latéral ;
+- le contact se fait tout seul quand la balle est à portée, au sommet du rebond.
+
+La manette reçoit la même dispersion et les mêmes limites que le robot. Une balle met de 0,2 à 0,5 s à traverser : à vitesse réelle,
+c'est dur au stick, d'où une vitesse de jeu réglable (Q-S4).
+
+[w3c]: https://w3c.github.io/gamepad/
+[mdn]: https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API
+
+## 11. Les jalons
+
+Chacun a ses tests et un commit, et rien de l'étape suivante n'est écrit avant. La feuille de route demande la table, la balle,
+le rebond et ses couleurs, puis un échange robot contre robot, puis la manette.
+
+| Jalon | Ce qu'il livre | Ce qui dit qu'il est fait |
+|---|---|---|
+| **J0** | ce cadrage | les docs, les questions tranchées |
+| **J1** | la balle : vol, table, filet (`src/ball/`), les tests de référence du § 7 | ces tests passent ; les tables de coefficients sont relues contre l'article ; la première empreinte, le banc |
+| **J2** | la page : la table, une balle lancée, le rebond, les couleurs, le bandeau | Sami la regarde, les calculs de `chiffres.md` § 8 sont refaits en tests ; le changelog |
+| **J3** | la raquette, la visée, le corps, un échange R0 contre R0 | l'A/A exact à l'octet ; les fins d'échange par cause |
+| **J4** | les mesures : R0 à R3 par paires, calibration | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange |
+| **J5** | la manette, le lecteur | une manette simulée dans les tests, un échange joué et rejoué par Sami |
+| **J6** | la première recherche, contre la meilleure règle | l'écart, son intervalle, le témoin à 4 fois le budget, 0 collection par décision |
+
+**La découpe du code, à J1 et J3**, pour tenir le budget de lint (40 lignes par fonction, 220 par fichier) : `src/ball/`
+(`coefficients`, `flight`, `table`), `src/racket.js`, `src/aim.js`, `src/player.js`, `src/rally.js`, `src/rules/`,
+`src/pad.js`, `scripts/duel.js`.
+
+## 12. Ce qui est laissé de côté, et les risques
+
+**Mis de côté, avec ce qui les ferait revenir :**
+
+| Quoi | Ce qui le ferait revenir |
+|---|---|
+| Les corrections résiduelles de la table (Conti : −14 à −30 % d'erreur) | un écart au test de référence |
+| Le réseau de neurones de la raquette | jamais à ce stade : il demande leurs données. C'est la limite principale du réalisme |
+| L'effet qui décroît en vol | un coefficient de couple publié et lu |
+| Le bord de table, le filet qui laisse passer | une réponse à Q-P15 |
+| Les picots, l'anti-top | Q-P14 ; le chiffre est déjà là pour l'anti-top |
+| Le geste, le bras | rien de prévu : on cherche le coup, pas le geste |
+| Le double, le tennis, le badminton | après J6 |
+
+**Les risques, du plus au moins sérieux :**
+
+1. **La dispersion décide de tout, et elle est inventée.** Un même code peut donner un jeu où le placement ne vaut rien, ou un
+   jeu où tout se joue au service. R1 et la calibration le verront, mais seul un entraîneur le dira. C'est la première question
+   de la liste.
+2. **La raquette sans geste peut rendre le jeu trop facile.** Le bon coup demande alors seulement d'être à temps. La préparation
+   et sa dispersion ×2 sont là pour ça, sans preuve qu'elles suffisent.
+3. **La visée peut coûter cher ou échouer** (près du filet, avec de forts effets). Elle est au cœur de toutes les règles et de
+   tous les plans : c'est le premier banc de J3.
+4. **Une règle à plat peut être imbattable** si le modèle ne punit rien : c'est le doute de Sami sur MCTS. Dans ce cas, le
+   résultat honnête du projet est : « la règle R2 suffit dans ce modèle ».
