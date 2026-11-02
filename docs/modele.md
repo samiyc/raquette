@@ -1,8 +1,8 @@
 # Le modèle de Raquette : le cadrage (2/11/2026)
 
 Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, un joueur à la souris
-pour éprouver ce robot, puis l'autojeu. Ce document fixe ce qu'on va construire et comment on saura que ça marche. **Il n'y a
-encore ni modèle ni recherche dans `src/`.**
+pour éprouver ce robot, puis l'autojeu. Ce document fixe ce qu'on va construire et comment on saura que ça marche. **À ce jour, `src/` n'a que
+la balle : ni joueur, ni règle, ni recherche.**
 
 **Le cap, précisé par Sami le 2/11/2026.** Tout représenter en 2D vue de dessus sera complexe, mais le jeu reste surtout de l'analyse,
 du positionnement et des trajectoires. Le joueur humain est simplifié pour finir des parties, à la souris et au pas à pas, et il sert à **vérifier
@@ -327,18 +327,21 @@ collection de la jeune génération pendant une décision (`tests/`, à J6).
 
 ## 10. La page et la souris
 
-**La page**, au premier jalon : la table vue de dessus, sur un fond sépia (le Khaki de Notepad++, que préfère Sami), avec
-`mcts-commun/web/theme.css` en premier. Le thème a un mode sombre automatique : la page doit fixer ses couleurs dans les deux
-cas ou choisir le clair.
+**La page** (J2, `npm run page`, http://127.0.0.1:4804/web/index.html) : la table vue de dessus, sur le Khaki que préfère Sami,
+pris dans le thème de Notepad++ (`themes/khaki.xml` : `5F5F00` sur `D7D7AF`), avec `mcts-commun/web/theme.css` en premier. La
+page reste claire même si le navigateur est en mode sombre. On y lance une balle à la main, depuis des coups préréglés ou des
+champs, et ce que fait chaque coup préréglé est testé.
 
 **Les couleurs de la balle :**
 
 - **l'effet** : une teinte, rouge pour le lift, bleu pour le coupé, plus intense quand il est fort, et une petite flèche pour
   le latéral ;
 - **la hauteur** : la taille de la balle, et le décalage de son ombre sur la table ;
-- **un bandeau de profil** sous la table (Q-S5) : vue de dessus seule, on ne voit pas si la balle passe le filet.
+- **un bandeau de profil** sous la table (Q-S5) : vue de dessus seule, on ne voit pas si la balle passe le filet. Il garde les
+  longueurs de la vue de dessus et ramène les hauteurs à 65 %, pour tenir à l'écran avec un lob.
 
-Les couleurs seront vérifiées pour un daltonien, et contre le fond sépia.
+**Les couleurs sont testées** contre la table et le sol (au moins 3:1) et sous les trois daltonismes, simulés par les matrices de
+Machado et al. 2009, de mémoire et non relues. L'effet ne repose pas sur la couleur seule : un « + » ou un « − » est écrit dans la balle.
 
 **Le lecteur** : un échange se rejoue depuis sa graine, ses deux profils et les clics, avec `replayKeys`. L'échelle de temps
 est courte : `step` d'un pas de 1/60 s, `bigStep` de 0,1 s, ralenti jusqu'à 1/8 (H).
@@ -390,7 +393,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 |---|---|---|
 | **J0** | ce cadrage | les docs, les questions tranchées |
 | **J1** | la balle : vol, table, filet (`src/ball/`), les tests de référence du § 7 | ces tests passent ; les tables de coefficients sont relues contre l'article ; la première empreinte, le banc |
-| **J2** | la page : la table, une balle lancée, le rebond, les couleurs, le bandeau | Sami la regarde, les calculs de `chiffres.md` § 8 sont refaits en tests ; le changelog |
+| **J2** | la page : la table, une balle lancée, le rebond, les couleurs, le bandeau | Sami la regarde ; le changelog |
 | **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
 | **J5** | les mesures : R0 à R4 par paires, calibration | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange |
@@ -399,7 +402,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 
 **La découpe du code, à J1 et J3**, pour tenir le budget de lint (40 lignes par fonction, 220 par fichier) : `src/ball/`
-(`coefficients`, `flight`, `table`), `src/racket.js`, `src/aim.js`, `src/player.js`, `src/rally.js`, `src/rules/`,
+(`constants`, `coefficients`, `flight`, `table`), `src/launch.js`, `src/recording.js`, `src/racket.js`, `src/aim.js`, `src/player.js`, `src/rally.js`, `src/rules/`,
 `src/mouse.js`, `scripts/duel.js`.
 
 ## 12. Ce qui est laissé de côté, et les risques

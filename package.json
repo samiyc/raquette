@@ -14,6 +14,8 @@
     "lint:fix": "eslint . --fix",
     "types": "tsc -p .",
     "bench": "node scripts/ball-bench.js",
+    "page": "node node_modules/mcts-commun/bin/serve.js 4804",
+    "changelog": "node scripts/changelog.js",
     "check": "npm run lint && npm run types && npm test",
     "prepare": "git config core.hooksPath .githooks"
   },

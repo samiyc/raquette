@@ -1,0 +1,34 @@
+/*
+ * The page's Khaki, from Notepad++'s own theme (themes/khaki.xml: 5F5F00 on D7D7AF), as Sami prefers. Light in both
+ * modes: this block comes after the theme, so that it wins over the theme's dark mode too. The ink is darker than the
+ * theme's 5F5F00, which falls short of 7:1 on this background.
+ */
+:root {
+  color-scheme: light;
+  --bg: #d7d7af;
+  --panel: #e8e8cd;
+  --ink: #2f2f00;
+  --ink-2: #4d4d00;
+  --line: #a9a97e;
+  --accent: #5f5f00;
+  --accent-2: #474700;
+  --accent-ink: #ffffff;
+  --masthead: #5f5f00;
+  --masthead-ink: #ffffff;
+}
+
+/* Wide enough to read, and short enough that both bands fit under the controls: the view is 1.6 times as wide as high. */
+#view {
+  display: block;
+  width: 100%;
+  max-width: max(560px, calc((100vh - 350px) * 1.6));
+  margin-inline: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.player { align-items: center; }
+.player input[type="range"] { flex: 1; min-width: 200px; padding: 0; }
+#speed-label { min-width: 2.5em; text-align: center; font-variant-numeric: tabular-nums; }
+.fields input { width: 6.5em; }
+.summary { font-variant-numeric: tabular-nums; }

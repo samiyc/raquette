@@ -52,9 +52,9 @@ function stopAt(ball, part) {
   for (let i = VX; i <= WZ; i += 1) ball[i] = 0;
 }
 
-/** The fraction of the step at which the ball comes down through a level, or NOT_CROSSED. */
+/** The fraction of the step at which the ball comes down through a level, or NOT_CROSSED. A ball on the level counts. */
 function downThrough(ball, level) {
-  return previous[Z] > level && ball[Z] <= level ? (previous[Z] - level) / (previous[Z] - ball[Z]) : NOT_CROSSED;
+  return previous[Z] >= level && ball[Z] < level ? (previous[Z] - level) / (previous[Z] - ball[Z]) : NOT_CROSSED;
 }
 
 const between = (at, ball, part) => previous[at] + (ball[at] - previous[at]) * part;
@@ -79,6 +79,8 @@ function bounceWithin(ball, contact, part, h) {
   contact[2] = part;
   bounce(ball);
   fly(ball, h * (1 - part));
+  // A ball that ends rolling leaves too slowly to clear the table within the step: it must not start the next one below it.
+  if (ball[Z] < RADIUS) ball[Z] = RADIUS;
 }
 
 /**

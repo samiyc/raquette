@@ -123,6 +123,17 @@ describe("a step of the simulation", () => {
     assert.equal(until(steep), TABLE_BOUNCE);
   });
 
+  it("never lets a ball through the table: lying on it, or ending its roll", () => {
+    const lying = createBall([0.5, 0, RADIUS], [0, 0, 0], [0, 0, 0]);
+    const rolling = createBall([-1.3, 0, 0.1], [0.6, 0, 0], [0, 0, 0]);
+    const contact = new Float64Array(3);
+    for (let i = 0; i < 960; i += 1) {
+      assert.notEqual(advance(lying, contact), FLOOR_TOUCH);
+      assert.notEqual(advance(rolling, contact), FLOOR_TOUCH);
+      assert.ok(lying[Z] >= RADIUS && rolling[Z] >= RADIUS, `step ${i}`);
+    }
+  });
+
   it("takes the net first when both are crossed in the same step", () => {
     const ball = createBall([-0.03, 0, 0.03], [20, 0, -2], [0, 0, 0]);
     assert.equal(advance(ball, new Float64Array(3)), NET_TOUCH);

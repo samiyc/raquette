@@ -42,6 +42,9 @@ project needing the same physics is what would move it to the library.
 - **The simulation must not allocate** (`npm run bench`, and a test): on Mad Pod Racing, the garbage collector pushed turns
   to 72 ms out of 75. In the flight step, doubles travel in typed arrays: passed to or returned from a call V8 does not
   inline, each becomes a heap number.
+- **The page**: `npm run page`, port 4804 (4800 to 4803 are taken), `http://127.0.0.1:4804/web/index.html`, with
+  `mcts-commun/web/theme.css` first, then the Khaki of Notepad++ that Sami prefers (`web/style.css`), light in both modes.
+- **The changelog is data**: a new version goes in `docs/changelog.json`, then `npm run changelog`; a test compares the two.
 - **Types come from JSDoc** (`npm run types`); the shapes the modules hand each other are in `src/types.js`.
 - **Commit straight to `main`; push only when Sami asks.** The GitHub repository is his to create, private.
 
@@ -49,9 +52,6 @@ project needing the same physics is what would move it to the library.
 
 Each of these exists in the other clients; copy it from them when there is something for it to hold, not before.
 
-- **The page**: `npm run page`, `node node_modules/mcts-commun/bin/serve.js 4804` (4800 to 4803 are taken), with
-  `mcts-commun/web/theme.css` first. Sami prefers sepia, the Khaki of Notepad++, to white.
-- **The changelog** as data (`docs/changelog.json`, `npm run changelog`), with the first version shown on the page.
 - **The search bench** (`scripts/search-bench.js`), with the first search.
 
 ## The machine

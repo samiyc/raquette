@@ -5,7 +5,8 @@ fera. Une réponse quitte cette liste et va, avec sa date, dans [`chiffres.md`](
 
 ## Pour Sami (posées le 2/11/2026)
 
-Rien ne bloque J1 (la balle). Q-S5 attend J2 ; Q-S1, Q-S2 et Q-S6 attendent J3 ; Q-S3 attend J5.
+J1 et J2 sont faits. Q-S5 suit sa recommandation sur la page (le dessus et un bandeau), à défaire si elle ne te plaît pas ;
+Q-S1, Q-S2 et Q-S6 attendent J3 ; Q-S3 attend J5.
 
 **Répondu le 2/11/2026** (Sami, voir `../modele.md`, § 4, § 10 et § 11) : Q-S4 tombe. La souris vient d'abord, avant les
 mesures : clic gauche pour se déplacer, clic droit pour viser, au pas à pas. Le secteur fait 220°, axe fixe vers le filet. La

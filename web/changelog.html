@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Journal des versions</title>
+    <link rel="stylesheet" href="../node_modules/mcts-commun/web/theme.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="changelog.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <p class="links"><a href="index.html">← la table</a></p>
+      <h1>Raquette : journal des versions</h1>
+      <p>Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.</p>
+    </header>
+    <main class="changelog">
+      <section>
+        <h2>Les versions</h2>
+
+      <article class="version">
+        <h3><span class="tag">0.1.0</span> La balle, vue de dessus et de profil <span class="date">2/11/2026</span></h3>
+        <ul>
+          <li>Le vol de Conti et al. 2026 (Sony AI), avec ses tables de traînée et d'effet, en RK2 à 240 Hz ; le rebond de Nakashima ; le filet et le sol.</li>
+          <li>Des tests contre les valeurs publiées : un rebond de 24,0 cm depuis 30 cm (la Loi dit environ 23), une vitesse limite de 8,5 m/s, un fort coupé qui repart en arrière.</li>
+          <li>La page : une balle lancée à la main, ses couleurs d'effet, sa taille et son ombre pour la hauteur, un bandeau de profil, la lecture au ralenti et pas à pas.</li>
+          <li>Pas encore de joueur, de règle ni de recherche.</li>
+        </ul>
+        <p class="commits"><code>8014bf1</code></p>
+      </article>
+      </section>
+      <p class="hint">Le détail, les chiffres et leurs sources sont dans <code>docs/modele.md</code> et <code>docs/recherche/chiffres.md</code>.</p>
+    </main>
+  </body>
+</html>

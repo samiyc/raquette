@@ -10,7 +10,8 @@ centre de la table.
 **État** (2/11/2026) : le cadrage est écrit : [`docs/modele.md`](docs/modele.md) (le modèle, les règles à battre, les
 mesures, les jalons) et [`docs/recherche/`](docs/recherche/README.md) (les chiffres et leurs sources, le glossaire, les
 questions, le prompt de recherche). **La balle existe** (`src/ball/`) : son vol, son rebond, le filet, testés contre les
-valeurs publiées. Pas encore de joueur, de règle ni de recherche.
+valeurs publiées. **La page la montre** : `npm run page`, puis http://127.0.0.1:4804/web/index.html. Pas encore de joueur, de règle
+ni de recherche.
 
 ## Les commandes
 
@@ -22,5 +23,7 @@ valeurs publiées. Pas encore de joueur, de règle ni de recherche.
 | `npm run types` | tsc vérifie le JavaScript d'après ses commentaires JSDoc, sans rien compiler |
 | `npm test` (`test:coverage`) | les tests de `node --test`, dont la longueur des `.md` et les empreintes |
 | `npm run bench` | le coût d'un pas de simulation et les collections de mémoire |
+| `npm run page` | sert la page sur le port 4804 : http://127.0.0.1:4804/web/index.html |
+| `npm run changelog` | refait `web/changelog.html` depuis `docs/changelog.json` |
 
 Les règles du dépôt sont dans [`CLAUDE.md`](CLAUDE.md).

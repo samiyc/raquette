@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Raquette</title>
+    <link rel="stylesheet" href="../node_modules/mcts-commun/web/theme.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="importmap">
+      { "imports": { "mcts-commun/": "../node_modules/mcts-commun/src/" } }
+    </script>
+  </head>
+  <body>
+    <header class="masthead">
+      <p class="links"><a href="changelog.html">Journal des versions</a></p>
+      <h1>Raquette</h1>
+      <p>Le vol d'une balle de ping-pong, avec son effet et sa hauteur. Pas encore de joueur : on lance la balle à la main.</p>
+    </header>
+    <main>
+      <section class="controls">
+        <label>Coup<select id="preset"></select></label>
+        <div id="fields" class="fields"></div>
+        <button type="button" id="launch">Lancer</button>
+      </section>
+      <p class="summary" id="events" aria-live="polite"></p>
+      <section class="controls player">
+        <button type="button" id="play">Lecture</button>
+        <input type="range" id="position" min="0" max="1" step="0.001" value="0" aria-label="Position dans le vol" />
+        <button type="button" class="quiet" id="slower" title="Plus lent">−</button>
+        <span id="speed-label"></span>
+        <button type="button" class="quiet" id="faster" title="Plus vite">+</button>
+      </section>
+      <canvas id="view" aria-label="La table vue de dessus, et de profil en dessous"></canvas>
+      <p class="summary" id="frame"></p>
+      <p class="hint" id="hint"></p>
+      <p class="hint">
+        <strong>Comment lire.</strong> En haut, la table vue de dessus ; en dessous, de profil, avec le sol et le filet : mêmes longueurs, hauteurs ramenées à 65 % pour tenir à l'écran.
+        Rouge et « + » : du lift. Bleu et « − » : du coupé. Gris : peu d'effet. Plus l'effet est fort, plus la couleur est franche.
+        Vue de dessus, la balle grossit et son ombre s'éloigne quand elle monte ; une flèche montre où la pousse un effet latéral.
+        Les croix marquent ce que la balle a touché. Le lift se lit par rapport au sens de la balle : un fort coupé qui revient après son rebond peut donc passer au rouge.
+        La balle est dessinée plus grosse qu'elle n'est.
+      </p>
+    </main>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

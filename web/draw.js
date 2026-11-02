@@ -1,0 +1,135 @@
+import { BALL_SIZE, NET, TABLE, VX, VY, WX, WY, WZ, X, Y, Z } from "../src/ball/constants.js";
+import { ballRadius, COLORS, liftOf, shadowOffset, sidePoint, sidePush, spinColor, spinMark, topPoint } from "./scale.js";
+
+/** The drawing: the table from above and from the side, the flight so far, the ball. It decides nothing. */
+
+/**
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number[]} from
+ * @param {number[]} to
+ */
+function line(ctx, from, to) {
+  ctx.beginPath();
+  ctx.moveTo(from[0], from[1]);
+  ctx.lineTo(to[0], to[1]);
+  ctx.stroke();
+}
+
+function drawTableFromAbove(ctx, layout) {
+  const [left, top] = topPoint(layout, -TABLE.halfLength, TABLE.halfWidth);
+  const [right, bottom] = topPoint(layout, TABLE.halfLength, -TABLE.halfWidth);
+  ctx.fillStyle = COLORS.table;
+  ctx.fillRect(left, top, right - left, bottom - top);
+  ctx.strokeStyle = COLORS.line;
+  ctx.lineWidth = 2;
+  ctx.strokeRect(left, top, right - left, bottom - top);
+  ctx.lineWidth = 1;
+  line(ctx, topPoint(layout, -TABLE.halfLength, 0), topPoint(layout, TABLE.halfLength, 0));
+  ctx.lineWidth = 3;
+  line(ctx, topPoint(layout, 0, NET.halfWidth), topPoint(layout, 0, -NET.halfWidth));
+}
+
+function drawTableFromSide(ctx, layout) {
+  ctx.strokeStyle = COLORS.line;
+  ctx.lineWidth = 1;
+  line(ctx, sidePoint(layout, -layout.width, TABLE.floor), sidePoint(layout, layout.width, TABLE.floor));
+  ctx.lineWidth = 4;
+  line(ctx, sidePoint(layout, -TABLE.halfLength, 0), sidePoint(layout, TABLE.halfLength, 0));
+  ctx.lineWidth = 3;
+  line(ctx, sidePoint(layout, 0, 0), sidePoint(layout, 0, NET.height));
+}
+
+/** The way the ball has come, in both views. */
+function drawTrail(ctx, layout, recording, index) {
+  const f = recording.frames;
+  const views = [
+    (at) => topPoint(layout, f[at + X], f[at + Y]),
+    (at) => sidePoint(layout, f[at + X], f[at + Z]),
+  ];
+  ctx.strokeStyle = COLORS.trail;
+  ctx.lineWidth = 1.5;
+  for (const point of views) {
+    ctx.beginPath();
+    for (let i = 0; i <= index; i += 1) {
+      const [x, y] = point(i * BALL_SIZE);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+}
+
+/** A cross where the flight touched something, once the ball has got there. */
+function drawEvents(ctx, layout, recording, index) {
+  ctx.strokeStyle = COLORS.line;
+  ctx.lineWidth = 1.5;
+  for (const { step, x, y } of recording.events) {
+    if (step > index) break;
+    const [px, py] = topPoint(layout, x, y);
+    line(ctx, [px - 4, py - 4], [px + 4, py + 4]);
+    line(ctx, [px - 4, py + 4], [px + 4, py - 4]);
+  }
+}
+
+/**
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number[]} point
+ * @param {number} radius
+ * @param {string} color
+ */
+function disc(ctx, point, radius, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(point[0], point[1], radius, 0, 2 * Math.PI);
+  ctx.fill();
+}
+
+/** The ball, its colour for the spin, an outline so that it stands out on anything, its mark inside. */
+function drawBallAt(ctx, point, radius, lift) {
+  disc(ctx, point, radius, spinColor(lift));
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `bold ${Math.round(radius * 1.5)}px system-ui, sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(spinMark(lift), point[0], point[1]);
+}
+
+/** A small arrow beside the ball: which way its sidespin pushes it. */
+function drawSideArrow(ctx, point, radius, push) {
+  if (push === 0) return;
+  const [x, y] = point;
+  const tip = y - push * (radius + 13);
+  const base = y - push * (radius + 3);
+  ctx.strokeStyle = COLORS.line;
+  ctx.lineWidth = 2;
+  line(ctx, [x, base], [x, tip]);
+  line(ctx, [x - 4, tip + push * 5], [x, tip]);
+  line(ctx, [x + 4, tip + push * 5], [x, tip]);
+}
+
+function drawBall(ctx, layout, recording, index) {
+  const f = recording.frames;
+  const at = index * BALL_SIZE;
+  const lift = liftOf(f[at + VX], f[at + VY], f[at + WX], f[at + WY]);
+  const radius = ballRadius(f[at + Z]);
+  const point = topPoint(layout, f[at + X], f[at + Y]);
+  const offset = shadowOffset(f[at + Z]);
+  disc(ctx, [point[0] + offset, point[1] + offset], radius, COLORS.shadow);
+  drawBallAt(ctx, point, radius, lift);
+  drawSideArrow(ctx, point, radius, sidePush(f[at + VX], f[at + WZ]));
+  drawBallAt(ctx, sidePoint(layout, f[at + X], f[at + Z]), 6, lift);
+}
+
+/** The whole view at one frame. */
+export function drawScene(ctx, layout, recording, index) {
+  ctx.fillStyle = COLORS.floor;
+  ctx.fillRect(0, 0, layout.width, layout.height);
+  drawTableFromAbove(ctx, layout);
+  drawTableFromSide(ctx, layout);
+  drawTrail(ctx, layout, recording, index);
+  drawEvents(ctx, layout, recording, index);
+  drawBall(ctx, layout, recording, index);
+}
