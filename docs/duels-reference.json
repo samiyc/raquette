@@ -5,8 +5,8 @@
     "r0": {
       "strokes": 47.3,
       "causes": {
-        "limit": 0.595,
-        "net": 0.392,
+        "limit": 0.594,
+        "net": 0.393,
         "out": 0.013
       },
       "seats": [
@@ -20,30 +20,30 @@
           "speed": 5.1,
           "lift": 1,
           "height": 0.31,
-          "lostPart": 0.198
+          "lostPart": 0.199
         }
       ]
     },
     "topBlock": {
-      "strokes": 16.7,
+      "strokes": 15.4,
       "causes": {
-        "behind": 0.002,
-        "limit": 0.034,
-        "net": 0.484,
-        "out": 0.48
+        "behind": 0.001,
+        "limit": 0.023,
+        "net": 0.479,
+        "out": 0.497
       },
       "seats": [
         {
           "speed": 11.2,
           "lift": 104,
           "height": 0.27,
-          "lostPart": 0.741
+          "lostPart": 0.766
         },
         {
           "speed": 7.7,
           "lift": 37,
           "height": 0.19,
-          "lostPart": 0.225
+          "lostPart": 0.211
         }
       ]
     },

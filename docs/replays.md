@@ -46,7 +46,7 @@ Un fichier compressé, une ligne JSON par échange, précédées d'une première
 | `ballOut` | la balle au départ : vitesse, effet |
 | `racket` | sa normale et sa vitesse. **La raquette n'a pas de géométrie** (`modele.md`, § 4) : il n'y a pas de point d'impact sur la face |
 | `aim` | la cible, la vitesse voulue, celle gardée pour passer le filet (`kept`), le brossage, et si la visée a trouvé (`found`) |
-| `scatter` | les tirages de la dispersion, sur le côté, en hauteur, en vitesse, et les facteurs de hâte (`rush`), de bout de bras (`stretch`) et de balle rapide (`control`) |
+| `scatter` | les tirages de la dispersion, sur le côté, en hauteur, en vitesse, et les facteurs de hâte (`rush`), de bout de bras (`stretch`), de balle rapide (`control`) et de distance à la table (`far`) |
 | `netMargin` | de combien la balle passe au-dessus du filet ; négatif si elle l'a touché |
 | `landed` | ce qu'elle touche ensuite, et où |
 

@@ -5,7 +5,7 @@ import {
 } from "./scale.js";
 
 const REACH = CLUB_PLAYER.reach;
-const EASY_SCATTER = 0.16;
+const SMALLEST_CIRCLE = 2;
 
 /** The drawing: the table from above and from the side, the flight so far, the ball. It decides nothing. */
 
@@ -155,6 +155,24 @@ function drawPlayers(ctx, layout, recording, index) {
   drawPlayer(ctx, layout, [b[index * 4 + 2], b[index * 4 + 3]], 1);
 }
 
+/** The way the ball will go, as the players read it, in both views: dots, and a cross where it touches. */
+export function drawBallPath(ctx, layout, { points, touches }) {
+  ctx.fillStyle = COLORS.cut;
+  for (const [x, y, z] of points) {
+    const top = topPoint(layout, x, y);
+    ctx.fillRect(top[0] - 1, top[1] - 1, 2, 2);
+    const side = sidePoint(layout, x, z);
+    ctx.fillRect(side[0] - 1, side[1] - 1, 2, 2);
+  }
+  ctx.strokeStyle = COLORS.cut;
+  ctx.lineWidth = 2;
+  for (const { x, y } of touches) {
+    const [px, py] = topPoint(layout, x, y);
+    line(ctx, [px - 5, py - 5], [px + 5, py + 5]);
+    line(ctx, [px - 5, py + 5], [px + 5, py - 5]);
+  }
+}
+
 /** A cross where the ball is aimed, in a circle of the scatter to expect. */
 function drawAim(ctx, at, radius) {
   const [ax, ay] = at;
@@ -169,13 +187,13 @@ function drawAim(ctx, at, radius) {
 }
 
 /**
- * What the player asked: where it aims, with a circle of the scatter to expect, and where it goes, a square at the end of a route.
+ * What the player asked: where it aims, with a circle where half of such strokes fall, and where it goes, a square at the end of a route.
  * A blue ring: where the next stroke will take the ball, during a pause.
  * The square is larger than the body, so that it shows once the body has got there. The radius comes from a stroke
  * on an easy ball, 16 cm in median at 100 % (docs/recherche/chiffres.md, § 8).
  */
-export function drawOrders(ctx, layout, { aim, goal, body, scatter, contact }) {
-  drawAim(ctx, topPoint(layout, aim[0], aim[1]), Math.max(2, EASY_SCATTER * scatter * layout.scale));
+export function drawOrders(ctx, layout, { aim, goal, body, miss, contact }) {
+  drawAim(ctx, topPoint(layout, aim[0], aim[1]), Math.max(SMALLEST_CIRCLE, miss * layout.scale));
   const [gx, gy] = topPoint(layout, goal[0], goal[1]);
   ctx.strokeStyle = COLORS.lift;
   ctx.lineWidth = 1.5;

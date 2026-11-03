@@ -107,6 +107,7 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 | Dispersion de l'orientation de la raquette | 3° en hauteur, 1,5° sur le côté (mesuré à J5) | Q-P1 |
 | Dispersion au bout du bras | ×2 à 0,8 m, rien jusqu'à 0,5 m (J5) | Q-P2 |
 | Dispersion sur une balle rapide | rien jusqu'à 10 m/s au contact, puis une fois de plus tous les 2,5 m/s (Sami, 3/11/2026) | Q-P21 |
+| Dispersion loin de la table | rien jusqu'à 0,6 m derrière la ligne, puis une fois de plus tous les mètres (Sami, 3/11/2026) | Q-P21 |
 | Dispersion de la vitesse de raquette | 6 % | Q-P1 |
 | Croissance de la dispersion quand le temps manque | ×2 sans préparation | Q-P2 |
 
@@ -389,6 +390,10 @@ Sami battrait le robot par sa précision, ce qui ne dirait rien des limites du r
 exploration, pas une mesure.
 
 **Le choix du coup** (Sami, 3/11/2026). Pendant une pause, on choisit le coup de la prochaine balle : plat, top, poussette, bloc, deux rebonds, tchop (`src/strokes.js`). Les options sans objet disparaissent par le calcul : le coup est essayé sur la balle telle qu'elle sera au contact, depuis l'endroit où le joueur la prendra. S'il faudrait frapper plus fort que ce coup pour atteindre la cible, il n'est pas proposé : loin de la table, ni poussette ni deux rebonds. Quelques seuils s'y ajoutent (H) : pas de poussette au-dessus de 40 cm, pas de bloc sous 6 m/s, pas de tchop à moins de 40 cm derrière la ligne. Le choix compte jusqu'au début de la préparation, comme la visée.
+
+**La recherche réfléchit dans un *worker*** (`web/search-worker.js`, Sami, 3/11/2026) : la page continue de dessiner et d'écouter, et seule la simulation attend sa réponse. Elle reçoit une image de l'échange, et sa réponse est celle que la règle aurait donnée sur place, au nombre près : un point se rejoue pareil avec ou sans *worker*. Un clic fait pendant qu'elle réfléchit compte juste après ce pas.
+
+**Pendant une pause** (Sami, 3/11/2026), la page montre la route de la balle telle que les joueurs la lisent (des points et des croix bleus), pour ne plus deviner où elle va, et où le coup prendra la balle (un anneau bleu). Le cercle rouge n'est plus fixe : il contient la moitié des coups joués ainsi, calculés sur cette balle, depuis l'endroit où le joueur la prendra, avec tout ce qui rend ce coup moins sûr.
 
 **Ce que la page montre :** le secteur autour de chaque joueur, le cercle de dispersion attendue autour de la cible, et la
 cause de chaque fin d'échange.

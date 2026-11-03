@@ -1,10 +1,11 @@
 import { streamOf } from "mcts-commun/random.js";
-import { STEP, TABLE, VX, X, Y } from "./ball/constants.js";
+import { STEP, TABLE, VX } from "./ball/constants.js";
 import { createBall } from "./ball/flight.js";
 import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
-import { BEHIND, BX, BY, createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
+import { BEHIND, createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
+import { controlOf, farOf, rushOf, stretchOf } from "./scatter.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 
 /**
@@ -74,12 +75,23 @@ function finish(state, winner, cause) {
   state.result = { winner, cause, strokes: state.strokes, ticks: state.tick };
 }
 
-function decide(state, who) {
+/**
+ * What a player reads when it decides.
+ * @param {any} state the rally
+ * @param {number} who
+ * @returns {import("./types.js").View}
+ */
+export function viewOf(state, who) {
   const seat = state.seats[who];
   const way = readWay(state.ball, seat.side, { served: state.ownBounce, bounced: state.bounces > 0 });
-  const view = { way, h: STEP, side: seat.side, who, state, profile: seat.profile, body: state.bodies[who], opponent: state.bodies[1 - who], tick: state.tick };
+  return { way, h: STEP, side: seat.side, who, state, profile: seat.profile, body: state.bodies[who], opponent: state.bodies[1 - who], tick: state.tick };
+}
+
+function decide(state, who) {
+  const seat = state.seats[who];
+  const view = viewOf(state, who);
   const intent = seat.rule.decide(view);
-  state.listener?.read?.(who, way, intent, state);
+  state.listener?.read?.(who, view.way, intent, state);
   if (!intent) return;
   setGoal(state.bodies[who], intent.goal, seat);
   state.plans[who] = { ...intent, at: state.tick + intent.step, decided: state.tick };
@@ -87,35 +99,6 @@ function decide(state, who) {
 
 const racket = new Float64Array(RACKET_SIZE);
 const pose = new Float64Array(3);
-
-/** How much more a stroke scatters when it had too little time: ×2 with none at all. */
-function rushOf(plan, profile) {
-  const time = (plan.at - plan.decided) * STEP;
-  if (time >= profile.preparation) return 1;
-  return 1 + (profile.rushedScatter - 1) * (1 - time / profile.preparation);
-}
-
-/**
- * How much more a stroke scatters at the end of the arm: nothing up to a comfortable distance, then up to `stretchedScatter` at full
- * reach. That is what a ball placed far from the player costs it, when it has no time to get there.
- */
-function stretchOf(state, who, profile) {
-  const body = state.bodies[who];
-  const dx = state.ball[X] - body[BX];
-  const dy = state.ball[Y] - body[BY];
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  if (distance <= profile.comfort) return 1;
-  return 1 + ((profile.stretchedScatter - 1) * (distance - profile.comfort)) / (profile.reach - profile.comfort);
-}
-
-/**
- * How much more a stroke scatters on a fast ball (Sami, 3/11/2026): a racket could otherwise give way by just what it takes, and
- * return a smash as softly as it likes at no cost. Nothing up to an easy ball, then more and more.
- */
-export function controlOf(ball, profile) {
-  const speed = Math.sqrt(ball[VX] * ball[VX] + ball[VX + 1] * ball[VX + 1] + ball[VX + 2] * ball[VX + 2]);
-  return speed <= profile.easyBall ? 1 : 1 + (speed - profile.easyBall) / profile.controlLoss;
-}
 
 /** What a stroke draws of its scatter: across, up, and on the speed, in that order, whatever the rule. */
 function drawScatter(state, who) {
@@ -131,10 +114,11 @@ function play(state, who, plan) {
   const found = aim({ ball: state.ball, forward, target: plan.target, swing: plan.swing }, pose);
   const kept = pose[2];
   pose[2] = forward;
-  const rush = rushOf(plan, profile);
-  const stretched = stretchOf(state, who, profile);
+  const rush = rushOf((plan.at - plan.decided) * STEP, profile);
+  const stretched = stretchOf(state.ball, state.bodies[who], profile);
   const control = controlOf(state.ball, profile);
-  const worse = rush * stretched * control;
+  const far = farOf(state.ball, side, profile);
+  const worse = rush * stretched * control * far;
   const draws = drawScatter(state, who);
   pose[0] += draws[0] * profile.scatterAcross * worse;
   pose[1] += draws[1] * profile.scatterTilt * worse;
@@ -142,7 +126,7 @@ function play(state, who, plan) {
   poseRacket(racket, pose, swing, state.ball);
   const before = state.listener?.impact ? state.ball.slice() : null;
   strike(state.ball, racket);
-  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched, control }, state);
+  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched, control, far }, state);
 }
 
 const nextBall = new Float64Array(3);

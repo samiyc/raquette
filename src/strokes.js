@@ -1,9 +1,10 @@
-import { aim } from "./aim.js";
-import { BALL_SIZE, TABLE, VX, VY, VZ, X, Z } from "./ball/constants.js";
+import { aim, missOf } from "./aim.js";
+import { BALL_SIZE, STEP, TABLE, VX, VY, VZ, X, Z } from "./ball/constants.js";
 import { frames, readWay, riseStep, topStep } from "./forecast.js";
 import { createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 import { recordFlight } from "./recording.js";
+import { controlOf, farOf, rushOf, stretchOf } from "./scatter.js";
 import { R0_SWING } from "./rules/center.js";
 import { DRILL_STROKES } from "./rules/drills.js";
 import { SHORT_SWING } from "./rules/short.js";
@@ -72,14 +73,15 @@ const ballAt = (step) => frames.slice(step * BALL_SIZE, (step + 1) * BALL_SIZE);
 /**
  * Where the next stroke will take the ball, if the body keeps going where it was told: the first step at or after the wished one with
  * the ball within the arm's sector, or earlier if it was about to pass out of reach, as the rally does.
- * @returns {{step: number, ball: Float64Array} | null} null: the ball will be let go, or missed
+ * @returns {{step: number, ball: Float64Array, body: Float64Array} | null} null: the ball will be let go, or missed
  */
 export function nextContact(state, who, rule) {
   const way = readWay(state.ball, state.seats[who].side, { served: state.ownBounce, bounced: state.bounces > 0 });
   if (way.from < 0 || way.to < way.from || state.striker === who) return null;
   const wished = contactStep(way, STROKE_KINDS[rule.stroke]);
-  const step = walkToContact(copyBody(state, who, rule), way, { wished, reactionEnds: state.decideAt[who] - state.tick });
-  return step === null ? null : { step, ball: ballAt(step) };
+  const walker = copyBody(state, who, rule);
+  const step = walkToContact(walker, way, { wished, reactionEnds: state.decideAt[who] - state.tick });
+  return step === null ? null : { step, ball: ballAt(step), body: walker.body };
 }
 
 /** Moves the copy of the body along the ball's way, up to the step of the contact, or null. */
@@ -180,4 +182,47 @@ export function strokeChoices(state, { who, rule }) {
   const contact = nextContact(state, who, rule);
   if (contact) return choicesAt(contact.ball, { side: state.seats[who].side, aim: rule.aim });
   return Object.fromEntries(Object.keys(STROKE_KINDS).map((key) => [key, "pas de balle à prendre"]));
+}
+
+const MEDIAN_OF_TWO_AXES = 1.1774; // The median distance from the centre of a round normal spread, in standard deviations.
+
+/**
+ * How far from the target the next stroke will fall, in metres, half the time: what the circle shows. The racket's three scatters are
+ * each tried on the ball as it will be, from where the body will be, with all that makes this stroke less sure.
+ * @param {any} state the rally
+ * @param {{who: number, rule: any}} player
+ * @returns {number | null} null when there is no ball to take
+ */
+export function expectedMiss(state, { who, rule }) {
+  const contact = nextContact(state, who, rule);
+  if (!contact) return null;
+  const { side, profile } = state.seats[who];
+  const swing = rule.swing;
+  const task = { ball: contact.ball, forward: -side, target: rule.aim, swing };
+  aim(task, pose);
+  const worse = rushOf((contact.step - Math.max(0, state.decideAt[who] - state.tick)) * STEP, profile)
+    * stretchOf(contact.ball, contact.body, profile) * controlOf(contact.ball, profile) * farOf(contact.ball, side, profile);
+  const [across, up, speed] = [pose[0], pose[1], pose[2]];
+  const base = missOf(task, { side: across, up, speed });
+  const moved = [
+    missOf(task, { side: across + profile.scatterAcross * worse, up, speed }),
+    missOf(task, { side: across, up: up + profile.scatterTilt * worse, speed }),
+    missOf(task, { side: across, up, speed: speed * (1 + profile.scatterSpeed * worse) }),
+  ];
+  const squares = moved.reduce((sum, [x, y]) => sum + (x - base[0]) * (x - base[0]) + (y - base[1]) * (y - base[1]), 0);
+  return MEDIAN_OF_TWO_AXES * Math.sqrt(squares / 2);
+}
+
+/**
+ * The ball's way from now on, to show during a pause: as the players read it. Up to its second bounce on a side, or wherever it ends.
+ * @param {any} state the rally
+ * @returns {{points: number[][], touches: {x: number, y: number}[]}}
+ */
+export function ballPath(state) {
+  const { frames: flown, events, steps } = recordFlight(state.ball);
+  const kept = state.ownBounce ? 3 : 2;
+  const last = events[kept - 1]?.step ?? steps;
+  const points = [];
+  for (let step = 0; step <= last; step += 2) points.push([flown[step * BALL_SIZE], flown[step * BALL_SIZE + 1], flown[step * BALL_SIZE + Z]]);
+  return { points, touches: events.slice(0, kept).map(({ x, y }) => ({ x, y })) };
 }

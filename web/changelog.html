@@ -19,6 +19,17 @@
         <h2>Les versions</h2>
 
       <article class="version">
+        <h3><span class="tag">0.9.0</span> Voir la route de la balle, et un cercle de cible qui dit la vérité <span class="date">3/11/2026</span></h3>
+        <ul>
+          <li>Pendant une pause, des points bleus montrent la route de la balle, et des croix bleues où elle touchera.</li>
+          <li>La précision baisse aussi avec la distance à la table : une fois plus de dispersion par mètre au-delà de 0,6 m.</li>
+          <li>Le cercle rouge contient la moitié des coups joués ainsi : il grandit si la balle est rapide, si vous êtes loin, au bout du bras ou pressé.</li>
+          <li>La recherche réfléchit à part : la page ne se fige plus, et elle joue à 24 plans par coup au lieu de 12.</li>
+        </ul>
+        <p class="commits"></p>
+      </article>
+
+      <article class="version">
         <h3><span class="tag">0.8.2</span> Une recherche 3,5 fois plus rapide <span class="date">3/11/2026</span></h3>
         <ul>
           <li>La visée essaie ses vols à 60 Hz et ne vérifie que le dernier à 240 Hz : 129 µs au lieu de 316, et une décision de la recherche passe de 173 à 49 ms en médiane.</li>

@@ -193,6 +193,20 @@ function highFlight(task, out) {
 }
 
 /**
+ * Where a stroke lands, from the target, in the player's own frame: at 60 Hz, as the tries. For what a page shows of the scatter.
+ * @param {import("./types.js").AimTask} task
+ * @param {{side: number, up: number, speed: number}} tilts
+ * @returns {number[]} the miss along the table, and across
+ */
+export function missOf(task, { side, up, speed }) {
+  current.speed = speed;
+  current.brushUp = task.swing.brushUp;
+  current.brushSide = task.swing.brushSide;
+  tryTilts(task, side, up);
+  return [landed[0], landed[1]];
+}
+
+/**
  * The stroke: the tilts and the speed. When nothing hits the target, those of the closest try are kept: the stroke is played all
  * the same, and the rally says what comes of it.
  * @param {import("./types.js").AimTask} task

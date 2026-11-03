@@ -2,7 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { X } from "../src/ball/constants.js";
 import { clickPoint, createPoint, pointOver, replayPoint, stepPoint } from "../src/game.js";
-import { choicesAt, depthFor, nextContact, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
+import { ballPath, choicesAt, depthFor, expectedMiss, nextContact, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
 
 const MOUSE = { who: 0 };
 const choicesOf = (point) => strokeChoices(point.state, { ...MOUSE, rule: point.rule });
@@ -91,6 +91,66 @@ describe("the strokes offered for the next ball", () => {
     choicesOf(point);
     assert.deepEqual([...point.state.ball], [...copy]);
     assert.deepEqual([...point.state.bodies[0]], [...body]);
+  });
+});
+
+describe("the circle around the target", () => {
+  const fromRobot = (seed = 3) => createPoint({ seed, server: 1, scatter: 1 });
+  const missOfPoint = (point) => expectedMiss(point.state, { who: 0, rule: point.rule });
+
+  it("is in the tens of centimetres on an easy ball, and vanishes without scatter", () => {
+    const miss = missOfPoint(fromRobot());
+    assert.ok(miss > 0.05 && miss < 0.6, `${miss}`);
+    assert.equal(missOfPoint(createPoint({ seed: 3, server: 1, scatter: 0 })), 0);
+  });
+
+  it("grows with the slider", () => {
+    const half = createPoint({ seed: 3, server: 1, scatter: 0.5 });
+    assert.ok(missOfPoint(half) < missOfPoint(fromRobot()));
+  });
+
+  it("grows the further from the table the ball is taken (Sami)", () => {
+    const [near, far] = [fromRobot(), fromRobot()];
+    clickPoint(near, { moveTo: [-1.87, 0] });
+    clickPoint(far, { moveTo: [-3.1, 0] });
+    assert.ok(missOfPoint(far) > missOfPoint(near), `${missOfPoint(far)} / ${missOfPoint(near)}`);
+  });
+
+  it("grows on a fast ball (Sami)", () => {
+    const point = fromRobot();
+    clickPoint(point, { moveTo: [-1.9, 0] });
+    const easy = missOfPoint(point);
+    point.state.bounces = 1;
+    point.state.ownBounce = false;
+    point.state.ball.set([-1.2, 0, 0.2, -14, 0, 1, 0, -200, 0]);
+    assert.ok(missOfPoint(point) > easy, `${missOfPoint(point)} / ${easy}`);
+  });
+
+  it("says nothing when there is no ball to take", () => {
+    const point = fromRobot();
+    while (!pointOver(point) && point.state.strokes < 1) stepPoint(point);
+    assert.equal(missOfPoint(point), null);
+  });
+});
+
+describe("the ball's way during a pause", () => {
+  it("goes through the rally's next touches, and stops at the second on a side", () => {
+    const point = createPoint({ seed: 3, server: 0, scatter: 0 });
+    const { points, touches } = ballPath(point.state);
+    assert.equal(touches.length, 3);
+    assert.ok(touches[0].x < 0 && touches[1].x > 0);
+    assert.ok(points.length > 10);
+    assert.deepEqual(points[0].slice(0, 2), [point.state.ball[0], point.state.ball[1]]);
+  });
+
+  it("leaves the rally as it is, and a ball struck by the robot is read to the player's camp", () => {
+    const point = createPoint({ seed: 6, server: 1, scatter: 0 });
+    untilRobotStrikes(point);
+    if (pointOver(point)) return;
+    const copy = point.state.ball.slice();
+    const { touches } = ballPath(point.state);
+    assert.deepEqual([...point.state.ball], [...copy]);
+    assert.ok(touches[0].x < 0, JSON.stringify(touches));
   });
 });
 

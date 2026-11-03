@@ -19,7 +19,7 @@ const EXPECTED = {
   ball: "2aa4b251ea50ef1c",
   // 3/11/2026: 1.5° sideways, the scatter grows at the end of the arm and on a fast ball (docs/recherche/chiffres.md, § 8); the aim tries at 60 Hz.
   rally: "544f43c932da1c02",
-  duels: "57169e618183a594",
+  duels: "5228ff59fe213c86",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */

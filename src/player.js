@@ -20,6 +20,8 @@ export const CLUB_PLAYER = Object.freeze({
   stretchedScatter: 2, // Q-P2: the scatter at full reach
   easyBall: 10, // Q-P21, m/s at contact: up to this, a ball is under control
   controlLoss: 2.5, // Q-P21, m/s more for the scatter to grow by one more time
+  nearTable: 0.6, // Q-P21, metres behind the line: up to this, the distance costs nothing
+  farLoss: 1, // Q-P21, metres further for the scatter to grow by one more time
   scatterSpeed: 0.06, // Q-P1
   rushedScatter: 2, // Q-P2: the scatter with no preparation at all
 });

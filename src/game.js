@@ -5,6 +5,7 @@ import { createRecorder } from "./rally-recording.js";
 import { startRally, stepRally } from "./rally.js";
 import { bothListeners, createRallyLog, localTimestamp, replayHeader } from "./replay-log.js";
 import { namedRule } from "./rules/named.js";
+import { aboutToDecide, createRemoteRule, snapshotOf } from "./remote.js";
 
 /**
  * A game at the mouse against R0 (docs/modele.md, § 2 and § 10): 11 points, 2 clear, the service turning every 2 points, then at
@@ -16,7 +17,7 @@ const FORWARD = 1;
 const WINNING = 11;
 const LOOSE_END = 10;
 const MAX_TICKS_TO_EVENT = 240 * 10;
-const PAGE_BUDGET = 12; // Plans a stroke for a search at the mouse: the page waits for it, up to 1 s seen on a first point (H).
+export const PAGE_BUDGET = 24; // Plans a stroke for a search at the mouse: as measured, since it thinks in a worker.
 
 /**
  * The player's body and arm: the robot's, with its scatter scaled by the slider.
@@ -39,7 +40,7 @@ export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD), ro
   const rule = createMouseRule(aim.slice());
   const recorder = createRecorder();
   const log = createRallyLog({ seed, server });
-  const point = { seed, server, scatter, robot, startAim: aim.slice(), rule, orders: [], recorder, sawEvent: false, robotStruck: false, state: null, log: null, players: null };
+  const point = { seed, server, scatter, robot, startAim: aim.slice(), rule, orders: [], recorder, sawEvent: false, robotStruck: false, state: null, log: null, players: null, robotRule: null };
   const watch = {
     flight(kind) {
       if (kind !== NONE) point.sawEvent = true;
@@ -50,7 +51,9 @@ export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD), ro
     },
   };
   const listener = bothListeners(bothListeners(recorder.listener, log.listener), watch);
-  const players = [{ rule, profile: mouseProfile(scatter) }, { rule: namedRule(robot, PAGE_BUDGET), profile: CLUB_PLAYER }];
+  const robotRule = createRemoteRule(namedRule(robot, PAGE_BUDGET));
+  const players = [{ rule, profile: mouseProfile(scatter) }, { rule: robotRule, profile: CLUB_PLAYER }];
+  point.robotRule = robotRule;
   point.log = log;
   point.players = players;
   point.state = startRally({ seed, players, server, listener });
@@ -64,6 +67,17 @@ export function clickPoint(point, order) {
 }
 
 export const pointOver = (point) => point.state.result !== null;
+
+const SLOW_ROBOTS = new Set(["S", "MC"]);
+
+/** Is the next step one at which a robot that thinks for long must decide? A page then asks its worker, and waits. */
+export const needsAnswer = (point) => SLOW_ROBOTS.has(point.robot) && aboutToDecide(point.state, ROBOT) && point.robotRule.answer === null;
+
+/** The picture for the worker. */
+export const pictureFor = (point) => snapshotOf(point.state);
+
+/** What the worker said, for the next step. */
+export const giveAnswer = (point, intent) => point.robotRule.give(point.state.tick, intent);
 
 /** One step of the point, if it is not over. */
 export const stepPoint = (point) => {

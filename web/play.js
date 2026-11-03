@@ -1,14 +1,15 @@
 import { nextSpeed } from "mcts-commun/replay-keys.js";
 import { BALL_SIZE } from "../src/ball/constants.js";
 import {
-  clickPoint, closePoint, createGame, nextPoint, pointOver, positionOf, replayOfPoint, runToEvent, stepPoint, stepsFor, winnerOf,
+  closePoint, createGame, nextPoint, pointOver, positionOf, replayOfPoint, stepsFor, winnerOf,
 } from "../src/game.js";
 import { destinationOf, orderOf } from "../src/mouse.js";
 import { BX, BY } from "../src/player.js";
-import { depthFor, nextContact, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
-import { drawOrders, drawScene } from "./draw.js";
+import { ballPath, depthFor, expectedMiss, nextContact, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
+import { drawBallPath, drawOrders, drawScene } from "./draw.js";
 import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
+import { createStepper } from "./play-steps.js";
 import { layoutFor } from "./scale.js";
 import { buildStrokes, showStrokes } from "./stroke-panel.js";
 
@@ -17,7 +18,7 @@ const byId = (id) => document.getElementById(id);
 const input = (id) => /** @type {HTMLInputElement} */ (byId(id));
 const canvas = /** @type {HTMLCanvasElement} */ (byId("view"));
 const context = canvas.getContext("2d");
-const live = { game: null, point: null, running: false, speed: 0.25, carry: 0, last: 0, looping: false, contact: null };
+const live = { game: null, point: null, running: false, speed: 0.25, carry: 0, last: 0, looping: false, contact: null, path: null, miss: 0.16, waiting: false, owed: 0, toEvent: false, clicks: [] };
 let layout = layoutFor(canvas.clientWidth);
 
 const scatterNow = () => Number(input("scatter").value) / 100;
@@ -33,17 +34,25 @@ function refreshStrokes() {
   const { rule, state } = live.point;
   const choices = strokeChoices(state, { who: 0, rule });
   showStrokes(byId("strokes"), choices, rule.stroke);
+  readThePause(state, rule);
+  const lost = choices[rule.stroke] !== null && rule.stroke !== "flat";
+  if (lost && choices.flat === null) pick("flat");
+}
+
+/** What a pause shows: the ball's way, where the stroke takes it, and the circle. */
+function readThePause(state, rule) {
   const contact = nextContact(state, 0, rule);
   live.contact = contact ? [contact.ball[0], contact.ball[1]] : null;
-  if (choices[rule.stroke] !== null && choices.flat === null && rule.stroke !== "flat") pick("flat");
+  live.path = ballPath(state);
+  live.miss = expectedMiss(state, { who: 0, rule }) ?? live.miss;
 }
 
 function pick(key) {
   if (!live.point || live.point.closed) return;
   const { rule, state } = live.point;
   const depth = depthFor(state, { who: 0, rule }, key);
-  if (!clickPoint(live.point, { stroke: key })) byId("events").textContent = "Trop tard pour changer de coup : la préparation a commencé.";
-  else if (depth !== null) clickPoint(live.point, { aimAt: [depth, rule.aim[1]] });
+  stepper.sendOrder({ stroke: key });
+  if (depth !== null) stepper.sendOrder({ aimAt: [depth, rule.aim[1]] });
   render();
 }
 
@@ -59,8 +68,9 @@ function render() {
   drawScene(context, layout, recording, recording.steps);
   const body = live.point.state.bodies[0];
   const goal = destinationOf(live.point.rule, body);
-  const contact = live.running ? null : live.contact;
-  drawOrders(context, layout, { aim: live.point.rule.aim, goal, body: [body[BX], body[BY]], scatter: live.point.scatter, contact });
+  const paused = !live.running && !live.point.closed;
+  if (paused && live.path) drawBallPath(context, layout, live.path);
+  drawOrders(context, layout, { aim: live.point.rule.aim, goal, body: [body[BX], body[BY]], miss: live.miss, contact: paused ? live.contact : null });
   byId("frame").textContent = frameText(recording, recording.steps, BALL_SIZE);
 }
 
@@ -104,18 +114,14 @@ function afterSteps() {
   render();
 }
 
-/** Stops at each stroke of the robot, if asked, so that there is time to click. */
-function runSteps(steps) {
-  for (let i = 0; i < steps && !pointOver(live.point); i += 1) {
-    live.point.robotStruck = false;
-    stepPoint(live.point);
-    if (live.point.robotStruck && input("autopause").checked) {
-      live.running = false;
-      byId("events").textContent = "Le robot a frappé : à vous.";
-      return;
-    }
-  }
-}
+const stepper = createStepper({
+  live,
+  autopause: () => input("autopause").checked,
+  say: (text) => {
+    byId("events").textContent = text;
+  },
+  done: afterSteps,
+});
 
 function loop(time) {
   live.looping = live.running;
@@ -123,7 +129,7 @@ function loop(time) {
   const { steps, carry } = stepsFor((time - live.last) / 1000, live.speed, live.carry);
   live.last = time;
   live.carry = carry;
-  runSteps(steps);
+  if (!live.waiting) stepper.runSteps(steps);
   afterSteps();
   if (live.running) requestAnimationFrame(loop);
   else live.looping = false;
@@ -144,6 +150,9 @@ function startPoint() {
   if (!live.game || winnerOf(live.game.score) >= 0) return;
   live.game.scatter = scatterNow();
   live.point = nextPoint(live.game);
+  live.waiting = false;
+  live.toEvent = false;
+  live.clicks.length = 0;
   const who = live.point.server === 0 ? "Vous servez" : "Le robot sert";
   byId("events").textContent = `${who} : placez-vous, visez, puis espace.`;
   setRunning(false);
@@ -173,13 +182,12 @@ function clickOnView(event) {
   const click = { px: event.clientX - box.left, py: event.clientY - box.top, button: event.button };
   const order = orderOf(click, { ...layout, forward: 1 });
   if (!order) return;
-  const taken = clickPoint(live.point, order);
-  if (!taken) byId("events").textContent = "Trop tard pour viser : la préparation a commencé.";
+  stepper.sendOrder(order);
   render();
 }
 
 function stepOnce(run) {
-  if (!live.point || live.point.closed) return;
+  if (!live.point || live.point.closed || live.waiting) return;
   setRunning(false);
   run();
   afterSteps();
@@ -193,8 +201,8 @@ const togglePlay = () => {
   if (live.point?.closed) startPoint();
   else setRunning(!live.running);
 };
-const oneFrame = () => stepOnce(() => runSteps(4));
-const toEvent = () => stepOnce(() => runToEvent(live.point));
+const oneFrame = () => stepOnce(() => stepper.runSteps(4));
+const toEvent = () => stepOnce(() => stepper.runToNext());
 
 const KEYS = { " ": togglePlay, ".": oneFrame, n: toEvent, "+": () => faster(1), "-": () => faster(-1) };
 Object.keys(STROKE_KINDS).forEach((key, i) => {

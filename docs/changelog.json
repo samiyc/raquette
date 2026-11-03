@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.9.0",
+      "title": "Voir la route de la balle, et un cercle de cible qui dit la vérité",
+      "date": "3/11/2026",
+      "items": [
+        "Pendant une pause, des points bleus montrent la route de la balle, et des croix bleues où elle touchera.",
+        "La précision baisse aussi avec la distance à la table : une fois plus de dispersion par mètre au-delà de 0,6 m.",
+        "Le cercle rouge contient la moitié des coups joués ainsi : il grandit si la balle est rapide, si vous êtes loin, au bout du bras ou pressé.",
+        "La recherche réfléchit à part : la page ne se fige plus, et elle joue à 24 plans par coup au lieu de 12."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.8.2",
       "title": "Une recherche 3,5 fois plus rapide",
       "date": "3/11/2026",

@@ -2,7 +2,8 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { BALL_SIZE, VX, VY, WX, WY, X, Y } from "../src/ball/constants.js";
 import { CLUB_PLAYER } from "../src/player.js";
-import { controlOf, playRally } from "../src/rally.js";
+import { playRally } from "../src/rally.js";
+import { controlOf, farOf } from "../src/scatter.js";
 import { recordRally } from "../src/rally-recording.js";
 import { R0, takeToCentre } from "../src/rules/center.js";
 import { SHORT_CUT, SHORT_SWING } from "../src/rules/short.js";
@@ -85,6 +86,14 @@ describe("a fast ball", () => {
     assert.equal(controlOf(coming(10), CLUB_PLAYER), 1);
     assert.equal(controlOf(coming(12.5), CLUB_PLAYER), 2);
     assert.equal(controlOf(coming(-15), CLUB_PLAYER), 3);
+  });
+
+  it("scatters a stroke more the further from the table it is played, nothing near it (Sami)", () => {
+    const at = (x) => Float64Array.of(x, 0, 0.2, 0, 0, 0, 0, 0, 0);
+    assert.equal(farOf(at(1.5), 1, CLUB_PLAYER), 1);
+    assert.equal(farOf(at(-1.5), -1, CLUB_PLAYER), 1);
+    assert.ok(Math.abs(farOf(at(2.97), 1, CLUB_PLAYER) - 2) < 1e-9);
+    assert.ok(Math.abs(farOf(at(-3.97), -1, CLUB_PLAYER) - 3) < 1e-9);
   });
 });
 
