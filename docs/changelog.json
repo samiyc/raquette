@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.16.0",
+      "title": "T, le premier robot réglé par l'autojeu",
+      "date": "3/11/2026",
+      "items": [
+        "Un nouveau robot au menu : T, sorti de 100 générations d'autojeu. Il bat R3 à 79 %, et la recherche à 66 %.",
+        "Sa recette : une raquette lente qui brosse beaucoup, une balle à 10-12 m/s et 130 tr/s, très large et assez longue. Elle est à juger à la souris."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.15.0",
       "title": "Un grand geste coûte de la précision, et la zone du coup choisi",
       "date": "3/11/2026",

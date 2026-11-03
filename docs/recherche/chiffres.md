@@ -558,6 +558,31 @@ Le modèle de Conti tombe tout près de la Loi (« environ 23 cm ») ; le calcul
 **Combien d'échanges pour un intervalle.** Autour de 50 %, à 95 % : ±5 points de pourcentage, 385 échanges ; ±2 points,
 2 401 ; ±1 point, 9 604.
 
+**L'autojeu après le coût du geste** (3/11/2026, sur `c1216ec`, 100 générations par lignée, part des points de la lignée sur 2 000 graines neuves, 600 contre S qui n'est pas dans le panel) :
+
+| Lignée | Version | Contre R0 | Contre R1 | Contre R3 | Contre S | Coups contre S | Raquette / brossage du top |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `g` | 40 | 83,7 | 78,9 | 67,9 | 60,5 [58,0 ; 63,0] | 4,2 | 5 / 8,0 |
+| `h`, gardée sous le nom T | 17 | 87,9 | 80,2 | 79,4 | 66,2 [63,8 ; 68,7] | 2,9 | 5 / 13,4 |
+| `i` | 14 | 79,7 | 77,6 | 75,0 | 67,2 [64,8 ; 69,5] | 2,9 | 5 / 13,0 |
+
+Les mêmes coups, sur 800 échanges contre R3 : `h` sort sa balle à 9,5 m/s et 118 tr/s au premier coup, 12 m/s et 133 tr/s ensuite, sur la table 9 fois sur 10 ; `g`, à 7 m/s et 74 tr/s, puis 10 m/s et 101 tr/s. `topSpeed` colle à sa borne basse dans les trois lignées : la borne de 5 m/s décide, et rien ne dit encore qu'elle est la bonne.
+
+**Comment T gagne** (300 graines, `h` contre R3) : 374 de ses 481 points sur 600 échanges sont des balles que R3 n'atteint pas, dont 172 au premier retour. Vol 0,27 s, rebond à 0,95 m du filet et 0,60 m de l'axe, le corps ne court en moyenne que 7 cm, puis la balle passe à 1,1 m de lui, hors de portée du bras (0,8 m). À l'envers, R3 ne gagne ainsi que 9 points sur les 119 qu'il prend.
+
+**Servir décalé coûte cher contre T** (1 400 échanges, marge ±2,6 points) :
+
+| Duel | Départ du service | Part du premier | Fini au 1er retour | Part du serveur |
+|---|---|---:|---:|---:|
+| T contre R3 | tiré à ±50 cm | 78,8 | 36,7 % | 44,1 |
+| T contre R3 | au milieu | 79,6 | 17,4 % | 50,5 |
+| R3 contre R0 | tiré à ±50 cm | 59,6 | 6,1 % | 50,9 |
+| R3 contre R0 | au milieu | 57,4 | 6,1 % | 52,2 |
+
+Le serveur décalé n'a pas regagné le milieu au retour. T en profite deux fois plus souvent, sans gagner davantage de points au total.
+
+**La recherche et R3 après le coût du geste** (sur `c1216ec`, graine 1 200 000, S choisit son service) : S contre R3, 64,5 % [62,7 ; 66,3], 4,9 coups, serveur 56,7 %, sans changement (64,7 % avant) ; S contre R0, 64,8 % [63,0 ; 66,6], 7,4 coups, en baisse nette (68,6 % [66,8 ; 70,4] avant, sur d'autres graines) ; R3 contre R0, 58,4 % [57,2 ; 59,5], 11,4 coups (3 000 graines, `mix`).
+
 ## Les sources
 
 [lois]: https://www.tabletennisengland.co.uk/content/uploads/2026/07/Laws-of-Table-Tennis-2026-27.pdf

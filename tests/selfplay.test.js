@@ -8,6 +8,7 @@ import { playRally } from "../src/rally.js";
 import { RULES } from "../src/rules/ladder.js";
 import { namedRule } from "../src/rules/named.js";
 import { createTunable, R3_NUMBERS } from "../src/rules/tunable.js";
+import { TUNED } from "../src/rules/tuned.js";
 import { bestOfScreen, isKept, mutateNumbers, NUMBER_RANGES } from "../src/selfplay.js";
 
 describe("the rule with its numbers in the open", () => {
@@ -24,6 +25,19 @@ describe("the rule with its numbers in the open", () => {
     const soft = createTunable({ ...R3_NUMBERS, topSpeed: 5, topBrush: 2, flatSpeed: 3 }, "doux");
     const report = playPairs({ a: soft, b: RULES.R3, profile: CLUB_PLAYER, seeds: 20 });
     assert.ok(report.strokes !== playPairs({ a: RULES.R3, b: RULES.R3, profile: CLUB_PLAYER, seeds: 20 }).strokes);
+  });
+
+  it("keeps what self-play found inside the ranges it searched, and by name", () => {
+    assert.equal(namedRule("T").name, "T");
+    for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) {
+      assert.ok(TUNED.T[key] >= low && TUNED.T[key] <= high, key);
+    }
+  });
+
+  it("lets a search take its opponent for a kept rule, which plays differently", () => {
+    const players = (rule) => [{ rule, profile: CLUB_PLAYER }, { rule: RULES.R0, profile: CLUB_PLAYER }];
+    const rally = (name) => playRally({ seed: 5, server: 1, players: players(namedRule(name, 8)) });
+    assert.notDeepEqual(rally("S-mT"), rally("S"));
   });
 
   it("goes by name from a catalog, also on threads", async () => {
