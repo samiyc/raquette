@@ -143,7 +143,7 @@ describe("the view", () => {
     assert.ok(topPoint(layout, 0, 1)[1] < topPoint(layout, 0, -1)[1]);
     assert.ok(sidePoint(layout, 0, 1)[1] < sidePoint(layout, 0, 0)[1]);
     assert.ok(close(sidePoint(layout, 0, -0.76)[1], layout.sideHeight));
-    assert.ok(close(topPoint(layout, 0, -1.1)[1], layout.height));
+    assert.ok(close(topPoint(layout, 0, -1.375)[1], layout.height));
   });
 
   it("keeps the side band above the view from above, so that a lob leaves the screen instead of crossing it", () => {

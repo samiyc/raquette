@@ -60,8 +60,7 @@ describe("a rally's log", () => {
   });
 
   it("says where a player stood for a ball it did not get, and how close it came", () => {
-    const players = [{ rule: RULES.R3, profile: CLUB_PLAYER }, { rule: R0, profile: CLUB_PLAYER }];
-    const lines = Array.from({ length: 80 }, (_, seed) => logged(seed, players));
+    const lines = Array.from({ length: 80 }, (_, seed) => logged(seed));
     const missed = lines.find((line) => line.lost?.missed);
     assert.ok(missed, "no ball missed in 80 rallies");
     const { lost } = missed;

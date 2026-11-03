@@ -4,6 +4,19 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.17.0",
+      "title": "Moins d'inertie, un robot qui vise mieux, un latéral moins sûr, plus de place à l'écran",
+      "date": "3/11/2026",
+      "items": [
+        "Le corps accélère deux fois plus : un demi-tour à pleine vitesse prend 0,38 s au lieu de 0,75 s, et partir sur le côté ne coûte plus le point à coup sûr.",
+        "Le robot ne rate plus sa visée sur une balle très brossée : il envoyait parfois la balle à plusieurs mètres alors qu'un coup existait.",
+        "Le latéral est moins précis : son geste compte davantage dans la dispersion.",
+        "La vue de dessus gagne 25 % de hauteur, avec plus de place de chaque côté de la table.",
+        "Les robots T et S-mT ont été réglés sur l'ancien corps : ils restent au menu en attendant de nouvelles lignées."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.16.0",
       "title": "T, le premier robot réglé par l'autojeu",
       "date": "3/11/2026",

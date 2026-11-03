@@ -8,8 +8,8 @@
  * that leaves the screen rather than crossing the view from above, the one Sami watches (3/11/2026). Heights are squeezed in the
  * side band, so that both bands fit on a screen without scrolling; lengths keep one scale.
  */
-const VIEW = { halfX: 3, halfY: 1.1, floor: -0.76, ceiling: 1.5 };
-const SIDE_HEIGHTS = 0.65;
+const VIEW = { halfX: 3, halfY: 1.375, floor: -0.76, ceiling: 1.5 }; // 25 % more room from above than the 1.1 m it had (Sami, 3/11/2026).
+const SIDE_HEIGHTS = 0.55;
 const BAND_GAP = 14;
 
 /** The page's Khaki, from Notepad++'s own theme (themes/khaki.xml: 5F5F00 on D7D7AF), and the table on it. */

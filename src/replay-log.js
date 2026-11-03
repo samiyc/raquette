@@ -38,7 +38,7 @@ export function replayHeader({ players, startedAt = localTimestamp() }) {
 }
 
 /** Millimetres and tenths of a m/s are plenty: the exact numbers replay from the seed. */
-const short = (value) => Math.round(value * 1e4) / 1e4;
+const short = (value) => Math.round(value * 1e4) / 1e4 + 0; // + 0: JSON has no -0.
 const shortAll = (values) => Array.from(values, short);
 const whereOf = (body) => [short(body[BX]), short(body[BY])];
 

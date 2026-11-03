@@ -198,7 +198,7 @@ describe("the cut that bounces twice (Sami, 3/11/2026)", () => {
   } };
 
   it("wins against a player who goes back far behind the line: the second bounce comes first", () => {
-    const players = [{ rule: SHORT_CUT, profile: steady }, { rule: deep, profile: atWait(2.5) }];
+    const players = [{ rule: SHORT_CUT, profile: steady }, { rule: deep, profile: atWait(3) }];
     const result = playRally({ seed: 1, players, server: 0 });
     assert.equal(result.cause, "twoBounces");
     assert.equal(result.winner, 0);
@@ -206,7 +206,7 @@ describe("the cut that bounces twice (Sami, 3/11/2026)", () => {
   });
 
   it("the same player returns R0's ball, in the same rally: it is the short ball that beats it", () => {
-    const players = [{ rule: R0, profile: steady }, { rule: deep, profile: atWait(2.5) }];
+    const players = [{ rule: R0, profile: steady }, { rule: deep, profile: atWait(3) }];
     const result = playRally({ seed: 1, players, server: 0 });
     assert.ok(result.strokes > 2 || result.cause !== "twoBounces", JSON.stringify(result));
   });

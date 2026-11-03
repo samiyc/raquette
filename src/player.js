@@ -8,12 +8,12 @@ export const CLUB_PLAYER = Object.freeze({
   waitBehindLine: 0.5, // Q-P12
   reaction: 0.2, // Q-P4, seconds
   speed: 3, // Q-P5, m/s
-  acceleration: 8, // Q-P5, m/s²
+  acceleration: 16, // Q-P5, m/s²: at 8, turning back took 0.75 s, and leaving the middle cost the point (Sami, 3/11/2026)
   reach: 0.8, // Q-P5, metres
   lean: 0.4, // Q-P19: how far the body goes over the table
   easySwing: 14.2, // m/s, the racket and its brush together: the ordinary top, 10 and 10, is no effort (H, Q-P22)
   swingLoss: 5, // m/s more for one more scatter (H, Q-P22)
-  sideWeight: 3, // What a m/s of sideways brush weighs in that effort (H, Q-P22)
+  sideWeight: 3.5, // What a m/s of sideways brush weighs in that effort (H, Q-P22): at 3, the side stroke stayed easy (Sami, 3/11/2026)
   lowest: -0.5, // Q-P5: under the table's level
   highest: 1.2, // Q-P5: above it
   preparation: 0.15, // Q-P6, seconds

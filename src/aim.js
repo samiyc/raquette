@@ -29,6 +29,10 @@ const NET_MARGIN = 0.15; // Metres to spare over the net (H, Q-P20).
 const TIGHT_MARGIN = 0.05; // What a player settles for rather than a high ball.
 const STEEPEST = 1.2; // A ball leaving at more than 50° is no stroke: a search found it could send one up for metres (3/11/2026).
 const SOFTER = [1, 0.85, 0.7, 0.55, 0.4, 1.25, 1.5];
+const SCAN_SPEEDS = [1, 0.7, 0.4, 1.25, 1.5];
+const SCAN_ACROSS = [0, -0.5, 0.5, -1, 1]; // Around the straight line to the target.
+const SCAN_UP = [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2];
+const SCAN_NEAR = 1; // Metres: further than this, a face is no start for Newton.
 
 const flying = new Float64Array(BALL_SIZE);
 const racket = new Float64Array(RACKET_SIZE);
@@ -38,6 +42,7 @@ const leaving = new Float64Array(1);
 const base = new Float64Array(3);
 const best = new Float64Array(3);
 const tight = new Float64Array(3);
+const straight = new Float64Array(2);
 const current = { speed: 0, brushUp: 0, brushSide: 0 };
 const flight = { h: COARSE };
 
@@ -173,6 +178,37 @@ function tightFlight(task, out) {
   return confirmed(task, out, TIGHT_MARGIN);
 }
 
+/** The face of a coarse grid that lands nearest the target and clears the net, into `out`. @returns {boolean} whether one is near */
+function nearestFace(task, out) {
+  startTilts(task, 0, straight);
+  let nearest = SCAN_NEAR;
+  for (const across of SCAN_ACROSS) {
+    for (const up of SCAN_UP) {
+      tryTilts(task, straight[0] + across, up);
+      const miss = Math.abs(landed[0]) + Math.abs(landed[1]);
+      if (landed[2] <= 0 || miss >= nearest || leaving[0] > STEEPEST) continue;
+      nearest = miss;
+      out[0] = straight[0] + across;
+      out[1] = up;
+    }
+  }
+  return nearest < SCAN_NEAR;
+}
+
+/**
+ * Newton lost its way: under a heavy brush, or on a ball with much spin, the landing folds over the tilts, and the low start leads
+ * nowhere. On Sami's replays (3/11/2026) the robot then sent the ball metres away, 4 % of T's strokes, though a stroke was there.
+ * A coarse look over the faces gives Newton a start. It costs up to 225 flights, only when the rest has failed.
+ * @returns {boolean} whether one lands there
+ */
+function scanFlights(task, out) {
+  for (const part of SCAN_SPEEDS) {
+    current.speed = task.swing.speed * part;
+    if (nearestFace(task, out) && landsAsAStroke(task, out) && landed[2] >= TIGHT_MARGIN && confirmed(task, out, TIGHT_MARGIN)) return true;
+  }
+  return false;
+}
+
 /** A high ball, the last resort, or else the closest try. @returns {boolean} whether it lands there */
 function highOrClosest(task, out) {
   current.speed = task.swing.speed;
@@ -221,7 +257,7 @@ export function missOf(task, { side, up, speed }) {
 export function aim(task, out) {
   current.brushUp = task.swing.brushUp;
   current.brushSide = task.swing.brushSide;
-  const found = softerFlights(task, out) || highOrClosest(task, out);
+  const found = softerFlights(task, out) || scanFlights(task, out) || highOrClosest(task, out);
   out[2] = current.speed;
   return found;
 }

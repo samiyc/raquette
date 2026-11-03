@@ -97,7 +97,7 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 |---|---|---|
 | Position d'attente | centre, 0,5 m derrière la ligne de fond | Q-P12 |
 | Temps de réaction après la frappe adverse | 0,20 s | Q-P4 |
-| Vitesse et accélération du corps, sur le plan du sol | 3 m/s, 8 m/s² | Q-P5 |
+| Vitesse et accélération du corps, sur le plan du sol | 3 m/s, 16 m/s² | Q-P5 |
 | Portée du bras depuis le corps | 0,8 m | Q-P5 |
 | Ce que le corps peut avancer au-dessus de la table, penché | 0,4 m | Q-P19 |
 | Champ d'action autour du corps | **220°, axe fixe vers le filet (Sami, 2/11/2026)** ; 110° de chaque côté de l'axe | Q-P5 |
@@ -305,7 +305,7 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Le service part d'où l'on se place.** Les règles tirent ce départ au hasard, à 50 cm au plus du milieu, et la recherche l'essaie pour le service qui sort le meilleur. La bombe part à 11 m/s au plus : sa vitesse baisse quand la ligne est courte, pour viser à 12 cm de la ligne de fond au plus (elle sortait de 5 à 9 %, de 2 % maintenant).
 
-**Un grand geste coûte de la précision** (3/11/2026, `effortOf`, Q-P22). La première lignée sur le modèle corrigé des services, `d`, a battu la recherche à 65,4 %, en 2,5 coups par échange : une raquette à 5 m/s, un brossage de 16 m/s, une balle à 13 m/s et 150 tr/s, sur la table 9 fois sur 10. Le brossage ne coûtait rien. Il compte maintenant : rien jusqu'à 14,2 m/s au total, le top ordinaire, puis une dispersion de plus tous les 5 m/s, et un brossage de côté pèse trois fois plus. Les trois duels de référence ne bougent pas.
+**Un grand geste coûte de la précision** (3/11/2026, `effortOf`, Q-P22). La première lignée sur le modèle corrigé des services, `d`, a battu la recherche à 65,4 %, en 2,5 coups par échange : une raquette à 5 m/s, un brossage de 16 m/s, une balle à 13 m/s et 150 tr/s, sur la table 9 fois sur 10. Le brossage ne coûtait rien. Il compte maintenant : rien jusqu'à 14,2 m/s au total, le top ordinaire, puis une dispersion de plus tous les 5 m/s, et un brossage de côté pèse 3,5 fois plus (3 fois d'abord : Sami trouvait le latéral encore trop facile). Les trois duels de référence ne bougent pas.
 
 **T, le premier robot gardé** (3/11/2026, `src/rules/tuned.js`, lignée `h`). Après le coût du geste, trois lignées partent de R3 : `g`, `h` et `i`. `h` et `i` trouvent la même recette, sans lien entre elles : une raquette à 5 m/s, la borne basse, et un brossage de 13 m/s, juste sous le seuil du coût du geste ; une balle à 10-12 m/s et 130 tr/s, très large (rebond à 60 cm de l'axe). Contre R3, 78 % des points gagnés par T sont des balles que R3 n'atteint pas : l'angle les sort du bras d'un corps qui attend au milieu, réagit en 0,2 s et n'anticipe rien. Prise comme modèle de l'adversaire, T rend la recherche nettement plus forte (`S-mT` : 71,9 % contre R3, au lieu de 64,5 %), mais les échanges tombent à 3 coups et le serveur à 40 %. Seul le jeu à la souris dira si cet angle gagne aussi contre Sami. Les chiffres sont dans `chiffres.md`, § 8.
 

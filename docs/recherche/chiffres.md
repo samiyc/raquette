@@ -302,13 +302,13 @@ de chute à partir d'un départ connu. Or c'est ce qui compte ici : un coup part
 On garde donc les tables. Le `k_m` de Gossard n'est pas forcément celui de Nakashima, dont les coefficients n'ont pas été lus.
 
 **Le coupé à deux rebonds** (Sami, 3/11/2026). Jusqu'où le receveur peut-il partir et arriver à temps ? Il démarre à l'arrêt, sur l'axe de
-la balle, 0,20 s après la frappe, à 8 m/s² et 3 m/s, avec 0,8 m de portée, et prend la balle juste avant son deuxième rebond, sans
+la balle, 0,20 s après la frappe, à 16 m/s² et 3 m/s, avec 0,8 m de portée, et prend la balle juste avant son deuxième rebond, sans
 compter la préparation. Toutes ces valeurs de corps sont des hypothèses (§ 6 ; `modele.md`, § 4).
 
 | Lancer | Marge au filet | 1er rebond | 2e rebond | Entre les deux | Rattrapable jusqu'à, derrière la ligne |
 |---|---|---|---|---|---|
-| 5 m/s, 18°, coupé 90 tr/s, depuis x = −1,6, 25 cm | 4 cm | x 0,34 à 0,48 s | x 1,32 à 0,93 s | 0,45 s | **2,36 m** |
-| 4 m/s, 18°, coupé 30 tr/s, depuis x = −0,8, 15 cm | 3 cm | x 0,44 à 0,36 s | x 1,21 à 0,73 s | 0,37 s | **1,65 m** |
+| 5 m/s, 18°, coupé 90 tr/s, depuis x = −1,6, 25 cm | 4 cm | x 0,34 à 0,48 s | x 1,32 à 0,93 s | 0,45 s | **2,64 m** |
+| 4 m/s, 18°, coupé 30 tr/s, depuis x = −0,8, 15 cm | 3 cm | x 0,44 à 0,36 s | x 1,21 à 0,73 s | 0,37 s | **1,93 m** |
 
 Le second rebond tombe près du fond : le receveur prend la balle tard, mais de loin.
 
@@ -593,6 +593,25 @@ Le serveur décalé n'a pas regagné le milieu au retour. T en profite deux fois
 | S contre T | 31,2 % [29,4 ; 33,0] | 3,1 | 40,0 |
 
 Changer le modèle suffit : contre R3, la recherche passe de 64,5 % à 71,9 %, et elle bat maintenant T, qui la battait à 68,8 %. Mais les échanges raccourcissent, et S perd 1 105 points sur 1 636 sur des balles non atteintes contre S-mT. Le serveur tombe à 40 % : le jeu se réduit à un retour large et gagnant. Le gain est réel dans le modèle ; rien ne dit encore qu'il le serait contre un humain.
+
+**L'accélération du corps** (Sami, 3/11/2026 : « beaucoup d'inertie en partant sur les côtés »). Sur ses 33 points en 0.16.0, il laisse passer 4 balles sur 38 quand il est à moins de 25 cm du milieu au moment de la frappe adverse, et 6 sur 14 au-delà de 25 cm (balles tombées sur la table seulement). Aucune mesure de l'accélération d'un pongiste n'a été trouvée : le chiffre reste une hypothèse, réglée sur le ressenti de Sami et ceci (1 400 échanges par ligne, ±2,6 points, sur le corps de 0.16.0 et la visée corrigée) :
+
+| Accélération | Duel | Part du premier | Coups | Fini au 1er retour | Part du serveur | Pas atteint |
+|---:|---|---:|---:|---:|---:|---:|
+| 8 m/s² | T contre R3 | 78,8 | 4,0 | 35,3 % | 45,5 | 61,8 % |
+| 8 m/s² | T contre T | 50,0 | 1,5 | 65,0 % | 29,4 | 77,0 % |
+| 8 m/s² | R3 contre R3 | 50,0 | 6,4 | 5,6 % | 50,7 | 19,6 % |
+| **16 m/s²** | T contre R3 | 74,0 | 5,7 | 23,3 % | 50,3 | 40,4 % |
+| **16 m/s²** | T contre T | 50,0 | 2,2 | 41,0 % | 45,1 | 62,4 % |
+| **16 m/s²** | R3 contre R3 | 50,0 | 8,1 | 5,6 % | 51,7 | 6,1 % |
+| 24 m/s² | T contre R3 | 72,5 | 7,5 | 19,6 % | 48,6 | 23,6 % |
+| 24 m/s² | T contre T | 50,0 | 2,8 | 33,6 % | 47,4 | 49,0 % |
+
+16 m/s² : un demi-tour à 3 m/s prend 0,375 s, un mètre d'arrêt à arrêt 0,5 s. R3 contre R0 : 55,0 à 58,4 %, 11,6 à 11,0 coups ; l'écart dépasse à peine la marge, 58,5 % à 8 m/s² sur d'autres graines.
+
+**La visée perdue sur une balle très brossée** (replays de Sami, 0.16.0). 5 de ses 21 latéraux reçoivent une réponse dont la visée échoue ; le robot envoie alors la balle jusqu'à 3,9 m, ou en chandelle à 2,1 m au-dessus du filet, alors qu'une grille trouve un coup. Sur les balles à plus de 80 tr/s d'effet latéral (T contre R3, 1 000 échanges), les échecs passent de 9 % à 0 % avec une recherche grossière en secours (`scanFlights`, 225 vols au plus, seulement après un échec). Au total : T contre R3, 4,1 % à 3,5 % d'échecs ; T contre T reste à 17 %, sans que la cause soit établie (deux exemples : des balles courtes et basses), et ces coups-là tombent quand même sur la table 3 fois sur 4.
+
+**Le latéral de Sami en 0.16.0** (21 coups, effort 1,22 à 1,35 fois) : 17 sur la table, 10 cm d'écart à la cible, autant que le plat (11 cm), moins que le top (16 cm), et 6 réponses fautives du robot sur 17, dont 4 par la visée perdue ci-dessus. D'où `sideWeight` de 3 à 3,5 : effort de 1,9 fois pour le latéral à pleine vitesse. À revoir dans ses replays.
 
 ## Les sources
 
