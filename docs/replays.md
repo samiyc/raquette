@@ -11,7 +11,7 @@ lisibles quel que soit le code devenu ensuite.
 | Quoi | Où | Comment |
 |---|---|---|
 | Une série de robots | `replays/series/*.jsonl.gz`, hors de git | `node scripts/duel.js R3 R0 --seeds 1200 --from 100000 --replays` |
-| Un point à la souris | `replays/raquette-*.json`, hors de git | la page l'enregistre à la fin de chaque point |
+| Un point à la souris | `replays/raquette_*.json`, hors de git | la page l'enregistre à la fin de chaque point |
 | Un point que le robot a perdu, à garder | `positions/`, versionné | le bouton « Exporter » de la page, puis `npm run positions` |
 
 `npm run replays` résume la dernière série, ou celle qu'on lui donne, et sert d'exemple d'analyse (`src/replay-stats.js`).
