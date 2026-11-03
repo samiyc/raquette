@@ -311,6 +311,15 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **U, le régulier** (3/11/2026, lignée `k`). Sur le corps à 16 m/s², l'angle gagne moins, et l'autojeu trouve une autre recette : attendre à 10 cm de la table, jouer un top lent vers le milieu, tenir la table à 97 %, et laisser l'adversaire se tromper. U bat R3 à 79 % et la recherche à 81 %, en 12 à 14 coups par échange ; la recherche, elle, tombe à 53 % contre R3 parce qu'elle fait trop de fautes. Trois de ses nombres collent à leur borne. Chiffres : `chiffres.md`, § 8.
 
+**Où en est l'autojeu** (3/11/2026, au soir). Le corps reste à 16 m/s² sur l'avis de Sami (`chiffres.md`, § 6). T est réglé sur l'ancien corps, U sur celui-ci ; les deux sont au menu, avec `S-mT`, pour être jugés à la souris. À faire, sans ordre fixé :
+
+- mesurer si U améliore la recherche quand elle le prend pour modèle (`S-mU`, dans la file), et comprendre pourquoi S fait tant de fautes sur ce corps ;
+- élargir les bornes où les lignées butent : `topSpeed` à 5 m/s, `topWide` et `wait` à 10 cm ;
+- vérifier si des échanges de 12 à 14 coups sont réalistes, au-dessus des 4 à 5 de l'élite (`chiffres.md`, § 6), et si une balle lente au milieu est aussi sûre qu'elle le paraît ;
+- ajouter T et U au panel, pour qu'une lignée doive battre autre chose que des règles écrites à la main ;
+- replacer le robot entre deux coups selon d'où l'adversaire peut frapper ;
+- séparer l'accélération du freinage si l'inertie gêne encore.
+
 **Comment** (`scripts/selfplay.js`, une série = un job de la file, historique dans `docs/selfplay/`) : à chaque génération, 8 variantes déplacent 1 à 3 nombres dans leurs bornes ; un crible de 150 graines contre la version en cours élimine ; les 2 meilleures sont confirmées sur 600 graines neuves, contre la version (bas de l'intervalle au-dessus de 50 %) et contre R0, R1 et R3 (au moins 50 % à chacun). **Tant de confirmations laissent passer des chanceuses** : la dernière version rejoue donc le panel sur 2 000 graines qu'aucune génération n'a vues, et seul ce chiffre compte. Le panel ne contient encore ni les versions gelées, ni les positions perdues contre Sami.
 
 **L'autojeu cherchera les failles de la physique**, comme le rappelle Sony. Les bornes du § 3 sont là pour ça, et les
