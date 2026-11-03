@@ -147,8 +147,17 @@ describe("how a rally ends", () => {
     assert.ok(result.cause === "net" || result.cause === "out", result.cause);
   });
 
-  it("a ball the arm cannot get, gone past the body, is lost behind it", () => {
-    // A stand in front of the ball: it passes behind the body and the 140° of the back are out of reach.
+  it("a ball about to pass out of reach is taken at once, not lost waiting for the planned instant", () => {
+    const late = { name: "late", decide: (view) => {
+      const stroke = takeToCentre(view);
+      return stroke && { ...stroke, step: stroke.step + 200 };
+    } };
+    const result = playRally({ seed: 1, players: [{ rule: R0, profile: CLUB_PLAYER }, { rule: late, profile: CLUB_PLAYER }], server: 0 });
+    assert.ok(result.strokes >= 1, JSON.stringify(result));
+  });
+
+  it("a ball the arm never gets in its sector, gone past the body, is lost behind it", () => {
+    // Off to the side, level with the ball's way: it comes from behind the sector's edge, and never enters it.
     const wrongWay = { name: "wrong way", decide: (view) => {
       const stroke = takeToCentre(view);
       return stroke && { ...stroke, goal: [view.side * 1.0, 0] };

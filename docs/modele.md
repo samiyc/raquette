@@ -113,7 +113,7 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 portée de 0,8 m, les 57 premiers centimètres après le filet seraient hors d'atteinte depuis le fond : une balle courte y gagnerait
 toujours, et l'autojeu l'aurait vite trouvé. **La raquette n'a pas de bras** : pas de geste simulé,
 pas de cinématique. Un joueur s'engage sur un instant et un point du trajet de la balle. Si, à cet instant, le point est dans
-le secteur et que la préparation a eu lieu, le contact a lieu.
+le secteur et que la préparation a eu lieu, le contact a lieu. Il frappe plus tôt si la balle allait sortir de sa portée : un corps peut arriver en retard sur son plan, et il ne la laisse pas passer pour autant.
 
 **Le secteur** est ce que le bras atteint sans déplacement : une distance de 0,8 m au plus sur le plan, un angle d'au plus
 110° avec l'axe du joueur, et la bande de hauteur. Les 140° du dos restent hors d'atteinte : une balle passée derrière le
@@ -190,9 +190,9 @@ l'adversaire. Les règles suivantes distingueront le **croisé** (vers le coin o
 
 **R1 sert de garde-fou.** Si viser loin de l'adversaire ne bat pas viser le centre, le modèle ne récompense pas le placement,
 et le jeu n'en est pas un : on corrige le modèle avant d'écrire la moindre recherche. Le pendant : si R1 écrase R0 à 90 %,
-la dispersion est trop faible ou les déplacements trop lents. **Il a servi à J5** : à 3° sur le côté et sans coût au bout du bras, R1 ne prenait que 12,5 % des points. Après correction, il en prend 52,4 %, de 51,2 à 53,6 %.
+la dispersion est trop faible ou les déplacements trop lents. **Il a servi à J5** : à 3° sur le côté et sans coût au bout du bras, R1 ne prenait que 12,5 % des points. Après correction, il en prend 52,1 %, de 51,0 à 53,3 %.
 
-**La mesure de J5**, 1 200 graines neuves par ligne (`chiffres.md`, § 8) : **R3 est la meilleure règle, la barre de la première recherche.** R2 ne change rien (le temps ne manque jamais à ce rythme), R4 ne fait pas mieux que R3, et R5 ne se déclenche presque jamais.
+**La mesure de J5**, 1 200 graines neuves par ligne (`chiffres.md`, § 8) : **R3 est la barre de la première recherche, de peu** : 52,3 % contre R0, 67,7 % contre R2. Les règles ne sont pas transitives. R2 ne change rien (le temps ne manque jamais à ce rythme), R4 ne fait pas mieux que R3, et R5 ne se déclenche presque jamais.
 
 Les paramètres de chaque règle se règlent sur des graines de calibration, puis sont figés, et ne servent plus pour les
 mesures.
@@ -425,7 +425,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J2** | la page : la table, une balle lancée, le rebond, les couleurs, le bandeau | Sami la regarde ; le changelog |
 | **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause, dont les deux rebonds d'un joueur reculé |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
-| **J5** | les mesures : R0 à R5 par paires | fait : R1 bat R0 (52,4 %) ; R3 contre R3 tient 4,9 coups |
+| **J5** | les mesures : R0 à R5 par paires | fait : R1 bat R0 (52,1 %) ; R3 contre R3 tient 5,5 coups |
 | **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | l'écart, son intervalle, le témoin à 4 fois le budget, 0 collection par décision |
 | **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |

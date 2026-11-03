@@ -19,7 +19,7 @@ const EXPECTED = {
   ball: "2aa4b251ea50ef1c",
   // 3/11/2026: 1.5° sideways, and the scatter grows at the end of the arm (docs/recherche/chiffres.md, § 8).
   rally: "014fef255e794c42",
-  duels: "2697680d2b396b04",
+  duels: "dbdd03d3ffd00d0b",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */

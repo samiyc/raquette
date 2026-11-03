@@ -25,25 +25,24 @@
       ]
     },
     "topBlock": {
-      "strokes": 16,
+      "strokes": 16.6,
       "causes": {
-        "behind": 0.05,
-        "limit": 0.033,
-        "net": 0.456,
-        "out": 0.461
+        "limit": 0.038,
+        "net": 0.477,
+        "out": 0.485
       },
       "seats": [
         {
           "speed": 11.2,
           "lift": 104,
           "height": 0.27,
-          "lostPart": 0.738
+          "lostPart": 0.771
         },
         {
           "speed": 7.7,
           "lift": 37,
           "height": 0.19,
-          "lostPart": 0.229
+          "lostPart": 0.191
         }
       ]
     },

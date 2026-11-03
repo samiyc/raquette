@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.6.1",
+      "title": "Un joueur ne laisse plus passer une balle à portée",
+      "date": "3/11/2026",
+      "items": [
+        "Les replays ont montré des balles perdues dans le dos, à portée de bras : le joueur attendait l'instant prévu. Il frappe maintenant plus tôt plutôt que de la laisser passer.",
+        "Cette correction change la conclusion de la version 0.5.0 : R3 ne prend plus que 52,3 % des points à R0, contre 67,6 % annoncés. Elle reste la barre, de peu."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.6.0",
       "title": "Des replays pour analyser en masse",
       "date": "3/11/2026",

@@ -323,21 +323,26 @@ mesuré au sens du § 7 du modèle : c'est le travail de J5.
 
 | Duel | Part des points du premier | Intervalle à 95 % | Coups par échange | À la limite | Serveur |
 |---|---|---|---|---|---|
-| R1 contre R0 | **52,4 %** | 51,2 à 53,6 % | 41,6 | 46 % | 52 % |
+| R1 contre R0 | **52,1 %** | 51,0 à 53,3 % | 41,7 | 46 % | 52 % |
 | R2 contre R1 | 50,0 % | identiques, graine par graine | 31,2 | 23 % | 48 % |
-| R3 contre R2 | **69,8 %** | 68,0 à 71,5 % | 7,9 | 0 | 56 % |
-| R3 contre R0 | **67,6 %** | 65,8 à 69,5 % | 10,1 | 0 | 55 % |
-| R4 contre R3 | 49,1 % | 47,8 à 50,3 % | 6,1 | 0 | 63 % |
-| R5 contre R4 | 50,0 % | 49,9 à 50,0 % | 6,7 | 0 | 61 % |
-| R3 contre R3 | 50,0 % | exact | **4,9** | 0 | 62 % |
+| R3 contre R2 | **67,7 %** | 66,0 à 69,5 % | 8,8 | 0 | 56 % |
+| R3 contre R0 | **52,3 %** | 50,5 à 54,0 % | 14,7 | 2 % | 53 % |
+| R4 contre R3 | 48,9 % | 47,7 à 50,2 % | 6,3 | 0 | 62 % |
+| R5 contre R4 | 49,9 % | 49,7 à 50,0 % | 6,8 | 0 | 60 % |
+| R3 contre R3 | 50,0 % | exact | **5,5** | 0 | 62 % |
+
+**Ces chiffres corrigent une première mesure fausse.** Les replays ont montré que R0 perdait 178 échanges sur 600 « dans le dos », la balle passant à 47 cm de lui, à portée de bras : il attendait l'instant prévu, et elle le dépassait. Un joueur frappe
+maintenant plus tôt plutôt que de laisser passer une balle à portée. **R3 contre R0 tombe de 67,6 % à 52,3 %** : l'essentiel de son avantage venait de ce défaut.
 
 Ce qu'il faut en lire :
 
-- **Le placement paie un peu, l'attaque beaucoup.** R3 contre R0 gagne surtout parce que R0 se fait passer (780 balles dans le dos).
-- **R2 ne fait rien** : à ce rythme, le temps de préparer ne manque jamais. Il faudrait le remesurer contre une règle qui attaque.
+- **Le placement et l'attaque paient peu contre un joueur qui renvoie au centre** : à peine plus de 2 points, de chaque côté de 50 %. R0 perd surtout sur ses propres balles au filet (911 sur 1 235).
+- **Les règles ne sont pas transitives.** R3 prend 67,7 % à R2 mais 52,3 % à R0, et R1 prend 52,1 % à R0 : R2 et R1 souffrent contre le lift, là où le centre résiste. C'est le risque annoncé pour l'autojeu : une variante se juge contre un panel, pas contre une seule règle (`modele.md`, § 8).
+- **R3 reste la barre de la première recherche**, de peu, puisqu'elle bat directement toutes les autres, sauf R4, à égalité statistique.
+- **R2 ne fait rien** : à ce rythme, le temps de préparer ne manque jamais.
 - **R4 ne bat pas R3** : le bloc ne rapporte rien ici, l'intervalle contient 50 %. Contre R0, R4 et R3 jouent exactement pareil : la balle n'est jamais assez rapide.
-- **R5 ne joue presque jamais son coup** : une graine sur 1 200 diffère. Personne ne recule à 1,5 m dans ces échanges. La règle n'est donc pas mesurée, et le coup de Sami reste à éprouver, à la souris ou dans la recherche.
-- **R3 contre R3 tient 4,9 coups**, dans les 4 à 5 attendus (Glynn), sans que rien ait été réglé pour cela : c'est une vérification, pas un ajustement. **Le serveur y gagne 62 %**, à comparer quand le service aura un effet et une dispersion.
+- **R5 ne joue presque jamais son coup** : 3 graines sur 1 200 diffèrent. Personne ne recule à 1,5 m dans ces échanges. La règle n'est donc pas mesurée, et le coup de Sami reste à éprouver, à la souris ou dans la recherche.
+- **R3 contre R3 tient 5,5 coups**, près des 4 à 5 attendus (Glynn), sans que rien ait été réglé pour cela. **Le serveur y gagne 62 %**, à comparer quand le service aura un effet et une dispersion.
 
 **Ce que le garde-fou a changé.** R1, à 20 cm des lignes et avec 3° de chaque côté, prenait 12,5 % des points contre R0 sur 400 graines, presque tout en balles hors table. Trois causes, 100 à 150 graines par essai :
 
@@ -349,7 +354,7 @@ Ce qu'il faut en lire :
 | Lift au centre (0,9 ; 0), ×2 | 56,0 % |
 | Lift sur le côté (0,9 ; 0,45), ×2 | 61,5 % |
 
-La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table de 76 cm de demi-largeur : **viser le côté ne valait jamais son risque.** Elle passe à 1,5° (H), ce qui laisse 22 cm en longueur. Une balle en bout de bras se joue désormais moins bien (H), sans quoi être débordé ne coûtait rien. Les duels que Sami a validés bougent à peine : 47,4 → 47,1, 16,1 → 16,0, 36,2 → 36,4 coups. Ces écarts longitudinal et latéral sont à faire valider (Q-P1).
+La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table de 76 cm de demi-largeur : **viser le côté ne valait jamais son risque.** Elle passe à 1,5° (H), ce qui laisse 22 cm en longueur. Une balle en bout de bras se joue désormais moins bien (H), sans quoi être débordé ne coûtait rien. Les duels que Sami a validés bougent à peine, avec aussi la frappe plus tôt : R0 47,4 → 47,1, top contre bloc 16,1 → 16,6, poussettes 36,2 → 36,4 coups. Ces écarts longitudinal et latéral sont à faire valider (Q-P1).
 
 **Un premier signal pour R1, avant correction** (J4). Un joueur à la souris qui ne bouge jamais et vise un seul endroit, 400 points contre R0 à 100 % de dispersion :
 

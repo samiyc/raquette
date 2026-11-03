@@ -1,5 +1,5 @@
 import { streamOf } from "mcts-commun/random.js";
-import { STEP, TABLE, X, Y } from "./ball/constants.js";
+import { STEP, TABLE, VX, X, Y } from "./ball/constants.js";
 import { createBall } from "./ball/flight.js";
 import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
@@ -135,16 +135,34 @@ function play(state, who, plan) {
   if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched }, state);
 }
 
-/** From the planned instant on, the stroke is played as soon as the ball is within the arm's sector, until the rally ends. */
+const nextBall = new Float64Array(3);
+
+/** Will a ball that has bounced leave the arm's sector at the next step? A player takes it now rather than let it pass. */
+function leavingReach(state, seat, body) {
+  if (state.bounces === 0 || state.ownBounce) return false;
+  for (let i = 0; i < 3; i += 1) nextBall[i] = state.ball[i] + state.ball[VX + i] * STEP;
+  return reachOf(body, nextBall, seat.side, seat.profile) !== OK;
+}
+
+/**
+ * From the planned instant on, the stroke is played as soon as the ball is within the arm's sector, until the rally ends. Before
+ * it, only if the ball is about to pass out of reach: the plan was made from a standing start, and a body may come late.
+ */
 function tryContact(state, who) {
   const plan = state.plans[who];
-  if (!plan || plan.at > state.tick) return;
+  if (!plan) return;
   const seat = state.seats[who];
-  const reach = reachOf(state.bodies[who], state.ball, seat.side, seat.profile);
-  if (reach !== OK) {
-    if (state.missed !== BEHIND) state.missed = reach;
-    return;
-  }
+  const body = state.bodies[who];
+  const reach = reachOf(body, state.ball, seat.side, seat.profile);
+  if (plan.at > state.tick && !(reach === OK && leavingReach(state, seat, body))) return;
+  if (reach === OK) strikeNow(state, who, plan);
+  else if (state.missed !== BEHIND) state.missed = reach;
+}
+
+/** The stroke is played, and the other player hears it. */
+function strikeNow(state, who, plan) {
+  const seat = state.seats[who];
+  plan.at = Math.min(plan.at, state.tick);
   state.plans[who] = null;
   play(state, who, plan);
   state.striker = who;
