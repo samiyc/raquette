@@ -301,8 +301,9 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 - **Sami comme juge extérieur** : ses parties à la souris sont, avec l'entraîneur, le seul adversaire qui ne vient pas de la
   lignée (Q-P17, Q-P18).
 
-**Ce que l'autojeu apprend** reste à trancher à J7. Recommandation : les poids de la note, d'abord par ablation, puis réglés
-automatiquement ; pas de réseau de neurones au départ.
+**Ce que l'autojeu apprend d'abord : les nombres de la règle d'attaque** (`src/rules/tunable.js`, 3/11/2026), onze nombres que R3 fixe à la main : profondeurs, largeurs, vitesses, brossages, la hauteur à partir de laquelle on attaque, le recul entre deux coups. La règle joue vite, donc des milliers de points par variante, et c'est elle qui sert de modèle à la recherche : une règle meilleure devrait améliorer la recherche sans y toucher, ce qui reste à mesurer. Les poids de la note viendront ensuite, si la note a encore des poids à régler ; pas de réseau de neurones au départ.
+
+**Comment** (`scripts/selfplay.js`, une série = un job de la file, historique dans `docs/selfplay/`) : à chaque génération, 8 variantes déplacent 1 à 3 nombres dans leurs bornes ; un crible de 150 graines contre la version en cours élimine ; les 2 meilleures sont confirmées sur 600 graines neuves, contre la version (bas de l'intervalle au-dessus de 50 %) et contre R0, R1 et R3 (au moins 50 % à chacun). **Tant de confirmations laissent passer des chanceuses** : la dernière version rejoue donc le panel sur 2 000 graines qu'aucune génération n'a vues, et seul ce chiffre compte. Le panel ne contient encore ni les versions gelées, ni les positions perdues contre Sami.
 
 **L'autojeu cherchera les failles de la physique**, comme le rappelle Sony. Les bornes du § 3 sont là pour ça, et les
 corrections résiduelles de Conti reviendraient si un robot gagnait dans une zone où le modèle est faux.
@@ -434,7 +435,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause, dont les deux rebonds d'un joueur reculé |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
 | **J5** | les mesures : R0 à R5 par paires | fait : R1 bat R0 (52,1 %) ; R3 contre R3 tient 5,5 coups |
-| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | S bat R3 (54,9 %) et R0 (62,0 %) ; 8 tirages battent 4 (53,1 %), mais 4 fois le budget ne bat pas S (51,0 %, intervalle de 48,0 à 54,0 %) ; Sami a joué contre elle. Reste 0 collection par décision, pas tenu |
+| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | S bat R3 (59,8 %) et R0 (64,0 %) à 8 tirages et avec le choix du service (52,9 %) ; ni 16 tirages, ni 4 fois le budget ne la battent ; Sami a joué contre elle. Reste 0 collection par décision, pas tenu |
 | **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 

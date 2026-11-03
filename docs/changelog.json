@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.13.0",
+      "title": "L'autojeu : une règle dont les nombres bougent",
+      "date": "3/11/2026",
+      "items": [
+        "R3 a maintenant ses nombres en clair : les variantes les déplacent dans des bornes, et une variante n'est gardée que si elle bat sa version et ne perd contre aucune règle du panel.",
+        "La dernière version rejoue le panel sur des graines qu'aucune génération n'a vues : c'est ce chiffre qui compte."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.12.0",
       "title": "La recherche choisit son service, et note sur 8 tirages",
       "date": "3/11/2026",
@@ -49,7 +59,9 @@
       "version": "0.8.2",
       "title": "Une recherche 3,5 fois plus rapide",
       "date": "3/11/2026",
-      "items": ["La visée essaie ses vols à 60 Hz et ne vérifie que le dernier à 240 Hz : 129 µs au lieu de 316, et une décision de la recherche passe de 173 à 49 ms en médiane."],
+      "items": [
+        "La visée essaie ses vols à 60 Hz et ne vérifie que le dernier à 240 Hz : 129 µs au lieu de 316, et une décision de la recherche passe de 173 à 49 ms en médiane."
+      ],
       "commits": []
     },
     {
@@ -143,7 +155,9 @@
       "version": "0.3.1",
       "title": "Trois duels de référence",
       "date": "3/11/2026",
-      "items": ["R0 contre R0, top contre bloc et poussette contre poussette, que Sami a validés, sont gardés : un test refuse un changement qui les éloigne de ce qu'il a vu."],
+      "items": [
+        "R0 contre R0, top contre bloc et poussette contre poussette, que Sami a validés, sont gardés : un test refuse un changement qui les éloigne de ce qu'il a vu."
+      ],
       "commits": []
     },
     {
@@ -190,7 +204,9 @@
         "La page : une balle lancée à la main, ses couleurs d'effet, sa taille et son ombre pour la hauteur, un bandeau de profil, la lecture au ralenti et pas à pas.",
         "Pas encore de joueur, de règle ni de recherche."
       ],
-      "commits": ["8014bf1"]
+      "commits": [
+        "8014bf1"
+      ]
     }
   ]
 }

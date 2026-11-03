@@ -455,6 +455,33 @@ La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table d
 - **Les tirages paient, le budget non.** Plus d'essais sur 4 tirages ne rapportent rien de net. Le gain de 61,8 % mesuré plus tôt à 4 fois le budget n'a pas tenu sur le dernier modèle. Une explication possible, non vérifiée : avec peu de tirages, plus d'essais choisissent surtout le plus chanceux.
 - **Ce que joue l'escalade** (replays, 7 449 frappes contre R3) : élévation surtout de 0 à 30°, 56 % de lift au-delà de 50 tr/s, 26 % de coupé au-delà de 20 tr/s, et 0,8 % de balles à plus de 45°, sans trace de la chandelle d'avant. Sa cible va surtout à mi-table ou à 90-110 cm, sur le côté.
 
+**La recherche avec 8 tirages et le choix de son service** (3/11/2026, commit `87c71c6`, à partir de la graine 1 000 000) :
+
+| Duel | Graines | Part du premier | Intervalle à 95 % | Coups par échange |
+|---|---|---|---|---|
+| Recherche contre R3 | 1 200 | **59,8 %** | 58,0 à 61,6 % | 5,2 |
+| Recherche contre R0 | 1 200 | **64,0 %** | 62,2 à 65,8 % | 7,1 |
+| Avec le choix du service, contre sans | 800 | **52,9 %** | 50,6 à 55,2 % | 4,9 |
+| Escalade contre Monte-Carlo, tous deux à 8 tirages | 800 | 50,9 % | 48,6 à 53,2 % | 5,3 |
+| 96 essais contre 24 | 300 | 52,2 % | 48,7 à 55,6 % | 4,8 |
+| 16 tirages contre 8 | 400 | 49,3 % | 46,3 à 52,2 % | 5,3 |
+| 2 coups d'avance contre 4 | 800 | 48,3 % | 46,1 à 50,5 % | 5,4 |
+
+Les réglages plafonnent : ni plus de tirages, ni plus d'essais, ni moins d'avance ne rapportent nettement. L'escalade et le Monte-Carlo sont à égalité à 8 tirages (l'avance de 53,3 % était à 4 tirages) : **ce qui les sépare est surtout le bruit**.
+
+Ce qu'elle sert, contre R3 (1 200 services, tirés des replays) :
+
+| Service | Choisi | Points gagnés au service |
+|---|---|---|
+| Bombe | 862, **72 %** | 68,1 % |
+| Latéral | 145 | 66,2 % |
+| Pendule | 126 | 59,5 % |
+| Marteau | 31 | 54,8 % |
+| Mou | 24 | 58,3 % |
+| Coupé | 12 | 66,7 % |
+
+Ces chiffres sont biaisés : elle choisit chaque service quand il lui convient le mieux. R3, qui tire au hasard, gagne de 42,6 à 52,8 % à son service, la bombe en tête. **La bombe domine sans doute trop**, et rien de publié ne permet de le trancher (Q-P10). Sur les 5 bombes que Sami a reçues à la souris, il a perdu les 5 points, trop peu pour conclure.
+
 **Les règles, après la correction de R3** (3/11/2026, 1 200 graines à partir de 900 000, services variés) : R3 contre R0 56,0 % [54,1 ; 57,8], contre 51,5 % avant ; R3 contre R2 71,8 % [70,2 ; 73,4] ; R1 contre R0 51,4 % [50,2 ; 52,5] ; R4 contre R3 50,0 % [48,6 ; 51,3].
 
 **Les services, R3 contre R3** (1 200 graines par service) :

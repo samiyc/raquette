@@ -1,5 +1,6 @@
 import { RULES } from "./ladder.js";
 import { createSearch } from "./search.js";
+import { createTunable } from "./tunable.js";
 
 /**
  * The rules and searches by name, for the scripts and the page. A search's name says how it is set: `S` climbs, `MC` draws every plan
@@ -25,9 +26,11 @@ function settingsIn(parts) {
 /**
  * @param {string} name
  * @param {number} budget plans a stroke, for a search
+ * @param {Record<string, any>} [catalog] rules with their numbers (src/rules/tunable.js), for self-play
  * @returns {import("../types.js").Rule}
  */
-export function namedRule(name, budget) {
+export function namedRule(name, budget, catalog = {}) {
+  if (catalog[name]) return createTunable(catalog[name], name);
   const [base, ...parts] = name.split("-");
   if (SEARCHES[base]) return createSearch({ ...SEARCHES[base](budget), ...settingsIn(parts), name });
   if (RULES[name]) return RULES[name];
