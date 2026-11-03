@@ -9,7 +9,7 @@ import { codeOf, writeSeries } from "./lib/replay-files.js";
  * 100 000; a measure that counts is made above, on seeds no parameter has seen (docs/modele.md, § 6 and § 7). `--replays` keeps
  * every rally in replays/series/ for later analyses (docs/replays.md). A measure goes through the queue, as a job of several
  * threads: it plays on `MCTS_THREADS` threads, and the result does not depend on how many. `--service pendule` or `--service mix`
- * starts from a service of src/services.js; `--budget`, `--draws` and `--horizon` set a search.
+ * starts from a service of src/services.js; a name sets a search: `S-d8-h6-b96` (src/rules/named.js).
  */
 const args = process.argv.slice(2);
 const option = (name, fallback) => {
@@ -25,7 +25,6 @@ const text = (name) => {
   return at >= 0 ? args[at + 1] : undefined;
 };
 const serving = text("--service");
-const settings = { draws: option("--draws", 4), horizon: option("--horizon", 4) };
 const budget = option("--budget", 24);
 const from = option("--from", 0);
 const seeds = option("--seeds", 1200);
@@ -34,7 +33,7 @@ const replays = args.includes("--replays");
 const players = [nameA, nameB].map((name) => ({ rule: namedRule(name, budget), profile: CLUB_PLAYER }));
 const header = { ...replayHeader({ players }), code: codeOf(), from, seeds, args };
 
-const { report, lines } = await playOnThreads({ names: [nameA, nameB], budget, from, seeds, replays, serving, settings }, threads);
+const { report, lines } = await playOnThreads({ names: [nameA, nameB], budget, from, seeds, replays, serving }, threads);
 const { gap } = report;
 const partOf = (mean) => percent(0.5 + mean / 4);
 

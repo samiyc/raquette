@@ -18,7 +18,7 @@ export function batchesOf(from, seeds, size = BATCH) {
 }
 
 /**
- * @param {{names: string[], budget: number, from: number, seeds: number, replays: boolean, serving?: string, settings?: any}} match
+ * @param {{names: string[], budget: number, from: number, seeds: number, replays: boolean, serving?: string}} match
  * @param {number} threads
  * @returns {Promise<{report: any, lines: any[]}>}
  */

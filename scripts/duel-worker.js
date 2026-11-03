@@ -5,8 +5,8 @@ import { createRallyLog } from "../src/replay-log.js";
 import { namedRule } from "../src/rules/named.js";
 
 /** One thread of `scripts/duel.js`: it plays the batches of seeds it is given. */
-const { names, budget, replays, serving, settings } = workerData;
-const [a, b] = names.map((name) => namedRule(name, budget, settings));
+const { names, budget, replays, serving } = workerData;
+const [a, b] = names.map((name) => namedRule(name, budget));
 
 parentPort.on("message", ({ index, from, seeds }) => {
   const lines = [];

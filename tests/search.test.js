@@ -6,6 +6,7 @@ import { playRally } from "../src/rally.js";
 import { recordRally } from "../src/rally-recording.js";
 import { rollout, setUpRollout } from "../src/rollout.js";
 import { RULES } from "../src/rules/ladder.js";
+import { namedRule } from "../src/rules/named.js";
 import { createSearch } from "../src/rules/search.js";
 
 const both = (rule) => [{ rule, profile: CLUB_PLAYER }, { rule, profile: CLUB_PLAYER }];
@@ -60,6 +61,14 @@ describe("a rollout", () => {
       assert.ok(worth.reduce((sum, value) => sum + value, 0) <= 2, worth.join());
     });
     playRally({ seed: 1, players: both(rule), server: 0 });
+  });
+});
+
+describe("a search by name", () => {
+  it("takes its settings from its name, and keeps the name", () => {
+    assert.equal(namedRule("S-d2-h3-b6", 24).name, "S-d2-h3-b6");
+    assert.equal(namedRule("R3", 24), RULES.R3);
+    assert.throws(() => namedRule("X", 24), /inconnue/);
   });
 });
 

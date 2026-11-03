@@ -10,22 +10,29 @@ import { fileURLToPath } from "node:url";
 const BACKLOG = fileURLToPath(new URL("../../mcts-commun/bin/backlog.js", import.meta.url));
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const TAGS = fileURLToPath(new URL("../tmp/queue-j6.json", import.meta.url));
-const FROM = 700000;
+const FROM = 800000;
+
+const MIX = ["--service", "mix"];
 
 /** A, B, seeds, threads, estimate in minutes, and options. */
 const JOBS = [
-  ["S", "R3", 1200, 6, 8, "--replays"],
-  ["S", "R0", 1200, 6, 8],
-  ["MC", "R3", 1200, 6, 8],
-  ["S", "MC", 600, 6, 8],
-  ["S", "Sfull", 600, 6, 8],
-  ["MC", "MCfull", 600, 6, 8],
-  ["S4", "S", 300, 6, 8],
-  ["R1", "R0", 1200, 3, 4],
-  ["R3", "R0", 1200, 3, 4],
-  ["R3", "R2", 1200, 3, 4],
-  ["R4", "R3", 1200, 3, 4],
-  ["R5", "R4", 1200, 3, 4],
+  ["S", "MC", 1200, 6, 5, ...MIX],
+  ["S-b96", "MC-b96", 400, 6, 8, ...MIX],
+  ["S", "R3", 1200, 6, 5, ...MIX, "--replays"],
+  ["S", "R0", 1200, 6, 5, ...MIX],
+  ["MC", "R3", 1200, 6, 5, ...MIX],
+  ["S-b96", "S", 400, 6, 8, ...MIX],
+  ["S-d2", "S", 800, 6, 5, ...MIX],
+  ["S-d8", "S", 800, 6, 8, ...MIX],
+  ["S-h2", "S", 800, 6, 5, ...MIX],
+  ["S-h6", "S", 800, 6, 8, ...MIX],
+  ["R3", "R3", 1200, 3, 2, "--service", "pendule"],
+  ["R3", "R3", 1200, 3, 2, "--service", "marteau"],
+  ["R3", "R3", 1200, 3, 2, "--service", "mou"],
+  ["R3", "R3", 1200, 3, 2, "--service", "bombe"],
+  ["R3", "R3", 1200, 3, 2, "--service", "lateral"],
+  ["R3", "R0", 1200, 3, 2, ...MIX],
+  ["R1", "R0", 1200, 3, 2, ...MIX],
 ];
 
 // eslint-disable-next-line sonarjs/no-os-command-from-path -- a script of this machine, calling the queue's own command.
@@ -33,8 +40,8 @@ const backlog = (...args) => execFileSync("node", [BACKLOG, ...args], { encoding
 
 function add() {
   const tag = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
-  const ids = JOBS.map(([a, b, seeds, threads, minutes, ...extra]) => {
-    const id = `raquette-j6-${a}-${b}-${tag}`;
+  const ids = JOBS.map(([a, b, seeds, threads, minutes, ...extra], i) => {
+    const id = `raquette-j6-${a}-${b}-${i}-${tag}`;
     const command = ["node", "scripts/duel.js", a, b, "--seeds", String(seeds), "--from", String(FROM), ...extra];
     backlog("--add", id, "--cwd", ROOT, "--threads", String(threads), "--min-threads", String(Math.ceil(Number(threads) / 2)), "--estimate", `${minutes} min`, "--limit", "45", "--", ...command);
     return id;
