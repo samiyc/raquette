@@ -164,3 +164,27 @@ describe("what replays alike on every engine", () => {
     });
   }
 });
+
+describe("a stroke stays a stroke", () => {
+  // Slow balls out wide, from Sami's replays of 3/11/2026: the robot sent these up at 64° to 74°, up to 5 m over the net.
+  const WIDE_BALLS = [
+    { ball: [1.3416, -1.1639, 0.4397, 1.442, -1.6752, 0.0061, 146.0412, -39.9107, -931.6288], target: [-0.9, 0.45], speed: 10, brushUp: 10 },
+    { ball: [1.2991, 0.8729, 0.2546, 2.6459, 1.6054, -0.0206, -104.2055, 102.9327, 519.0698], target: [-0.685, 0], speed: 6.5, brushUp: 0 },
+    { ball: [1.3568, -0.8937, 0.2479, 3.4361, -1.2921, 0, 67.3615, 191.4996, -627.3894], target: [-0.685, 0], speed: 6.5, brushUp: 0 },
+  ];
+  const STEEPEST_DEGREES = 50.5;
+
+  for (const [i, { ball, target, speed, brushUp }] of WIDE_BALLS.entries()) {
+    it(`leaves under 50° on a slow ball out wide, ${i + 1}`, () => {
+      const start = Float64Array.from(ball);
+      const out = new Float64Array(3);
+      assert.ok(aim({ ball: start, forward: -1, target, swing: { speed, brushUp, brushSide: 0 } }, out));
+      const racket = new Float64Array(RACKET_SIZE);
+      const struck = start.slice();
+      poseRacket(racket, Float64Array.of(out[0], out[1], -1), { speed: out[2], brushUp, brushSide: 0 }, struck);
+      strike(struck, racket);
+      const angle = (Math.atan2(struck[VZ], Math.hypot(struck[VX], struck[VY])) * 180) / Math.PI;
+      assert.ok(angle < STEEPEST_DEGREES, `${angle.toFixed(0)}°`);
+    });
+  }
+});

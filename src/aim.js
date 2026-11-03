@@ -135,9 +135,14 @@ function confirmed(task, out, margin) {
   return miss < TOLERANCE && landed[2] >= margin;
 }
 
+/** Newton from the tilts in `out`: does it land there, no steeper than a stroke? */
+const landsAsAStroke = (task, out) => solveFrom(task, out) < TOLERANCE && leaving[0] <= STEEPEST;
+
 /**
  * A low flight at each speed in turn, from the wished one down, each starting from the solution of the speed before. The first with
- * room over the net is taken. Failing that, the first with a little room is kept, and tried at the end.
+ * room over the net is taken. Failing that, the first with a little room is kept, and tried at the end. A flight steeper than a stroke
+ * does not count: when a low ball cannot clear the net at this pace, Newton climbs to the high one, 66° on a slow ball out wide, up to
+ * 5 m over the net in Sami's replays (3/11/2026). A softer stroke starts low again.
  * @returns {boolean} whether one lands there
  */
 function softerFlights(task, out) {
@@ -146,7 +151,7 @@ function softerFlights(task, out) {
   for (const part of SOFTER) {
     current.speed = task.swing.speed * part;
     if (!warm) startLow(task, out);
-    warm = solveFrom(task, out) < TOLERANCE;
+    warm = landsAsAStroke(task, out);
     if (warm && landed[2] >= NET_MARGIN && confirmed(task, out, NET_MARGIN)) return true;
     if (warm) keepTight(out);
   }
