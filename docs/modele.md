@@ -378,7 +378,8 @@ passent des clics simulés. La page empêche le menu contextuel (`preventDefault
 - le contact se fait tout seul à partir du sommet du rebond, dès que la balle est dans le secteur ; une balle qui sort est laissée, comme le fait le robot.
 
 **Ce qui ne l'est pas : les limites sont celles du robot.** Réaction, vitesse, secteur et préparation restent les mêmes, et les
-clics comptent jusqu'au début de la préparation : la pause donne du temps pour réfléchir, pas pour courir. **La dispersion est
+clics comptent jusqu'au début de la préparation : la pause donne du temps pour réfléchir, pas pour courir. Avant le service, un clic gauche place le corps tout de suite : un joueur choisit où attendre (le robot, lui, attend toujours au même endroit).
+Chaque point attend d'être lancé ; Sami joue par courtes pauses, ajuste sa route et sa cible, et repart à la barre d'espace (3/11/2026). **La dispersion est
 celle du robot par défaut** (Sami, 2/11/2026), avec un curseur de 0 à 100 %, dont la valeur s'affiche à côté du score. Sans elle,
 Sami battrait le robot par sa précision, ce qui ne dirait rien des limites du robot. Un score à une autre valeur reste une
 exploration, pas une mesure.

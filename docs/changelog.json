@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.4.1",
+      "title": "Se placer et viser avant de lancer le point",
+      "date": "3/11/2026",
+      "items": [
+        "Chaque point attend la barre d'espace : on se place et on vise d'abord.",
+        "La destination se voit toujours : un carré plus grand que le corps, au bout d'un trajet en pointillés, même pendant la réaction."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.4.0",
       "title": "Jouer à la souris contre R0",
       "date": "3/11/2026",

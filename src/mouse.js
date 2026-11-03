@@ -1,6 +1,6 @@
 import { TABLE } from "./ball/constants.js";
 import { topStep } from "./forecast.js";
-import { GOAL_X, GOAL_Y, setGoal } from "./player.js";
+import { GOAL_X, GOAL_Y, placeBody, setGoal } from "./player.js";
 import { R0_SWING } from "./rules/center.js";
 
 /**
@@ -63,9 +63,15 @@ export function createMouseRule(aim) {
 
 export const firstAim = (forward) => [forward * CENTRE, 0];
 
+/** Where the body is going, a move waiting for the end of the reaction first: what the page shows. */
+export function destinationOf(rule, body) {
+  return rule.waiting ?? [body[GOAL_X], body[GOAL_Y]];
+}
+
 /**
- * Applies a click to a rally under way, at its current step. A move during the reaction waits for its end: the pause gives time
- * to think, not to run. An aim counts until the preparation of the stroke starts.
+ * Applies a click to a rally, at its current step. Before the service, a move places the body at once: a player chooses where
+ * to wait. Then a move during the reaction waits for its end: the pause gives time to think, not to run. An aim counts until the
+ * preparation of the stroke starts.
  * @param {any} state the rally
  * @param {{rule: ReturnType<typeof createMouseRule>, who: number}} player
  * @param {{moveTo?: number[], aimAt?: number[]}} order
@@ -74,7 +80,8 @@ export const firstAim = (forward) => [forward * CENTRE, 0];
 export function applyOrder(state, { rule, who }, order) {
   const seat = state.seats[who];
   if (order.moveTo) {
-    if (state.tick < state.decideAt[who]) rule.waiting = order.moveTo;
+    if (state.tick === 0) placeBody(state.bodies[who], order.moveTo, seat);
+    else if (state.tick < state.decideAt[who]) rule.waiting = order.moveTo;
     else setGoal(state.bodies[who], order.moveTo, seat);
     return true;
   }

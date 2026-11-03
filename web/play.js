@@ -3,8 +3,8 @@ import { BALL_SIZE } from "../src/ball/constants.js";
 import {
   clickPoint, closePoint, createGame, nextPoint, pointOver, positionOf, runToEvent, stepPoint, stepsFor, winnerOf,
 } from "../src/game.js";
-import { orderOf } from "../src/mouse.js";
-import { GOAL_X, GOAL_Y } from "../src/player.js";
+import { destinationOf, orderOf } from "../src/mouse.js";
+import { BX, BY } from "../src/player.js";
 import { drawOrders, drawScene } from "./draw.js";
 import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
@@ -35,7 +35,8 @@ function render() {
   context.setTransform(canvas.width / layout.width, 0, 0, canvas.width / layout.width, 0, 0);
   drawScene(context, layout, recording, recording.steps);
   const body = live.point.state.bodies[0];
-  drawOrders(context, layout, { aim: live.point.rule.aim, goal: [body[GOAL_X], body[GOAL_Y]], scatter: live.point.scatter });
+  const goal = destinationOf(live.point.rule, body);
+  drawOrders(context, layout, { aim: live.point.rule.aim, goal, body: [body[BX], body[BY]], scatter: live.point.scatter });
   byId("frame").textContent = frameText(recording, recording.steps, BALL_SIZE);
 }
 
@@ -48,7 +49,9 @@ function resize() {
   render();
 }
 
+/** The next game takes the next seed: the same seed would draw the same scatter again. */
 function endOfGameText(winner) {
+  input("seed").value = String(live.game.seed + live.game.played);
   return winner === 0 ? "Manche gagnée." : "Manche perdue.";
 }
 
@@ -111,8 +114,9 @@ function startPoint() {
   if (!live.game || winnerOf(live.game.score) >= 0) return;
   live.game.scatter = scatterNow();
   live.point = nextPoint(live.game);
-  byId("events").textContent = live.point.server === 0 ? "Vous servez." : "Le robot sert.";
-  setRunning(true);
+  const who = live.point.server === 0 ? "Vous servez" : "Le robot sert";
+  byId("events").textContent = `${who} : placez-vous, visez, puis espace.`;
+  setRunning(false);
 }
 
 function newGame() {
@@ -165,14 +169,22 @@ const toEvent = () => stepOnce(() => runToEvent(live.point));
 const KEYS = { " ": togglePlay, ".": oneFrame, n: toEvent, "+": () => faster(1), "-": () => faster(-1) };
 
 function onKey(event) {
-  if (event.target instanceof HTMLInputElement && event.target.type === "number") return;
+  if (event.target === input("seed")) return;
   const action = KEYS[event.key];
   if (!action) return;
   event.preventDefault();
   action();
 }
 
+/** A button keeps no focus: the space bar is the game's, and would press it again. */
+function letGoOfButtons() {
+  document.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLButtonElement || event.target instanceof HTMLInputElement) event.target.blur();
+  });
+}
+
 function wire() {
+  letGoOfButtons();
   byId("next").addEventListener("click", startPoint);
   byId("new").addEventListener("click", newGame);
   byId("play").addEventListener("click", togglePlay);
@@ -191,5 +203,3 @@ function wire() {
 wire();
 newGame();
 resize();
-setRunning(false);
-byId("events").textContent = "Cliquez pour vous placer et viser, puis lancez le point (espace).";

@@ -156,10 +156,11 @@ function drawPlayers(ctx, layout, recording, index) {
 }
 
 /**
- * What the player asked: where it goes, and where it aims, with a circle of the scatter to expect. The radius comes from a stroke
+ * What the player asked: where it aims, with a circle of the scatter to expect, and where it goes, a square at the end of a route.
+ * The square is larger than the body, so that it shows once the body has got there. The radius comes from a stroke
  * on an easy ball, 16 cm in median at 100 % (docs/recherche/chiffres.md, § 8).
  */
-export function drawOrders(ctx, layout, { aim, goal, scatter }) {
+export function drawOrders(ctx, layout, { aim, goal, body, scatter }) {
   const [ax, ay] = topPoint(layout, aim[0], aim[1]);
   ctx.strokeStyle = COLORS.lift;
   ctx.lineWidth = 2;
@@ -170,9 +171,13 @@ export function drawOrders(ctx, layout, { aim, goal, scatter }) {
   ctx.arc(ax, ay, Math.max(2, EASY_SCATTER * scatter * layout.scale), 0, 2 * Math.PI);
   ctx.stroke();
   const [gx, gy] = topPoint(layout, goal[0], goal[1]);
-  ctx.strokeStyle = COLORS.line;
-  ctx.lineWidth = 2;
-  ctx.strokeRect(gx - 5, gy - 5, 10, 10);
+  ctx.strokeStyle = COLORS.lift;
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([5, 4]);
+  line(ctx, topPoint(layout, body[0], body[1]), [gx, gy]);
+  ctx.setLineDash([]);
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(gx - 9, gy - 9, 18, 18);
 }
 
 /** The whole view at one frame. */

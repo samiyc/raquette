@@ -4,7 +4,7 @@ import { CLUB_PLAYER, BX, BY } from "../src/player.js";
 import {
   clickPoint, closePoint, createGame, createPoint, mouseProfile, nextPoint, pointOver, positionOf, replayPoint, runToEvent, serverOf, stepPoint, stepsFor, winnerOf,
 } from "../src/game.js";
-import { firstAim, orderOf } from "../src/mouse.js";
+import { destinationOf, firstAim, orderOf } from "../src/mouse.js";
 import { layoutFor, topPoint } from "../web/scale.js";
 
 const layout = layoutFor(960);
@@ -62,6 +62,7 @@ describe("a point at the mouse", () => {
 
   it("moves the body to the left click, at the robot's speed", () => {
     const point = createPoint({ seed: 3, server: 0, scatter: 1 });
+    stepPoint(point);
     clickPoint(point, { moveTo: [-2.5, 0.8] });
     const body = point.state.bodies[0];
     stepPoint(point);
@@ -71,14 +72,34 @@ describe("a point at the mouse", () => {
     assert.ok(Math.sqrt((body[BX] + 1.87) ** 2 + body[BY] ** 2) <= 3 + 1e-9);
   });
 
+  it("places the body at once before the service: a player chooses where to wait", () => {
+    const point = createPoint({ seed: 3, server: 1, scatter: 1 });
+    clickPoint(point, { moveTo: [-2.2, 0.4] });
+    const body = point.state.bodies[0];
+    assert.deepEqual([body[BX], body[BY]], [-2.2, 0.4]);
+    stepPoint(point);
+    assert.ok(Math.abs(body[BX] + 2.2) < 1e-9 && Math.abs(body[BY] - 0.4) < 1e-9);
+  });
+
   it("makes a move during the reaction wait for its end: the pause gives time to think, not to run", () => {
     const point = createPoint({ seed: 3, server: 1, scatter: 1 });
     const body = point.state.bodies[0];
+    stepPoint(point);
     clickPoint(point, { moveTo: [-1.87, 1.5] });
-    for (let i = 0; i < 47; i += 1) stepPoint(point);
+    for (let i = 0; i < 46; i += 1) stepPoint(point);
     assert.equal(body[BY], 0);
     for (let i = 0; i < 30; i += 1) stepPoint(point);
     assert.ok(body[BY] > 0, `${body[BY]}`);
+  });
+
+  it("shows the destination even while the move waits, then where the body is going", () => {
+    const point = createPoint({ seed: 3, server: 1, scatter: 1 });
+    const body = point.state.bodies[0];
+    stepPoint(point);
+    clickPoint(point, { moveTo: [-2.5, 1] });
+    assert.deepEqual(destinationOf(point.rule, body), [-2.5, 1]);
+    for (let i = 0; i < 60; i += 1) stepPoint(point);
+    assert.deepEqual(destinationOf(point.rule, body), [-2.5, 1]);
   });
 
   it("takes an aim until the preparation starts, and not after", () => {

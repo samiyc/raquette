@@ -63,6 +63,13 @@ export function setGoal(body, target, sideAndProfile) {
   body[GOAL_Y] = place[1];
 }
 
+/** Puts a body at a place at once, at rest: where a player waits before the service. */
+export function placeBody(body, target, sideAndProfile) {
+  setGoal(body, target, sideAndProfile);
+  body[BX] = body[GOAL_X];
+  body[BY] = body[GOAL_Y];
+}
+
 /**
  * The stand a body may reach for a point of the plane, off the table: a test for a stroke, and what the body would do.
  * @returns {number[]} x, y
