@@ -225,6 +225,25 @@ Le même article cite 52,78 % (hommes) et 53,28 % (femmes) de points gagnés au 
 | Tactique élite, chaîne de Markov sur 152 manches | le long du revers et le lift pèsent le plus | [[pfeiffer]] | E |
 | Un modèle de chaîne de Markov sur 259 manches | les longs échanges pèsent le plus ; effets du jeu risqué | [[wenninger]] | E |
 
+**Se déplacer sur le côté, d'autres sports de raquette** (Sami, 3/11/2026 : chercher au tennis et au badminton). Rien de mesuré au ping-pong ; le meilleur repère est [[vuong]] : 22 athlètes de haut niveau, de sports collectifs et de raquette, partant de côté au maximum, au signal lumineux, temps de réaction ôté.
+
+| Premier pas | 25 cm | 50 cm | 1 m | 5 m | Statut |
+|---|---:|---:|---:|---:|---|
+| Contre-pas | 0,20 s | 0,28 à 0,31 s | 0,43 à 0,44 s | 1,21 s | L [[vuong]] |
+| Pas de gravité | 0,19 à 0,20 s | 0,34 s | 0,50 s | 1,29 à 1,31 s | L [[vuong]] |
+| Pas d'appel | 0,14 s | 0,25 à 0,27 s | 0,40 s | 1,24 à 1,25 s | L [[vuong]] |
+| Pivot | 0,17 à 0,18 s | 0,27 à 0,28 s | 0,43 à 0,45 s | 1,26 à 1,27 s | L [[vuong]] |
+| **Moyenne des quatre** | **0,18 s** | **0,29 s** | **0,44 s** | **1,26 s** | C |
+| Notre corps, 8 m/s², 3 m/s | 0,25 s | 0,35 s | 0,52 s | 1,85 s | C |
+| Notre corps, 12 m/s², 3 m/s | 0,20 s | 0,29 s | 0,46 s | 1,79 s | C |
+| Notre corps, 14 m/s², 3 m/s | 0,19 s | 0,27 s | 0,44 s | 1,77 s | C |
+| Notre corps, 16 m/s², 3 m/s | 0,18 s | 0,26 s | 0,43 s | 1,76 s | C |
+| Notre corps, 14 m/s², 4 m/s | 0,19 s | 0,27 s | 0,39 s | 1,39 s | C |
+
+Jusqu'à un mètre, 14 m/s² colle le mieux (écart moyen 13 ms, 71 ms à 8 m/s², 21 ms à 16 m/s²), pour des athlètes de haut niveau qui savent quand partir ; un bon joueur de club serait un peu en dessous, vers 12. 8 m/s² était plus lent que les quatre pas à 25 cm et à 1 m. Sur 5 m, 3 m/s est trop lent de 0,5 s, ce qui compte peu autour d'une table. Leur temps de réaction au signal, 0,24 à 0,26 s (L [[vuong]]), est plus long que nos 0,20 s après la frappe adverse, mais un signal lumineux n'est pas une frappe qu'on voit venir.
+
+Pour situer le freinage : environ 9,0 m/s² de décélération et 9,9 m/s² d'accélération moyennes sur des changements de direction de joueurs de tennis (E [[decel]], attribution non vérifiée) ; un pic de force horizontale de 2,1 à 2,2 fois le poids sur un demi-tour de basketteuses de l'équipe nationale japonaise, soit un pic de l'ordre de 20 m/s² (E [[basket]], C). Une moyenne autour de 10 et un pic autour de 20 encadrent nos 12 à 16. Les joueurs du haut du classement de l'Open d'Australie freinent et accélèrent plus fort sur leurs déplacements latéraux (d de 0,25 à 0,63 ; R [[armstrong]], sans valeur absolue lue). Au badminton, seuls des pics de tronc (plus de 4 g, chocs compris) ont été trouvés : rien de comparable à une accélération de déplacement.
+
 **Rien n'a été trouvé** sur le temps de réaction d'un pongiste en chiffres, sa vitesse de déplacement, sa portée, la
 vitesse de sa raquette ni **la dispersion de ses frappes** : c'est le trou principal (§ 7 du modèle, Q-P1 à Q-P7). Une
 étude espagnole sur 116 joueurs relie temps de réaction et de déplacement au classement [[rt]] (**E**), sans chiffre lu.
@@ -594,7 +613,7 @@ Le serveur décalé n'a pas regagné le milieu au retour. T en profite deux fois
 
 Changer le modèle suffit : contre R3, la recherche passe de 64,5 % à 71,9 %, et elle bat maintenant T, qui la battait à 68,8 %. Mais les échanges raccourcissent, et S perd 1 105 points sur 1 636 sur des balles non atteintes contre S-mT. Le serveur tombe à 40 % : le jeu se réduit à un retour large et gagnant. Le gain est réel dans le modèle ; rien ne dit encore qu'il le serait contre un humain.
 
-**L'accélération du corps** (Sami, 3/11/2026 : « beaucoup d'inertie en partant sur les côtés »). Sur ses 33 points en 0.16.0, il laisse passer 4 balles sur 38 quand il est à moins de 25 cm du milieu au moment de la frappe adverse, et 6 sur 14 au-delà de 25 cm (balles tombées sur la table seulement). Aucune mesure de l'accélération d'un pongiste n'a été trouvée : le chiffre reste une hypothèse, réglée sur le ressenti de Sami et ceci (1 400 échanges par ligne, ±2,6 points, sur le corps de 0.16.0 et la visée corrigée) :
+**L'accélération du corps** (Sami, 3/11/2026 : « beaucoup d'inertie en partant sur les côtés » ; repères mesurés au § 6, qui favorisent 12 à 14 m/s²). Sur ses 33 points en 0.16.0, il laisse passer 4 balles sur 38 quand il est à moins de 25 cm du milieu au moment de la frappe adverse, et 6 sur 14 au-delà de 25 cm (balles tombées sur la table seulement). Aucune mesure de l'accélération d'un pongiste n'a été trouvée : le chiffre a d'abord été réglé sur le ressenti de Sami et ceci (1 400 échanges par ligne, ±2,6 points, sur le corps de 0.16.0 et la visée corrigée) :
 
 | Accélération | Duel | Part du premier | Coups | Fini au 1er retour | Part du serveur | Pas atteint |
 |---:|---|---:|---:|---:|---:|---:|
@@ -674,5 +693,9 @@ Changer le modèle suffit : contre R3, la recherche passe de 64,5 % à 71,9 %, e
 | [[rt]] | étude sur 116 joueurs espagnols, *Int. J. Performance Analysis in Sport* 19(4), 2019 |
 | [[dambrosio]] | D'Ambrosio et al., *Achieving Human Level Competitive Robot Table Tennis*, arXiv 2408.03906, 2024 |
 | [[presse-ace]] | un reportage parmi d'autres sur Ace, avril 2026 |
+| [[vuong]] | Vuong et al., *Effectiveness and Kinematic Analysis of Initial Step Patterns for Multidirectional Acceleration in Team and Racquet Sports*, *Journal of Human Kinetics* 85, 2022 |
+| [[armstrong]] | Armstrong et al., *Lateral End-Range Movement Profile and Shot Effectiveness During Grand Slam Tennis Match-Play*, *European Journal of Sport Science* 25(2), 2025 |
+| [[decel]] | *Efficient Deceleration: The Forgotten Factor in Tennis-Specific Training*, vu en extrait seulement |
+| [[basket]] | *Relationship between ground reaction force and sacrum acceleration during 180° change of direction maneuvers in elite female basketball players*, PMC12935448, vu en extrait seulement |
 
 La manette a ses sources dans [`../modele.md`](../modele.md), § 10.
