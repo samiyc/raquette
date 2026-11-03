@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.10.0",
+      "title": "Les services et les effets latéraux",
+      "date": "3/11/2026",
+      "items": [
+        "Cinq services : pendule, marteau, mou, bombe, latéral. À la souris, ils se choisissent avant le point, et le clic droit dit de quel côté ils partent ; le robot en tire un au hasard.",
+        "Un coup latéral à la souris, et la recherche règle maintenant son brossage latéral."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.9.0",
       "title": "Voir la route de la balle, et un cercle de cible qui dit la vérité",
       "date": "3/11/2026",

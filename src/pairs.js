@@ -1,5 +1,6 @@
 import { paired } from "mcts-commun/measure.js";
 import { playRally } from "./rally.js";
+import { serviceOf } from "./services.js";
 
 /**
  * Two rules by pairs (docs/modele.md, § 7): a seed gives two rallies, A serving then B serving, with the same draws of scatter. A's
@@ -39,16 +40,18 @@ function playKept(options, log) {
 
 /**
  * The raw count of a run of seeds, to be put together with others by `mergePairs`.
- * @param {{a: import("./types.js").Rule, b: import("./types.js").Rule, profile: any, from?: number, seeds: number, log?: any}} match
- *   `log`, to keep the rallies (src/replay-log.js): `start(seed, server)` gives a rally's log, `end(line)` takes its line
+ * @param {{a: import("./types.js").Rule, b: import("./types.js").Rule, profile: any, from?: number, seeds: number, log?: any, serving?: string}} match
+ *   `log`, to keep the rallies (src/replay-log.js): `start(seed, server)` gives a rally's log, `end(line)` takes its line.
+ *   `serving`: a service of src/services.js, or `mix`; the long one otherwise
  */
-export function playSeeds({ a, b, profile, from = 0, seeds, log }) {
+export function playSeeds({ a, b, profile, from = 0, seeds, log, serving }) {
   const players = [{ rule: a, profile }, { rule: b, profile }];
   const count = { strokes: 0, rallies: 0, limits: 0, serverPoints: 0, lostByA: {}, lostByB: {} };
   const scoresA = [];
   const scoresB = [];
   for (let seed = from; seed < from + seeds; seed += 1) {
-    const play = (server) => tally(count, playKept({ seed, players, server }, log), server);
+    const service = serving ? serviceOf(seed, serving) : {};
+    const play = (server) => tally(count, playKept({ seed, players, server, ...service }, log), server);
     const points = play(0) + play(1);
     scoresA.push(points);
     scoresB.push(2 - points);

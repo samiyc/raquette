@@ -5,7 +5,8 @@ import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
 import { BEHIND, createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
-import { controlOf, farOf, rushOf, stretchOf } from "./scatter.js";
+import { controlOf, farOf, normalDraw, rushOf, stretchOf } from "./scatter.js";
+import { serviceBall } from "./services.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 
 /**
@@ -30,25 +31,19 @@ export const SERVICES = Object.freeze({
 });
 const SERVE_BEHIND = 0.1;
 
-function serve(side, service) {
+function serve(side, { service, seed, serviceY }) {
+  if (service.turn !== undefined) return serviceBall(side, service, { seed, y: serviceY });
   const x = side * (TABLE.halfLength + SERVE_BEHIND);
   return createBall([x, 0, service.height], [-side * service.ahead, 0, service.down], [0, -side * service.lift, 0]);
 }
 
-/** The normal draw, as a sum of uniforms: exact arithmetic, unlike Box-Muller's logarithm and cosine (docs/modele.md, § 3). */
-function normalDraw(rng) {
-  let sum = -6;
-  for (let i = 0; i < 12; i += 1) sum += rng.next();
-  return sum;
-}
-
 /** @param {RallyOptions} options */
-function createState({ seed, players, server, listener, service = SERVICES.long }) {
+function createState({ seed, players, server, listener, service = SERVICES.long, serviceY = 0 }) {
   const sides = [-1, 1];
   const seats = players.map((player, i) => ({ side: sides[i], profile: player.profile, rule: player.rule }));
   return {
     seed, seats, server, listener,
-    ball: serve(sides[server], service),
+    ball: serve(sides[server], { service, seed, serviceY }),
     contact: new Float64Array(3),
     bodies: seats.map((seat) => createBody(seat.side, seat.profile)),
     striker: server,

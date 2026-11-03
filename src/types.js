@@ -29,6 +29,7 @@
  * @property {number} speed how fast the ball is to leave along the racket's normal, m/s
  * @property {number} brushUp the racket's speed along its face, m/s: up for a lift, down for a backspin
  * @property {number} brushSide the racket's speed across its face, m/s
+ * @property {boolean} [sideways] a side stroke: at the mouse, its brush turns towards the side aimed at
  *
  * @typedef {object} AimTask A stroke to aim.
  * @property {Float64Array} ball as it comes to the racket
@@ -73,7 +74,8 @@
  * @property {{rule: Rule, profile: Profile}[]} players the first plays from x < 0, the second from x > 0
  * @property {number} server 0 or 1
  * @property {RallyListener} [listener]
- * @property {{height: number, ahead: number, down: number, lift: number}} [service] the long one by default
+ * @property {any} [service] the long one by default; or one of src/services.js
+ * @property {number} [serviceY] where a service of src/services.js is sent across the table, in the server's own frame
  *
  * @typedef {"net" | "out" | "twoBounces" | "notReached" | "behind" | "limit"} Cause
  *

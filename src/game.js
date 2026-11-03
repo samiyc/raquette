@@ -5,6 +5,7 @@ import { createRecorder } from "./rally-recording.js";
 import { startRally, stepRally } from "./rally.js";
 import { bothListeners, createRallyLog, localTimestamp, replayHeader } from "./replay-log.js";
 import { namedRule } from "./rules/named.js";
+import { serviceOf, SERVICE_KINDS } from "./services.js";
 import { aboutToDecide, createRemoteRule, snapshotOf } from "./remote.js";
 
 /**
@@ -51,19 +52,22 @@ export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD), ro
     },
   };
   const listener = bothListeners(bothListeners(recorder.listener, log.listener), watch);
+  const serving = server === MOUSE ? { service: SERVICE_KINDS[rule.service], serviceY: FORWARD * aim[1] } : serviceOf(seed);
   const robotRule = createRemoteRule(namedRule(robot, PAGE_BUDGET));
   const players = [{ rule, profile: mouseProfile(scatter) }, { rule: robotRule, profile: CLUB_PLAYER }];
   point.robotRule = robotRule;
   point.log = log;
   point.players = players;
-  point.state = startRally({ seed, players, server, listener });
+  point.state = startRally({ seed, players, server, listener, ...serving });
   return point;
 }
 
 /** A click on a point: it counts from this step, and is kept for the replay. */
 export function clickPoint(point, order) {
   point.orders.push({ tick: point.state.tick, ...order });
-  return applyOrder(point.state, { rule: point.rule, who: MOUSE }, order);
+  const taken = applyOrder(point.state, { rule: point.rule, who: MOUSE }, order);
+  if (point.state.tick === 0) point.recorder.recording.frames.set(point.state.ball);
+  return taken;
 }
 
 export const pointOver = (point) => point.state.result !== null;

@@ -1,5 +1,6 @@
 import { TABLE } from "./ball/constants.js";
 import { GOAL_X, GOAL_Y, placeBody, setGoal } from "./player.js";
+import { serviceBall, SERVICE_KINDS } from "./services.js";
 import { contactStep, STROKE_KINDS } from "./strokes.js";
 
 /**
@@ -45,6 +46,7 @@ export function createMouseRule(aim) {
     /** @type {number[] | null} a move asked during the reaction, which starts when it ends */
     waiting: null,
     stroke: "flat",
+    service: "pendule",
     /** The swing of the stroke picked, kept in place: a plan made before a pick plays it all the same. */
     swing: { ...STROKE_KINDS.flat.swing },
     /** @param {import("./types.js").View} view */
@@ -77,11 +79,12 @@ export function destinationOf(rule, body) {
  * preparation of the stroke starts.
  * @param {any} state the rally
  * @param {{rule: ReturnType<typeof createMouseRule>, who: number}} player
- * @param {{moveTo?: number[], aimAt?: number[], stroke?: string}} order
+ * @param {{moveTo?: number[], aimAt?: number[], stroke?: string, service?: string}} order
  * @returns {boolean} whether it was taken
  */
 export function applyOrder(state, { rule, who }, order) {
   const seat = state.seats[who];
+  if (order.service) return serviceOrder(state, { rule, who }, order.service);
   if (order.moveTo) {
     moveOrder(state, { rule, who, seat }, order.moveTo);
     return true;
@@ -89,7 +92,10 @@ export function applyOrder(state, { rule, who }, order) {
   const plan = state.plans[who];
   if (plan && state.tick >= plan.at - Math.round(seat.profile.preparation * 240)) return false;
   if (order.stroke) pickStroke(rule, order.stroke);
-  else setAim(rule, order.aimAt);
+  else {
+    setAim(rule, order.aimAt);
+    if (canServe(state, who)) relaunch(state, { rule, who });
+  }
   return true;
 }
 
@@ -104,8 +110,26 @@ function setAim(rule, at) {
   rule.aim[1] = at[1];
 }
 
-/** The stroke of the next ball. */
+/** The stroke of the next ball. A side stroke brushes towards the side aimed at. */
 function pickStroke(rule, key) {
+  const { swing } = STROKE_KINDS[key];
   rule.stroke = key;
-  Object.assign(rule.swing, STROKE_KINDS[key].swing);
+  Object.assign(rule.swing, swing);
+  if (swing.sideways && rule.aim[1] < 0) rule.swing.brushSide = -swing.brushSide;
+}
+
+/** The service sets off anew from where it stands: its kind, and where it is sent across the table. */
+function relaunch(state, { rule, who }) {
+  const { side } = state.seats[who];
+  state.ball.set(serviceBall(side, SERVICE_KINDS[rule.service], { seed: state.seed, y: -side * rule.aim[1] }));
+}
+
+/** Before the point, the server picks its service and where it goes. */
+const canServe = (state, who) => state.tick === 0 && state.server === who;
+
+function serviceOrder(state, player, key) {
+  if (!canServe(state, player.who)) return false;
+  player.rule.service = key;
+  relaunch(state, player);
+  return true;
 }

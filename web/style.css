@@ -34,5 +34,6 @@
 .summary { font-variant-numeric: tabular-nums; }
 #score { font-size: 1.4rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 #scatter { padding: 0; }
+#services button[aria-pressed="true"],
 #strokes button[aria-pressed="true"] { outline: 3px solid var(--accent); outline-offset: 1px; }
 #strokes button:disabled { opacity: 0.45; cursor: not-allowed; }

@@ -16,10 +16,11 @@ const SEARCHES = {
 /**
  * @param {string} name
  * @param {number} budget plans a stroke, for a search
+ * @param {{draws?: number, horizon?: number}} [settings] for a search, to measure them
  * @returns {import("../types.js").Rule}
  */
-export function namedRule(name, budget) {
-  if (SEARCHES[name]) return createSearch({ ...SEARCHES[name](budget), name });
+export function namedRule(name, budget, settings = {}) {
+  if (SEARCHES[name]) return createSearch({ ...SEARCHES[name](budget), ...settings, name });
   if (RULES[name]) return RULES[name];
   throw new Error(`règle inconnue : ${name}`);
 }

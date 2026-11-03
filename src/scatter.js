@@ -6,6 +6,13 @@ import { BX, BY } from "./player.js";
  * them are hypotheses, with their questions in docs/recherche/questions.md.
  */
 
+/** The normal draw, as a sum of uniforms: exact arithmetic, unlike Box-Muller's logarithm and cosine (docs/modele.md, § 3). */
+export function normalDraw(rng) {
+  let sum = -6;
+  for (let i = 0; i < 12; i += 1) sum += rng.next();
+  return sum;
+}
+
 /** Too little time to prepare: ×2 with none at all. */
 export function rushOf(seconds, profile) {
   if (seconds >= profile.preparation) return 1;

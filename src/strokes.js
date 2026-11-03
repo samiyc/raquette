@@ -46,6 +46,7 @@ export const STROKE_KINDS = Object.freeze({
     rise: DRILL_STROKES.block.rise,
     refuses: ({ speed }) => (speed < FAST_ENOUGH ? "balle trop lente" : null),
   },
+  side: { label: "Latéral", swing: { speed: 6, brushUp: 2, brushSide: 8, sideways: true } },
   short: { label: "Deux rebonds", swing: SHORT_SWING, depths: [0.35, 0.45, 0.55, 0.65, 0.75], refuses: ({ speed }) => tooFast(speed) },
   chop: {
     label: "Tchop",

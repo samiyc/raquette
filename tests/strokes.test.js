@@ -111,8 +111,9 @@ describe("the circle around the target", () => {
 
   it("grows the further from the table the ball is taken (Sami)", () => {
     const [near, far] = [fromRobot(), fromRobot()];
+    for (const point of [near, far]) point.state.ball.set([1.47, 0, 0.25, -7, 0, -1.5, 0, 0, 0]);
     clickPoint(near, { moveTo: [-1.87, 0] });
-    clickPoint(far, { moveTo: [-3.1, 0] });
+    clickPoint(far, { moveTo: [-2.7, 0] });
     assert.ok(missOfPoint(far) > missOfPoint(near), `${missOfPoint(far)} / ${missOfPoint(near)}`);
   });
 

@@ -11,7 +11,7 @@ import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
 import { createStepper } from "./play-steps.js";
 import { layoutFor } from "./scale.js";
-import { buildStrokes, showStrokes } from "./stroke-panel.js";
+import { buildServices, buildStrokes, showServices, showStrokes } from "./stroke-panel.js";
 
 /** The page of the game at the mouse: it listens and draws; what decides is in src/game.js and src/mouse.js. */
 const byId = (id) => document.getElementById(id);
@@ -34,6 +34,7 @@ function refreshStrokes() {
   const { rule, state } = live.point;
   const choices = strokeChoices(state, { who: 0, rule });
   showStrokes(byId("strokes"), choices, rule.stroke);
+  showServices(byId("services"), state.tick === 0 && state.server === 0, rule.service);
   readThePause(state, rule);
   const lost = choices[rule.stroke] !== null && rule.stroke !== "flat";
   if (lost && choices.flat === null) pick("flat");
@@ -45,6 +46,11 @@ function readThePause(state, rule) {
   live.contact = contact ? [contact.ball[0], contact.ball[1]] : null;
   live.path = ballPath(state);
   live.miss = expectedMiss(state, { who: 0, rule }) ?? live.miss;
+}
+
+function pickService(key) {
+  if (live.point && !live.point.closed) stepper.sendOrder({ service: key });
+  render();
 }
 
 function pick(key) {
@@ -241,6 +247,7 @@ function wire() {
   window.addEventListener("resize", resize);
 }
 
+buildServices(byId("services"), pickService);
 buildStrokes(byId("strokes"), pick);
 wire();
 newGame();

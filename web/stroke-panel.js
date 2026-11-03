@@ -1,6 +1,24 @@
+import { SERVICE_KINDS } from "../src/services.js";
 import { STROKE_KINDS } from "../src/strokes.js";
 
 /** The buttons of the strokes: what is drawn from what src/strokes.js says, and nothing decided here. */
+
+/** The buttons of the services: only for the server, before the point. */
+export function buildServices(box, onPick) {
+  Object.entries(SERVICE_KINDS).forEach(([key, { label }]) => {
+    const button = document.createElement("button");
+    Object.assign(button, { type: "button", className: "quiet", textContent: label });
+    button.dataset.service = key;
+    button.addEventListener("click", () => onPick(key));
+    box.append(button);
+  });
+}
+
+/** @param {HTMLElement} box @param {boolean} open @param {string} current */
+export function showServices(box, open, current) {
+  box.hidden = !open;
+  for (const button of box.querySelectorAll("button")) button.setAttribute("aria-pressed", String(current === button.dataset.service));
+}
 
 /** @param {HTMLElement} box @param {(key: string) => void} onPick */
 export function buildStrokes(box, onPick) {
