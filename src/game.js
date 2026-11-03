@@ -21,7 +21,12 @@ const MAX_TICKS_TO_EVENT = 240 * 10;
  * @returns {any}
  */
 export function mouseProfile(scatter) {
-  return { ...CLUB_PLAYER, scatterTilt: CLUB_PLAYER.scatterTilt * scatter, scatterSpeed: CLUB_PLAYER.scatterSpeed * scatter };
+  return {
+    ...CLUB_PLAYER,
+    scatterTilt: CLUB_PLAYER.scatterTilt * scatter,
+    scatterAcross: CLUB_PLAYER.scatterAcross * scatter,
+    scatterSpeed: CLUB_PLAYER.scatterSpeed * scatter,
+  };
 }
 
 /**

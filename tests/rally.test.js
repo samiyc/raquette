@@ -102,7 +102,7 @@ describe("R0 against R0", () => {
       const stroke = takeToCentre(view);
       return stroke && { ...stroke, swing: { speed: 5, brushUp: 0, brushSide: 0 } };
     } };
-    const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterSpeed: 0 };
+    const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterAcross: 0, scatterSpeed: 0 };
     assert.deepEqual(playRally({ seed: 1, players: both(soft, steady), server: 0 }).cause, "limit");
   });
 
@@ -111,7 +111,7 @@ describe("R0 against R0", () => {
       const stroke = takeToCentre(view);
       return stroke && { ...stroke, swing: { speed: 5, brushUp: 0, brushSide: 0 } };
     } };
-    const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterSpeed: 0 };
+    const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterAcross: 0, scatterSpeed: 0 };
     const result = playRally({ seed: 1, players: both(soft, steady), server: 0 });
     assert.equal(result.winner, -1);
     assert.equal(result.strokes, 60);
@@ -141,7 +141,7 @@ describe("how a rally ends", () => {
       const stroke = takeToCentre(view);
       return stroke && { ...stroke, target: [-view.side * 0.1, 0], swing: { speed: 20, brushUp: 0, brushSide: 0 } };
     } };
-    const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterSpeed: 0 };
+    const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterAcross: 0, scatterSpeed: 0 };
     const result = playRally({ seed: 1, players: [{ rule: R0, profile: steady }, { rule: intoNet, profile: steady }], server: 0 });
     assert.equal(result.winner, 0);
     assert.ok(result.cause === "net" || result.cause === "out", result.cause);
@@ -160,7 +160,7 @@ describe("how a rally ends", () => {
 });
 
 describe("the cut that bounces twice (Sami, 3/11/2026)", () => {
-  const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterSpeed: 0 };
+  const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterAcross: 0, scatterSpeed: 0 };
   const atWait = (waitBehindLine) => ({ ...steady, waitBehindLine });
   /** From far back, R0's 6.5 m/s falls short: this one hits a little harder, so that the rally gets to the short ball. */
   const deep = { name: "deep", decide: (view) => {

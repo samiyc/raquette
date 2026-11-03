@@ -14,7 +14,10 @@ export const CLUB_PLAYER = Object.freeze({
   lowest: -0.5, // Q-P5: under the table's level
   highest: 1.2, // Q-P5: above it
   preparation: 0.15, // Q-P6, seconds
-  scatterTilt: 0.0524, // Q-P1: tan 3°
+  scatterTilt: 0.0524, // Q-P1: tan 3°, up and down
+  scatterAcross: 0.0262, // Q-P1: tan 1.5°, sideways: at 3°, nothing near a side line was ever worth aiming at
+  comfort: 0.5, // Q-P5, metres from the body to the ball, without stretching
+  stretchedScatter: 2, // Q-P2: the scatter at full reach
   scatterSpeed: 0.06, // Q-P1
   rushedScatter: 2, // Q-P2: the scatter with no preparation at all
 });

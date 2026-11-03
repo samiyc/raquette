@@ -1,10 +1,10 @@
 import { streamOf } from "mcts-commun/random.js";
-import { STEP, TABLE } from "./ball/constants.js";
+import { STEP, TABLE, X, Y } from "./ball/constants.js";
 import { createBall } from "./ball/flight.js";
 import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
-import { BEHIND, createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
+import { BEHIND, BX, BY, createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 
 /**
@@ -94,6 +94,19 @@ function rushOf(plan, profile) {
   return 1 + (profile.rushedScatter - 1) * (1 - time / profile.preparation);
 }
 
+/**
+ * How much more a stroke scatters at the end of the arm: nothing up to a comfortable distance, then up to `stretchedScatter` at full
+ * reach. That is what a ball placed far from the player costs it, when it has no time to get there.
+ */
+function stretchOf(state, who, profile) {
+  const body = state.bodies[who];
+  const dx = state.ball[X] - body[BX];
+  const dy = state.ball[Y] - body[BY];
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  if (distance <= profile.comfort) return 1;
+  return 1 + ((profile.stretchedScatter - 1) * (distance - profile.comfort)) / (profile.reach - profile.comfort);
+}
+
 /** Aims, then scatters the racket, then strikes the true ball. */
 function play(state, who, plan) {
   const { side, profile } = state.seats[who];
@@ -104,9 +117,10 @@ function play(state, who, plan) {
   const role = who === state.server ? 0 : 1;
   const rng = streamOf(state.seed, role * STREAM_PER_ROLE + state.strokes);
   const rush = rushOf(plan, profile);
-  pose[0] += normalDraw(rng) * profile.scatterTilt * rush;
-  pose[1] += normalDraw(rng) * profile.scatterTilt * rush;
-  const swing = { ...plan.swing, speed: speed * (1 + normalDraw(rng) * profile.scatterSpeed * rush) };
+  const stretch = rush * stretchOf(state, who, profile);
+  pose[0] += normalDraw(rng) * profile.scatterAcross * stretch;
+  pose[1] += normalDraw(rng) * profile.scatterTilt * stretch;
+  const swing = { ...plan.swing, speed: speed * (1 + normalDraw(rng) * profile.scatterSpeed * stretch) };
   poseRacket(racket, pose, swing, state.ball);
   strike(state.ball, racket);
 }

@@ -4,6 +4,17 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.5.0",
+      "title": "Les règles R0 à R5, mesurées",
+      "date": "3/11/2026",
+      "items": [
+        "Les règles par paires sur les mêmes graines : R3, qui attaque en lift et place sa balle, prend 67,6 % des points à R0. C'est la barre de la première recherche.",
+        "Viser sur le côté rapporte enfin : moins de dispersion latérale, et une frappe moins sûre au bout du bras. R1 prend 52,4 % à R0, contre 12,5 % avant.",
+        "R3 contre R3 tient 4,9 coups par échange, sans réglage pour cela."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.4.1",
       "title": "Se placer et viser avant de lancer le point",
       "date": "3/11/2026",

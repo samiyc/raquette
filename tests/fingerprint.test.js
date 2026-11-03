@@ -17,8 +17,9 @@ import { DUELS } from "../src/rules/drills.js";
 const EXPECTED = {
   // 2/11/2026: a ball ending its roll no longer falls through the table; flights before that point are unchanged.
   ball: "2aa4b251ea50ef1c",
-  rally: "c84e3aa58f32ef62",
-  duels: "8ba7cd1f5ceccd49",
+  // 3/11/2026: 1.5° sideways, and the scatter grows at the end of the arm (docs/recherche/chiffres.md, § 8).
+  rally: "014fef255e794c42",
+  duels: "2697680d2b396b04",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */

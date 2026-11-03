@@ -116,6 +116,7 @@ describe("a point at the mouse", () => {
     assert.equal(mouseProfile(1).scatterTilt, CLUB_PLAYER.scatterTilt);
     assert.equal(mouseProfile(1).speed, CLUB_PLAYER.speed);
     assert.equal(mouseProfile(0).scatterSpeed, 0);
+    assert.equal(mouseProfile(0).scatterAcross, 0);
     const replays = [0, 1].map((scatter) => {
       const point = createPoint({ seed: 4, server: 1, scatter });
       runUntil(point, (state) => state.strokes === 1);

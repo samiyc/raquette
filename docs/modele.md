@@ -2,7 +2,7 @@
 
 Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, un joueur à la souris
 pour éprouver ce robot, puis l'autojeu. Ce document fixe ce qu'on va construire et comment on saura que ça marche. **À ce jour, `src/` a la
-balle, la raquette, la visée, le corps, les trois duels de référence et le jeu à la souris contre R0 : ni mesure, ni recherche.**
+balle, la raquette, la visée, le corps, les trois duels de référence, le jeu à la souris et l'échelle des règles R0 à R5, mesurée : pas encore de recherche.**
 
 **Le cap, précisé par Sami le 2/11/2026.** Tout représenter en 2D vue de dessus sera complexe, mais le jeu reste surtout de l'analyse,
 du positionnement et des trajectoires. Le joueur humain est simplifié pour finir des parties, à la souris et au pas à pas, et il sert à **vérifier
@@ -104,7 +104,8 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 | Bande de hauteur atteignable | du plateau moins 0,5 m au plateau plus 1,2 m | Q-P5 |
 | Préparation avant la frappe | 0,15 s | Q-P6 |
 | Vitesse de raquette maximale | 20 m/s | Q-P7 |
-| Dispersion de l'orientation de la raquette | 3° | Q-P1 |
+| Dispersion de l'orientation de la raquette | 3° en hauteur, 1,5° sur le côté (mesuré à J5) | Q-P1 |
+| Dispersion au bout du bras | ×2 à 0,8 m, rien jusqu'à 0,5 m (J5) | Q-P2 |
 | Dispersion de la vitesse de raquette | 6 % | Q-P1 |
 | Croissance de la dispersion quand le temps manque | ×2 sans préparation | Q-P2 |
 
@@ -167,9 +168,9 @@ règle simple. On mesure donc, dans l'ordre :
 | Règle | Ce qu'elle ajoute | Ce que dit sa mesure |
 |---|---|---|
 | **R0** | le centre | le témoin |
-| **R1**, « loin de lui » | viser le coin du camp le plus éloigné de l'adversaire, à 20 cm des lignes (H) | **le modèle récompense-t-il le placement ?** |
+| **R1**, « loin de lui » | viser le côté le plus éloigné de l'adversaire, à mi-longueur, à 26 cm de la ligne (H) | **le modèle récompense-t-il le placement ?** |
 | **R2**, « prudent » | R1, et frapper moins fort quand le temps de préparation manque | le coût réel de la dispersion |
-| **R3**, « effet » | R2, plus du lift en attaque, du coupé sur une balle courte | la force de Magnus vaut-elle quelque chose dans ce modèle ? |
+| **R3**, « effet » | R2, plus du lift en attaque sur une balle prise à 25 cm ou plus, plus profond, et une poussette sur une balle basse au-dessus de la table | la force de Magnus vaut-elle quelque chose dans ce modèle ? |
 | **R4**, « contre » | R3, plus un coup de contre sur une balle rapide : une raquette peu rapide, un contact tôt | renvoyer la vitesse et l'effet adverses rapporte-t-il ? |
 | **R5**, « court » (Sami, 3/11/2026) | R4, plus un coupé à deux rebonds quand l'adversaire est trop loin pour arriver avant le second | punir un joueur reculé rapporte-t-il, et force-t-il à rester près de la table ? |
 
@@ -189,7 +190,9 @@ l'adversaire. Les règles suivantes distingueront le **croisé** (vers le coin o
 
 **R1 sert de garde-fou.** Si viser loin de l'adversaire ne bat pas viser le centre, le modèle ne récompense pas le placement,
 et le jeu n'en est pas un : on corrige le modèle avant d'écrire la moindre recherche. Le pendant : si R1 écrase R0 à 90 %,
-la dispersion est trop faible ou les déplacements trop lents.
+la dispersion est trop faible ou les déplacements trop lents. **Il a servi à J5** : à 3° sur le côté et sans coût au bout du bras, R1 ne prenait que 12,5 % des points. Après correction, il en prend 52,4 %, de 51,2 à 53,6 %.
+
+**La mesure de J5**, 1 200 graines neuves par ligne (`chiffres.md`, § 8) : **R3 est la meilleure règle, la barre de la première recherche.** R2 ne change rien (le temps ne manque jamais à ce rythme), R4 ne fait pas mieux que R3, et R5 ne se déclenche presque jamais.
 
 Les paramètres de chaque règle se règlent sur des graines de calibration, puis sont figés, et ne servent plus pour les
 mesures.
@@ -420,14 +423,14 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J2** | la page : la table, une balle lancée, le rebond, les couleurs, le bandeau | Sami la regarde ; le changelog |
 | **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause, dont les deux rebonds d'un joueur reculé |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
-| **J5** | les mesures : R0 à R5 par paires | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange pour la meilleure règle |
+| **J5** | les mesures : R0 à R5 par paires | fait : R1 bat R0 (52,4 %) ; R3 contre R3 tient 4,9 coups |
 | **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | l'écart, son intervalle, le témoin à 4 fois le budget, 0 collection par décision |
 | **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 
 **La découpe du code, à J1 et J3**, pour tenir le budget de lint (40 lignes par fonction, 220 par fichier) : `src/ball/`
 (`constants`, `coefficients`, `flight`, `table`), `src/launch.js`, `src/recording.js`, `src/racket.js`, `src/aim.js`, `src/player.js`, `src/forecast.js`, `src/rally.js`,
-`src/rally-recording.js`, `src/rules/` ; à venir, `src/mouse.js`, `scripts/duel.js`.
+`src/rally-recording.js`, `src/rules/`, `src/mouse.js`, `src/game.js`, `src/pairs.js`, `src/duel-stats.js`, `scripts/duel.js`, `scripts/duels.js`, `scripts/positions.js`.
 
 ## 12. Ce qui est laissé de côté, et les risques
 
@@ -452,8 +455,8 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
    et sa dispersion ×2 sont là pour ça, sans preuve qu'elles suffisent.
 3. **La visée peut coûter cher ou échouer** (près du filet, avec de forts effets). Elle est au cœur de toutes les règles et de
    tous les plans. Le banc de J3 : `chiffres.md`, § 8.
-4. **R0 contre R0 s'arrête souvent à sa limite** (60 % des échanges). C'est crédible pour deux joueurs qui ne font que renvoyer au centre, mais une mesure y perd de sa
-   force : R1 et les suivantes doivent créer des fautes, sinon la limite de 60 coups décide. À regarder dès J5.
+4. **R0 contre R0 s'arrête souvent à sa limite** (60 % des échanges), R1 contre R0 encore à 46 %. C'est crédible pour des joueurs qui ne font que renvoyer sans attaquer, mais ces deux mesures y perdent de leur force. R3 n'a plus ce problème.
+   **Le service avantage trop le serveur** dans R3 contre R3 (62 %), sans dispersion ni effet : à revoir avant de croire le jeu au service.
 5. **Une règle à plat peut être imbattable** si le modèle ne punit rien : c'est le doute de Sami sur MCTS. Dans ce cas, le
    résultat honnête du projet est : « la règle R2 suffit dans ce modèle ».
 6. **L'autojeu peut tourner en rond ou exploiter le modèle.** Le panel figé et Sami servent de garde-fous (§ 8), sans garantie :

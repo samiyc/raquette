@@ -319,7 +319,39 @@ contact de Conti.
 **Elle ne bat pas R0 pour l'instant** : le coup fait bien mouche à 2,5 m, 52 fois sur 200, mais R0 y gagne déjà, car le receveur rate sa propre frappe, trop courte depuis si loin. Rien n'est
 mesuré au sens du § 7 du modèle : c'est le travail de J5.
 
-**Un premier signal pour R1, à vérifier à J5** (J4). Un joueur à la souris qui ne bouge jamais et vise un seul endroit, 400 points contre R0 à 100 % de dispersion :
+**L'échelle des règles** (J5, 3/11/2026). Par paires, 1 200 graines à partir de 100 000, que rien n'a servi à régler. Les réglages viennent des graines de 0 à 299 :
+
+| Duel | Part des points du premier | Intervalle à 95 % | Coups par échange | À la limite | Serveur |
+|---|---|---|---|---|---|
+| R1 contre R0 | **52,4 %** | 51,2 à 53,6 % | 41,6 | 46 % | 52 % |
+| R2 contre R1 | 50,0 % | identiques, graine par graine | 31,2 | 23 % | 48 % |
+| R3 contre R2 | **69,8 %** | 68,0 à 71,5 % | 7,9 | 0 | 56 % |
+| R3 contre R0 | **67,6 %** | 65,8 à 69,5 % | 10,1 | 0 | 55 % |
+| R4 contre R3 | 49,1 % | 47,8 à 50,3 % | 6,1 | 0 | 63 % |
+| R5 contre R4 | 50,0 % | 49,9 à 50,0 % | 6,7 | 0 | 61 % |
+| R3 contre R3 | 50,0 % | exact | **4,9** | 0 | 62 % |
+
+Ce qu'il faut en lire :
+
+- **Le placement paie un peu, l'attaque beaucoup.** R3 contre R0 gagne surtout parce que R0 se fait passer (780 balles dans le dos).
+- **R2 ne fait rien** : à ce rythme, le temps de préparer ne manque jamais. Il faudrait le remesurer contre une règle qui attaque.
+- **R4 ne bat pas R3** : le bloc ne rapporte rien ici, l'intervalle contient 50 %. Contre R0, R4 et R3 jouent exactement pareil : la balle n'est jamais assez rapide.
+- **R5 ne joue presque jamais son coup** : une graine sur 1 200 diffère. Personne ne recule à 1,5 m dans ces échanges. La règle n'est donc pas mesurée, et le coup de Sami reste à éprouver, à la souris ou dans la recherche.
+- **R3 contre R3 tient 4,9 coups**, dans les 4 à 5 attendus (Glynn), sans que rien ait été réglé pour cela : c'est une vérification, pas un ajustement. **Le serveur y gagne 62 %**, à comparer quand le service aura un effet et une dispersion.
+
+**Ce que le garde-fou a changé.** R1, à 20 cm des lignes et avec 3° de chaque côté, prenait 12,5 % des points contre R0 sur 400 graines, presque tout en balles hors table. Trois causes, 100 à 150 graines par essai :
+
+| Essai contre R0 | Part des points |
+|---|---|
+| Plat, au fond et loin sur le côté, 3° sur le côté | 22 à 40 % |
+| Plat, au milieu et sur le côté (0,685 ; 0,5), 1,5° sur le côté | 51,8 % |
+| Le même, coût au bout du bras ×2 | 53,3 % |
+| Lift au centre (0,9 ; 0), ×2 | 56,0 % |
+| Lift sur le côté (0,9 ; 0,45), ×2 | 61,5 % |
+
+La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table de 76 cm de demi-largeur : **viser le côté ne valait jamais son risque.** Elle passe à 1,5° (H), ce qui laisse 22 cm en longueur. Une balle en bout de bras se joue désormais moins bien (H), sans quoi être débordé ne coûtait rien. Les duels que Sami a validés bougent à peine : 47,4 → 47,1, 16,1 → 16,0, 36,2 → 36,4 coups. Ces écarts longitudinal et latéral sont à faire valider (Q-P1).
+
+**Un premier signal pour R1, avant correction** (J4). Un joueur à la souris qui ne bouge jamais et vise un seul endroit, 400 points contre R0 à 100 % de dispersion :
 
 | Visée | Gagnés | Perdus | Nuls à la limite | Sa principale faute |
 |---|---|---|---|---|

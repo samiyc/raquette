@@ -73,7 +73,7 @@ describe("a duel of pushes (Sami, 3/11/2026)", () => {
   });
 
   it("gets shorter as the players get less sure: what a low level would see", () => {
-    const shaky = { ...CLUB_PLAYER, scatterTilt: 0.0875, scatterSpeed: 0.1 };
+    const shaky = { ...CLUB_PLAYER, scatterTilt: 0.0875, scatterAcross: 0.0875, scatterSpeed: 0.1 };
     assert.ok(watch(DUELS.pushes, shaky).mean < mean / 2);
   });
 });
