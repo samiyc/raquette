@@ -453,7 +453,7 @@ La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table d
 
 - **L'escalade est meilleure que le Monte-Carlo, de peu.** Contre un R3 qui ne jette plus de points, le Monte-Carlo n'a plus de gain net.
 - **Les tirages paient, le budget non.** Plus d'essais sur 4 tirages ne rapportent rien de net. Le gain de 61,8 % mesuré plus tôt à 4 fois le budget n'a pas tenu sur le dernier modèle. Une explication possible, non vérifiée : avec peu de tirages, plus d'essais choisissent surtout le plus chanceux.
-- **Ce que joue l'escalade** (replays, 7 449 frappes contre R3) : élévation surtout de 0 à 30°, 44 % de lift au-delà de 50 tr/s, 26 % de coupé au-delà de 20 tr/s, et 0,8 % de balles à plus de 45°, sans trace de la chandelle d'avant. Sa cible va surtout à mi-table ou à 90-110 cm, sur le côté.
+- **Ce que joue l'escalade** (replays, 7 449 frappes contre R3) : élévation surtout de 0 à 30°, 56 % de lift au-delà de 50 tr/s, 26 % de coupé au-delà de 20 tr/s, et 0,8 % de balles à plus de 45°, sans trace de la chandelle d'avant. Sa cible va surtout à mi-table ou à 90-110 cm, sur le côté.
 
 **Les règles, après la correction de R3** (3/11/2026, 1 200 graines à partir de 900 000, services variés) : R3 contre R0 56,0 % [54,1 ; 57,8], contre 51,5 % avant ; R3 contre R2 71,8 % [70,2 ; 73,4] ; R1 contre R0 51,4 % [50,2 ; 52,5] ; R4 contre R3 50,0 % [48,6 ; 51,3].
 
