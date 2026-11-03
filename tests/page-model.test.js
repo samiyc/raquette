@@ -8,6 +8,7 @@ import {
   ballRadius, COLORS, fromTopBand, layoutFor, liftOf, sectorAngles, shadowOffset, sidePoint, sidePush, spinColor, spinMark, topPoint, trailStart,
 } from "../web/scale.js";
 import { orderOf } from "../src/mouse.js";
+import { freshSeed, seedOfNewGame } from "../web/play-seeds.js";
 
 const flightOf = (key) => recordFlight(throwBall(PRESETS[key].launch));
 const kinds = (recording) => recording.events.map((event) => event.kind);
@@ -239,5 +240,18 @@ describe("the colours, for anyone", () => {
       const distance = apart(seen(COLORS.lift, matrix), seen(COLORS.cut, matrix));
       assert.ok(distance > 0.08, `${name}: ${distance}`);
     }
+  });
+});
+
+describe("the seed of a game", () => {
+  it("moves on unless another is asked for", () => {
+    assert.equal(seedOfNewGame(7, null), 7);
+    assert.equal(seedOfNewGame(7, { seed: 7, played: 3 }), 10);
+    assert.equal(seedOfNewGame(42, { seed: 7, played: 3 }), 42);
+  });
+
+  it("differs from one load of the page to the next", () => {
+    assert.notEqual(freshSeed(1000), freshSeed(2000));
+    assert.ok(Number.isInteger(freshSeed()) && freshSeed() >= 0);
   });
 });

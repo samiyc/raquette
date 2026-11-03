@@ -11,6 +11,7 @@ import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
 import { exportWon, savePoint } from "./play-files.js";
 import { createStepper } from "./play-steps.js";
+import { freshSeed, seedOfNewGame } from "./play-seeds.js";
 import { fromTopBand, layoutFor } from "./scale.js";
 import { buildServices, buildStrokes, letGoOfButtons, showServices, showStrokes } from "./stroke-panel.js";
 
@@ -173,6 +174,7 @@ function beginPoint(robotService) {
 }
 
 function newGame() {
+  input("seed").value = String(seedOfNewGame(Number(input("seed").value), live.game));
   live.game = createGame({ seed: Number(input("seed").value), scatter: scatterNow(), robot: /** @type {HTMLSelectElement} */ (byId("robot")).value });
   live.point = null;
   input("next").disabled = false;
@@ -243,5 +245,6 @@ function wire() {
 buildServices(byId("services"), pickService);
 buildStrokes(byId("strokes"), pick);
 wire();
+input("seed").value = String(freshSeed());
 newGame();
 resize();

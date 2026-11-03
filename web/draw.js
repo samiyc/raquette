@@ -6,6 +6,7 @@ import {
 
 const REACH = CLUB_PLAYER.reach;
 const SMALLEST_CIRCLE = 2;
+const FORWARD_LIMIT = TABLE.halfLength - CLUB_PLAYER.lean;
 
 /** The drawing: the table from above and from the side, the flight so far, the ball. It decides nothing. */
 
@@ -33,6 +34,15 @@ function drawTableFromAbove(ctx, layout) {
   line(ctx, topPoint(layout, -TABLE.halfLength, 0), topPoint(layout, TABLE.halfLength, 0));
   ctx.lineWidth = 3;
   line(ctx, topPoint(layout, 0, NET.halfWidth), topPoint(layout, 0, -NET.halfWidth));
+  drawForwardLimits(ctx, layout);
+}
+
+/** How far a body goes over the table, leaning (Sami, 3/11/2026): a dotted line in each camp. */
+function drawForwardLimits(ctx, layout) {
+  ctx.lineWidth = 1;
+  ctx.setLineDash([2, 4]);
+  for (const x of [-FORWARD_LIMIT, FORWARD_LIMIT]) line(ctx, topPoint(layout, x, TABLE.halfWidth), topPoint(layout, x, -TABLE.halfWidth));
+  ctx.setLineDash([]);
 }
 
 function drawTableFromSide(ctx, layout) {
