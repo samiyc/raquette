@@ -437,7 +437,23 @@ La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table d
 | 2 coups d'avance contre 4 | 800 | 50,1 % | 48,1 à 52,2 % |
 | 6 coups d'avance contre 4 | 800 | 49,3 % | 47,2 à 51,4 % |
 
-Les deux algorithmes sont à égalité statistique. Ce qui compte ici est le nombre de tirages : noter un coup sur plus de hasard, plutôt que voir plus loin ou essayer plus de coups.
+À ce stade, les deux algorithmes semblaient à égalité. La mesure suivante corrige cette lecture.
+
+**Les mêmes, après la correction de R3** (3/11/2026, à partir de la graine 900 000, commit `11d8d8f`, six services variés). Ce sont les chiffres à retenir :
+
+| Duel | Graines | Part du premier | Intervalle à 95 % | Coups par échange |
+|---|---|---|---|---|
+| Escalade contre Monte-Carlo à plat, 4 tirages | 1 200 | **53,3 %** | 51,4 à 55,1 % | 5,3 |
+| La même, 8 tirages | 800 | 52,3 % | 50,0 à 54,6 % | 5,3 |
+| Escalade contre R3 | 1 200 | **54,9 %** | 53,1 à 56,7 % | 6,1 |
+| Monte-Carlo à plat contre R3 | 1 200 | 51,4 % | 49,6 à 53,2 % | 5,9 |
+| Escalade contre R0 | 1 200 | **62,0 %** | 60,2 à 63,8 % | 8,3 |
+| 8 tirages contre 4 | 800 | **53,1 %** | 51,1 à 55,2 % | 5,5 |
+| 96 essais contre 24 | 400 | 51,0 % | 48,0 à 54,0 % | 5,2 |
+
+- **L'escalade est meilleure que le Monte-Carlo, de peu.** Contre un R3 qui ne jette plus de points, le Monte-Carlo n'a plus de gain net.
+- **Les tirages paient, le budget non.** Plus d'essais sur 4 tirages ne rapportent rien de net. Le gain de 61,8 % mesuré plus tôt à 4 fois le budget n'a pas tenu sur le dernier modèle. Une explication possible, non vérifiée : avec peu de tirages, plus d'essais choisissent surtout le plus chanceux.
+- **Ce que joue l'escalade** (replays, 7 449 frappes contre R3) : élévation surtout de 0 à 30°, 44 % de lift au-delà de 50 tr/s, 26 % de coupé au-delà de 20 tr/s, et 0,8 % de balles à plus de 45°, sans trace de la chandelle d'avant. Sa cible va surtout à mi-table ou à 90-110 cm, sur le côté.
 
 **Les règles, après la correction de R3** (3/11/2026, 1 200 graines à partir de 900 000, services variés) : R3 contre R0 56,0 % [54,1 ; 57,8], contre 51,5 % avant ; R3 contre R2 71,8 % [70,2 ; 73,4] ; R1 contre R0 51,4 % [50,2 ; 52,5] ; R4 contre R3 50,0 % [48,6 ; 51,3].
 

@@ -434,7 +434,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause, dont les deux rebonds d'un joueur reculé |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
 | **J5** | les mesures : R0 à R5 par paires | fait : R1 bat R0 (52,1 %) ; R3 contre R3 tient 5,5 coups |
-| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | S bat R3 (56,4 %) et R0 (68,2 %), et 4 fois le budget bat S (61,8 %) ; elle se joue sur la page. Restent la partie de Sami, et 0 collection par décision, pas tenu |
+| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | S bat R3 (54,9 %) et R0 (62,0 %) ; 8 tirages battent 4 (53,1 %), mais 4 fois le budget ne bat pas S (51,0 %, intervalle de 48,0 à 54,0 %) ; Sami a joué contre elle. Reste 0 collection par décision, pas tenu |
 | **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 
