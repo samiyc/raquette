@@ -102,9 +102,9 @@ function decideShort(view) {
 
 export const RULES = Object.freeze({
   R0,
-  R1: { name: "R1", decide: decideFar },
-  R2: { name: "R2", decide: decidePrudent },
-  R3: { name: "R3", decide: decideSpin },
-  R4: { name: "R4", decide: decideCounter },
-  R5: { name: "R5", decide: decideShort },
+  R1: { name: "R1", version: 1, decide: decideFar },
+  R2: { name: "R2", version: 1, decide: decidePrudent },
+  R3: { name: "R3", version: 1, decide: decideSpin },
+  R4: { name: "R4", version: 1, decide: decideCounter },
+  R5: { name: "R5", version: 1, decide: decideShort },
 });

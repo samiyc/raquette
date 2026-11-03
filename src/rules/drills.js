@@ -30,6 +30,7 @@ export const DRILL_STROKES = Object.freeze({
 export function drillRule(stroke) {
   return {
     name: stroke.label,
+    version: 1,
     decide(view) {
       const plan = catchPlan(view, stroke.rise);
       if (!plan) return null;

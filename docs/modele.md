@@ -395,6 +395,8 @@ rebond, contact), un pas de 1/60 s, les vitesses de 1/8 à ×1.
 
 **La page** : `web/play.html`, à partir de `src/mouse.js` et `src/game.js`. Un point se rejoue exactement depuis sa graine, la dispersion et ses clics.
 
+**Tout est gardé pour analyser plus tard** (Sami, 3/11/2026) : la page enregistre chaque point, et `--replays` chaque échange d'une série, avec les positions des joueurs à chaque impact, ce qu'a fait la raquette, où était un joueur pour une balle manquée, la date et la version des robots : [`replays.md`](replays.md).
+
 **Vérifier les limites du robot** : un point que le robot a perdu s'exporte depuis la page (sa graine, ses clics, sa fin) vers `positions/`, un fichier par point, et
 `npm run positions` les rejoue avec le robot du moment. Ce banc nourrira le panel de l'autojeu (§ 8).
 

@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.6.0",
+      "title": "Des replays pour analyser en masse",
+      "date": "3/11/2026",
+      "items": [
+        "Chaque échange peut garder ses impacts : où étaient les deux joueurs, la balle avant et après, la raquette, la cible, la marge au filet, où la balle est tombée.",
+        "Une balle manquée dit où était le joueur et à quelle distance il est passé d'elle.",
+        "Chaque replay dit sa date, la version du modèle, la version des robots et le code exact qui a joué.",
+        "Les points à la souris sont enregistrés seuls, et npm run replays résume une série."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.5.0",
       "title": "Les règles R0 à R5, mesurées",
       "date": "3/11/2026",

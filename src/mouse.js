@@ -41,6 +41,7 @@ export function orderOf({ px, py, button }, view) {
 export function createMouseRule(aim) {
   const rule = {
     name: "souris",
+    version: 1,
     aim,
     /** @type {number[] | null} a move asked during the reaction, which starts when it ends */
     waiting: null,

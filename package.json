@@ -16,6 +16,7 @@
     "bench": "node scripts/ball-bench.js",
     "duels": "node scripts/duels.js",
     "positions": "node scripts/positions.js",
+    "replays": "node scripts/replays.js",
     "page": "node node_modules/mcts-commun/bin/serve.js 4804",
     "changelog": "node scripts/changelog.js",
     "check": "npm run lint && npm run types && npm test",

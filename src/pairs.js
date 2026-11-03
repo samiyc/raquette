@@ -28,17 +28,28 @@ function tally(report, result, server) {
   return result.winner === 0 ? 1 : 0;
 }
 
+/** A rally, its line given to `log` if there is one. */
+function playKept(options, log) {
+  if (!log) return playRally(options);
+  const { listener, finish } = log.start(options.seed, options.server);
+  const result = playRally({ ...options, listener });
+  log.end(finish());
+  return result;
+}
+
 /**
- * @param {{a: import("./types.js").Rule, b: import("./types.js").Rule, profile: any, from?: number, seeds: number}} match
+ * @param {{a: import("./types.js").Rule, b: import("./types.js").Rule, profile: any, from?: number, seeds: number, log?: any}} match
+ *   `log`, to keep the rallies (src/replay-log.js): `start(seed, server)` gives a rally's log, `end(line)` takes its line
  * @returns {PairsReport}
  */
-export function playPairs({ a, b, profile, from = 0, seeds }) {
+export function playPairs({ a, b, profile, from = 0, seeds, log }) {
   const players = [{ rule: a, profile }, { rule: b, profile }];
   const count = { strokes: 0, rallies: 0, limits: 0, serverPoints: 0, lostByA: {}, lostByB: {} };
   const scoresA = [];
   const scoresB = [];
   for (let seed = from; seed < from + seeds; seed += 1) {
-    const points = tally(count, playRally({ seed, players, server: 0 }), 0) + tally(count, playRally({ seed, players, server: 1 }), 1);
+    const play = (server) => tally(count, playKept({ seed, players, server }, log), server);
+    const points = play(0) + play(1);
     scoresA.push(points);
     scoresB.push(2 - points);
   }

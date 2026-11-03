@@ -3,6 +3,7 @@ import { applyOrder, createMouseRule, firstAim } from "./mouse.js";
 import { CLUB_PLAYER } from "./player.js";
 import { createRecorder } from "./rally-recording.js";
 import { startRally, stepRally } from "./rally.js";
+import { bothListeners, createRallyLog, localTimestamp, replayHeader } from "./replay-log.js";
 import { R0 } from "./rules/center.js";
 
 /**
@@ -36,20 +37,21 @@ export function mouseProfile(scatter) {
 export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD) }) {
   const rule = createMouseRule(aim.slice());
   const recorder = createRecorder();
-  const point = { seed, server, scatter, startAim: aim.slice(), rule, orders: [], recorder, sawEvent: false, robotStruck: false, state: null };
-  const listener = {
-    ...recorder.listener,
-    flight(kind, state) {
-      recorder.listener.flight(kind, state);
+  const log = createRallyLog({ seed, server });
+  const point = { seed, server, scatter, startAim: aim.slice(), rule, orders: [], recorder, sawEvent: false, robotStruck: false, state: null, log: null, players: null };
+  const watch = {
+    flight(kind) {
       if (kind !== NONE) point.sawEvent = true;
     },
-    stroke(who, tick) {
-      recorder.listener.stroke(who, tick);
+    stroke(who) {
       point.sawEvent = true;
       if (who === ROBOT) point.robotStruck = true;
     },
   };
+  const listener = bothListeners(bothListeners(recorder.listener, log.listener), watch);
   const players = [{ rule, profile: mouseProfile(scatter) }, { rule: R0, profile: CLUB_PLAYER }];
+  point.log = log;
+  point.players = players;
   point.state = startRally({ seed, players, server, listener });
   return point;
 }
@@ -133,6 +135,12 @@ export function nextPoint(game) {
 export function positionOf(point) {
   const { result } = point.state;
   return { seed: point.seed, server: point.server, scatter: point.scatter, aim: point.startAim, orders: point.orders, result };
+}
+
+/** A finished point as a replay: who played, its clicks, and everything the rally left (docs/replays.md). */
+export function replayOfPoint(point) {
+  const startedAt = localTimestamp();
+  return { ...replayHeader({ players: point.players, startedAt }), savedAt: startedAt, ...positionOf(point), rally: point.log.finish() };
 }
 
 /** Closes the point under way: the score, the aim, what to keep. A rally stopped at its limit is played again, with no score. */

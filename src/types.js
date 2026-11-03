@@ -56,12 +56,15 @@
  *
  * @typedef {object} Rule
  * @property {string} name
+ * @property {number} [version] goes up when what it does changes: replays name it `R3@1`
  * @property {(view: View) => Intent | null} decide null: the ball is let go
  *
  * @typedef {object} RallyListener Optional: what a recording or a page wants to hear of a rally.
  * @property {(state: any) => void} [tick]
  * @property {(kind: number, state: any) => void} [flight]
  * @property {(who: number, tick: number) => void} [stroke]
+ * @property {(who: number, way: any, intent: any, state: any) => void} [read] a player has read the ball
+ * @property {(detail: any, state: any) => void} [impact] the ball has left the racket; docs/replays.md
  *
  * @typedef {object} RallyOptions
  * @property {number} seed

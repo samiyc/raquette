@@ -21,4 +21,4 @@ export function takeToCentre(view) {
   };
 }
 
-export const R0 = Object.freeze({ name: "R0", decide: takeToCentre });
+export const R0 = Object.freeze({ name: "R0", version: 1, decide: takeToCentre });

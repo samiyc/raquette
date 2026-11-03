@@ -24,6 +24,7 @@ valeurs publiées. **Deux robots s'échangent la balle** (`src/rally.js`), avec 
 | `npm test` (`test:coverage`) | les tests de `node --test`, dont la longueur des `.md` et les empreintes |
 | `npm run bench` | le coût d'un pas de simulation et les collections de mémoire |
 | `node scripts/duel.js R3 R0 --seeds 1200 --from 100000` | deux règles par paires, sur les mêmes graines |
+| `npm run replays` | résume la dernière série gardée par `--replays` (`docs/replays.md`) |
 | `npm run duels` | les trois duels de référence, comparés à `docs/duels-reference.json` |
 | `npm run positions` | rejoue les points perdus par le robot, rangés dans `positions/` |
 | `npm run page` | sert la page sur le port 4804 : http://127.0.0.1:4804/web/index.html |

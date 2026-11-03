@@ -28,8 +28,8 @@ export const SECTOR_COS = -0.3420201433256687;
 /** Where each number sits in a body's Float64Array. */
 export const BX = 0;
 export const BY = 1;
-const BVX = 2;
-const BVY = 3;
+export const BVX = 2;
+export const BVY = 3;
 export const GOAL_X = 4;
 export const GOAL_Y = 5;
 const BODY_SIZE = 6;

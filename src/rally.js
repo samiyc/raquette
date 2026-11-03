@@ -79,6 +79,7 @@ function decide(state, who) {
   const way = readWay(state.ball, seat.side, { served: state.ownBounce, bounced: state.bounces > 0 });
   const view = { way, h: STEP, side: seat.side, profile: seat.profile, body: state.bodies[who], opponent: state.bodies[1 - who], tick: state.tick };
   const intent = seat.rule.decide(view);
+  state.listener?.read?.(who, way, intent, state);
   if (!intent) return;
   setGoal(state.bodies[who], intent.goal, seat);
   state.plans[who] = { ...intent, at: state.tick + intent.step, decided: state.tick };
@@ -107,22 +108,31 @@ function stretchOf(state, who, profile) {
   return 1 + ((profile.stretchedScatter - 1) * (distance - profile.comfort)) / (profile.reach - profile.comfort);
 }
 
+/** What a stroke draws of its scatter: across, up, and on the speed, in that order, whatever the rule. */
+function drawScatter(state, who) {
+  const role = who === state.server ? 0 : 1;
+  const rng = streamOf(state.seed, role * STREAM_PER_ROLE + state.strokes);
+  return [normalDraw(rng), normalDraw(rng), normalDraw(rng)];
+}
+
 /** Aims, then scatters the racket, then strikes the true ball. */
 function play(state, who, plan) {
   const { side, profile } = state.seats[who];
   const forward = -side;
-  aim({ ball: state.ball, forward, target: plan.target, swing: plan.swing }, pose);
-  const speed = pose[2];
+  const found = aim({ ball: state.ball, forward, target: plan.target, swing: plan.swing }, pose);
+  const kept = pose[2];
   pose[2] = forward;
-  const role = who === state.server ? 0 : 1;
-  const rng = streamOf(state.seed, role * STREAM_PER_ROLE + state.strokes);
   const rush = rushOf(plan, profile);
-  const stretch = rush * stretchOf(state, who, profile);
-  pose[0] += normalDraw(rng) * profile.scatterAcross * stretch;
-  pose[1] += normalDraw(rng) * profile.scatterTilt * stretch;
-  const swing = { ...plan.swing, speed: speed * (1 + normalDraw(rng) * profile.scatterSpeed * stretch) };
+  const stretched = stretchOf(state, who, profile);
+  const worse = rush * stretched;
+  const draws = drawScatter(state, who);
+  pose[0] += draws[0] * profile.scatterAcross * worse;
+  pose[1] += draws[1] * profile.scatterTilt * worse;
+  const swing = { ...plan.swing, speed: kept * (1 + draws[2] * profile.scatterSpeed * worse) };
   poseRacket(racket, pose, swing, state.ball);
+  const before = state.listener?.impact ? state.ball.slice() : null;
   strike(state.ball, racket);
+  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched }, state);
 }
 
 /** From the planned instant on, the stroke is played as soon as the ball is within the arm's sector, until the rally ends. */

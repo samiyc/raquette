@@ -1,7 +1,7 @@
 import { nextSpeed } from "mcts-commun/replay-keys.js";
 import { BALL_SIZE } from "../src/ball/constants.js";
 import {
-  clickPoint, closePoint, createGame, nextPoint, pointOver, positionOf, runToEvent, stepPoint, stepsFor, winnerOf,
+  clickPoint, closePoint, createGame, nextPoint, pointOver, positionOf, replayOfPoint, runToEvent, stepPoint, stepsFor, winnerOf,
 } from "../src/game.js";
 import { destinationOf, orderOf } from "../src/mouse.js";
 import { BX, BY } from "../src/player.js";
@@ -55,10 +55,16 @@ function endOfGameText(winner) {
   return winner === 0 ? "Manche gagnée." : "Manche perdue.";
 }
 
+/** Every point is kept by the page server, out of git (docs/replays.md). A page opened without it plays on all the same. */
+function savePoint(point) {
+  fetch("/api/replays", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(replayOfPoint(point)) }).catch(() => {});
+}
+
 /** The point is over: the score, then a word on what happened. */
 function endPoint() {
   const { point, game } = live;
   live.running = false;
+  savePoint(point);
   closePoint(game);
   const winner = winnerOf(game.score);
   const said = rallyText({ seed: point.seed, result: point.state.result }, ["vous gagnez", "le robot gagne"]);
