@@ -9,9 +9,13 @@ import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
  *
  * A player does not send a ball onto the net's tape: a flight that clears it by too little is played softer, down to where it
  * clears. A high ball comes last, when nothing softer lands there.
+ *
+ * Nearly all the time of a search goes here (3/11/2026: 85 % of it in the flight): the tries fly at 60 Hz, which misses by a few
+ * millimetres, each speed starts from the solution of the one before, and only the last flight is checked at the world's 240 Hz.
  */
 const RADIUS = BALL.radius;
-const MAX_FLIGHT = 720; // Three seconds: a ball that never comes down has no landing to aim with.
+const MAX_SECONDS = 3; // A ball that never comes down has no landing to aim with.
+const COARSE = 4 * STEP;
 const NUDGE = 0.01;
 const MAX_MOVE = 0.3;
 const MAX_TILT = 3;
@@ -33,14 +37,17 @@ const pose = new Float64Array(3);
 const leaving = new Float64Array(1);
 const base = new Float64Array(3);
 const best = new Float64Array(3);
+const tight = new Float64Array(3);
 const current = { speed: 0, brushUp: 0, brushSide: 0 };
+const flight = { h: COARSE };
 
 /** Where the ball first comes down on the table's level, into `landed`, with what it has to spare over the net. */
 function flyToLanding() {
   landed[2] = -NOT_LANDED;
-  for (let step = 0; step < MAX_FLIGHT; step += 1) {
+  const { h } = flight;
+  for (let time = 0; time < MAX_SECONDS; time += h) {
     const [px, py, pz] = [flying[X], flying[Y], flying[Z]];
-    fly(flying, STEP);
+    fly(flying, h);
     if (px * flying[X] <= 0 && px !== 0) landed[2] = pz + (flying[Z] - pz) * (px / (px - flying[X])) - NET.height - RADIUS;
     if (pz >= RADIUS && flying[Z] < RADIUS) {
       const part = (pz - RADIUS) / (pz - flying[Z]);
@@ -120,19 +127,57 @@ function startLow(task, out) {
   }
 }
 
-/** A low flight at each speed in turn, from the wished one down. @returns {boolean} whether one lands there with this room over the net */
-function softerFlights(task, out, margin) {
+/** The tilts found at 60 Hz, checked at the world's rate. @returns {boolean} whether they land there with this room over the net */
+function confirmed(task, out, margin) {
+  flight.h = STEP;
+  const miss = solveFrom(task, out);
+  flight.h = COARSE;
+  return miss < TOLERANCE && landed[2] >= margin;
+}
+
+/**
+ * A low flight at each speed in turn, from the wished one down, each starting from the solution of the speed before. The first with
+ * room over the net is taken. Failing that, the first with a little room is kept, and tried at the end.
+ * @returns {boolean} whether one lands there
+ */
+function softerFlights(task, out) {
+  let warm = false;
+  tight[2] = 0;
   for (const part of SOFTER) {
     current.speed = task.swing.speed * part;
-    startLow(task, out);
-    if (solveFrom(task, out) < TOLERANCE && landed[2] >= margin) return true;
+    if (!warm) startLow(task, out);
+    warm = solveFrom(task, out) < TOLERANCE;
+    if (warm && landed[2] >= NET_MARGIN && confirmed(task, out, NET_MARGIN)) return true;
+    if (warm) keepTight(out);
   }
-  return false;
+  return tight[2] !== 0 && tightFlight(task, out);
+}
+
+/** The first flight with a little room over the net, in case none has more. */
+function keepTight(out) {
+  if (tight[2] !== 0 || landed[2] < TIGHT_MARGIN) return;
+  tight[0] = out[0];
+  tight[1] = out[1];
+  tight[2] = current.speed;
+}
+
+function tightFlight(task, out) {
+  out[0] = tight[0];
+  out[1] = tight[1];
+  current.speed = tight[2];
+  return confirmed(task, out, TIGHT_MARGIN);
 }
 
 /** A high ball, the last resort, or else the closest try. @returns {boolean} whether it lands there */
 function highOrClosest(task, out) {
   current.speed = task.swing.speed;
+  flight.h = STEP;
+  const found = highFlight(task, out);
+  flight.h = COARSE;
+  return found;
+}
+
+function highFlight(task, out) {
   startLow(task, out);
   const low = solveFrom(task, out);
   best[0] = out[0];
@@ -157,7 +202,7 @@ function highOrClosest(task, out) {
 export function aim(task, out) {
   current.brushUp = task.swing.brushUp;
   current.brushSide = task.swing.brushSide;
-  const found = softerFlights(task, out, NET_MARGIN) || softerFlights(task, out, TIGHT_MARGIN) || highOrClosest(task, out);
+  const found = softerFlights(task, out) || highOrClosest(task, out);
   out[2] = current.speed;
   return found;
 }

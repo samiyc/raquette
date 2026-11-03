@@ -380,6 +380,17 @@ La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table d
 - **Le bloc perd désormais** : R4 prend 48,0 % à R3. Une balle rapide est maintenant coûteuse à contrôler, et la règle ne choisit pas bien quand bloquer.
 - **Une limite** : un plan alloue encore (la copie de l'échange, ses tirages). Le critère de 0 collection par décision de J6 n'est pas tenu, et la page attend la recherche sur le même fil : à 12 plans, jusqu'à 1 s de gel vue sur un premier point, à passer dans un *worker*.
 
+**Les performances** (3/11/2026, sur une machine chargée). 85 % du temps passait dans les vols de la visée, jusqu'à une quarantaine par coup. Elle essaie maintenant à 60 Hz, reprend chaque vitesse de la solution de la précédente, et vérifie le dernier vol à 240 Hz.
+
+| Mesure | Avant | Après |
+|---|---|---|
+| Une visée | 316 µs | 129 µs |
+| Un coup de R3 contre R3 | 882 µs | 313 µs |
+| Une décision de la recherche à 24 plans, médiane | 173 ms | 49 ms |
+| La même, au pire sur 40 échanges | 546 ms | 160 ms |
+
+Les duels de référence restent dans leur bruit : R0 47,1 → 47,3, top contre bloc 16,2 → 16,7, poussettes 36,4 → 36,6 coups.
+
 **La balle rapide** (Sami, 3/11/2026 : « on ne pourra certainement pas faire des balles très courtes/contrôlées si l'adversaire vient de smash »). Sans coût, le modèle lui donnait tort : la raquette peut reculer d'exactement ce qu'il faut. Une balle partie à 25 m/s et tombée en fond de table, arrivant à 12,8 m/s, 1 500 tirages :
 
 | Coup | Valide, sans coût | Valide, avec coût |
