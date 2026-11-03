@@ -106,6 +106,7 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 | Vitesse de raquette maximale | 20 m/s | Q-P7 |
 | Dispersion de l'orientation de la raquette | 3° en hauteur, 1,5° sur le côté (mesuré à J5) | Q-P1 |
 | Dispersion au bout du bras | ×2 à 0,8 m, rien jusqu'à 0,5 m (J5) | Q-P2 |
+| Dispersion sur une balle rapide | rien jusqu'à 10 m/s au contact, puis une fois de plus tous les 2,5 m/s (Sami, 3/11/2026) | Q-P21 |
 | Dispersion de la vitesse de raquette | 6 % | Q-P1 |
 | Croissance de la dispersion quand le temps manque | ×2 sans préparation | Q-P2 |
 
@@ -129,7 +130,7 @@ constante `cos 110° = −0,3420…`. Un axe qui pivote vers la balle ne reviend
 2. **La visée** (`aim`) : les deux inclinaisons de raquette qui envoient la balle sur le point visé, trouvées par quelques
    itérations de Newton, chacune simulant un vol. C'est de la balistique, partagée, et ce n'est pas la recherche : une règle
    en a besoin autant qu'elle. Elle garde 15 cm au-dessus du filet (H, Q-P20), en jouant moins fort s'il le faut, puis 5 cm ; une balle
-   haute ne vient qu'en dernier. Si rien ne convient, le coup est joué tout de même, et l'échange dit ce qu'il en reste. Elle lit la balle **telle
+   haute ne vient qu'en dernier, et jamais au-delà de 50° : une recherche y avait trouvé une faille. Si rien ne convient, le coup est joué tout de même, et l'échange dit ce qu'il en reste. Elle lit la balle **telle
    que le joueur la perçoit**.
 3. **L'exécution** : la dispersion du § 4 s'applique à la raquette, tirée d'un flux à graine.
 4. **Le contact** : le modèle de Conti, avec la balle **vraie** et la raquette **bruitée** : restitution normale et
@@ -261,7 +262,7 @@ la 3e et à la 5e balle (Djokic) restent, elles, une vérification indépendante
 
 ## 8. La recherche, plus tard
 
-**Rien n'est écrit, rien n'est choisi.** Ce qui suit dit seulement dans quel ordre on essaiera, une fois R0 à R5 mesurées.
+**La première recherche existe depuis J6** (`src/rules/search.js`, résultats dans `chiffres.md`, § 8) : les points 1 et 2 ci-dessous, sur 4 nombres (le point visé, la vitesse, le brossage), l'instant restant celui de R3. Elle ne garde que ce qui peut se jouer (Sami, 3/11/2026) : un essai neuf part d'un coup jouable pour cette balle, et un coup mou sur une balle trop rapide vaut zéro sans être simulé. Le reste dit dans quel ordre on essaiera.
 Le jeu est à information complète au départ, et les coups sont des nombres continus : `docs/algorithmes.md` de la lib, § 3,
 désigne l'escalade.
 
@@ -428,7 +429,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause, dont les deux rebonds d'un joueur reculé |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
 | **J5** | les mesures : R0 à R5 par paires | fait : R1 bat R0 (52,1 %) ; R3 contre R3 tient 5,5 coups |
-| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | l'écart, son intervalle, le témoin à 4 fois le budget, 0 collection par décision |
+| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | en cours : l'écart, son intervalle et le témoin à 4 fois le budget sont mesurés ; restent Sami contre elle, et 0 collection par décision |
 | **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 

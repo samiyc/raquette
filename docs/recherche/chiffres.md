@@ -356,6 +356,15 @@ Ce qu'il faut en lire :
 
 La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table de 76 cm de demi-largeur : **viser le côté ne valait jamais son risque.** Elle passe à 1,5° (H), ce qui laisse 22 cm en longueur. Une balle en bout de bras se joue désormais moins bien (H), sans quoi être débordé ne coûtait rien. Les duels que Sami a validés bougent à peine, avec aussi la frappe plus tôt : R0 47,4 → 47,1, top contre bloc 16,1 → 16,6, poussettes 36,2 → 36,4 coups. Ces écarts longitudinal et latéral sont à faire valider (Q-P1).
 
+**La balle rapide** (Sami, 3/11/2026 : « on ne pourra certainement pas faire des balles très courtes/contrôlées si l'adversaire vient de smash »). Sans coût, le modèle lui donnait tort : la raquette peut reculer d'exactement ce qu'il faut. Une balle partie à 25 m/s et tombée en fond de table, arrivant à 12,8 m/s, 1 500 tirages :
+
+| Coup | Valide, sans coût | Valide, avec coût |
+|---|---|---|
+| Plat | 90 % | 48 % |
+| Bloc | 97 % | 59 % |
+
+Le coût vaut une fois de plus de dispersion tous les 2,5 m/s au-delà de 10 m/s (H, Q-P21). Le seuil de 10 m/s laisse les duels validés presque intacts : top contre bloc 16,6 → 16,2 coups ; à 8 m/s, il tombait à 12,9. Les coups contrôlés sont refusés au-delà de 8 m/s, pour la souris comme pour la recherche.
+
 **Un premier signal pour R1, avant correction** (J4). Un joueur à la souris qui ne bouge jamais et vise un seul endroit, 400 points contre R0 à 100 % de dispersion :
 
 | Visée | Gagnés | Perdus | Nuls à la limite | Sa principale faute |

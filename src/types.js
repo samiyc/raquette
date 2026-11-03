@@ -46,6 +46,8 @@
  * @property {Float64Array} body
  * @property {Float64Array} opponent the other player's body
  * @property {number} tick
+ * @property {number} who the player reading
+ * @property {any} state the rally, for a search to play on from it, on a copy
  *
  * @typedef {object} Intent What a rule decides: the stroke, and where to go.
  * @property {number} step how many steps from now the ball is to be taken

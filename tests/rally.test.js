@@ -2,7 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { BALL_SIZE, VX, VY, WX, WY, X, Y } from "../src/ball/constants.js";
 import { CLUB_PLAYER } from "../src/player.js";
-import { playRally } from "../src/rally.js";
+import { controlOf, playRally } from "../src/rally.js";
 import { recordRally } from "../src/rally-recording.js";
 import { R0, takeToCentre } from "../src/rules/center.js";
 import { SHORT_CUT, SHORT_SWING } from "../src/rules/short.js";
@@ -74,6 +74,17 @@ describe("a rally", () => {
     const recording = recordRally({ seed: 3, players: both(R0), server: 0 });
     assert.equal(recording.strokes.length, recording.result.strokes);
     assert.deepEqual(recording.strokes, recording.strokes.toSorted((a, b) => a - b));
+  });
+});
+
+describe("a fast ball", () => {
+  const coming = (speed) => Float64Array.of(1.6, 0, 0.2, speed, 0, 0, 0, 0, 0);
+
+  it("scatters a stroke more the faster it comes, nothing up to an easy ball (Sami)", () => {
+    assert.equal(controlOf(coming(9), CLUB_PLAYER), 1);
+    assert.equal(controlOf(coming(10), CLUB_PLAYER), 1);
+    assert.equal(controlOf(coming(12.5), CLUB_PLAYER), 2);
+    assert.equal(controlOf(coming(-15), CLUB_PLAYER), 3);
   });
 });
 

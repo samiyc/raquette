@@ -18,6 +18,8 @@ export const CLUB_PLAYER = Object.freeze({
   scatterAcross: 0.0262, // Q-P1: tan 1.5°, sideways: at 3°, nothing near a side line was ever worth aiming at
   comfort: 0.5, // Q-P5, metres from the body to the ball, without stretching
   stretchedScatter: 2, // Q-P2: the scatter at full reach
+  easyBall: 10, // Q-P21, m/s at contact: up to this, a ball is under control
+  controlLoss: 2.5, // Q-P21, m/s more for the scatter to grow by one more time
   scatterSpeed: 0.06, // Q-P1
   rushedScatter: 2, // Q-P2: the scatter with no preparation at all
 });

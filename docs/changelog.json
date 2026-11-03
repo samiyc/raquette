@@ -4,6 +4,17 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.8.0",
+      "title": "Une première recherche, et un smash qui se paie",
+      "date": "3/11/2026",
+      "items": [
+        "Une balle rapide se contrôle moins bien : la dispersion grandit au-delà de 10 m/s, et ni poussette ni coup court au-delà de 8 m/s, pour vous comme pour le robot.",
+        "La première recherche : elle essaie des coups, les joue sur un modèle de l'adversaire, et garde le meilleur.",
+        "Elle a trouvé une faille, des chandelles à 60° et plus : la visée ne les propose plus."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.7.0",
       "title": "Choisir son coup pendant la pause",
       "date": "3/11/2026",

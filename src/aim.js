@@ -1,4 +1,4 @@
-import { BALL, BALL_SIZE, NET, STEP, TABLE, X, Y, Z } from "./ball/constants.js";
+import { BALL, BALL_SIZE, NET, STEP, TABLE, VX, VY, VZ, X, Y, Z } from "./ball/constants.js";
 import { fly } from "./ball/flight.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 
@@ -23,12 +23,14 @@ const HIGH_START = 0.6;
 const NOT_LANDED = 1e3;
 const NET_MARGIN = 0.15; // Metres to spare over the net (H, Q-P20).
 const TIGHT_MARGIN = 0.05; // What a player settles for rather than a high ball.
+const STEEPEST = 1.2; // A ball leaving at more than 50° is no stroke: a search found it could send one up for metres (3/11/2026).
 const SOFTER = [1, 0.85, 0.7, 0.55, 0.4, 1.25, 1.5];
 
 const flying = new Float64Array(BALL_SIZE);
 const racket = new Float64Array(RACKET_SIZE);
 const landed = new Float64Array(3);
 const pose = new Float64Array(3);
+const leaving = new Float64Array(1);
 const base = new Float64Array(3);
 const best = new Float64Array(3);
 const current = { speed: 0, brushUp: 0, brushSide: 0 };
@@ -63,6 +65,7 @@ function tryTilts(task, side, up) {
   pose[2] = task.forward;
   poseRacket(racket, pose, current, flying);
   strike(flying, racket);
+  leaving[0] = flying[VZ] / Math.sqrt(flying[VX] * flying[VX] + flying[VY] * flying[VY] + 1e-9);
   flyToLanding();
   landed[0] = task.forward * (landed[0] - task.target[0]);
   landed[1] = task.forward * (landed[1] - task.target[1]);
@@ -136,8 +139,8 @@ function highOrClosest(task, out) {
   best[1] = out[1];
   startTilts(task, HIGH_START, out);
   const high = solveFrom(task, out);
-  if (high < TOLERANCE && landed[2] > 0) return true;
-  if (low <= high) {
+  if (high < TOLERANCE && landed[2] > 0 && leaving[0] <= STEEPEST) return true;
+  if (low <= high || leaving[0] > STEEPEST) {
     out[0] = best[0];
     out[1] = best[1];
   }

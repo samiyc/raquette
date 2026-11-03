@@ -110,6 +110,17 @@ describe("the aim", () => {
     assert.ok(start[VZ] < 3.5 && start[VX] < -4, `${start[VX]}, ${start[VZ]}`);
   });
 
+  it("never sends a ball up for metres, even when nothing else lands there", () => {
+    const tilts = new Float64Array(3);
+    const task = { ball: coming(), forward: -1, target: [-0.3, 0], swing: { speed: 12, brushUp: 10, brushSide: 0 } };
+    aim(task, tilts);
+    const start = task.ball.slice();
+    const racket = new Float64Array(RACKET_SIZE);
+    poseRacket(racket, Float64Array.of(tilts[0], tilts[1], -1), { ...task.swing, speed: tilts[2] }, start);
+    strike(start, racket);
+    assert.ok(start[VZ] <= 1.2 * Math.abs(start[VX]) + 0.5, `${start[VX]}, ${start[VZ]}`);
+  });
+
   it("leaves the ball as it is", () => {
     const task = { ball: coming(), forward: -1, target: [-0.685, 0], swing };
     const copy = task.ball.slice();

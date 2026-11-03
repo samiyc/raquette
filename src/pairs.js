@@ -38,11 +38,11 @@ function playKept(options, log) {
 }
 
 /**
+ * The raw count of a run of seeds, to be put together with others by `mergePairs`.
  * @param {{a: import("./types.js").Rule, b: import("./types.js").Rule, profile: any, from?: number, seeds: number, log?: any}} match
  *   `log`, to keep the rallies (src/replay-log.js): `start(seed, server)` gives a rally's log, `end(line)` takes its line
- * @returns {PairsReport}
  */
-export function playPairs({ a, b, profile, from = 0, seeds, log }) {
+export function playSeeds({ a, b, profile, from = 0, seeds, log }) {
   const players = [{ rule: a, profile }, { rule: b, profile }];
   const count = { strokes: 0, rallies: 0, limits: 0, serverPoints: 0, lostByA: {}, lostByB: {} };
   const scoresA = [];
@@ -53,15 +53,41 @@ export function playPairs({ a, b, profile, from = 0, seeds, log }) {
     scoresA.push(points);
     scoresB.push(2 - points);
   }
-  const gap = paired(scoresA, scoresB);
-  const played = count.rallies - count.limits;
+  return { ...count, scoresA, scoresB };
+}
+
+function addCounts(into, counts) {
+  for (const [cause, n] of Object.entries(counts)) into[cause] = (into[cause] ?? 0) + n;
+}
+
+/**
+ * Runs of seeds put together, in the order given: the report does not depend on who played which.
+ * @param {ReturnType<typeof playSeeds>[]} parts
+ * @returns {PairsReport}
+ */
+export function mergePairs(parts) {
+  const all = { strokes: 0, rallies: 0, limits: 0, serverPoints: 0, lostByA: {}, lostByB: {} };
+  for (const part of parts) {
+    for (const key of ["strokes", "rallies", "limits", "serverPoints"]) all[key] += part[key];
+    addCounts(all.lostByA, part.lostByA);
+    addCounts(all.lostByB, part.lostByB);
+  }
+  const gap = paired(parts.flatMap((part) => part.scoresA), parts.flatMap((part) => part.scoresB));
+  const played = all.rallies - all.limits;
   return {
     gap,
     part: 0.5 + gap.mean / 4,
-    strokes: count.strokes / count.rallies,
-    serverPart: played ? count.serverPoints / played : 0,
-    limits: count.limits / count.rallies,
-    lostByA: count.lostByA,
-    lostByB: count.lostByB,
+    strokes: all.strokes / all.rallies,
+    serverPart: played ? all.serverPoints / played : 0,
+    limits: all.limits / all.rallies,
+    lostByA: all.lostByA,
+    lostByB: all.lostByB,
   };
 }
+
+/**
+ * Two rules by pairs, on this thread.
+ * @param {Parameters<typeof playSeeds>[0]} match
+ * @returns {PairsReport}
+ */
+export const playPairs = (match) => mergePairs([playSeeds(match)]);

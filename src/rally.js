@@ -77,7 +77,7 @@ function finish(state, winner, cause) {
 function decide(state, who) {
   const seat = state.seats[who];
   const way = readWay(state.ball, seat.side, { served: state.ownBounce, bounced: state.bounces > 0 });
-  const view = { way, h: STEP, side: seat.side, profile: seat.profile, body: state.bodies[who], opponent: state.bodies[1 - who], tick: state.tick };
+  const view = { way, h: STEP, side: seat.side, who, state, profile: seat.profile, body: state.bodies[who], opponent: state.bodies[1 - who], tick: state.tick };
   const intent = seat.rule.decide(view);
   state.listener?.read?.(who, way, intent, state);
   if (!intent) return;
@@ -108,6 +108,15 @@ function stretchOf(state, who, profile) {
   return 1 + ((profile.stretchedScatter - 1) * (distance - profile.comfort)) / (profile.reach - profile.comfort);
 }
 
+/**
+ * How much more a stroke scatters on a fast ball (Sami, 3/11/2026): a racket could otherwise give way by just what it takes, and
+ * return a smash as softly as it likes at no cost. Nothing up to an easy ball, then more and more.
+ */
+export function controlOf(ball, profile) {
+  const speed = Math.sqrt(ball[VX] * ball[VX] + ball[VX + 1] * ball[VX + 1] + ball[VX + 2] * ball[VX + 2]);
+  return speed <= profile.easyBall ? 1 : 1 + (speed - profile.easyBall) / profile.controlLoss;
+}
+
 /** What a stroke draws of its scatter: across, up, and on the speed, in that order, whatever the rule. */
 function drawScatter(state, who) {
   const role = who === state.server ? 0 : 1;
@@ -124,7 +133,8 @@ function play(state, who, plan) {
   pose[2] = forward;
   const rush = rushOf(plan, profile);
   const stretched = stretchOf(state, who, profile);
-  const worse = rush * stretched;
+  const control = controlOf(state.ball, profile);
+  const worse = rush * stretched * control;
   const draws = drawScatter(state, who);
   pose[0] += draws[0] * profile.scatterAcross * worse;
   pose[1] += draws[1] * profile.scatterTilt * worse;
@@ -132,7 +142,7 @@ function play(state, who, plan) {
   poseRacket(racket, pose, swing, state.ball);
   const before = state.listener?.impact ? state.ball.slice() : null;
   strike(state.ball, racket);
-  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched }, state);
+  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched, control }, state);
 }
 
 const nextBall = new Float64Array(3);

@@ -1,7 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { CLUB_PLAYER, BY } from "../src/player.js";
-import { playPairs } from "../src/pairs.js";
+import { mergePairs, playPairs, playSeeds } from "../src/pairs.js";
+import { batchesOf, playOnThreads } from "../scripts/lib/pairs-pool.js";
 import { playRally } from "../src/rally.js";
 import { R0, takeToCentre } from "../src/rules/center.js";
 import { farSide, RULES } from "../src/rules/ladder.js";
@@ -33,6 +34,24 @@ describe("two rules by pairs", () => {
     assert.equal(report.limits, 1);
     assert.equal(report.part, 0.5);
     assert.deepEqual(report.lostByA, {});
+  });
+});
+
+describe("seeds played in batches", () => {
+  it("give the same report as all at once, whoever played them", () => {
+    const match = { a: RULES.R1, b: RULES.R0, profile: CLUB_PLAYER };
+    const whole = pairs(RULES.R1, RULES.R0, 12);
+    const batches = batchesOf(0, 12, 5);
+    assert.deepEqual(batches.map((batch) => batch.seeds), [5, 5, 2]);
+    assert.deepEqual(batches.map((batch) => batch.from), [0, 5, 10]);
+    const merged = mergePairs(batches.map(({ from, seeds }) => playSeeds({ ...match, from, seeds })));
+    assert.deepEqual(merged, whole);
+  });
+
+  it("give the same report on several threads", async () => {
+    const whole = pairs(RULES.R1, RULES.R0, 12);
+    const { report } = await playOnThreads({ names: ["R1", "R0"], budget: 4, from: 0, seeds: 12, replays: false }, 2);
+    assert.deepEqual(report, whole);
   });
 });
 

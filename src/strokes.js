@@ -21,10 +21,13 @@ import { SHORT_SWING } from "./rules/short.js";
  * @property {(contact: {back: number, height: number, speed: number}) => string | null} [refuses] why not, from the ball at contact
  */
 const LOW_ENOUGH = 0.4; // Metres above the table: higher, a ball is not pushed (H).
+const CONTROLLED = 8; // m/s at contact: faster, no soft and short stroke (Sami, 3/11/2026; H, Q-P21).
 const FAST_ENOUGH = 6; // m/s: under this, there is nothing to block (H).
 const FAR_ENOUGH = 0.4; // Metres behind the line: a chop is played from away from the table (H).
 const HARDER_AT_MOST = 1.5; // The aim may hit this much harder to get there: beyond, it is another stroke.
 const STEEPEST = 1; // A ball leaving at more than 45° is a high ball, not this stroke.
+
+const tooFast = (speed) => (speed > CONTROLLED ? "balle trop rapide pour un coup contrôlé" : null);
 
 /** @type {Readonly<Record<string, StrokeKind>>} */
 export const STROKE_KINDS = Object.freeze({
@@ -34,7 +37,7 @@ export const STROKE_KINDS = Object.freeze({
     label: "Poussette",
     swing: DRILL_STROKES.push.swing,
     rise: DRILL_STROKES.push.rise,
-    refuses: ({ height }) => (height > LOW_ENOUGH ? "balle trop haute" : null),
+    refuses: ({ height, speed }) => tooFast(speed) ?? (height > LOW_ENOUGH ? "balle trop haute" : null),
   },
   block: {
     label: "Bloc",
@@ -42,7 +45,7 @@ export const STROKE_KINDS = Object.freeze({
     rise: DRILL_STROKES.block.rise,
     refuses: ({ speed }) => (speed < FAST_ENOUGH ? "balle trop lente" : null),
   },
-  short: { label: "Deux rebonds", swing: SHORT_SWING, depths: [0.35, 0.45, 0.55, 0.65, 0.75] },
+  short: { label: "Deux rebonds", swing: SHORT_SWING, depths: [0.35, 0.45, 0.55, 0.65, 0.75], refuses: ({ speed }) => tooFast(speed) },
   chop: {
     label: "Tchop",
     swing: { speed: 7, brushUp: -8, brushSide: 0 },
@@ -152,23 +155,29 @@ export function depthFor(state, { who, rule }, key) {
 }
 
 /**
- * Which strokes make sense for the next ball.
+ * Which strokes make sense for a ball at contact: what the page shows and what a search may try.
+ * @param {Float64Array} ball at contact
+ * @param {{side: number, aim: number[]}} player
+ * @returns {Record<string, string | null>} each stroke: why not, or null if it can be played
+ */
+export function choicesAt(ball, { side, aim: wanted }) {
+  const facts = contactFacts(ball, side);
+  /** @type {Record<string, string | null>} */
+  const choices = {};
+  for (const [key, kind] of Object.entries(STROKE_KINDS)) {
+    choices[key] = kind.refuses?.(facts) ?? whyNot(kind, ball, { rule: { aim: wanted }, forward: -side });
+  }
+  return choices;
+}
+
+/**
+ * Which strokes make sense for the next ball of a player at the mouse.
  * @param {any} state the rally
  * @param {{who: number, rule: any}} player
- * @returns {Record<string, string | null>} each stroke: why not, or null if it can be played
+ * @returns {Record<string, string | null>}
  */
 export function strokeChoices(state, { who, rule }) {
   const contact = nextContact(state, who, rule);
-  /** @type {Record<string, string | null>} */
-  const choices = {};
-  const { side } = state.seats[who];
-  const forward = -side;
-  const facts = contact && contactFacts(contact.ball, side);
-  for (const [key, kind] of Object.entries(STROKE_KINDS)) {
-    if (!contact) choices[key] = "pas de balle à prendre";
-    else {
-      choices[key] = kind.refuses?.(facts) ?? whyNot(kind, contact.ball, { rule, forward });
-    }
-  }
-  return choices;
+  if (contact) return choicesAt(contact.ball, { side: state.seats[who].side, aim: rule.aim });
+  return Object.fromEntries(Object.keys(STROKE_KINDS).map((key) => [key, "pas de balle à prendre"]));
 }

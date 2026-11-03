@@ -2,7 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { X } from "../src/ball/constants.js";
 import { clickPoint, createPoint, pointOver, replayPoint, stepPoint } from "../src/game.js";
-import { depthFor, nextContact, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
+import { choicesAt, depthFor, nextContact, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
 
 const MOUSE = { who: 0 };
 const choicesOf = (point) => strokeChoices(point.state, { ...MOUSE, rule: point.rule });
@@ -59,6 +59,15 @@ describe("the strokes offered for the next ball", () => {
     assert.equal(choices.push, null, JSON.stringify(choices));
     assert.notEqual(choices.chop, null);
     assert.notEqual(choices.block, null, "nothing to block on a slow ball");
+  });
+
+  it("on a fast ball, no push and no short cut (Sami): a block and a flat ball stay", () => {
+    const point = createPoint({ seed: 3, server: 1, scatter: 0 });
+    const fast = Float64Array.of(-1.6, 0, 0.25, -11, 0, 0.5, 0, -200, 0);
+    const choices = choicesAt(fast, { side: -1, aim: point.rule.aim });
+    assert.match(choices.push, /trop rapide/);
+    assert.match(choices.short, /trop rapide/);
+    assert.equal(choices.block, null, JSON.stringify(choices));
   });
 
   it("offer nothing when the ball is going out, or just struck by the player", () => {
