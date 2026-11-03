@@ -68,6 +68,7 @@
  * @property {{rule: Rule, profile: Profile}[]} players the first plays from x < 0, the second from x > 0
  * @property {number} server 0 or 1
  * @property {RallyListener} [listener]
+ * @property {{height: number, ahead: number, down: number, lift: number}} [service] the long one by default
  *
  * @typedef {"net" | "out" | "twoBounces" | "notReached" | "behind" | "limit"} Cause
  *

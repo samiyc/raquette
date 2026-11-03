@@ -19,12 +19,19 @@ const MAX_STROKES = 60; // H, docs/modele.md, § 2.
 const MAX_TICKS = 240 * 120;
 const STREAM_PER_ROLE = 1000;
 
-/** The styled service (Q-S6): from above the end line, a bounce on each side, long and in the middle, no spin and no scatter yet. */
-const SERVICE = Object.freeze({ behind: 0.1, height: 0.25, ahead: 7, down: -1.5 });
+/**
+ * The styled services (Q-S6): from above the end line, a bounce on each side, in the middle, no scatter yet. The long one, flat,
+ * is the rules'; the short one, cut, bounces at x = 0.55 and starts a duel of pushes. `lift` is in rad/s, negative for a backspin.
+ */
+export const SERVICES = Object.freeze({
+  long: Object.freeze({ height: 0.25, ahead: 7, down: -1.5, lift: 0 }),
+  shortCut: Object.freeze({ height: 0.25, ahead: 5, down: -1.5, lift: -40 * 2 * Math.PI }),
+});
+const SERVE_BEHIND = 0.1;
 
-function serve(side) {
-  const x = side * (TABLE.halfLength + SERVICE.behind);
-  return createBall([x, 0, SERVICE.height], [-side * SERVICE.ahead, 0, SERVICE.down], [0, 0, 0]);
+function serve(side, service) {
+  const x = side * (TABLE.halfLength + SERVE_BEHIND);
+  return createBall([x, 0, service.height], [-side * service.ahead, 0, service.down], [0, -side * service.lift, 0]);
 }
 
 /** The normal draw, as a sum of uniforms: exact arithmetic, unlike Box-Muller's logarithm and cosine (docs/modele.md, § 3). */
@@ -35,12 +42,12 @@ function normalDraw(rng) {
 }
 
 /** @param {RallyOptions} options */
-function createState({ seed, players, server, listener }) {
+function createState({ seed, players, server, listener, service = SERVICES.long }) {
   const sides = [-1, 1];
   const seats = players.map((player, i) => ({ side: sides[i], profile: player.profile, rule: player.rule }));
   return {
     seed, seats, server, listener,
-    ball: serve(sides[server]),
+    ball: serve(sides[server], service),
     contact: new Float64Array(3),
     bodies: seats.map((seat) => createBody(seat.side, seat.profile)),
     striker: server,
@@ -69,7 +76,7 @@ function finish(state, winner, cause) {
 
 function decide(state, who) {
   const seat = state.seats[who];
-  const way = readWay(state.ball, seat.side, state.ownBounce);
+  const way = readWay(state.ball, seat.side, { served: state.ownBounce, bounced: state.bounces > 0 });
   const view = { way, h: STEP, side: seat.side, profile: seat.profile, body: state.bodies[who], opponent: state.bodies[1 - who], tick: state.tick };
   const intent = seat.rule.decide(view);
   if (!intent) return;
@@ -92,13 +99,14 @@ function play(state, who, plan) {
   const { side, profile } = state.seats[who];
   const forward = -side;
   aim({ ball: state.ball, forward, target: plan.target, swing: plan.swing }, pose);
+  const speed = pose[2];
   pose[2] = forward;
   const role = who === state.server ? 0 : 1;
   const rng = streamOf(state.seed, role * STREAM_PER_ROLE + state.strokes);
   const rush = rushOf(plan, profile);
   pose[0] += normalDraw(rng) * profile.scatterTilt * rush;
   pose[1] += normalDraw(rng) * profile.scatterTilt * rush;
-  const swing = { ...plan.swing, speed: plan.swing.speed * (1 + normalDraw(rng) * profile.scatterSpeed * rush) };
+  const swing = { ...plan.swing, speed: speed * (1 + normalDraw(rng) * profile.scatterSpeed * rush) };
   poseRacket(racket, pose, swing, state.ball);
   strike(state.ball, racket);
 }

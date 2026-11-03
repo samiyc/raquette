@@ -9,7 +9,7 @@ Q-S3 attend J5 ; Q-S7 attend J4.
 
 **Répondu le 3/11/2026** (Sami, en regardant la page) : le bandeau de profil reste, on y voit bien la trajectoire (Q-S5). Un bon joueur
 de club, avec un profil modifiable (Q-S1). La recherche doit battre la meilleure règle simple, pas seulement le centre (Q-S2).
-Un service stylisé jusqu'à J5 (Q-S6). Il ajoute le coupé à deux rebonds et le tchop : `../modele.md`, § 6.
+Un service stylisé jusqu'à J5 (Q-S6). Il ajoute le coupé à deux rebonds, le tchop, la poussette et le bloc, ainsi que deux duels d'entraînement : `../modele.md`, § 6.
 
 **Répondu le 2/11/2026** (Sami, voir `../modele.md`, § 4, § 10 et § 11) : Q-S4 tombe. La souris vient d'abord, avant les
 mesures : clic gauche pour se déplacer, clic droit pour viser, au pas à pas. Le secteur fait 220°, axe fixe vers le filet. La
@@ -39,7 +39,7 @@ préparateur physique. Pas de donnée nominative. Modèle fictif : on ne cherche
 
 | # | Question | Qui | La recommandation | Pèse sur |
 |---|---|---|---|---|
-| **Q-P1** | Un bon joueur de club vise un coin de la table avec un coup droit tranquille. À quelle distance de la cible tombent ses balles, le plus souvent ? Combien de ses balles vont au filet ? | E, J | **Environ 16 cm en médiane sur une balle facile** : ce que donnent 3° sur l'orientation et 6 % sur la vitesse (calculé à J3). Mais une balle prise bas va au filet près d'une fois sur trois, à vérifier. | Tout : la longueur des échanges, la valeur du placement. Si on ne répond qu'à une question, celle-là. |
+| **Q-P1** | Un bon joueur de club vise un coin de la table avec un coup droit tranquille. À quelle distance de la cible tombent ses balles, le plus souvent ? Combien de ses balles vont au filet ? | E, J | **3° sur l'orientation et 6 % sur la vitesse** : environ 16 cm en médiane sur une balle facile, et 13 % au filet sur une balle prise bas (calculés à J3). | Tout : la longueur des échanges, la valeur du placement. Si on ne répond qu'à une question, celle-là. |
 | **Q-P2** | Qu'est-ce qui dégrade la frappe le plus : frapper plus fort, jouer avec plus d'effet, ou manquer de temps ? De combien ? | E, J | **Le temps avant tout : ×2 sans préparation.** Force et effet n'ajoutent rien au départ. | R2, et ce qui rapporte à forcer l'adversaire à courir. |
 | **Q-P3** | Sur 100 balles faciles en échange, combien un bon joueur de club en rate-t-il ? Et sur des balles difficiles ? | E, J | **Pas de chiffre fixé** : la dispersion est calibrée sur 4 à 5 coups par échange. | La calibration. Un chiffre servirait de vérification. |
 
@@ -51,6 +51,7 @@ préparateur physique. Pas de donnée nominative. Modèle fictif : on ne cherche
 | **Q-P5** | À quelle vitesse se déplace-t-on sur le côté ? Quelle portée utile a-t-on sans bouger les pieds ? Un champ de 220° face au filet est-il juste, ou le corps pivote-t-il assez pour qu'il faille en tenir compte ? Quelle hauteur atteint-on sans se déplacer ? | E, H | **3 m/s, 8 m/s² ; portée 0,8 m, 220° face au filet (Sami) ; du plateau −0,5 m au plateau +1,2 m.** | La valeur des angles, les balles passées derrière le joueur. |
 | **Q-P6** | Combien de temps faut-il pour préparer un coup correct ? Quel coup reste possible avec moins ? | E, J | **0,15 s ; en dessous, la dispersion double.** | Le rythme, le jeu près de la table. |
 | **Q-P19** | Jusqu'où se penche-t-on au-dessus de la table pour une balle courte ? Quelle balle courte reste vraiment injouable ? À quelle distance de la table le coupé à deux rebonds devient-il fatal ? | E, J | **Le corps avance de 0,4 m au-dessus de la table**, ce qui laisse 17 cm hors d'atteinte après le filet ; fatal à partir de 1,6 à 2,4 m derrière la ligne (calculé). | R5, et une faille que l'autojeu trouverait : une zone courte où toute balle gagne. |
+| **Q-P20** | Combien de coups tient un duel top contre bloc à ce niveau, et une série de poussettes ? Qui rate le plus souvent ? De combien passe-t-on le filet ? Quelle vitesse et quel effet a un bloc, une poussette ? Prend-on le bloc en montée ? | E, J | **Top contre bloc de 10 à 25 coups, le top rate le plus ; poussettes plus longues ; 15 cm au-dessus du filet ; bloc à 20 cm en montée.** Le modèle donne 16 et 36 coups, un bloc à 7,7 m/s et 36 tr/s de lift, une poussette à 5,2 m/s et 39 tr/s de coupé. | La dispersion, donc tout : ces duels la fixent. |
 | **Q-P12** | Où attend-on la balle : au centre, décalé côté revers ? À quelle distance de la table ? Le choix coup droit ou revers change-t-il quelque chose à modéliser ? | E, J | **Au centre, à 0,5 m de la ligne, et pas de côté préféré.** | R0 et le coude : sans côté, le « coude » n'existe pas dans le modèle. |
 
 ### La raquette et l'effet

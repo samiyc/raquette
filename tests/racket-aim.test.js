@@ -74,7 +74,7 @@ describe("the aim", () => {
   const flown = (ball, forward, tilts) => {
     const racket = new Float64Array(RACKET_SIZE);
     const start = ball.slice();
-    poseRacket(racket, Float64Array.of(tilts[0], tilts[1], forward), swing, start);
+    poseRacket(racket, Float64Array.of(tilts[0], tilts[1], forward), { ...swing, speed: tilts[2] }, start);
     strike(start, racket);
     return recordFlight(start);
   };
@@ -87,6 +87,27 @@ describe("the aim", () => {
     assert.equal(first.kind, "table");
     assert.ok(close(first.x, -0.685, 0.012), `${first.x}`);
     assert.ok(close(first.y, 0.3, 0.012), `${first.y}`);
+  });
+
+  it("plays softer rather than onto the net's tape: the speed comes down until it clears", () => {
+    const tilts = new Float64Array(3);
+    const task = { ball: coming(), forward: -1, target: [-0.685, 0], swing: { speed: 12, brushUp: 0, brushSide: 0 } };
+    assert.equal(aim(task, tilts), true);
+    assert.ok(tilts[2] < 12, `${tilts[2]}`);
+    assert.ok(flown(task.ball, -1, tilts).events[0].kind === "table");
+  });
+
+  it("closes the face on a heavy lift, and keeps the ball low: no high ball where a block will do", () => {
+    const ball = createBall([1.2, 0, 0.2], [8, 0, 2], [0, 60 * TURN, 0]);
+    const tilts = new Float64Array(3);
+    const block = { speed: 6, brushUp: 0, brushSide: 0 };
+    assert.equal(aim({ ball, forward: -1, target: [-0.9, 0], swing: block }, tilts), true);
+    assert.ok(tilts[1] < -0.3, `${tilts[1]}`);
+    const start = ball.slice();
+    const racket = new Float64Array(RACKET_SIZE);
+    poseRacket(racket, Float64Array.of(tilts[0], tilts[1], -1), { ...block, speed: tilts[2] }, start);
+    strike(start, racket);
+    assert.ok(start[VZ] < 3.5 && start[VX] < -4, `${start[VX]}, ${start[VZ]}`);
   });
 
   it("leaves the ball as it is", () => {
@@ -114,7 +135,7 @@ describe("the aim", () => {
     assert.equal(aim({ ball, forward: 1, target: [0.35, 0], swing: SHORT_SWING }, tilts), true);
     const start = ball.slice();
     const racket = new Float64Array(RACKET_SIZE);
-    poseRacket(racket, Float64Array.of(tilts[0], tilts[1], 1), SHORT_SWING, start);
+    poseRacket(racket, Float64Array.of(tilts[0], tilts[1], 1), { ...SHORT_SWING, speed: tilts[2] }, start);
     strike(start, racket);
     assert.ok(start[WY] / TURN < -60, `${start[WY] / TURN}`);
     const [first, second] = recordFlight(start).events;
@@ -125,7 +146,7 @@ describe("the aim", () => {
 });
 
 describe("what replays alike on every engine", () => {
-  for (const name of ["racket.js", "aim.js", "player.js", "forecast.js", "rally.js", "rules/center.js", "rules/short.js"]) {
+  for (const name of ["racket.js", "aim.js", "player.js", "forecast.js", "rally.js", "rules/center.js", "rules/short.js", "rules/drills.js"]) {
     it(`src/${name} reads no inexact function`, () => {
       const source = readFileSync(new URL(`../src/${name}`, import.meta.url), "utf8").replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, "");
       assert.doesNotMatch(source, /Math\.(sin|cos|tan|pow|hypot|exp|log|atan)|\*\*|\.normal\(/);

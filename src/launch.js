@@ -31,6 +31,9 @@ export const PRESETS = Object.freeze({
   // Sami's two launches (3/11/2026), the only ones kept as they came: a ball left to bounce twice is lost by whoever is too far back.
   twoBounces: { label: "Coupé à deux rebonds", launch: { x: -1.6, z: 0.25, speed: 5, elevation: 18, topspin: -90 } },
   twoBouncesOver: { label: "Coupé à deux rebonds, sur la table", launch: { x: -0.8, z: 0.15, speed: 4, elevation: 18, topspin: -30 } },
+  // The balls the duels of src/rules/drills.js play, on average (docs/recherche/chiffres.md, § 8).
+  push: { label: "Poussette", launch: { x: -1.1, z: 0.2, speed: 4.9, elevation: 18, topspin: -38 } },
+  block: { label: "Bloc", launch: { x: -1.3, z: 0.2, speed: 7.3, elevation: 14, topspin: 22 } },
   chop: { label: "Tchop, loin de la table", launch: { x: -3, z: 0, speed: 9, elevation: 12, topspin: -80 } },
   comeBack: { label: "Fort coupé qui revient", launch: { x: -0.3, z: 0.25, speed: 2, elevation: 60, topspin: -130 } },
   lob: { label: "Lob", launch: { x: -2.6, z: 0.2, speed: 8, elevation: 40, topspin: 30 } },

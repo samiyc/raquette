@@ -14,7 +14,7 @@
     <header class="masthead">
       <p class="links"><a href="changelog.html">Journal des versions</a></p>
       <h1>Raquette</h1>
-      <p>Le vol d'une balle de ping-pong, avec son effet et sa hauteur. On lance la balle à la main, ou on regarde deux robots R0 s'échanger la balle.</p>
+      <p>Le vol d'une balle de ping-pong, avec son effet et sa hauteur. On lance la balle à la main, ou on regarde deux robots s'échanger la balle.</p>
     </header>
     <main>
       <section class="controls">
@@ -24,7 +24,8 @@
       </section>
       <section class="controls">
         <label>Graine<input id="seed" type="number" min="0" step="1" value="1" /></label>
-        <button type="button" id="rally">Échange R0 contre R0</button>
+        <label>Échange<select id="duel"></select></label>
+        <button type="button" id="rally">Jouer l'échange</button>
       </section>
       <p class="summary" id="events" aria-live="polite"></p>
       <section class="controls player">

@@ -270,41 +270,57 @@ compter la préparation. Toutes ces valeurs de corps sont des hypothèses (§ 6 
 
 Le second rebond tombe près du fond : le receveur prend la balle tard, mais de loin.
 
-**La première vitesse de R0 ne passait pas** (J3, 3/11/2026). Une balle plate à 8 m/s, prise à hauteur de filet près de la ligne de fond, ne
-peut pas retomber au centre sans toucher le filet. La visée se rabat alors sur une balle haute. Sur 600 échanges par ligne, avec
-la dispersion et le corps du § 4 :
+**Les duels d'entraînement** (Sami, 3/11/2026). Ils disent si le modèle ressemble au ping-pong, parce qu'on sait à quoi ces échanges ressemblent. Avec
+la dispersion de départ (3° et 6 %), 1 000 échanges par ligne :
 
-| Vitesse de la balle | Coups par échange | Filet | Hors table | Pas rejointe ou dans le dos | Limite |
-|---|---|---|---|---|---|
-| 5,5 m/s | 15,7 | 551 | 8 | 31 | 10 |
-| 6 m/s | 7,0 | 528 | 27 | 45 | 0 |
-| **6,5 m/s, retenue** | **4,2** | 519 | 37 | 44 | 0 |
-| 7 m/s | 2,8 | 477 | 64 | 59 | 0 |
-| 8 m/s | 1,9 | 407 | 122 | 71 | 0 |
+| Duel | Coups par échange | Balle du premier | Balle du second | Fins |
+|---|---|---|---|---|
+| Top contre bloc | **16,1** | top : 11,2 m/s, lift 104 tr/s, pris à 27 cm | bloc : 7,7 m/s, lift 36 tr/s, pris à 19 cm | 479 filet, 450 dehors, 41 dans le dos, 30 à la limite ; le top perd 3 fois sur 4 |
+| Poussette contre poussette | **36,2** | 5,2 m/s, coupé 39 tr/s, prise à 20 cm | la même | 488 dehors, 179 filet, 333 à la limite |
+| R0 contre R0 | **47,4** | | | 388 filet, 15 dehors, 597 à la limite |
 
-Sur 2 000 échanges à 6,5 m/s : 4,29 coups, 1 712 au filet (86 %), 125 hors table, 163 passés dans le dos, et 56 % des points au serveur, dont le
-service n'a ni effet ni dispersion. **Ce réglage atteint la longueur voulue pour une mauvaise raison** : presque tout finit au filet. À revoir à J5.
+La poussette à 4° et 8 % tient 19 coups, à 5° et 10 % 11 coups (300 échanges) : c'est ce qu'un bas niveau verrait. Le top reste sous les 117 ± 29 tr/s des jeunes
+joueurs confirmés de Kidokoro, et à la même vitesse de balle que les coups d'essai du § 8. **Aucune source ne dit combien durent ces duels** : les longueurs sont des
+hypothèses, à faire valider (Q-P20). Le lift du bloc non plus n'a pas de référence.
 
-**Le banc de J3** (`npm run bench`) : une visée 82 µs, un échange 0,75 ms, soit 2 400 échanges en 2 s sur un fil, pour une règle. Un plan de recherche
-coûtera une visée au moins : l'estimation de 50 µs par plan du `modele.md`, § 7, est donc trop basse, à reprendre à J6.
+**Ce que ces duels ont changé.** Réglés une première fois, ils ne tenaient pas, et le suivi coup par coup a montré trois défauts, plus un choix du cadrage :
 
-Une balle du même genre, prise à 17 cm, 2 000 à 4 000 tirages :
+| Défaut | Ce qu'il faisait | La correction |
+|---|---|---|
+| Une balle rebondie avant la fin de la réaction n'était plus lue | le joueur la laissait passer | la lecture sait qu'elle a déjà rebondi |
+| Un lift lourd fait monter la balle de 6 m/s sur une raquette verticale, et la visée partait de là | le bloc devenait une chandelle à 8 m/s vers le haut | la recherche part d'une raquette fermée |
+| Le corps courait jusque sur la balle | une balle à 0 cm passait « dans le dos » | il s'arrête 40 cm avant |
+| La visée acceptait n'importe quelle marge au filet | 86 % des fins au filet avec R0 | 15 cm de marge (H), en jouant moins fort s'il le faut |
+
+**La calibration de 4 à 5 coups visait mal.** Elle vient de matchs, où l'on attaque. Deux joueurs qui renvoient au centre avec de la marge ne se ratent presque pas, et c'est
+crédible : R0 contre R0 tient 47 coups. Forcer R0 à 4 coups, comme je l'avais fait le 3/11 avec 86 % de filet, cachait les défauts ci-dessus. Les duels fixent donc la dispersion ;
+les 4 à 5 coups restent une vérification pour la meilleure règle, à J5. La dispersion de 3° et 6 % reste celle de Q-P1.
+
+**Une balle prise à 17 cm**, 4 000 tirages :
 
 | Coup | Dispersion | Valide | Filet | Hors table | Deux rebonds |
 |---|---|---|---|---|---|
-| R0, 6,5 m/s, centre | 3° et 6 % | 63,5 % | 31,0 % | 5,4 % | 0 |
-| R0, 6,5 m/s, centre | 1,5° et 3 % | 80,7 % | 19,3 % | 0 % | 0 |
-| Coupé court, 4 m/s, brossage −6 m/s, à x = 0,35 | 3° et 6 % | 66,4 % | 31,4 % | 2,1 % | 46,1 % |
-| Coupé court, 4 m/s, brossage −6 m/s, à x = 0,35 | 1,5° et 3 % | 80,8 % | 19,2 % | 0 % | 75,4 % |
+| R0, centre | 3° et 6 % | 86,4 % | 12,9 % | 0,7 % | 3,4 % |
+| R0, centre | 1,5° et 3 % | 99,1 % | 0,9 % | 0 % | 0,2 % |
+| Coupé court, 4 m/s, brossage −6 m/s, à x = 0,35 | 3° et 6 % | 66,3 % | 31,5 % | 2,2 % | 46,1 % |
+| Coupé court, 4 m/s, brossage −6 m/s, à x = 0,35 | 1,5° et 3 % | 80,7 % | 19,3 % | 0 % | 75,3 % |
 
-Le coupé court n'est donc pas plus risqué que la frappe de R0. Sans dispersion, la raquette le joue à 4,7 m/s et 82 tr/s de coupé : le lancer de Sami
-est à la portée du modèle de contact de Conti. Sur une balle facile, à 25 cm et 6 m/s d'arrivée à 8 m/s de départ, les 3° et 6 % donnent 16 cm de
-médiane et 90 % de balles valides, proches de la recommandation de Q-P1. C'est la balle basse qui coûte cher.
+Le coupé court est donc plus risqué que R0 : sans dispersion, il part à 4,7 m/s et 82 tr/s de coupé, et il garde peu de marge au filet. Le lancer de Sami reste à la portée du modèle de
+contact de Conti.
 
-**La règle court, un premier essai.** Sur 300 échanges, jouée contre un R0 attendant plus ou moins loin, avec un seuil de 1 m : elle ne gagne
-rien et perd même des points. À 1,5 m d'attente, le premier joueur gagne 64,7 % avec elle, 75,3 % sans elle. Elle jouait alors une balle encore
-rattrapable, d'où le seuil porté à 1,5 m, non mesuré. Et à 2 m et plus, le receveur perd déjà sur sa propre frappe, trop courte à 6,5 m/s depuis
-le fond. Rien n'est mesuré au sens du § 7 du modèle : c'est le travail de J5.
+**La règle « court », un premier essai** : 200 échanges contre un R0 qui attend plus ou moins loin, sans dispersion réduite, seuil de 1,5 m.
+
+| Attente du receveur, derrière la ligne | Le serveur gagne, avec R0 | Le serveur gagne, avec « court » | Deux rebonds avec « court » |
+|---|---|---|---|
+| 0,5 m | 19 % (le reste, surtout à la limite) | 19 %, échanges identiques | 0 |
+| 1,5 m | 96,5 % | 88,5 % | 1 |
+| 2,5 m | 98 % | 78 % | 52 |
+
+**Elle ne bat pas R0 pour l'instant** : le coup fait bien mouche à 2,5 m, 52 fois sur 200, mais R0 y gagne déjà, car le receveur rate sa propre frappe, trop courte depuis si loin. Rien n'est
+mesuré au sens du § 7 du modèle : c'est le travail de J5.
+
+**Le banc** (`npm run bench`) : une visée 348 µs, contre 82 µs avant la recherche du premier essai et la marge au filet ; un échange de R0, 47 coups, 19,5 ms. Un plan de recherche coûtera au moins une visée :
+l'estimation de 50 µs par plan du `modele.md`, § 7, est trop basse, et la visée sera à accélérer à J6.
 
 **Le test du rebond.** Lâchée de 30 cm, la balle arrive à 2,37 m/s, traînée comprise.
 

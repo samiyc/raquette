@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.3.0",
+      "title": "La poussette, le bloc, et deux duels d'entraînement",
+      "date": "3/11/2026",
+      "items": [
+        "Deux coups préréglés de plus : la poussette et le bloc.",
+        "Deux duels sur la page : top contre bloc, 16 coups par échange, et poussette contre poussette, 36 coups.",
+        "Ces duels ont révélé trois défauts corrigés : une balle déjà rebondie laissée passer, un bloc transformé en chandelle, un corps courant jusque sur la balle.",
+        "La visée garde 15 cm au-dessus du filet et joue moins fort s'il le faut. R0 contre R0 tient donc 47 coups, au lieu des 4 coups forcés de la version 0.2.0."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.2.0",
       "title": "Deux robots s'échangent la balle",
       "date": "3/11/2026",

@@ -5,12 +5,13 @@ import { CLUB_PLAYER } from "../src/player.js";
 import { recordRally } from "../src/rally-recording.js";
 import { recordFlight } from "../src/recording.js";
 import { R0 } from "../src/rules/center.js";
+import { DUELS, drillPlayers } from "../src/rules/drills.js";
 import { drawScene } from "./draw.js";
 import { createPlayer, SPEEDS } from "./player.js";
 import { eventsText, frameText, rallyText } from "./readout.js";
 import { layoutFor } from "./scale.js";
 
-/** The page: a ball thrown by hand, or a rally of R0 against R0. It listens and draws; what decides is in src/. */
+/** The page: a ball thrown by hand, or a rally between two robots. It listens and draws; what decides is in src/. */
 const FIELDS = [
   ["speed", "Vitesse (m/s)", 0.5, 35, 0.5],
   ["elevation", "Élévation (°)", -20, 80, 1],
@@ -59,10 +60,16 @@ function launchNow() {
   player.load(recording.steps);
 }
 
+/** Who plays, from the list: R0 against itself, or a duel of src/rules/drills.js. */
+function matchOf(key) {
+  if (key === "r0") return { players: [{ rule: R0, profile: CLUB_PLAYER }, { rule: R0, profile: CLUB_PLAYER }] };
+  const { first, second, service } = DUELS[key];
+  return { players: drillPlayers(first, second, CLUB_PLAYER), service };
+}
+
 function watchRally() {
   const seed = Number(/** @type {HTMLInputElement} */ (byId("seed")).value);
-  const players = [{ rule: R0, profile: CLUB_PLAYER }, { rule: R0, profile: CLUB_PLAYER }];
-  recording = recordRally({ seed, players, server: seed % 2 });
+  recording = recordRally({ seed, server: seed % 2, ...matchOf(/** @type {HTMLSelectElement} */ (byId("duel")).value) });
   byId("events").textContent = rallyText({ seed, result: recording.result });
   player.load(recording.steps);
 }
@@ -76,6 +83,9 @@ function usePreset(key) {
 function buildControls() {
   const select = /** @type {HTMLSelectElement} */ (byId("preset"));
   for (const [key, { label }] of Object.entries(PRESETS)) select.add(new Option(label, key));
+  const duel = /** @type {HTMLSelectElement} */ (byId("duel"));
+  duel.add(new Option("R0 contre R0", "r0"));
+  for (const [key, { label }] of Object.entries(DUELS)) duel.add(new Option(label, key));
   select.addEventListener("change", () => usePreset(select.value));
   for (const [name, label, min, max, step] of /** @type {[string, string, number, number, number][]} */ (FIELDS)) {
     const field = document.createElement("label");

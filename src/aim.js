@@ -6,6 +6,9 @@ import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
  * The aim: the two tilts of the racket that send the ball onto a point of the other camp, by Newton's method, each try
  * flying the ball once (docs/modele.md, § 4). It is ballistics, shared by rules and searches, not a decision. Everything is
  * done in the player's own frame, so that two players facing each other get exact mirror images.
+ *
+ * A player does not send a ball onto the net's tape: a flight that clears it by too little is played softer, down to where it
+ * clears. A high ball comes last, when nothing softer lands there.
  */
 const RADIUS = BALL.radius;
 const MAX_FLIGHT = 720; // Three seconds: a ball that never comes down has no landing to aim with.
@@ -14,9 +17,13 @@ const MAX_MOVE = 0.3;
 const MAX_TILT = 3;
 const MAX_ROUNDS = 6;
 const TOLERANCE = 0.01; // One centimetre: far below the scatter of a stroke.
-const LOW_START = 0.05;
+const LOWEST_TILT = -1.4; // A face closed by 54°: a heavy lift kicks up off the racket, and it takes that much to keep it down.
+const TILT_STEP = 0.2;
 const HIGH_START = 0.6;
 const NOT_LANDED = 1e3;
+const NET_MARGIN = 0.15; // Metres to spare over the net (H, Q-P20).
+const TIGHT_MARGIN = 0.05; // What a player settles for rather than a high ball.
+const SOFTER = [1, 0.85, 0.7, 0.55, 0.4, 1.25, 1.5];
 
 const flying = new Float64Array(BALL_SIZE);
 const racket = new Float64Array(RACKET_SIZE);
@@ -24,6 +31,7 @@ const landed = new Float64Array(3);
 const pose = new Float64Array(3);
 const base = new Float64Array(3);
 const best = new Float64Array(3);
+const current = { speed: 0, brushUp: 0, brushSide: 0 };
 
 /** Where the ball first comes down on the table's level, into `landed`, with what it has to spare over the net. */
 function flyToLanding() {
@@ -53,7 +61,7 @@ function tryTilts(task, side, up) {
   pose[0] = side;
   pose[1] = up;
   pose[2] = task.forward;
-  poseRacket(racket, pose, task.swing, flying);
+  poseRacket(racket, pose, current, flying);
   strike(flying, racket);
   flyToLanding();
   landed[0] = task.forward * (landed[0] - task.target[0]);
@@ -89,34 +97,64 @@ function solveFrom(task, out) {
   return miss;
 }
 
-/** Points the racket towards the target and a little up, the first guess. */
+/** Points the racket towards the target, the tilt up given. */
 function startTilts(task, up, out) {
   const ahead = task.target[0] - task.ball[X];
   out[0] = ahead === 0 ? 0 : (task.forward * (task.target[1] - task.ball[Y])) / (task.forward * ahead);
   out[1] = up;
 }
 
-const clearsNet = () => landed[2] > 0;
-
 /**
- * The tilts for a stroke: a low flight if one clears the net, otherwise a higher one. When neither hits the target, the tilts
- * of the closest are kept: the stroke is played all the same, and the rally says what comes of it.
- * @param {import("./types.js").AimTask} task
- * @param {Float64Array} out the two tilts
- * @returns {boolean} whether the stroke lands on its target and clears the net
+ * The first guess of a low flight. Opening the face sends the ball further, then higher and shorter: starting from a closed face,
+ * the first flight that clears the net and reaches the target is next to the low solution, whatever spin the ball comes with.
  */
-export function aim(task, out) {
-  startTilts(task, LOW_START, out);
+function startLow(task, out) {
+  startTilts(task, LOWEST_TILT, out);
+  for (let up = LOWEST_TILT; up < HIGH_START; up += TILT_STEP) {
+    tryTilts(task, out[0], up);
+    out[1] = up;
+    if (landed[2] > 0 && landed[0] >= 0) return;
+  }
+}
+
+/** A low flight at each speed in turn, from the wished one down. @returns {boolean} whether one lands there with this room over the net */
+function softerFlights(task, out, margin) {
+  for (const part of SOFTER) {
+    current.speed = task.swing.speed * part;
+    startLow(task, out);
+    if (solveFrom(task, out) < TOLERANCE && landed[2] >= margin) return true;
+  }
+  return false;
+}
+
+/** A high ball, the last resort, or else the closest try. @returns {boolean} whether it lands there */
+function highOrClosest(task, out) {
+  current.speed = task.swing.speed;
+  startLow(task, out);
   const low = solveFrom(task, out);
-  if (low < TOLERANCE && clearsNet()) return true;
   best[0] = out[0];
   best[1] = out[1];
   startTilts(task, HIGH_START, out);
   const high = solveFrom(task, out);
-  if (high < TOLERANCE && clearsNet()) return true;
+  if (high < TOLERANCE && landed[2] > 0) return true;
   if (low <= high) {
     out[0] = best[0];
     out[1] = best[1];
   }
   return false;
+}
+
+/**
+ * The stroke: the tilts and the speed. When nothing hits the target, those of the closest try are kept: the stroke is played all
+ * the same, and the rally says what comes of it.
+ * @param {import("./types.js").AimTask} task
+ * @param {Float64Array} out the tilt across, the tilt up, and the speed kept
+ * @returns {boolean} whether the stroke lands on its target and clears the net
+ */
+export function aim(task, out) {
+  current.brushUp = task.swing.brushUp;
+  current.brushSide = task.swing.brushSide;
+  const found = softerFlights(task, out, NET_MARGIN) || softerFlights(task, out, TIGHT_MARGIN) || highOrClosest(task, out);
+  out[2] = current.speed;
+  return found;
 }

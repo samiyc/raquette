@@ -34,7 +34,7 @@ describe("the strokes the page offers do what they are called", () => {
     return first.kind === "table" && first.x > 0 && first.x < 1.37;
   };
 
-  for (const key of ["top", "fastTop", "flat", "cut", "lob", "side", "comeBack"]) {
+  for (const key of ["top", "fastTop", "flat", "cut", "push", "block", "lob", "side", "comeBack"]) {
     it(`${key} lands in the other camp`, () => {
       assert.ok(landsInTheOtherCamp(flightOf(key)), eventsText(flightOf(key)));
     });

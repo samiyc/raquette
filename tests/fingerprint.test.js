@@ -16,7 +16,7 @@ import { R0 } from "../src/rules/center.js";
 const EXPECTED = {
   // 2/11/2026: a ball ending its roll no longer falls through the table; flights before that point are unchanged.
   ball: "2aa4b251ea50ef1c",
-  rally: "f85cb2d0006385b9",
+  rally: "c84e3aa58f32ef62",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */

@@ -2,7 +2,7 @@
 
 Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, un joueur à la souris
 pour éprouver ce robot, puis l'autojeu. Ce document fixe ce qu'on va construire et comment on saura que ça marche. **À ce jour, `src/` a la
-balle, la raquette, la visée, le corps et un échange de R0 contre R0 : ni souris, ni mesure, ni recherche.**
+balle, la raquette, la visée, le corps, un échange de R0 contre R0 et deux duels d'entraînement : ni souris, ni mesure, ni recherche.**
 
 **Le cap, précisé par Sami le 2/11/2026.** Tout représenter en 2D vue de dessus sera complexe, mais le jeu reste surtout de l'analyse,
 du positionnement et des trajectoires. Le joueur humain est simplifié pour finir des parties, à la souris et au pas à pas, et il sert à **vérifier
@@ -127,7 +127,8 @@ constante `cos 110° = −0,3420…`. Un axe qui pivote vers la balle ne reviend
    raquette, donc l'effet voulu), l'instant du contact, et où aller ensuite. C'est ce qui se décide.
 2. **La visée** (`aim`) : les deux inclinaisons de raquette qui envoient la balle sur le point visé, trouvées par quelques
    itérations de Newton, chacune simulant un vol. C'est de la balistique, partagée, et ce n'est pas la recherche : une règle
-   en a besoin autant qu'elle. Si aucune inclinaison ne passe le filet, le coup n'est pas jouable. Elle lit la balle **telle
+   en a besoin autant qu'elle. Elle garde 15 cm au-dessus du filet (H, Q-P20), en jouant moins fort s'il le faut, puis 5 cm ; une balle
+   haute ne vient qu'en dernier. Si rien ne convient, le coup est joué tout de même, et l'échange dit ce qu'il en reste. Elle lit la balle **telle
    que le joueur la perçoit**.
 3. **L'exécution** : la dispersion du § 4 s'applique à la raquette, tirée d'un flux à graine.
 4. **Le contact** : le modèle de Conti, avec la balle **vraie** et la raquette **bruitée** : restitution normale et
@@ -155,7 +156,7 @@ le navigateur, pas sur notre horloge, comme l'a appris Hypersonic.
 **R0, « renvoyer au centre »**, c'est la règle de la feuille de route, lue ainsi (Q-S2) :
 
 - viser le centre du camp adverse, `x = 0,685` et `y = 0` ;
-- frapper une balle à 6,5 m/s (H, réglée à J3), sans brossage ;
+- frapper une balle à 6,5 m/s au plus (H), moins si la marge au filet le demande, sans brossage ;
 - prendre la balle au sommet de son rebond, ou au dernier instant à portée si le sommet échappe ;
 - après le coup, retourner à la position d'attente ;
 - servir long et au centre, sans effet.
@@ -177,6 +178,9 @@ point est perdu pour lui. Le calcul, avec le corps du § 4 (`chiffres.md`, § 8)
 jusqu'à 2,4 m et 1,6 m derrière la ligne au mieux, contre 0,5 m pour la position d'attente. Le coup punit donc un joueur reculé, pas
 un joueur à sa place. **Le tchop** est l'autre coupé : joué de loin, il repasse le filet bas, avec beaucoup de coupé. Il ne donne
 pas deux rebonds, mais ralentit la balle.
+
+**Les duels d'entraînement** (Sami, 3/11/2026) ne sont pas des règles à battre. Top contre bloc, et poussette contre poussette : tout le monde sait à quoi
+ces échanges ressemblent, ils disent donc si le modèle ressemble au ping-pong (`src/rules/drills.js`, `chiffres.md`, § 8). Ce sont eux qui fixent la dispersion.
 
 **R1 sert de garde-fou.** Si viser loin de l'adversaire ne bat pas viser le centre, le modèle ne récompense pas le placement,
 et le jeu n'en est pas un : on corrige le modèle avant d'écrire la moindre recherche. Le pendant : si R1 écrase R0 à 90 %,
@@ -242,9 +246,9 @@ référence**. Les tests de J1 :
 | Un fort coupé repart en arrière | qualitatif (Conti) | le signe |
 | Roulement et glissement se raccordent à α = 0,4 | la dérivation (`chiffres.md`, § 3) | exact |
 
-**La calibration, à ne pas confondre.** R0 contre R0 doit donner autour de 4 à 5 coups par échange (Glynn, l'extrait d'une
-autre étude). On règle la force et la dispersion pour y arriver : c'est un ajustement, pas une preuve. Le premier état, à J3 :
-`chiffres.md`, § 8. Les parts de points au service, à
+**La calibration, à ne pas confondre.** Les duels d'entraînement fixent la dispersion : le top contre le bloc doit tenir de 10 à 25 coups (H, Q-P20). C'est un
+ajustement, pas une preuve. Les 4 à 5 coups par échange (Glynn, l'extrait d'une autre étude) viennent de matchs, où l'on attaque : ils vérifient la
+meilleure règle à J5, pas R0, qui tient 47 coups (`chiffres.md`, § 8). Les parts de points au service, à
 la 3e et à la 5e balle (Djokic) restent, elles, une vérification indépendante, une fois le service en place.
 
 ## 8. La recherche, plus tard
@@ -408,7 +412,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J2** | la page : la table, une balle lancée, le rebond, les couleurs, le bandeau | Sami la regarde ; le changelog |
 | **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause, dont les deux rebonds d'un joueur reculé |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
-| **J5** | les mesures : R0 à R5 par paires, calibration | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange |
+| **J5** | les mesures : R0 à R5 par paires | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange pour la meilleure règle |
 | **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | l'écart, son intervalle, le témoin à 4 fois le budget, 0 collection par décision |
 | **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
@@ -440,8 +444,8 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
    et sa dispersion ×2 sont là pour ça, sans preuve qu'elles suffisent.
 3. **La visée peut coûter cher ou échouer** (près du filet, avec de forts effets). Elle est au cœur de toutes les règles et de
    tous les plans. Le banc de J3 : `chiffres.md`, § 8.
-4. **Le filet décide presque tout, au premier réglage.** R0 finit 86 % de ses échanges dans le filet, ce qui ne ressemble pas à
-   du ping-pong. Un bon joueur prend de la marge : la règle ne le sait pas encore. C'est à reprendre à J5, avant de croire R1.
+4. **R0 contre R0 s'arrête souvent à sa limite** (60 % des échanges). C'est crédible pour deux joueurs qui ne font que renvoyer au centre, mais une mesure y perd de sa
+   force : R1 et les suivantes doivent créer des fautes, sinon la limite de 60 coups décide. À regarder dès J5.
 5. **Une règle à plat peut être imbattable** si le modèle ne punit rien : c'est le doute de Sami sur MCTS. Dans ce cas, le
    résultat honnête du projet est : « la règle R2 suffit dans ce modèle ».
 6. **L'autojeu peut tourner en rond ou exploiter le modèle.** Le panel figé et Sami servent de garde-fous (§ 8), sans garantie :
