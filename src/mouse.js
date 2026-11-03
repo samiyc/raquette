@@ -1,7 +1,7 @@
 import { TABLE, Y } from "./ball/constants.js";
 import { BY, GOAL_X, GOAL_Y, placeBody, setGoal, waitingX } from "./player.js";
 import { MOST_FROM, receiverY, SERVE_BEHIND, serviceBall, SERVICE_KINDS } from "./services.js";
-import { contactStep, STROKE_KINDS } from "./strokes.js";
+import { contactStep, STROKE_KINDS, swingToward } from "./strokes.js";
 
 /**
  * The mouse player (Sami, 2/11/2026; docs/modele.md, § 10): the left button says where to go, the right button where to send the
@@ -113,14 +113,13 @@ function moveOrder(state, { rule, who, seat }, to) {
 function setAim(rule, at) {
   rule.aim[0] = at[0];
   rule.aim[1] = at[1];
+  pickStroke(rule, rule.stroke);
 }
 
 /** The stroke of the next ball. A side stroke brushes towards the side aimed at. */
 function pickStroke(rule, key) {
-  const { swing } = STROKE_KINDS[key];
   rule.stroke = key;
-  Object.assign(rule.swing, swing);
-  if (swing.sideways && rule.aim[1] < 0) rule.swing.brushSide = -swing.brushSide;
+  Object.assign(rule.swing, swingToward(STROKE_KINDS[key].swing, rule.aim[1]));
 }
 
 /** The service sets off anew from where the server stands: its kind, and where it is sent across the table. The other player follows. */

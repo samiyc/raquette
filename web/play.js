@@ -5,13 +5,14 @@ import {
 } from "../src/game.js";
 import { destinationOf, orderOf } from "../src/mouse.js";
 import { BX, BY } from "../src/player.js";
-import { ballPath, depthFor, expectedMiss, nextContact, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
+import { depthFor, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
 import { drawBallPath, drawOrders, drawScene } from "./draw.js";
 import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
 import { exportWon, savePoint } from "./play-files.js";
 import { createStepper } from "./play-steps.js";
 import { keysOf } from "./play-keys.js";
+import { readThePause } from "./play-zone.js";
 import { freshSeed, seedOfNewGame } from "./play-seeds.js";
 import { fromTopBand, layoutFor } from "./scale.js";
 import { buildServices, buildStrokes, letGoOfButtons, showServices, showStrokes } from "./stroke-panel.js";
@@ -38,17 +39,9 @@ function refreshStrokes() {
   const choices = strokeChoices(state, { who: 0, rule });
   showStrokes(byId("strokes"), choices, rule.stroke);
   showServices(byId("services"), state.tick === 0 && state.server === 0, rule.service);
-  readThePause(state, rule);
+  readThePause(live, state, rule);
   const lost = choices[rule.stroke] !== null && rule.stroke !== "flat";
   if (lost && choices.flat === null) pick("flat");
-}
-
-/** What a pause shows: the ball's way, where the stroke takes it, and the circle. */
-function readThePause(state, rule) {
-  const contact = nextContact(state, 0, rule);
-  live.contact = contact ? [contact.ball[0], contact.ball[1]] : null;
-  live.path = ballPath(state);
-  live.miss = expectedMiss(state, { who: 0, rule }) ?? live.miss;
 }
 
 /** An order to the point under way. */
@@ -83,7 +76,7 @@ function render() {
   const goal = destinationOf(live.point.rule, body);
   const paused = !live.running && !live.point.closed;
   if (paused && live.path) drawBallPath(context, layout, live.path);
-  drawOrders(context, layout, { aim: live.point.rule.aim, goal, body: [body[BX], body[BY]], miss: live.miss, contact: paused ? live.contact : null });
+  drawOrders(context, layout, { aim: live.point.rule.aim, goal, body: [body[BX], body[BY]], miss: live.miss, contact: paused ? live.contact : null, zone: paused ? live.zone : [] });
   byId("frame").textContent = frameText(recording, recording.steps, BALL_SIZE);
 }
 

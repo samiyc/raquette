@@ -48,7 +48,7 @@ function distanceOf(body, ball) {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-function impactOf(state, { who, plan, before, racket, found, kept, draws, rush, stretch, control, far }) {
+function impactOf(state, { who, plan, before, racket, found, kept, draws, rush, stretch, control, far, effort }) {
   const body = state.bodies[who];
   return {
     tick: state.tick,
@@ -63,7 +63,7 @@ function impactOf(state, { who, plan, before, racket, found, kept, draws, rush, 
     ballOut: shortAll(state.ball.subarray(VX, BALL_SIZE)),
     racket: { normal: shortAll(racket.subarray(NX, NX + 3)), velocity: shortAll(racket.subarray(RX, RX + 3)) },
     aim: { target: shortAll(plan.target), speed: plan.swing.speed, kept: short(kept), brush: plan.swing.brushUp, found },
-    scatter: { across: short(draws[0]), up: short(draws[1]), speed: short(draws[2]), rush: short(rush), stretch: short(stretch), control: short(control), far: short(far) },
+    scatter: { across: short(draws[0]), up: short(draws[1]), speed: short(draws[2]), rush: short(rush), stretch: short(stretch), control: short(control), far: short(far), effort: short(effort) },
     netMargin: null,
     landed: null,
   };

@@ -455,6 +455,8 @@ La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table d
 - **Les tirages paient, le budget non.** Plus d'essais sur 4 tirages ne rapportent rien de net. Le gain de 61,8 % mesuré plus tôt à 4 fois le budget n'a pas tenu sur le dernier modèle. Une explication possible, non vérifiée : avec peu de tirages, plus d'essais choisissent surtout le plus chanceux.
 - **Ce que joue l'escalade** (replays, 7 449 frappes contre R3) : élévation surtout de 0 à 30°, 56 % de lift au-delà de 50 tr/s, 26 % de coupé au-delà de 20 tr/s, et 0,8 % de balles à plus de 45°, sans trace de la chandelle d'avant. Sa cible va surtout à mi-table ou à 90-110 cm, sur le côté.
 
+**Avant le coût du geste** (3/11/2026, commit `6a039cb`, le service part d'où l'on se place, le receveur s'équilibre, à partir de la graine 1 100 000) : la recherche contre R3 **64,7 %** [62,8 ; 66,5], 4,9 coups ; contre R0 **68,6 %** [66,8 ; 70,4], 7,1 coups ; R3 contre R0 **57,5 %** [56,3 ; 58,6], 3 000 graines, 11,6 coups. Ces chiffres valent comme point de comparaison pour la suite.
+
 **La recherche avec 8 tirages et le choix de son service** (3/11/2026, commit `87c71c6`, à partir de la graine 1 000 000) :
 
 | Duel | Graines | Part du premier | Intervalle à 95 % | Coups par échange |

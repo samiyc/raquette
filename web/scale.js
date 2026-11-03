@@ -20,6 +20,7 @@ export const COLORS = Object.freeze({
   trail: "#8a8a4a",
   shadow: "#a9a97e",
   sector: "rgba(95, 95, 0, 0.12)",
+  zone: "rgba(13, 71, 161, 0.13)",
   neutral: "#4a4a3a",
   lift: "#b71c1c",
   cut: "#0d47a1",

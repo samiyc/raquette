@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.15.0",
+      "title": "Un grand geste coûte de la précision, et la zone du coup choisi",
+      "date": "3/11/2026",
+      "items": [
+        "Pendant la pause, la zone où le coup choisi peut aller est légèrement colorée sur la table de l'adversaire.",
+        "Un geste au-delà du top ordinaire devient moins précis, le brossage compté : l'autojeu avait trouvé une raquette à 5 m/s qui brossait à 16 m/s, sans aucun coût.",
+        "Le coup latéral a moins d'effet, 55 tr/s au lieu de 89, et sa cible grandit : le brossage de côté pèse plus.",
+        "Le latéral brosse vers le côté visé, même si on vise après l'avoir choisi."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.14.0",
       "title": "Le service part d'où l'on se place",
       "date": "3/11/2026",

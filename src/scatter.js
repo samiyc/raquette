@@ -28,6 +28,19 @@ export function stretchOf(ball, body, profile) {
   return 1 + ((profile.stretchedScatter - 1) * (distance - profile.comfort)) / (profile.reach - profile.comfort);
 }
 
+/**
+ * A big swing (Sami, 3/11/2026): nothing up to the ordinary top, then more and more. Without it, a brush cost nothing: self-play found
+ * a racket at 5 m/s brushing at 16 m/s, 13 m/s and 150 turns on nine balls out of ten. A sideways brush weighs more: it is further
+ * from the stroke's own line.
+ * @param {{speed: number, brushUp: number, brushSide: number}} swing the speed kept by the aim
+ * @param {any} profile
+ */
+export function effortOf({ speed, brushUp, brushSide }, profile) {
+  const side = profile.sideWeight * brushSide;
+  const effort = Math.sqrt(speed * speed + brushUp * brushUp + side * side);
+  return effort <= profile.easySwing ? 1 : 1 + (effort - profile.easySwing) / profile.swingLoss;
+}
+
 /** A fast ball: a racket could otherwise give way by just what it takes, and return a smash as softly as it likes at no cost. */
 export function controlOf(ball, profile) {
   const speed = Math.sqrt(ball[VX] * ball[VX] + ball[VY] * ball[VY] + ball[VZ] * ball[VZ]);

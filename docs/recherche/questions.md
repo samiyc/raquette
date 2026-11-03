@@ -68,6 +68,7 @@ préparateur physique. Pas de donnée nominative. Modèle fictif : on ne cherche
 
 | # | Question | Qui | La recommandation | Pèse sur |
 |---|---|---|---|---|
+| **Q-P22** | À partir de quelle ampleur de geste un joueur de club perd-il en précision ? Un top à 10 m/s de raquette et 10 m/s de brossage est-il un geste ordinaire ? Un brossage de côté coûte-t-il trois fois plus qu'un brossage vers le haut ? Hypothèses : rien jusqu'à 14,2 m/s au total, une dispersion de plus tous les 5 m/s, poids 3 pour le côté (Sami, 3/11/2026). |
 | **Q-P10** | Quels services joue-t-on à ce niveau (court ou long, effets, vitesse) ? Quels effets et quelles vitesses ont un pendule, un marteau, un mou, une bombe, un latéral ? Combien de points se jouent dessus et sur la 3e balle ? | E, J | **Pendule : 6 m/s, coupé 30 et latéral 40 tr/s. Marteau : 5 m/s, coupé 20 et latéral −50. Mou : 4 m/s, coupé 10. Coupé : 5 m/s, coupé 55. Bombe : 11 m/s, lift 10, contact bas. Latéral : 7 m/s, latéral 55.** Dispersion : 0,5° et 2 %. Djokic en vérification, à un autre niveau. | Après J4, la recherche sur le service. |
 | **Q-P11** | Quelle est la règle simple qu'on enseigne d'abord pour placer sa balle ? Viser le centre, est-ce réaliste, ou déjà une erreur ? | E | **R0 au centre, R1 loin de l'adversaire**, et les autres à la suite. Avis attendu sur le coude. | L'échelle des règles à battre. |
 | **Q-P13** | Combien de coups et de secondes dure un échange à ce niveau ? Pourquoi les sources disent-elles 3,3 s et 9,15 s ? | E, H | **4 à 5 coups ; la durée n'est pas une cible.** | La calibration. |

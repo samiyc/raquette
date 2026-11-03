@@ -305,6 +305,8 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Le service part d'où l'on se place.** Les règles tirent ce départ au hasard, à 50 cm au plus du milieu, et la recherche l'essaie pour le service qui sort le meilleur. La bombe part à 11 m/s au plus : sa vitesse baisse quand la ligne est courte, pour viser à 12 cm de la ligne de fond au plus (elle sortait de 5 à 9 %, de 2 % maintenant).
 
+**Un grand geste coûte de la précision** (3/11/2026, `effortOf`, Q-P22). La première lignée sur le modèle corrigé des services, `d`, a battu la recherche à 65,4 %, en 2,5 coups par échange : une raquette à 5 m/s, un brossage de 16 m/s, une balle à 13 m/s et 150 tr/s, sur la table 9 fois sur 10. Le brossage ne coûtait rien. Il compte maintenant : rien jusqu'à 14,2 m/s au total, le top ordinaire, puis une dispersion de plus tous les 5 m/s, et un brossage de côté pèse trois fois plus. Les trois duels de référence ne bougent pas.
+
 **Comment** (`scripts/selfplay.js`, une série = un job de la file, historique dans `docs/selfplay/`) : à chaque génération, 8 variantes déplacent 1 à 3 nombres dans leurs bornes ; un crible de 150 graines contre la version en cours élimine ; les 2 meilleures sont confirmées sur 600 graines neuves, contre la version (bas de l'intervalle au-dessus de 50 %) et contre R0, R1 et R3 (au moins 50 % à chacun). **Tant de confirmations laissent passer des chanceuses** : la dernière version rejoue donc le panel sur 2 000 graines qu'aucune génération n'a vues, et seul ce chiffre compte. Le panel ne contient encore ni les versions gelées, ni les positions perdues contre Sami.
 
 **L'autojeu cherchera les failles de la physique**, comme le rappelle Sony. Les bornes du § 3 sont là pour ça, et les

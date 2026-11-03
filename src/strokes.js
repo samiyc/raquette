@@ -4,7 +4,7 @@ import { frames, readWay, riseStep, topStep } from "./forecast.js";
 import { createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 import { recordFlight } from "./recording.js";
-import { controlOf, farOf, rushOf, stretchOf } from "./scatter.js";
+import { controlOf, effortOf, farOf, rushOf, stretchOf } from "./scatter.js";
 import { R0_SWING } from "./rules/center.js";
 import { DRILL_STROKES } from "./rules/drills.js";
 import { SHORT_SWING } from "./rules/short.js";
@@ -46,7 +46,7 @@ export const STROKE_KINDS = Object.freeze({
     rise: DRILL_STROKES.block.rise,
     refuses: ({ speed }) => (speed < FAST_ENOUGH ? "balle trop lente" : null),
   },
-  side: { label: "Latéral", swing: { speed: 6, brushUp: 2, brushSide: 8, sideways: true } },
+  side: { label: "Latéral", swing: { speed: 6, brushUp: 2, brushSide: 5, sideways: true } }, // About 55 turns: 89 at 8, more than a service (Sami, 3/11/2026).
   short: { label: "Deux rebonds", swing: SHORT_SWING, depths: [0.35, 0.45, 0.55, 0.65, 0.75], refuses: ({ speed }) => tooFast(speed) },
   chop: {
     label: "Tchop",
@@ -115,13 +115,16 @@ function bouncesTwice(start, forward) {
 
 const tooSteep = (start) => start[VZ] > STEEPEST * Math.sqrt(start[VX] * start[VX] + start[VY] * start[VY]);
 
+/** A side stroke brushes towards the side aimed at. */
+export const swingToward = (swing, y) => (swing.sideways && y < 0 ? { ...swing, brushSide: -swing.brushSide } : swing);
+
 /** Why a stroke cannot be played on this ball, or null. */
-function refusal(kind, ball, target, forward) {
-  const task = { ball, forward, target, swing: kind.swing };
-  const found = aim(task, pose);
+export function refusal(kind, ball, target, forward) {
+  const swing = swingToward(kind.swing, target[1]);
+  const found = aim({ ball, forward, target, swing }, pose);
   if (!found) return "n'arrive pas sur la cible";
   if (pose[2] > kind.swing.speed * HARDER_AT_MOST) return "il faudrait frapper plus fort";
-  const start = sent(ball, pose, { ...kind.swing, speed: pose[2] }, forward);
+  const start = sent(ball, pose, { ...swing, speed: pose[2] }, forward);
   if (tooSteep(start)) return "il faudrait une chandelle";
   return kind.depths && !bouncesTwice(start, forward) ? "ne rebondirait pas deux fois" : null;
 }
@@ -136,7 +139,7 @@ function shortestDepth(kind, ball, { y, forward }) {
   return { depth: null, why };
 }
 
-function contactFacts(ball, side) {
+export function contactFacts(ball, side) {
   const [vx, vy, vz] = [ball[VX], ball[VY], ball[VZ]];
   return { back: side * ball[X] - TABLE.halfLength, height: ball[Z], speed: Math.sqrt(vx * vx + vy * vy + vz * vz) };
 }
@@ -202,7 +205,8 @@ export function expectedMiss(state, { who, rule }) {
   const task = { ball: contact.ball, forward: -side, target: rule.aim, swing };
   aim(task, pose);
   const worse = rushOf((contact.step - Math.max(0, state.decideAt[who] - state.tick)) * STEP, profile)
-    * stretchOf(contact.ball, contact.body, profile) * controlOf(contact.ball, profile) * farOf(contact.ball, side, profile);
+    * stretchOf(contact.ball, contact.body, profile) * controlOf(contact.ball, profile) * farOf(contact.ball, side, profile)
+    * effortOf({ ...swing, speed: pose[2] }, profile);
   const [across, up, speed] = [pose[0], pose[1], pose[2]];
   const base = missOf(task, { side: across, up, speed });
   const moved = [

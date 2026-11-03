@@ -5,7 +5,7 @@ import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
 import { BEHIND, BX, createBody, moveBody, OK, placeBody, reachOf, setGoal } from "./player.js";
-import { controlOf, farOf, normalDraw, rushOf, stretchOf } from "./scatter.js";
+import { controlOf, effortOf, farOf, normalDraw, rushOf, stretchOf } from "./scatter.js";
 import { receiverY, serviceBall, SERVICE_KINDS } from "./services.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 
@@ -124,7 +124,8 @@ function play(state, who, plan) {
   const stretched = stretchOf(state.ball, state.bodies[who], profile);
   const control = controlOf(state.ball, profile);
   const far = farOf(state.ball, side, profile);
-  const worse = rush * stretched * control * far;
+  const effort = effortOf({ ...plan.swing, speed: kept }, profile);
+  const worse = rush * stretched * control * far * effort;
   const draws = drawScatter(state, who);
   pose[0] += draws[0] * profile.scatterAcross * worse;
   pose[1] += draws[1] * profile.scatterTilt * worse;
@@ -132,7 +133,7 @@ function play(state, who, plan) {
   poseRacket(racket, pose, swing, state.ball);
   const before = state.listener?.impact ? state.ball.slice() : null;
   strike(state.ball, racket);
-  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched, control, far }, state);
+  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched, control, far, effort }, state);
 }
 
 const nextBall = new Float64Array(3);
