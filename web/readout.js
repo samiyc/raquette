@@ -16,13 +16,19 @@ function eventText({ kind, step, x, y }) {
   return `${WHERE[kind]} à ${time}, x ${fixed(x, 2)}`;
 }
 
+/** Two bounces in the other camp in a row, first of all: nobody took the ball between them, and the point is the striker's. */
+function twoBounces(events) {
+  return events.length > 1 && events[0].kind === "table" && events[1].kind === "table" && events[0].x > 0 && events[1].x > 0;
+}
+
 /** What the flight ran into, the first few only: a ball that ends rolling bounces many times. */
 export function eventsText(recording) {
   const events = recording.events;
   if (events.length === 0) return "La balle ne touche rien en 4 s.";
   const shown = events.slice(0, 3).map(eventText);
   if (events.length > 3) shown.push(`${events.length - 3} autre(s) ensuite`);
-  return `${shown.join(" ; ")}.`;
+  const verdict = twoBounces(events) ? " Deux rebonds : point gagné si le receveur n'arrive pas avant le second." : "";
+  return `${shown.join(" ; ")}.${verdict}`;
 }
 
 /** The ball at one frame: time, height, speed, spin. */

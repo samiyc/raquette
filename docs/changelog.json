@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.1.1",
+      "title": "Le coupé à deux rebonds et le tchop",
+      "date": "3/11/2026",
+      "items": [
+        "Deux lancers de Sami, un coupé qui rebondit deux fois dans le camp adverse, et le tchop joué de loin, parmi les coups préréglés.",
+        "La page dit quand une balle rebondit deux fois : le point est gagné si le receveur n'arrive pas avant le second rebond."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.1.0",
       "title": "La balle, vue de dessus et de profil",
       "date": "2/11/2026",

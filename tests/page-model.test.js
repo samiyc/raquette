@@ -60,6 +60,22 @@ describe("the strokes the page offers do what they are called", () => {
     assert.ok(long.events[0].x > 1.37);
   });
 
+  for (const key of ["twoBounces", "twoBouncesOver"]) {
+    it(`${key} clears the net and bounces twice in the other camp`, () => {
+      const [first, second] = flightOf(key).events;
+      assert.equal(first.kind, "table");
+      assert.equal(second.kind, "table");
+      assert.ok(first.x > 0 && second.x > first.x && second.x < 1.37, eventsText(flightOf(key)));
+    });
+  }
+
+  it("the chop comes from far back and bounces once, in the other camp", () => {
+    const recording = flightOf("chop");
+    assert.ok(landsInTheOtherCamp(recording), eventsText(recording));
+    assert.ok(!(recording.events[1].kind === "table" && recording.events[1].x <= 1.37));
+    assert.ok(recording.frames[X] < -2.5);
+  });
+
   it("the sidespin goes where the page says", () => {
     const first = flightOf("side").events[0];
     assert.ok(first.y > 0);
@@ -88,6 +104,12 @@ describe("the words under the view", () => {
     assert.match(eventsText(flightOf("net")), /^filet à 0,\d\d s, x /);
     assert.match(eventsText(flightOf("top")), /^rebond à 0,\d\d s, camp adverse, x 1,\d\d, y 0,00 ; sol à /);
     assert.equal(eventsText({ events: [], steps: 0, frames: new Float64Array(0) }), "La balle ne touche rien en 4 s.");
+  });
+
+  it("say when a ball bounces twice in the other camp, and not otherwise", () => {
+    assert.match(eventsText(flightOf("twoBounces")), /Deux rebonds : point gagné/);
+    assert.doesNotMatch(eventsText(flightOf("top")), /Deux rebonds/);
+    assert.doesNotMatch(eventsText(flightOf("chop")), /Deux rebonds/);
   });
 
   it("cut a long list short", () => {

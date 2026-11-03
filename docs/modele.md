@@ -99,6 +99,7 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 | Temps de réaction après la frappe adverse | 0,20 s | Q-P4 |
 | Vitesse et accélération du corps, sur le plan du sol | 3 m/s, 8 m/s² | Q-P5 |
 | Portée du bras depuis le corps | 0,8 m | Q-P5 |
+| Ce que le corps peut avancer au-dessus de la table, penché | 0,4 m | Q-P19 |
 | Champ d'action autour du corps | **220°, axe fixe vers le filet (Sami, 2/11/2026)** ; 110° de chaque côté de l'axe | Q-P5 |
 | Bande de hauteur atteignable | du plateau moins 0,5 m au plateau plus 1,2 m | Q-P5 |
 | Préparation avant la frappe | 0,15 s | Q-P6 |
@@ -107,7 +108,9 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 | Dispersion de la vitesse de raquette | 6 % | Q-P1 |
 | Croissance de la dispersion quand le temps manque | ×2 sans préparation | Q-P2 |
 
-**Le corps** est un point sur le sol, qui ne franchit pas la table. **La raquette n'a pas de bras** : pas de geste simulé,
+**Le corps** est un point sur le sol, qui ne franchit pas la table, sauf les 0,4 m où il se penche au-dessus d'elle. Sans cela, avec une
+portée de 0,8 m, les 57 premiers centimètres après le filet seraient hors d'atteinte depuis le fond : une balle courte y gagnerait
+toujours, et l'autojeu l'aurait vite trouvé. **La raquette n'a pas de bras** : pas de geste simulé,
 pas de cinématique. Un joueur s'engage sur un instant et un point du trajet de la balle. Si, à cet instant, le point est dans
 le secteur et que la préparation a eu lieu, le contact a lieu.
 
@@ -166,6 +169,13 @@ règle simple. On mesure donc, dans l'ordre :
 | **R2**, « prudent » | R1, et frapper moins fort quand le temps de préparation manque | le coût réel de la dispersion |
 | **R3**, « effet » | R2, plus du lift en attaque, du coupé sur une balle courte | la force de Magnus vaut-elle quelque chose dans ce modèle ? |
 | **R4**, « contre » | R3, plus un coup de contre sur une balle rapide : une raquette peu rapide, un contact tôt | renvoyer la vitesse et l'effet adverses rapporte-t-il ? |
+| **R5**, « court » (Sami, 3/11/2026) | R4, plus un coupé à deux rebonds quand l'adversaire est trop loin pour arriver avant le second | punir un joueur reculé rapporte-t-il, et force-t-il à rester près de la table ? |
+
+**Le coupé à deux rebonds** (Sami, 3/11/2026). Si l'adversaire est loin et ne peut pas prendre la balle avant le deuxième rebond, le
+point est perdu pour lui. Le calcul, avec le corps du § 4 (`chiffres.md`, § 8) : les deux lancers de Sami se rattrapent
+jusqu'à 2,4 m et 1,6 m derrière la ligne au mieux, contre 0,5 m pour la position d'attente. Le coup punit donc un joueur reculé, pas
+un joueur à sa place. **Le tchop** est l'autre coupé : joué de loin, il repasse le filet bas, avec beaucoup de coupé. Il ne donne
+pas deux rebonds, mais ralentit la balle.
 
 **R1 sert de garde-fou.** Si viser loin de l'adversaire ne bat pas viser le centre, le modèle ne récompense pas le placement,
 et le jeu n'en est pas un : on corrige le modèle avant d'écrire la moindre recherche. Le pendant : si R1 écrase R0 à 90 %,
@@ -202,7 +212,7 @@ Un écrémage rapide rejette, il ne promeut jamais.
 - **Plus de budget.** Une recherche à 4 fois son budget doit battre sa version courante. Sinon, elle plafonne, ou elle
   surapprend le bruit.
 
-**Ce qu'on rapporte**, en plus de l'écart : la longueur des échanges, la cause de chaque fin (filet, hors table, balle pas
+**Ce qu'on rapporte**, en plus de l'écart : la longueur des échanges, la cause de chaque fin (filet, hors table, deux rebonds, balle pas
 rejointe, hors secteur, limite), la part des points du serveur, et les graines avec la commande pour rejouer.
 
 **Sans horloge.** Une mesure fixe un budget (`budget` de `createClimb`), jamais une échéance, pour ne pas dépendre de la
@@ -237,7 +247,7 @@ la 3e et à la 5e balle (Djokic) restent, elles, une vérification indépendante
 
 ## 8. La recherche, plus tard
 
-**Rien n'est écrit, rien n'est choisi.** Ce qui suit dit seulement dans quel ordre on essaiera, une fois R0 à R4 mesurées.
+**Rien n'est écrit, rien n'est choisi.** Ce qui suit dit seulement dans quel ordre on essaiera, une fois R0 à R5 mesurées.
 Le jeu est à information complète au départ, et les coups sont des nombres continus : `docs/algorithmes.md` de la lib, § 3,
 désigne l'escalade.
 
@@ -269,7 +279,7 @@ lib que si un second projet en a besoin.
 (`mcts-codingame/docs/rex-strategies.md`, « L'arène ne mesure que contre notre lignée »), et une prédiction paraît trop forte
 contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici, il n'y a pas de site pour corriger. D'où :
 
-- **un panel figé** : les règles R0 à R4, les versions gelées, des sparrings qui jouent autrement, et les positions que le
+- **un panel figé** : les règles R0 à R5, les versions gelées, des sparrings qui jouent autrement, et les positions que le
   robot a perdues contre Sami ;
 - **la règle d'adoption** : une variante bat sa version **et** le panel, par paires, sur des graines neuves ;
 - **Sami comme juge extérieur** : ses parties à la souris sont, avec l'entraîneur, le seul adversaire qui ne vient pas de la
@@ -394,9 +404,9 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J0** | ce cadrage | les docs, les questions tranchées |
 | **J1** | la balle : vol, table, filet (`src/ball/`), les tests de référence du § 7 | ces tests passent ; les tables de coefficients sont relues contre l'article ; la première empreinte, le banc |
 | **J2** | la page : la table, une balle lancée, le rebond, les couleurs, le bandeau | Sami la regarde ; le changelog |
-| **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause |
+| **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause, dont les deux rebonds d'un joueur reculé |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
-| **J5** | les mesures : R0 à R4 par paires, calibration | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange |
+| **J5** | les mesures : R0 à R5 par paires, calibration | R1 bat R0, sinon retour au modèle ; 4 à 5 coups par échange |
 | **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | l'écart, son intervalle, le témoin à 4 fois le budget, 0 collection par décision |
 | **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |

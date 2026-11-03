@@ -5,8 +5,11 @@ fera. Une réponse quitte cette liste et va, avec sa date, dans [`chiffres.md`](
 
 ## Pour Sami (posées le 2/11/2026)
 
-J1 et J2 sont faits. Q-S5 suit sa recommandation sur la page (le dessus et un bandeau), à défaire si elle ne te plaît pas ;
-Q-S1, Q-S2 et Q-S6 attendent J3 ; Q-S3 attend J5.
+Q-S3 attend J5 ; Q-S7 attend J4.
+
+**Répondu le 3/11/2026** (Sami, en regardant la page) : le bandeau de profil reste, on y voit bien la trajectoire (Q-S5). Un bon joueur
+de club, avec un profil modifiable (Q-S1). La recherche doit battre la meilleure règle simple, pas seulement le centre (Q-S2).
+Un service stylisé jusqu'à J5 (Q-S6). Il ajoute le coupé à deux rebonds et le tchop : `../modele.md`, § 6.
 
 **Répondu le 2/11/2026** (Sami, voir `../modele.md`, § 4, § 10 et § 11) : Q-S4 tombe. La souris vient d'abord, avant les
 mesures : clic gauche pour se déplacer, clic droit pour viser, au pas à pas. Le secteur fait 220°, axe fixe vers le filet. La
@@ -14,11 +17,7 @@ dispersion est celle du robot, avec un curseur. La manette passe à J8, si elle 
 
 | # | La question | La recommandation | Pourquoi |
 |---|---|---|---|
-| **Q-S1** | **Quel joueur simule-t-on ?** Un bon joueur de club, un joueur de haut niveau ? As-tu joué en club, à quel niveau ? | **Un bon joueur de club**, avec un profil modifiable. | Il joue à des vitesses où un stick suit encore, et un entraîneur de club peut le juger. Le haut niveau demande des données qu'on n'a pas. Tes réponses valent une première relecture. |
-| **Q-S2** | **Quelle barre pour la recherche ?** « Renvoyer au centre » : j'ai lu viser le centre du camp adverse et revenir au centre de son côté. La recherche doit-elle battre cette règle seule, ou la meilleure règle simple ? | **Cette lecture, et la meilleure règle** (R0 à R3, `modele.md`, § 6). | C'est la méthode de la cuisine. Une recherche qui ne bat que le centre ne prouverait rien : viser loin de l'adversaire le bat sans doute déjà. |
 | **Q-S3** | **Quel plus petit gain vaut qu'on l'adopte ?** | **52 % des points**, soit 57,7 % des manches et 66,5 % des matchs. | Environ 2 400 échanges pour ±2 points. Moins, cela coûte plus de fils pour un gain qui ne se verrait pas à la manette. |
-| **Q-S5** | **La vue : le dessus seul, ou avec un bandeau de profil ?** | **Le dessus et un petit bandeau de profil.** Effet : rouge pour le lift, bleu pour le coupé. Hauteur : la taille et l'ombre. | Vu de dessus, on ne voit pas si la balle passe le filet. Le bandeau coûte peu et explique les fautes. |
-| **Q-S6** | **Le service : complet ou stylisé au début ?** | **Stylisé** jusqu'à J5 : un contact derrière la ligne, un rebond de chaque côté, sans lancer. Le service choisi par la recherche vient ensuite. | Le lancer n'apporte rien à la balistique. Le service pèse (11,6 % des points gagnés dessus en élite, d'après un extrait), mais il sera mieux à sa place après la première mesure. |
 | **Q-S7** | **Qui interroger ?** Connais-tu un entraîneur de club ? | **Un entraîneur et un joueur classé**, 30 minutes, avec les questions ci-dessous, en commençant par Q-P1 à Q-P3. Pas avant J4 : on lui montrera la page. | Il pourra regarder un échange et dire « ça ne se joue pas comme ça », ce qui vaut mieux qu'un chiffre isolé. |
 
 **Ce que j'ai décidé sans te le demander**, à défaire si tu n'es pas d'accord :
@@ -51,6 +50,7 @@ préparateur physique. Pas de donnée nominative. Modèle fictif : on ne cherche
 | **Q-P4** | Combien de temps après la frappe adverse le joueur commence-t-il à bouger ? Voit-il la direction avant le contact ? | E, H | **0,20 s**, sans anticipation. | La couverture de la table, l'intérêt de varier. |
 | **Q-P5** | À quelle vitesse se déplace-t-on sur le côté ? Quelle portée utile a-t-on sans bouger les pieds ? Un champ de 220° face au filet est-il juste, ou le corps pivote-t-il assez pour qu'il faille en tenir compte ? Quelle hauteur atteint-on sans se déplacer ? | E, H | **3 m/s, 8 m/s² ; portée 0,8 m, 220° face au filet (Sami) ; du plateau −0,5 m au plateau +1,2 m.** | La valeur des angles, les balles passées derrière le joueur. |
 | **Q-P6** | Combien de temps faut-il pour préparer un coup correct ? Quel coup reste possible avec moins ? | E, J | **0,15 s ; en dessous, la dispersion double.** | Le rythme, le jeu près de la table. |
+| **Q-P19** | Jusqu'où se penche-t-on au-dessus de la table pour une balle courte ? Quelle balle courte reste vraiment injouable ? À quelle distance de la table le coupé à deux rebonds devient-il fatal ? | E, J | **Le corps avance de 0,4 m au-dessus de la table**, ce qui laisse 17 cm hors d'atteinte après le filet ; fatal à partir de 1,6 à 2,4 m derrière la ligne (calculé). | R5, et une faille que l'autojeu trouverait : une zone courte où toute balle gagne. |
 | **Q-P12** | Où attend-on la balle : au centre, décalé côté revers ? À quelle distance de la table ? Le choix coup droit ou revers change-t-il quelque chose à modéliser ? | E, J | **Au centre, à 0,5 m de la ligne, et pas de côté préféré.** | R0 et le coude : sans côté, le « coude » n'existe pas dans le modèle. |
 
 ### La raquette et l'effet

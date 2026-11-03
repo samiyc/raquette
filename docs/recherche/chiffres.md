@@ -139,7 +139,7 @@ deux lignes du tableau se raccordent bien à α = 0,4 (a₁ = 0,6, d₁ = 0,4).
 | Chiffre | Valeur | Source | Statut |
 |---|---|---|---|
 | Restitution normale, revêtement backside (Dignics 05) | `0,878 − 0,020 v_n` | [[conti]] | L |
-| Restitution tangente | `0,819 − 0,010 v_t` | [[conti]] | L, à relire : la formule exacte n'a pas été lue |
+| Restitution tangente | `e_t = 0,819 − 0,010 ‖v_T‖`, d'où la part d'adhérence `α = (1 + e_t) / (1 + κ)` (relu le 3/11/2026, éq. 21 à 23, table IV) | [[conti]] | L ; κ = 3/2 et `e_r` à la place de `e_n` sont déduits, la section ne les redit pas |
 | Amortissement de l'effet autour de la normale | 0,805 | [[conti]] | L |
 | Backside : pente de la restitution | 0,021 (offensif), 0,017 (polyvalent) par m/s, de 2 à 12 m/s | [[gossard-racket]] | R |
 | Backside : raideur tangente | `k_p ≈ 0,019` en moyenne, décroît avec la vitesse de glissement | [[gossard-racket]] | R |
@@ -258,6 +258,17 @@ sur les observations absorbe l'essentiel d'une force mal estimée. **Si Conti aj
 lu ne dit pas, leurs 15,8 mm et nos écarts ne se contredisent plus (hypothèse, C)**, et leur mesure dit alors peu de chose du point
 de chute à partir d'un départ connu. Or c'est ce qui compte ici : un coup part d'un état connu, sans observation pour le corriger.
 On garde donc les tables. Le `k_m` de Gossard n'est pas forcément celui de Nakashima, dont les coefficients n'ont pas été lus.
+
+**Le coupé à deux rebonds** (Sami, 3/11/2026). Jusqu'où le receveur peut-il partir et arriver à temps ? Il démarre à l'arrêt, sur l'axe de
+la balle, 0,20 s après la frappe, à 8 m/s² et 3 m/s, avec 0,8 m de portée, et prend la balle juste avant son deuxième rebond, sans
+compter la préparation. Toutes ces valeurs de corps sont des hypothèses (§ 6 ; `modele.md`, § 4).
+
+| Lancer | Marge au filet | 1er rebond | 2e rebond | Entre les deux | Rattrapable jusqu'à, derrière la ligne |
+|---|---|---|---|---|---|
+| 5 m/s, 18°, coupé 90 tr/s, depuis x = −1,6, 25 cm | 4 cm | x 0,34 à 0,48 s | x 1,32 à 0,93 s | 0,45 s | **2,36 m** |
+| 4 m/s, 18°, coupé 30 tr/s, depuis x = −0,8, 15 cm | 3 cm | x 0,44 à 0,36 s | x 1,21 à 0,73 s | 0,37 s | **1,65 m** |
+
+Le second rebond tombe près du fond : le receveur prend la balle tard, mais de loin.
 
 **Le test du rebond.** Lâchée de 30 cm, la balle arrive à 2,37 m/s, traînée comprise.
 

@@ -28,6 +28,10 @@ export const PRESETS = Object.freeze({
   fastTop: { label: "Top très tourné (110 tr/s)", launch: { speed: 15, elevation: 3, topspin: 110 } },
   flat: { label: "Sans effet", launch: { speed: 9, elevation: 8 } },
   cut: { label: "Coupé", launch: { z: 0.2, speed: 6, elevation: 18, topspin: -30 } },
+  // Sami's two launches (3/11/2026), the only ones kept as they came: a ball left to bounce twice is lost by whoever is too far back.
+  twoBounces: { label: "Coupé à deux rebonds", launch: { x: -1.6, z: 0.25, speed: 5, elevation: 18, topspin: -90 } },
+  twoBouncesOver: { label: "Coupé à deux rebonds, sur la table", launch: { x: -0.8, z: 0.15, speed: 4, elevation: 18, topspin: -30 } },
+  chop: { label: "Tchop, loin de la table", launch: { x: -3, z: 0, speed: 9, elevation: 12, topspin: -80 } },
   comeBack: { label: "Fort coupé qui revient", launch: { x: -0.3, z: 0.25, speed: 2, elevation: 60, topspin: -130 } },
   lob: { label: "Lob", launch: { x: -2.6, z: 0.2, speed: 8, elevation: 40, topspin: 30 } },
   side: { label: "Latéral", launch: { speed: 10, elevation: 5, topspin: 20, sidespin: 50 } },
