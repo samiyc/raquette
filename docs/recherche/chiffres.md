@@ -319,7 +319,7 @@ contact de Conti.
 **Elle ne bat pas R0 pour l'instant** : le coup fait bien mouche à 2,5 m, 52 fois sur 200, mais R0 y gagne déjà, car le receveur rate sa propre frappe, trop courte depuis si loin. Rien n'est
 mesuré au sens du § 7 du modèle : c'est le travail de J5.
 
-**L'échelle des règles** (J5, 3/11/2026). Par paires, 1 200 graines à partir de 100 000, que rien n'a servi à régler. Les réglages viennent des graines de 0 à 299 :
+**L'échelle des règles** (J5, 3/11/2026). Par paires, 1 200 graines à partir de 100 000, que rien n'a servi à régler. Les réglages viennent des graines de 0 à 299. Depuis, la balle rapide et la limite de 50° ont un peu changé ces chiffres : le tableau de la première recherche, plus bas, a les derniers.
 
 | Duel | Part des points du premier | Intervalle à 95 % | Coups par échange | À la limite | Serveur |
 |---|---|---|---|---|---|
@@ -355,6 +355,30 @@ Ce qu'il faut en lire :
 | Lift sur le côté (0,9 ; 0,45), ×2 | 61,5 % |
 
 La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table de 76 cm de demi-largeur : **viser le côté ne valait jamais son risque.** Elle passe à 1,5° (H), ce qui laisse 22 cm en longueur. Une balle en bout de bras se joue désormais moins bien (H), sans quoi être débordé ne coûtait rien. Les duels que Sami a validés bougent à peine, avec aussi la frappe plus tôt : R0 47,4 → 47,1, top contre bloc 16,1 → 16,6, poussettes 36,2 → 36,4 coups. Ces écarts longitudinal et latéral sont à faire valider (Q-P1).
+
+**La première recherche** (J6, 3/11/2026). Par paires, dans la file, sur le modèle du commit `93d121f` et des graines à partir de 700 000, que rien n'a servi à régler. 24 plans par coup, notés sur 4 tirages communs et 4 coups d'avance, avec R3 comme modèle des deux joueurs :
+
+| Duel | Graines | Part des points du premier | Intervalle à 95 % | Coups par échange |
+|---|---|---|---|---|
+| S contre R3 | 1 200 | **56,4 %** | 54,8 à 58,0 % | 4,6 |
+| S contre R0 | 1 200 | **68,2 %** | 66,4 à 70,0 % | 6,8 |
+| Monte-Carlo à plat contre R3 | 1 200 | 50,2 % | 48,3 à 52,1 % | 5,5 |
+| S contre Monte-Carlo à plat | 600 | 53,0 % | 50,4 à 55,6 % | 5,0 |
+| S à 4 fois le budget contre S | 300 | **61,8 %** | 57,9 à 65,8 % | 3,4 |
+| S en ne gardant que le jouable, contre S sans | 600 | 50,7 % | 48,1 à 53,2 % | 4,4 |
+| Monte-Carlo en ne gardant que le jouable, contre sans | 600 | **57,5 %** | 55,0 à 60,0 % | 3,9 |
+| R1 contre R0 | 1 200 | 52,8 % | 51,6 à 54,0 % | 41,8 |
+| R3 contre R0 | 1 200 | 51,7 % | 49,9 à 53,5 % | 14,1 |
+| R3 contre R2 | 1 200 | 68,9 % | 67,1 à 70,6 % | 8,7 |
+| R4 contre R3 | 1 200 | 48,0 % | 46,7 à 49,2 % | 5,8 |
+| R5 contre R4 | 1 200 | 50,0 % | 50,0 à 50,1 % | 6,1 |
+
+- **La recherche bat R3 et R0**, et le témoin à 4 fois le budget dit qu'elle ne plafonne pas encore.
+- **Elle a d'abord trouvé une faille** : 44 % de ses frappes partaient à plus de 60°. Le Monte-Carlo prenait 70 % à R3 pour cette seule raison, et n'en prend plus que 50,2 % depuis que la visée s'arrête à 50°.
+- **Retirer ce qui ne se joue pas aide les essais tirés au hasard, pas l'escalade** : elle part de R3, et un seul plan sur 10 est neuf.
+- **Le meilleur de R3 sur R0 ne se voit plus** : son intervalle contient 50 %, et R1 fait aussi bien. Les règles restent non transitives, et S se mesure donc contre les deux.
+- **Le bloc perd désormais** : R4 prend 48,0 % à R3. Une balle rapide est maintenant coûteuse à contrôler, et la règle ne choisit pas bien quand bloquer.
+- **Une limite** : un plan alloue encore (la copie de l'échange, ses tirages). Le critère de 0 collection par décision de J6 n'est pas tenu, et la page attend la recherche sur le même fil : à 12 plans, jusqu'à 1 s de gel vue sur un premier point, à passer dans un *worker*.
 
 **La balle rapide** (Sami, 3/11/2026 : « on ne pourra certainement pas faire des balles très courtes/contrôlées si l'adversaire vient de smash »). Sans coût, le modèle lui donnait tort : la raquette peut reculer d'exactement ce qu'il faut. Une balle partie à 25 m/s et tombée en fond de table, arrivant à 12,8 m/s, 1 500 tirages :
 

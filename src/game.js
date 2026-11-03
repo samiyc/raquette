@@ -4,7 +4,7 @@ import { CLUB_PLAYER } from "./player.js";
 import { createRecorder } from "./rally-recording.js";
 import { startRally, stepRally } from "./rally.js";
 import { bothListeners, createRallyLog, localTimestamp, replayHeader } from "./replay-log.js";
-import { R0 } from "./rules/center.js";
+import { namedRule } from "./rules/named.js";
 
 /**
  * A game at the mouse against R0 (docs/modele.md, § 2 and § 10): 11 points, 2 clear, the service turning every 2 points, then at
@@ -16,6 +16,7 @@ const FORWARD = 1;
 const WINNING = 11;
 const LOOSE_END = 10;
 const MAX_TICKS_TO_EVENT = 240 * 10;
+const PAGE_BUDGET = 12; // Plans a stroke for a search at the mouse: the page waits for it, up to 1 s seen on a first point (H).
 
 /**
  * The player's body and arm: the robot's, with its scatter scaled by the slider.
@@ -32,13 +33,13 @@ export function mouseProfile(scatter) {
 
 /**
  * A point under way.
- * @param {{seed: number, server: number, scatter: number, aim?: number[]}} setup
+ * @param {{seed: number, server: number, scatter: number, aim?: number[], robot?: string}} setup
  */
-export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD) }) {
+export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD), robot = "R0" }) {
   const rule = createMouseRule(aim.slice());
   const recorder = createRecorder();
   const log = createRallyLog({ seed, server });
-  const point = { seed, server, scatter, startAim: aim.slice(), rule, orders: [], recorder, sawEvent: false, robotStruck: false, state: null, log: null, players: null };
+  const point = { seed, server, scatter, robot, startAim: aim.slice(), rule, orders: [], recorder, sawEvent: false, robotStruck: false, state: null, log: null, players: null };
   const watch = {
     flight(kind) {
       if (kind !== NONE) point.sawEvent = true;
@@ -49,7 +50,7 @@ export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD) }) 
     },
   };
   const listener = bothListeners(bothListeners(recorder.listener, log.listener), watch);
-  const players = [{ rule, profile: mouseProfile(scatter) }, { rule: R0, profile: CLUB_PLAYER }];
+  const players = [{ rule, profile: mouseProfile(scatter) }, { rule: namedRule(robot, PAGE_BUDGET), profile: CLUB_PLAYER }];
   point.log = log;
   point.players = players;
   point.state = startRally({ seed, players, server, listener });
@@ -105,9 +106,9 @@ export function replayPoint(saved) {
   return point;
 }
 
-/** A game. @param {{seed: number, scatter: number}} setup */
-export function createGame({ seed, scatter }) {
-  return { seed, scatter, score: [0, 0], played: 0, firstServer: seed % 2, aim: firstAim(FORWARD), points: [], current: null };
+/** A game. @param {{seed: number, scatter: number, robot?: string}} setup */
+export function createGame({ seed, scatter, robot = "R0" }) {
+  return { seed, scatter, robot, score: [0, 0], played: 0, firstServer: seed % 2, aim: firstAim(FORWARD), points: [], current: null };
 }
 
 /** Who serves at this score: 2 points each, then 1 each from 10-10. */
@@ -126,7 +127,7 @@ export function winnerOf([mine, theirs]) {
 
 /** The next point. The aim stays from the point before. */
 export function nextPoint(game) {
-  game.current = createPoint({ seed: game.seed + game.played, server: serverOf(game), scatter: game.scatter, aim: game.aim });
+  game.current = createPoint({ seed: game.seed + game.played, server: serverOf(game), scatter: game.scatter, aim: game.aim, robot: game.robot });
   game.played += 1;
   return game.current;
 }
@@ -134,7 +135,7 @@ export function nextPoint(game) {
 /** What a position needs to be played again, once kept in the bench of positions the robot lost (docs/modele.md, § 10). */
 export function positionOf(point) {
   const { result } = point.state;
-  return { seed: point.seed, server: point.server, scatter: point.scatter, aim: point.startAim, orders: point.orders, result };
+  return { seed: point.seed, server: point.server, scatter: point.scatter, robot: point.robot, aim: point.startAim, orders: point.orders, result };
 }
 
 /** A finished point as a replay: who played, its clicks, and everything the rally left (docs/replays.md). */

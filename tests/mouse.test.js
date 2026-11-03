@@ -169,6 +169,22 @@ describe("a kept point", () => {
   });
 });
 
+describe("the robot of a game", () => {
+  it("can be the search: a point is played, and plays again the same", () => {
+    const point = createPoint({ seed: 2, server: 1, scatter: 1, robot: "S" });
+    while (!pointOver(point)) stepPoint(point);
+    assert.deepEqual(point.players[1].rule.name, "S");
+    const again = replayPoint(JSON.parse(JSON.stringify(positionOf(point))));
+    assert.deepEqual(again.state.result, point.state.result);
+  });
+
+  it("is R0 by default, and goes from the game to its points", () => {
+    assert.equal(createPoint({ seed: 2, server: 1, scatter: 1 }).players[1].rule.name, "R0");
+    const game = createGame({ seed: 1, scatter: 1, robot: "R3" });
+    assert.equal(nextPoint(game).players[1].rule.name, "R3");
+  });
+});
+
 describe("a game", () => {
   it("goes to 11, with 2 clear", () => {
     assert.equal(winnerOf([10, 5]), -1);

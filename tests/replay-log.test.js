@@ -160,6 +160,7 @@ describe("a point at the mouse", () => {
     const replay = JSON.parse(JSON.stringify(replayOfPoint(point)));
     assert.equal(replay.format, REPLAY_FORMAT);
     assert.deepEqual(replay.players.map((player) => player.bot), ["souris@1", "R0@1"]);
+    assert.equal(replay.robot, "R0");
     assert.equal(replay.rally.winner, point.state.result.winner);
     assert.equal(replay.orders.length, 1);
     assert.match(replay.savedAt, /^\d{4}-/);

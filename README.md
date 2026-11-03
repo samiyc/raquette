@@ -11,7 +11,7 @@ centre de la table.
 mesures, les jalons) et [`docs/recherche/`](docs/recherche/README.md) (les chiffres et leurs sources, le glossaire, les
 questions, le prompt de recherche). **La balle existe** (`src/ball/`) : son vol, son rebond, le filet, testés contre les
 valeurs publiées. **Deux robots s'échangent la balle** (`src/rally.js`), avec la raquette, la visée et le corps : R0, et deux duels d'entraînement. **La page les montre** :
-`npm run page`, puis http://127.0.0.1:4804/web/index.html. **On joue contre R0 à la souris** sur http://127.0.0.1:4804/web/play.html. Pas encore de mesure ni de recherche.
+`npm run page`, puis http://127.0.0.1:4804/web/index.html. **On joue contre R0 à la souris** sur http://127.0.0.1:4804/web/play.html. Les règles R0 à R5 sont mesurées, et une première recherche les bat (`docs/recherche/chiffres.md`, § 8).
 
 ## Les commandes
 

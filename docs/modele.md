@@ -193,7 +193,7 @@ l'adversaire. Les règles suivantes distingueront le **croisé** (vers le coin o
 et le jeu n'en est pas un : on corrige le modèle avant d'écrire la moindre recherche. Le pendant : si R1 écrase R0 à 90 %,
 la dispersion est trop faible ou les déplacements trop lents. **Il a servi à J5** : à 3° sur le côté et sans coût au bout du bras, R1 ne prenait que 12,5 % des points. Après correction, il en prend 52,1 %, de 51,0 à 53,3 %.
 
-**La mesure de J5**, 1 200 graines neuves par ligne (`chiffres.md`, § 8) : **R3 est la barre de la première recherche, de peu** : 52,3 % contre R0, 67,7 % contre R2. Les règles ne sont pas transitives. R2 ne change rien (le temps ne manque jamais à ce rythme), R4 ne fait pas mieux que R3, et R5 ne se déclenche presque jamais.
+**La mesure de J5**, 1 200 graines neuves par ligne (`chiffres.md`, § 8) : **R3 reste la barre de la première recherche, de peu** : 51,7 % contre R0 sur le dernier modèle, un intervalle qui contient 50 %, et 68,9 % contre R2. Les règles ne sont pas transitives. R2 ne change rien (le temps ne manque jamais à ce rythme), R4 ne fait pas mieux que R3, et R5 ne se déclenche presque jamais.
 
 Les paramètres de chaque règle se règlent sur des graines de calibration, puis sont figés, et ne servent plus pour les
 mesures.
@@ -429,7 +429,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J3** | la raquette, la visée, le corps et son secteur, un échange R0 contre R0 | l'A/A exact à l'octet ; le secteur testé à ses bornes ; un contact passif renvoie un lift du bon côté ; les fins d'échange par cause, dont les deux rebonds d'un joueur reculé |
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
 | **J5** | les mesures : R0 à R5 par paires | fait : R1 bat R0 (52,1 %) ; R3 contre R3 tient 5,5 coups |
-| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | en cours : l'écart, son intervalle et le témoin à 4 fois le budget sont mesurés ; restent Sami contre elle, et 0 collection par décision |
+| **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | S bat R3 (56,4 %) et R0 (68,2 %), et 4 fois le budget bat S (61,8 %) ; elle se joue sur la page. Restent la partie de Sami, et 0 collection par décision, pas tenu |
 | **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 

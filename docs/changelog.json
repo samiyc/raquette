@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.8.1",
+      "title": "Jouer contre la recherche",
+      "date": "3/11/2026",
+      "items": [
+        "Sur la page de jeu, le robot se choisit : R0, R3 ou la recherche, à 12 plans par coup.",
+        "La recherche prend 56,4 % des points à R3 et 68,2 % à R0, à 24 plans par coup."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.8.0",
       "title": "Une première recherche, et un smash qui se paie",
       "date": "3/11/2026",

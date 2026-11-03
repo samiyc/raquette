@@ -150,7 +150,7 @@ function startPoint() {
 }
 
 function newGame() {
-  live.game = createGame({ seed: Number(input("seed").value), scatter: scatterNow() });
+  live.game = createGame({ seed: Number(input("seed").value), scatter: scatterNow(), robot: /** @type {HTMLSelectElement} */ (byId("robot")).value });
   live.point = null;
   input("next").disabled = false;
   startPoint();

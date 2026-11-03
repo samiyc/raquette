@@ -14,7 +14,7 @@
     <header class="masthead">
       <p class="links"><a href="index.html">La table et les duels</a></p>
       <h1>Jouer à la souris</h1>
-      <p>Une manche contre R0, pour éprouver le robot. Votre corps, votre bras et votre préparation sont les siens.</p>
+      <p>Une manche contre un robot, pour l'éprouver. Votre corps, votre bras et votre préparation sont les siens.</p>
     </header>
     <main>
       <section class="controls player">
@@ -32,6 +32,11 @@
       <section class="controls">
         <label>Graine<input id="seed" type="number" min="0" step="1" value="1" /></label>
         <label>Dispersion : <span id="scatter-label">100 %</span><input id="scatter" type="range" min="0" max="100" step="10" value="100" /></label>
+        <label>Robot<select id="robot">
+          <option value="R0">R0, renvoie au centre</option>
+          <option value="R3">R3, la meilleure règle à l'attaque</option>
+          <option value="S">La recherche</option>
+        </select></label>
         <button type="button" id="new">Nouvelle manche</button>
         <button type="button" class="quiet" id="export">Exporter les points gagnés</button>
       </section>
