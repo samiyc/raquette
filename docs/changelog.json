@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.18.0",
+      "title": "U, un robot régulier sorti de l'autojeu",
+      "date": "3/11/2026",
+      "items": [
+        "Un nouveau robot au menu : U. Il attend tout près de la table, joue un top lent vers le milieu, et laisse l'adversaire se tromper.",
+        "Il bat R3 à 79 % et la recherche à 81 %, avec des échanges de 12 à 14 coups."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.17.0",
       "title": "Moins d'inertie, un robot qui vise mieux, un latéral moins sûr, plus de place à l'écran",
       "date": "3/11/2026",

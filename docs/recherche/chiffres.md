@@ -632,6 +632,20 @@ Changer le modèle suffit : contre R3, la recherche passe de 64,5 % à 71,9 %, e
 
 **Le latéral de Sami en 0.16.0** (21 coups, effort 1,22 à 1,35 fois) : 17 sur la table, 10 cm d'écart à la cible, autant que le plat (11 cm), moins que le top (16 cm), et 6 réponses fautives du robot sur 17, dont 4 par la visée perdue ci-dessus. D'où `sideWeight` de 3 à 3,5 : effort de 1,9 fois pour le latéral à pleine vitesse. À revoir dans ses replays.
 
+**L'autojeu sur le corps à 16 m/s²** (3/11/2026, sur `80945b0`, 100 générations, 2 000 graines neuves, 600 contre S) :
+
+| Lignée | Version | Contre R0 | Contre R1 | Contre R3 | Contre S | Coups contre S | Raquette / brossage du top | Largeur du top | Attente |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `j` | 26 | 94,6 | 93,8 | 76,8 | 77,9 [75,7 ; 80,0] | 10,6 | 5 / 5,1 | 0,38 | 0,38 m |
+| `k`, gardée sous le nom U | 28 | 96,7 | 96,8 | 79,2 | 80,9 [78,7 ; 83,0] | 12,5 | 5 / 6,6 | 0,10 | 0,10 m |
+| `l` | 20 | 81,1 | 80,9 | 76,0 | 74,5 [72,1 ; 76,9] | 5,2 | 5 / 13,4 | 0,60 | 0,10 m |
+
+La recette change : `j` et `k` ne cherchent plus l'angle gagnant, mais la balle sûre. `k` tient la table à 97 % et plus, avec une balle à 8-9 m/s et 70-85 tr/s, et gagne sur les fautes : contre R3, 631 de ses points sur 800 échanges finissent au filet ou dehors, aucun sur une balle pas atteinte. R3, lui, ne tient la table qu'à 89 %. Trois nombres de `k` collent à leur borne : `topSpeed` (5 m/s), `topWide` et `wait` (10 cm). Attendre à 10 cm de la table, c'est ce que Sami a trouvé à la souris pour survivre.
+
+**La recherche sur ce corps** (sur `80945b0`, 1 200 graines à partir de 1 400 000) : S contre R3, 53,3 % [51,5 ; 55,1], 6,7 coups, serveur 58,1 %, contre 64,5 % sur l'ancien corps ; S-mT contre R3, 64,8 % [62,9 ; 66,6], 5,2 coups, contre 71,9 % ; S-mT contre S, 59,1 % [57,2 ; 61,0], 5,1 coups, contre 68,2 %. S se trompe surtout tout seul : contre R3, 1 062 de ses 1 121 points perdus sont au filet ou dehors.
+
+**Sami à la souris sur 0.17.0** (43 points) : 11 sur 23 contre R0, 2 sur 8 contre S, 1 sur 12 contre T. Il en prenait 7 sur 16 à T en 0.16.0. Ses latéraux : 35 sur 43 sur la table, 13 cm d'écart à la cible (10 cm avant), 3 réponses fautives du robot sur 35 (6 sur 17 avant).
+
 ## Les sources
 
 [lois]: https://www.tabletennisengland.co.uk/content/uploads/2026/07/Laws-of-Table-Tennis-2026-27.pdf

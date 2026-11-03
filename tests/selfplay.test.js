@@ -28,9 +28,11 @@ describe("the rule with its numbers in the open", () => {
   });
 
   it("keeps what self-play found inside the ranges it searched, and by name", () => {
-    assert.equal(namedRule("T").name, "T");
-    for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) {
-      assert.ok(TUNED.T[key] >= low && TUNED.T[key] <= high, key);
+    for (const [name, numbers] of Object.entries(TUNED)) {
+      assert.equal(namedRule(name).name, name);
+      for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) {
+        assert.ok(numbers[key] >= low && numbers[key] <= high, `${name} ${key}`);
+      }
     }
   });
 
