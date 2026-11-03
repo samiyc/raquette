@@ -303,6 +303,8 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Ce que l'autojeu apprend d'abord : les nombres de la règle d'attaque** (`src/rules/tunable.js`, 3/11/2026), onze nombres que R3 fixe à la main : profondeurs, largeurs, vitesses, brossages, la hauteur à partir de laquelle on attaque, le recul entre deux coups. La règle joue vite, donc des milliers de points par variante, et c'est elle qui sert de modèle à la recherche : une règle meilleure devrait améliorer la recherche sans y toucher, ce qui reste à mesurer. Les poids de la note viendront ensuite, si la note a encore des poids à régler ; pas de réseau de neurones au départ.
 
+**Le service part d'où l'on se place.** Les règles tirent ce départ au hasard, à 50 cm au plus du milieu, et la recherche l'essaie pour le service qui sort le meilleur. La bombe part à 11 m/s au plus : sa vitesse baisse quand la ligne est courte, pour viser à 12 cm de la ligne de fond au plus (elle sortait de 5 à 9 %, de 2 % maintenant).
+
 **Comment** (`scripts/selfplay.js`, une série = un job de la file, historique dans `docs/selfplay/`) : à chaque génération, 8 variantes déplacent 1 à 3 nombres dans leurs bornes ; un crible de 150 graines contre la version en cours élimine ; les 2 meilleures sont confirmées sur 600 graines neuves, contre la version (bas de l'intervalle au-dessus de 50 %) et contre R0, R1 et R3 (au moins 50 % à chacun). **Tant de confirmations laissent passer des chanceuses** : la dernière version rejoue donc le panel sur 2 000 graines qu'aucune génération n'a vues, et seul ce chiffre compte. Le panel ne contient encore ni les versions gelées, ni les positions perdues contre Sami.
 
 **L'autojeu cherchera les failles de la physique**, comme le rappelle Sony. Les bornes du § 3 sont là pour ça, et les
@@ -384,7 +386,7 @@ passent des clics simulés. La page empêche le menu contextuel (`preventDefault
 - le contact se fait tout seul à partir du sommet du rebond, dès que la balle est dans le secteur ; une balle qui sort est laissée, comme le fait le robot.
 
 **Ce qui ne l'est pas : les limites sont celles du robot.** Réaction, vitesse, secteur et préparation restent les mêmes, et les
-clics comptent jusqu'au début de la préparation : la pause donne du temps pour réfléchir, pas pour courir. Avant le service, un clic gauche place le corps tout de suite : un joueur choisit où attendre (le robot, lui, attend toujours au même endroit).
+clics comptent jusqu'au début de la préparation : la pause donne du temps pour réfléchir, pas pour courir. Avant le service, un clic gauche ou les touches ZQSD placent le corps tout de suite. **Le service part d'où le serveur se place** (Sami, 3/11/2026), derrière sa ligne, à 70 cm au plus de la ligne médiane. Le receveur attend au milieu de ce que le serveur peut atteindre, à mi-chemin des deux lignes qui vont du serveur aux coins opposés, soit un peu à l'opposé (18 % du décalage du serveur) : ni la ligne droite ni la diagonale ne le prennent de court. ZQSD déplace aussi le joueur pendant le point.
 Chaque point attend d'être lancé ; Sami joue par courtes pauses, ajuste sa route et sa cible, et repart à la barre d'espace (3/11/2026). **La dispersion est
 celle du robot par défaut** (Sami, 2/11/2026), avec un curseur de 0 à 100 %, dont la valeur s'affiche à côté du score. Sans elle,
 Sami battrait le robot par sa précision, ce qui ne dirait rien des limites du robot. Un score à une autre valeur reste une

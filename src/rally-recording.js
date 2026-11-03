@@ -25,6 +25,18 @@ function grown(array, needed) {
   return bigger;
 }
 
+/** Writes where the ball and the bodies are at this step. */
+function writeFrame(recording, step, state) {
+  recording.frames.set(state.ball, step * BALL_SIZE);
+  state.bodies.forEach((body, i) => {
+    recording.bodies[step * BODY_NUMBERS + i * 2] = body[BX];
+    recording.bodies[step * BODY_NUMBERS + i * 2 + 1] = body[BY];
+  });
+}
+
+/** What a player changed before the service: the first picture must show it. */
+export const retakeFirstFrame = (recording, state) => writeFrame(recording, 0, state);
+
 /** A recording that grows at each step, and what a rally tells it. */
 export function createRecorder() {
   const recording = {
@@ -41,11 +53,7 @@ export function createRecorder() {
       const step = recording.steps;
       recording.frames = grown(recording.frames, (step + 1) * BALL_SIZE);
       recording.bodies = grown(recording.bodies, (step + 1) * BODY_NUMBERS);
-      recording.frames.set(state.ball, step * BALL_SIZE);
-      state.bodies.forEach((body, i) => {
-        recording.bodies[step * BODY_NUMBERS + i * 2] = body[BX];
-        recording.bodies[step * BODY_NUMBERS + i * 2 + 1] = body[BY];
-      });
+      writeFrame(recording, step, state);
       recording.result = state.result;
     },
     flight(kind, state) {

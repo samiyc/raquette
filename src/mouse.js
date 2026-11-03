@@ -1,6 +1,6 @@
-import { TABLE } from "./ball/constants.js";
-import { GOAL_X, GOAL_Y, placeBody, setGoal } from "./player.js";
-import { serviceBall, SERVICE_KINDS } from "./services.js";
+import { TABLE, Y } from "./ball/constants.js";
+import { BY, GOAL_X, GOAL_Y, placeBody, setGoal, waitingX } from "./player.js";
+import { MOST_FROM, receiverY, SERVE_BEHIND, serviceBall, SERVICE_KINDS } from "./services.js";
 import { contactStep, STROKE_KINDS } from "./strokes.js";
 
 /**
@@ -12,7 +12,7 @@ const LEFT = 0;
 const RIGHT = 2;
 const CENTRE = 0.685;
 
-/** A pixel of the view from above, in metres: the inverse of `topPoint` in web/scale.js. */
+/** A pixel of the view from above, counted from the top of that view, in metres: the inverse of `topPoint` in web/scale.js. */
 function worldOf(px, py, layout) {
   return [(px - layout.width / 2) / layout.scale, (layout.topHeight / 2 - py) / layout.scale];
 }
@@ -79,14 +79,16 @@ export function destinationOf(rule, body) {
  * preparation of the stroke starts.
  * @param {any} state the rally
  * @param {{rule: ReturnType<typeof createMouseRule>, who: number}} player
- * @param {{moveTo?: number[], aimAt?: number[], stroke?: string, service?: string}} order
+ * @param {{moveTo?: number[], moveBy?: number[], aimAt?: number[], stroke?: string, service?: string}} order `moveBy`: from where the
+ *   body is going, the keys of the page
  * @returns {boolean} whether it was taken
  */
 export function applyOrder(state, { rule, who }, order) {
   const seat = state.seats[who];
   if (order.service) return serviceOrder(state, { rule, who }, order.service);
-  if (order.moveTo) {
-    moveOrder(state, { rule, who, seat }, order.moveTo);
+  const to = order.moveBy ? destinationOf(rule, state.bodies[who]).map((at, i) => at + order.moveBy[i]) : order.moveTo;
+  if (to) {
+    moveOrder(state, { rule, who, seat }, to);
     return true;
   }
   const plan = state.plans[who];
@@ -100,7 +102,10 @@ export function applyOrder(state, { rule, who }, order) {
 }
 
 function moveOrder(state, { rule, who, seat }, to) {
-  if (state.tick === 0) placeBody(state.bodies[who], to, seat);
+  if (canServe(state, who)) {
+    placeBody(state.bodies[who], serverPlace(to, seat), seat);
+    relaunch(state, { rule, who });
+  } else if (state.tick === 0) placeBody(state.bodies[who], to, seat);
   else if (state.tick < state.decideAt[who]) rule.waiting = to;
   else setGoal(state.bodies[who], to, seat);
 }
@@ -118,10 +123,21 @@ function pickStroke(rule, key) {
   if (swing.sideways && rule.aim[1] < 0) rule.swing.brushSide = -swing.brushSide;
 }
 
-/** The service sets off anew from where it stands: its kind, and where it is sent across the table. */
+/** The service sets off anew from where the server stands: its kind, and where it is sent across the table. The other player follows. */
 function relaunch(state, { rule, who }) {
   const { side } = state.seats[who];
-  state.ball.set(serviceBall(side, SERVICE_KINDS[rule.service], { seed: state.seed, y: -side * rule.aim[1] }));
+  const from = -side * state.bodies[who][BY];
+  state.ball.set(serviceBall(side, SERVICE_KINDS[rule.service], { seed: state.seed, y: -side * rule.aim[1], from }));
+  const other = state.seats[1 - who];
+  placeBody(state.bodies[1 - who], [waitingX(other.side, other.profile), receiverY(state.ball[Y], other.profile)], other);
+}
+
+const between = (value, low, high) => Math.max(low, Math.min(high, value));
+
+/** Where a server may stand: behind its line, with the ball in reach, and across the table no further than a service leaves from. */
+function serverPlace(to, { side, profile }) {
+  const back = between(side * to[0], TABLE.halfLength + SERVE_BEHIND, TABLE.halfLength + profile.reach);
+  return [side * back, between(to[1], -MOST_FROM, MOST_FROM)];
 }
 
 /** Before the point, the server picks its service and where it goes. */

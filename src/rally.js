@@ -1,12 +1,12 @@
 import { streamOf } from "mcts-commun/random.js";
-import { STEP, TABLE, VX } from "./ball/constants.js";
+import { STEP, TABLE, VX, Y } from "./ball/constants.js";
 import { createBall } from "./ball/flight.js";
 import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
-import { BEHIND, createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
+import { BEHIND, BX, createBody, moveBody, OK, placeBody, reachOf, setGoal } from "./player.js";
 import { controlOf, farOf, normalDraw, rushOf, stretchOf } from "./scatter.js";
-import { serviceBall, SERVICE_KINDS } from "./services.js";
+import { receiverY, serviceBall, SERVICE_KINDS } from "./services.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 
 /**
@@ -31,22 +31,32 @@ export const SERVICES = Object.freeze({
 });
 const SERVE_BEHIND = 0.1;
 
-function serve(side, { service, seed, serviceY }) {
-  if (service.turn !== undefined) return serviceBall(side, service, { seed, y: serviceY });
+function serve(side, { service, seed, serviceY, serviceFrom }) {
+  if (service.turn !== undefined) return serviceBall(side, service, { seed, y: serviceY, from: serviceFrom });
   const x = side * (TABLE.halfLength + SERVE_BEHIND);
   return createBall([x, 0, service.height], [-side * service.ahead, 0, service.down], [0, -side * service.lift, 0]);
 }
 
+/** The two bodies before a service leaving from `y`: the server behind its ball, the other at the middle of what it can reach. */
+function placedForService(seats, server, y) {
+  return seats.map((seat, who) => {
+    const body = createBody(seat.side, seat.profile);
+    placeBody(body, [body[BX], who === server ? y : receiverY(y, seat.profile)], seat);
+    return body;
+  });
+}
+
 /** @param {RallyOptions} options */
-function createState({ seed, players, server, listener, service = SERVICES.long, serviceY = 0 }) {
+function createState({ seed, players, server, listener, service = SERVICES.long, serviceY = 0, serviceFrom = 0 }) {
   const sides = [-1, 1];
   const seats = players.map((player, i) => ({ side: sides[i], profile: player.profile, rule: player.rule }));
+  const ball = serve(sides[server], { service, seed, serviceY, serviceFrom });
   return {
     seed, seats, server, listener,
-    ball: serve(sides[server], { service, seed, serviceY }),
+    ball,
     serviceName: service.label,
     contact: new Float64Array(3),
-    bodies: seats.map((seat) => createBody(seat.side, seat.profile)),
+    bodies: placedForService(seats, server, ball[Y]),
     striker: server,
     ownBounce: true,
     bounces: 0,
@@ -222,7 +232,7 @@ function withService(options) {
   const chooser = options.choosing ? players[server].rule.chooseService : null;
   const served = options.served ?? chooser?.({ seed, server, profile: players[server].profile });
   if (!served) return options;
-  return { ...options, service: SERVICE_KINDS[served.key], serviceY: served.y };
+  return { ...options, service: SERVICE_KINDS[served.key], serviceY: served.y, serviceFrom: served.from };
 }
 
 /**

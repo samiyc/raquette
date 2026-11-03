@@ -1,7 +1,7 @@
 import { NONE } from "./ball/table.js";
 import { applyOrder, createMouseRule, firstAim } from "./mouse.js";
 import { CLUB_PLAYER } from "./player.js";
-import { createRecorder } from "./rally-recording.js";
+import { createRecorder, retakeFirstFrame } from "./rally-recording.js";
 import { startRally, stepRally } from "./rally.js";
 import { bothListeners, createRallyLog, localTimestamp, replayHeader } from "./replay-log.js";
 import { namedRule } from "./rules/named.js";
@@ -76,7 +76,7 @@ export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD), ro
 export function clickPoint(point, order) {
   point.orders.push({ tick: point.state.tick, ...order });
   const taken = applyOrder(point.state, { rule: point.rule, who: MOUSE }, order);
-  if (point.state.tick === 0) point.recorder.recording.frames.set(point.state.ball);
+  if (point.state.tick === 0) retakeFirstFrame(point.recorder.recording, point.state);
   return taken;
 }
 

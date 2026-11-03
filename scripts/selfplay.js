@@ -32,6 +32,7 @@ const BUDGET = 24;
 const FOLDER = fileURLToPath(new URL("../docs/selfplay/", import.meta.url));
 const FILE = `${FOLDER}${run}.json`;
 const FINAL = Number(option("--final", 2000));
+const FINAL_SEARCH = Number(option("--final-search", 600)); // The search is outside the panel, and slow: a judge that no generation played.
 const SEED_BASE = 2000000 + [...run].reduce((sum, c) => sum + c.charCodeAt(0), 0) * 1000000;
 
 mkdirSync(FOLDER, { recursive: true });
@@ -68,8 +69,8 @@ function note(generation, entry) {
 async function finalCheck() {
   const final = {};
   const catalog = { [VARIANT]: history.numbers };
-  for (const name of PANEL) {
-    const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count: FINAL });
+  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH]]) {
+    const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count });
     final[name] = { part: Number(report.part.toFixed(3)), low: Number((0.5 + report.gap.low / 4).toFixed(3)), high: Number((0.5 + report.gap.high / 4).toFixed(3)), strokes: Number(report.strokes.toFixed(1)) };
   }
   return final;

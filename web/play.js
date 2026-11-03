@@ -11,6 +11,7 @@ import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
 import { exportWon, savePoint } from "./play-files.js";
 import { createStepper } from "./play-steps.js";
+import { keysOf } from "./play-keys.js";
 import { freshSeed, seedOfNewGame } from "./play-seeds.js";
 import { fromTopBand, layoutFor } from "./scale.js";
 import { buildServices, buildStrokes, letGoOfButtons, showServices, showStrokes } from "./stroke-panel.js";
@@ -50,10 +51,14 @@ function readThePause(state, rule) {
   live.miss = expectedMiss(state, { who: 0, rule }) ?? live.miss;
 }
 
-function pickService(key) {
-  if (live.point && !live.point.closed) stepper.sendOrder({ service: key });
+/** An order to the point under way. */
+function sendOrder(order) {
+  if (live.point && !live.point.closed) stepper.sendOrder(order);
   render();
 }
+
+const pickService = (key) => sendOrder({ service: key });
+const sendMove = (moveBy) => sendOrder({ moveBy });
 
 function pick(key) {
   if (!live.point || live.point.closed) return;
@@ -169,7 +174,7 @@ function beginPoint(robotService) {
   live.toEvent = false;
   live.clicks.length = 0;
   const who = live.point.server === 0 ? "Vous servez" : "Le robot sert";
-  byId("events").textContent = `${who} : placez-vous, visez, puis espace.`;
+  byId("events").textContent = `${who} : placez-vous (clic gauche, ZQSD), visez, puis espace.`;
   setRunning(false);
 }
 
@@ -210,10 +215,7 @@ const togglePlay = () => {
 const oneFrame = () => stepOnce(() => stepper.runSteps(4));
 const toEvent = () => stepOnce(() => stepper.runToNext());
 
-const KEYS = { " ": togglePlay, ".": oneFrame, n: toEvent, "+": () => faster(1), "-": () => faster(-1) };
-Object.keys(STROKE_KINDS).forEach((key, i) => {
-  KEYS[String(i + 1)] = () => pick(key);
-});
+const KEYS = keysOf({ togglePlay, oneFrame, toEvent, faster, pick, sendMove, strokes: Object.keys(STROKE_KINDS) });
 
 function onKey(event) {
   if (event.target === input("seed")) return;

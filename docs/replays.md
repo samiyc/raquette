@@ -61,7 +61,7 @@ Un fichier compressé, une ligne JSON par échange, précédées d'une première
 
 ## Un point à la souris
 
-Un fichier JSON, avec le même en-tête, une ligne comme ci-dessus sous `rally`, et de quoi le rejouer : `seed`, `server`, `scatter`, `aim` (la visée de départ), `orders` (les clics et les coups choisis, chacun avec son pas).
+Un fichier JSON, avec le même en-tête, une ligne comme ci-dessus sous `rally`, et de quoi le rejouer : `seed`, `server`, `scatter`, `aim` (la visée de départ), `orders` (les clics, les touches, `moveBy`, et les coups choisis, chacun avec son pas). `robotService` : le service choisi par le robot, avec `from`, d'où il part.
 
 ## Ce que ça coûte
 

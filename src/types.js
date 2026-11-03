@@ -77,7 +77,8 @@
  * @property {RallyListener} [listener]
  * @property {any} [service] the long one by default; or one of src/services.js
  * @property {number} [serviceY] where a service of src/services.js is sent across the table, in the server's own frame
- * @property {{key: string, y: number}} [served] a service picked in advance, by its name
+ * @property {number} [serviceFrom] where it leaves from across the table, in the server's own frame
+ * @property {{key: string, y: number, from?: number}} [served] a service picked in advance, by its name
  * @property {boolean} [choosing] the server picks its service, if its rule can
  *
  * @typedef {"net" | "out" | "twoBounces" | "notReached" | "behind" | "limit"} Cause

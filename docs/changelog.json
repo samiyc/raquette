@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.14.0",
+      "title": "Le service part d'où l'on se place",
+      "date": "3/11/2026",
+      "items": [
+        "Avant de servir, vous réglez d'où vous partez : clic gauche ou touches ZQSD. La balle part de là, en ligne droite ou en diagonale, là où vous visez.",
+        "Le receveur se place au milieu de ce que le serveur peut atteindre : un peu à l'opposé, sans laisser passer la ligne droite. Les robots choisissent aussi d'où ils servent.",
+        "La bombe ne sort plus quand on sert du milieu : elle part un peu moins vite si la ligne est courte.",
+        "ZQSD déplace aussi le joueur pendant le point."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.13.0",
       "title": "L'autojeu : une règle dont les nombres bougent",
       "date": "3/11/2026",

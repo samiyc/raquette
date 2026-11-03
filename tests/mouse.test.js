@@ -84,12 +84,13 @@ describe("a point at the mouse", () => {
   it("makes a move during the reaction wait for its end: the pause gives time to think, not to run", () => {
     const point = createPoint({ seed: 3, server: 1, scatter: 1 });
     const body = point.state.bodies[0];
+    const start = body[BY];
     stepPoint(point);
     clickPoint(point, { moveTo: [-1.87, 1.5] });
     for (let i = 0; i < 46; i += 1) stepPoint(point);
-    assert.equal(body[BY], 0);
+    assert.equal(body[BY], start);
     for (let i = 0; i < 30; i += 1) stepPoint(point);
-    assert.ok(body[BY] > 0, `${body[BY]}`);
+    assert.ok(body[BY] > start, `${body[BY]}`);
   });
 
   it("shows the destination even while the move waits, then where the body is going", () => {
