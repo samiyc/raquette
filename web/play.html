@@ -28,6 +28,7 @@
         <button type="button" class="quiet" id="faster" title="Plus vite">+</button>
         <label><input id="autopause" type="checkbox" checked /> Pause à chaque frappe du robot</label>
       </section>
+      <section class="controls" id="strokes" aria-label="Le coup de la prochaine balle"></section>
       <section class="controls">
         <label>Graine<input id="seed" type="number" min="0" step="1" value="1" /></label>
         <label>Dispersion : <span id="scatter-label">100 %</span><input id="scatter" type="range" min="0" max="100" step="10" value="100" /></label>
@@ -40,7 +41,8 @@
       <p class="hint">
         Chaque point attend : <strong>placez-vous</strong> d'un clic gauche, <strong>visez</strong> d'un clic droit, puis <strong>espace</strong>. En jeu, espace met en pause : ajustez, puis espace de nouveau.
         <strong>Clic gauche</strong> sur le plan : où aller (le carré, au bout de son trajet). <strong>Clic droit</strong> sur le camp adverse : où envoyer la balle (la croix, avec la dispersion à attendre).
-        Le coup part seul quand la balle passe dans votre secteur, à droite de votre corps, après le sommet de son rebond.
+        Le coup part seul quand la balle passe dans votre secteur, à droite de votre corps, après le sommet de son rebond : l'anneau bleu dit où, pendant une pause.
+        <strong>Le coup</strong> se choisit pendant la pause, aux boutons ou aux touches 1 à 6. Ceux qui n'ont pas de sens pour cette balle, depuis l'endroit où vous la prendrez, sont grisés : leur info-bulle dit pourquoi.
         Après une frappe du robot, un déplacement attend la fin de votre réaction, 0,20 s. La visée compte jusqu'à 0,15 s avant le contact.
         Touches : <strong>espace</strong> pause ; <strong>.</strong> un pas de 1/60 s ; <strong>n</strong> l'événement suivant ; <strong>+ −</strong> la vitesse.
         Un score ne vaut mesure qu'à 100 % de dispersion ; à une autre valeur, c'est une exploration.

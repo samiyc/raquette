@@ -1,0 +1,174 @@
+import { aim } from "./aim.js";
+import { BALL_SIZE, TABLE, VX, VY, VZ, X, Z } from "./ball/constants.js";
+import { frames, readWay, riseStep, topStep } from "./forecast.js";
+import { createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
+import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
+import { recordFlight } from "./recording.js";
+import { R0_SWING } from "./rules/center.js";
+import { DRILL_STROKES } from "./rules/drills.js";
+import { SHORT_SWING } from "./rules/short.js";
+
+/**
+ * The strokes a player at the mouse can pick during a pause (Sami, 3/11/2026), and which of them make sense for the next ball. What
+ * is left out comes from the ball itself: a stroke is tried from where the player will really take the ball. Far from the table, a
+ * push or a short cut would have to be hit much harder, or sent up high, to reach the other camp: they are not offered.
+ *
+ * @typedef {object} StrokeKind
+ * @property {string} label
+ * @property {import("./types.js").Swing} swing
+ * @property {number} [rise] metres above the table, for a ball taken on the rise
+ * @property {number[]} [depths] how far past the net it may go, the shortest first: where it can go depends on the ball
+ * @property {(contact: {back: number, height: number, speed: number}) => string | null} [refuses] why not, from the ball at contact
+ */
+const LOW_ENOUGH = 0.4; // Metres above the table: higher, a ball is not pushed (H).
+const FAST_ENOUGH = 6; // m/s: under this, there is nothing to block (H).
+const FAR_ENOUGH = 0.4; // Metres behind the line: a chop is played from away from the table (H).
+const HARDER_AT_MOST = 1.5; // The aim may hit this much harder to get there: beyond, it is another stroke.
+const STEEPEST = 1; // A ball leaving at more than 45° is a high ball, not this stroke.
+
+/** @type {Readonly<Record<string, StrokeKind>>} */
+export const STROKE_KINDS = Object.freeze({
+  flat: { label: "Plat", swing: R0_SWING },
+  top: { label: "Top", swing: DRILL_STROKES.top.swing },
+  push: {
+    label: "Poussette",
+    swing: DRILL_STROKES.push.swing,
+    rise: DRILL_STROKES.push.rise,
+    refuses: ({ height }) => (height > LOW_ENOUGH ? "balle trop haute" : null),
+  },
+  block: {
+    label: "Bloc",
+    swing: DRILL_STROKES.block.swing,
+    rise: DRILL_STROKES.block.rise,
+    refuses: ({ speed }) => (speed < FAST_ENOUGH ? "balle trop lente" : null),
+  },
+  short: { label: "Deux rebonds", swing: SHORT_SWING, depths: [0.35, 0.45, 0.55, 0.65, 0.75] },
+  chop: {
+    label: "Tchop",
+    swing: { speed: 7, brushUp: -8, brushSide: 0 },
+    refuses: ({ back }) => (back < FAR_ENOUGH ? "trop près de la table" : null),
+  },
+});
+
+/** The step at which a stroke takes the ball: at the top of its bounce, or on the rise. */
+export const contactStep = (way, kind) => (kind.rise ? riseStep(way, kind.rise) : topStep(way));
+
+/** Puts a copy of the body where it would go, a move waiting for the end of the reaction included. */
+function copyBody(state, who, rule) {
+  const seat = state.seats[who];
+  const body = createBody(seat.side, seat.profile);
+  body.set(state.bodies[who]);
+  const waiting = () => {
+    if (rule.waiting) setGoal(body, rule.waiting, seat);
+  };
+  return { body, seat, waiting };
+}
+
+const ballAt = (step) => frames.slice(step * BALL_SIZE, (step + 1) * BALL_SIZE);
+
+/**
+ * Where the next stroke will take the ball, if the body keeps going where it was told: the first step at or after the wished one with
+ * the ball within the arm's sector, or earlier if it was about to pass out of reach, as the rally does.
+ * @returns {{step: number, ball: Float64Array} | null} null: the ball will be let go, or missed
+ */
+export function nextContact(state, who, rule) {
+  const way = readWay(state.ball, state.seats[who].side, { served: state.ownBounce, bounced: state.bounces > 0 });
+  if (way.from < 0 || way.to < way.from || state.striker === who) return null;
+  const wished = contactStep(way, STROKE_KINDS[rule.stroke]);
+  const step = walkToContact(copyBody(state, who, rule), way, { wished, reactionEnds: state.decideAt[who] - state.tick });
+  return step === null ? null : { step, ball: ballAt(step) };
+}
+
+/** Moves the copy of the body along the ball's way, up to the step of the contact, or null. */
+function walkToContact({ body, seat, waiting }, way, { wished, reactionEnds }) {
+  const within = (step) => reachOf(body, frames.subarray(step * BALL_SIZE, step * BALL_SIZE + 3), seat.side, seat.profile) === OK;
+  for (let step = 0; step <= way.to; step += 1) {
+    if (step === reactionEnds) waiting();
+    moveBody(body, seat);
+    if (within(step) && (step >= wished || (step >= way.from && step < way.to && !within(step + 1)))) return step;
+  }
+  return null;
+}
+
+const pose = new Float64Array(3);
+const racket = new Float64Array(RACKET_SIZE);
+
+/** The ball as this stroke would send it. */
+function sent(ball, tilts, swing, forward) {
+  const start = ball.slice();
+  poseRacket(racket, Float64Array.of(tilts[0], tilts[1], forward), swing, start);
+  strike(start, racket);
+  return start;
+}
+
+/** Does this flight bounce twice in the other camp? */
+function bouncesTwice(start, forward) {
+  const [first, second] = recordFlight(start).events;
+  return second?.kind === "table" && forward * first.x > 0 && forward * second.x > 0;
+}
+
+const tooSteep = (start) => start[VZ] > STEEPEST * Math.sqrt(start[VX] * start[VX] + start[VY] * start[VY]);
+
+/** Why a stroke cannot be played on this ball, or null. */
+function refusal(kind, ball, target, forward) {
+  const task = { ball, forward, target, swing: kind.swing };
+  const found = aim(task, pose);
+  if (!found) return "n'arrive pas sur la cible";
+  if (pose[2] > kind.swing.speed * HARDER_AT_MOST) return "il faudrait frapper plus fort";
+  const start = sent(ball, pose, { ...kind.swing, speed: pose[2] }, forward);
+  if (tooSteep(start)) return "il faudrait une chandelle";
+  return kind.depths && !bouncesTwice(start, forward) ? "ne rebondirait pas deux fois" : null;
+}
+
+/** A stroke with several depths: the shortest it can play, and why not if none. */
+function shortestDepth(kind, ball, { y, forward }) {
+  let why = null;
+  for (const depth of kind.depths) {
+    why = refusal(kind, ball, [forward * depth, y], forward);
+    if (why === null) return { depth, why };
+  }
+  return { depth: null, why };
+}
+
+function contactFacts(ball, side) {
+  const [vx, vy, vz] = [ball[VX], ball[VY], ball[VZ]];
+  return { back: side * ball[X] - TABLE.halfLength, height: ball[Z], speed: Math.sqrt(vx * vx + vy * vy + vz * vz) };
+}
+
+function whyNot(kind, ball, { rule, forward }) {
+  if (kind.depths) return shortestDepth(kind, ball, { y: rule.aim[1], forward }).why;
+  return refusal(kind, ball, rule.aim, forward);
+}
+
+/**
+ * How far past the net a stroke with several depths goes on the next ball: the page aims there when it is picked.
+ * @returns {number | null}
+ */
+export function depthFor(state, { who, rule }, key) {
+  const kind = STROKE_KINDS[key];
+  const contact = nextContact(state, who, rule);
+  if (!kind.depths || !contact) return null;
+  return shortestDepth(kind, contact.ball, { y: rule.aim[1], forward: -state.seats[who].side }).depth;
+}
+
+/**
+ * Which strokes make sense for the next ball.
+ * @param {any} state the rally
+ * @param {{who: number, rule: any}} player
+ * @returns {Record<string, string | null>} each stroke: why not, or null if it can be played
+ */
+export function strokeChoices(state, { who, rule }) {
+  const contact = nextContact(state, who, rule);
+  /** @type {Record<string, string | null>} */
+  const choices = {};
+  const { side } = state.seats[who];
+  const forward = -side;
+  const facts = contact && contactFacts(contact.ball, side);
+  for (const [key, kind] of Object.entries(STROKE_KINDS)) {
+    if (!contact) choices[key] = "pas de balle à prendre";
+    else {
+      choices[key] = kind.refuses?.(facts) ?? whyNot(kind, contact.ball, { rule, forward });
+    }
+  }
+  return choices;
+}

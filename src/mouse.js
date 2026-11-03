@@ -1,7 +1,6 @@
 import { TABLE } from "./ball/constants.js";
-import { topStep } from "./forecast.js";
 import { GOAL_X, GOAL_Y, placeBody, setGoal } from "./player.js";
-import { R0_SWING } from "./rules/center.js";
+import { contactStep, STROKE_KINDS } from "./strokes.js";
 
 /**
  * The mouse player (Sami, 2/11/2026; docs/modele.md, § 10): the left button says where to go, the right button where to send the
@@ -45,16 +44,19 @@ export function createMouseRule(aim) {
     aim,
     /** @type {number[] | null} a move asked during the reaction, which starts when it ends */
     waiting: null,
+    stroke: "flat",
+    /** The swing of the stroke picked, kept in place: a plan made before a pick plays it all the same. */
+    swing: { ...STROKE_KINDS.flat.swing },
     /** @param {import("./types.js").View} view */
     decide(view) {
       if (rule.waiting) setGoal(view.body, rule.waiting, view);
       rule.waiting = null;
       if (view.way.from < 0) return null;
       return {
-        step: topStep(view.way),
+        step: contactStep(view.way, STROKE_KINDS[rule.stroke]),
         goal: [view.body[GOAL_X], view.body[GOAL_Y]],
         target: rule.aim,
-        swing: R0_SWING,
+        swing: rule.swing,
         next: null,
       };
     },
@@ -75,20 +77,35 @@ export function destinationOf(rule, body) {
  * preparation of the stroke starts.
  * @param {any} state the rally
  * @param {{rule: ReturnType<typeof createMouseRule>, who: number}} player
- * @param {{moveTo?: number[], aimAt?: number[]}} order
+ * @param {{moveTo?: number[], aimAt?: number[], stroke?: string}} order
  * @returns {boolean} whether it was taken
  */
 export function applyOrder(state, { rule, who }, order) {
   const seat = state.seats[who];
   if (order.moveTo) {
-    if (state.tick === 0) placeBody(state.bodies[who], order.moveTo, seat);
-    else if (state.tick < state.decideAt[who]) rule.waiting = order.moveTo;
-    else setGoal(state.bodies[who], order.moveTo, seat);
+    moveOrder(state, { rule, who, seat }, order.moveTo);
     return true;
   }
   const plan = state.plans[who];
   if (plan && state.tick >= plan.at - Math.round(seat.profile.preparation * 240)) return false;
-  rule.aim[0] = order.aimAt[0];
-  rule.aim[1] = order.aimAt[1];
+  if (order.stroke) pickStroke(rule, order.stroke);
+  else setAim(rule, order.aimAt);
   return true;
+}
+
+function moveOrder(state, { rule, who, seat }, to) {
+  if (state.tick === 0) placeBody(state.bodies[who], to, seat);
+  else if (state.tick < state.decideAt[who]) rule.waiting = to;
+  else setGoal(state.bodies[who], to, seat);
+}
+
+function setAim(rule, at) {
+  rule.aim[0] = at[0];
+  rule.aim[1] = at[1];
+}
+
+/** The stroke of the next ball. */
+function pickStroke(rule, key) {
+  rule.stroke = key;
+  Object.assign(rule.swing, STROKE_KINDS[key].swing);
 }

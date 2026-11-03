@@ -155,21 +155,27 @@ function drawPlayers(ctx, layout, recording, index) {
   drawPlayer(ctx, layout, [b[index * 4 + 2], b[index * 4 + 3]], 1);
 }
 
-/**
- * What the player asked: where it aims, with a circle of the scatter to expect, and where it goes, a square at the end of a route.
- * The square is larger than the body, so that it shows once the body has got there. The radius comes from a stroke
- * on an easy ball, 16 cm in median at 100 % (docs/recherche/chiffres.md, § 8).
- */
-export function drawOrders(ctx, layout, { aim, goal, body, scatter }) {
-  const [ax, ay] = topPoint(layout, aim[0], aim[1]);
+/** A cross where the ball is aimed, in a circle of the scatter to expect. */
+function drawAim(ctx, at, radius) {
+  const [ax, ay] = at;
   ctx.strokeStyle = COLORS.lift;
   ctx.lineWidth = 2;
   line(ctx, [ax - 7, ay], [ax + 7, ay]);
   line(ctx, [ax, ay - 7], [ax, ay + 7]);
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.arc(ax, ay, Math.max(2, EASY_SCATTER * scatter * layout.scale), 0, 2 * Math.PI);
+  ctx.arc(ax, ay, radius, 0, 2 * Math.PI);
   ctx.stroke();
+}
+
+/**
+ * What the player asked: where it aims, with a circle of the scatter to expect, and where it goes, a square at the end of a route.
+ * A blue ring: where the next stroke will take the ball, during a pause.
+ * The square is larger than the body, so that it shows once the body has got there. The radius comes from a stroke
+ * on an easy ball, 16 cm in median at 100 % (docs/recherche/chiffres.md, § 8).
+ */
+export function drawOrders(ctx, layout, { aim, goal, body, scatter, contact }) {
+  drawAim(ctx, topPoint(layout, aim[0], aim[1]), Math.max(2, EASY_SCATTER * scatter * layout.scale));
   const [gx, gy] = topPoint(layout, goal[0], goal[1]);
   ctx.strokeStyle = COLORS.lift;
   ctx.lineWidth = 1.5;
@@ -178,6 +184,16 @@ export function drawOrders(ctx, layout, { aim, goal, body, scatter }) {
   ctx.setLineDash([]);
   ctx.lineWidth = 2.5;
   ctx.strokeRect(gx - 9, gy - 9, 18, 18);
+  if (contact) drawContact(ctx, topPoint(layout, contact[0], contact[1]));
+}
+
+/** A blue ring: where the next stroke will take the ball. */
+function drawContact(ctx, at) {
+  ctx.strokeStyle = COLORS.cut;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(at[0], at[1], 6, 0, 2 * Math.PI);
+  ctx.stroke();
 }
 
 /** The whole view at one frame. */

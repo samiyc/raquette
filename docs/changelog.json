@@ -4,6 +4,17 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.7.0",
+      "title": "Choisir son coup pendant la pause",
+      "date": "3/11/2026",
+      "items": [
+        "Plat, top, poussette, bloc, deux rebonds, tchop : aux boutons ou aux touches 1 à 6, jusqu'au début de la préparation.",
+        "Les coups sans objet sont grisés, avec la raison : le jeu les essaie sur la balle telle que vous la prendrez. Loin de la table, ni poussette ni deux rebonds.",
+        "Un anneau bleu montre, pendant la pause, où votre prochain coup prendra la balle."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.6.1",
       "title": "Un joueur ne laisse plus passer une balle à portée",
       "date": "3/11/2026",

@@ -129,6 +129,9 @@ function goalFor(view, step, h) {
 /** The step at which the ball is at the top of its bounce, for a player who only says where to stand. */
 export const topStep = topOf;
 
+/** The step at which a ball taken early is at this height, or at the top of its bounce. */
+export const riseStep = (way, height) => riseOf(way, height);
+
 /** Early, as a block takes it: as soon as it has risen this high off the table, or else at the top. */
 function riseOf(way, height) {
   for (let step = way.from; step <= way.to; step += 1) {

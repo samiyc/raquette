@@ -387,6 +387,8 @@ celle du robot par défaut** (Sami, 2/11/2026), avec un curseur de 0 à 100 %, d
 Sami battrait le robot par sa précision, ce qui ne dirait rien des limites du robot. Un score à une autre valeur reste une
 exploration, pas une mesure.
 
+**Le choix du coup** (Sami, 3/11/2026). Pendant une pause, on choisit le coup de la prochaine balle : plat, top, poussette, bloc, deux rebonds, tchop (`src/strokes.js`). Les options sans objet disparaissent par le calcul : le coup est essayé sur la balle telle qu'elle sera au contact, depuis l'endroit où le joueur la prendra. S'il faudrait frapper plus fort que ce coup pour atteindre la cible, il n'est pas proposé : loin de la table, ni poussette ni deux rebonds. Quelques seuils s'y ajoutent (H) : pas de poussette au-dessus de 40 cm, pas de bloc sous 6 m/s, pas de tchop à moins de 40 cm derrière la ligne. Le choix compte jusqu'au début de la préparation, comme la visée.
+
 **Ce que la page montre :** le secteur autour de chaque joueur, le cercle de dispersion attendue autour de la cible, et la
 cause de chaque fin d'échange.
 

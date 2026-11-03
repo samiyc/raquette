@@ -5,17 +5,19 @@ import {
 } from "../src/game.js";
 import { destinationOf, orderOf } from "../src/mouse.js";
 import { BX, BY } from "../src/player.js";
+import { depthFor, nextContact, STROKE_KINDS, strokeChoices } from "../src/strokes.js";
 import { drawOrders, drawScene } from "./draw.js";
 import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
 import { layoutFor } from "./scale.js";
+import { buildStrokes, showStrokes } from "./stroke-panel.js";
 
 /** The page of the game at the mouse: it listens and draws; what decides is in src/game.js and src/mouse.js. */
 const byId = (id) => document.getElementById(id);
 const input = (id) => /** @type {HTMLInputElement} */ (byId(id));
 const canvas = /** @type {HTMLCanvasElement} */ (byId("view"));
 const context = canvas.getContext("2d");
-const live = { game: null, point: null, running: false, speed: 0.25, carry: 0, last: 0, looping: false };
+const live = { game: null, point: null, running: false, speed: 0.25, carry: 0, last: 0, looping: false, contact: null };
 let layout = layoutFor(canvas.clientWidth);
 
 const scatterNow = () => Number(input("scatter").value) / 100;
@@ -25,7 +27,28 @@ function scoreText() {
   return `${mine} - ${theirs}`;
 }
 
+/** The strokes that make sense now, worked out during a pause: a stroke no longer possible falls back to a plain one. */
+function refreshStrokes() {
+  if (live.running || !live.point || live.point.closed) return;
+  const { rule, state } = live.point;
+  const choices = strokeChoices(state, { who: 0, rule });
+  showStrokes(byId("strokes"), choices, rule.stroke);
+  const contact = nextContact(state, 0, rule);
+  live.contact = contact ? [contact.ball[0], contact.ball[1]] : null;
+  if (choices[rule.stroke] !== null && choices.flat === null && rule.stroke !== "flat") pick("flat");
+}
+
+function pick(key) {
+  if (!live.point || live.point.closed) return;
+  const { rule, state } = live.point;
+  const depth = depthFor(state, { who: 0, rule }, key);
+  if (!clickPoint(live.point, { stroke: key })) byId("events").textContent = "Trop tard pour changer de coup : la préparation a commencé.";
+  else if (depth !== null) clickPoint(live.point, { aimAt: [depth, rule.aim[1]] });
+  render();
+}
+
 function render() {
+  refreshStrokes();
   byId("score").textContent = scoreText();
   byId("play").textContent = live.running ? "Pause" : "Lecture";
   byId("speed-label").textContent = String(SPEEDS.find(([value]) => value === live.speed)[1]);
@@ -36,7 +59,8 @@ function render() {
   drawScene(context, layout, recording, recording.steps);
   const body = live.point.state.bodies[0];
   const goal = destinationOf(live.point.rule, body);
-  drawOrders(context, layout, { aim: live.point.rule.aim, goal, body: [body[BX], body[BY]], scatter: live.point.scatter });
+  const contact = live.running ? null : live.contact;
+  drawOrders(context, layout, { aim: live.point.rule.aim, goal, body: [body[BX], body[BY]], scatter: live.point.scatter, contact });
   byId("frame").textContent = frameText(recording, recording.steps, BALL_SIZE);
 }
 
@@ -173,6 +197,9 @@ const oneFrame = () => stepOnce(() => runSteps(4));
 const toEvent = () => stepOnce(() => runToEvent(live.point));
 
 const KEYS = { " ": togglePlay, ".": oneFrame, n: toEvent, "+": () => faster(1), "-": () => faster(-1) };
+Object.keys(STROKE_KINDS).forEach((key, i) => {
+  KEYS[String(i + 1)] = () => pick(key);
+});
 
 function onKey(event) {
   if (event.target === input("seed")) return;
@@ -206,6 +233,7 @@ function wire() {
   window.addEventListener("resize", resize);
 }
 
+buildStrokes(byId("strokes"), pick);
 wire();
 newGame();
 resize();
