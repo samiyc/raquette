@@ -179,7 +179,33 @@ Deux laboratoires trouvent la même pente de restitution, vers 0,02 par m/s.
 | Le service le plus rapide | 54 km/h (15 m/s), Asuka Sakai, calculé sur une vidéo | [[pingsunday]] | E : la page n'a pas pu être lue, à ne pas tenir pour une mesure |
 | « 40 à 60 mph » pour le haut niveau (18 à 27 m/s) | un blog, sans étude citée | [[pingsunday2]] | E, écarté : contredit le reste |
 
-**Ce qui manque, malgré la recherche.** Aucune source lue ne donne une **médiane**, ni la vitesse d'un service mesurée sur des joueurs pro, ni le maximum et la moyenne de vitesse et d'effet en match. Deux pistes non lues : l'étude de Tamaki et Yoshida 2025 sur les services courts et longs [[tamaki]] (page refusée), et la figure 4 de [[ace]], à relever à l'œil. Pour les vitesses et les effets d'un joueur de club, rien (Q-P8).
+**Hors service, le reste de ce que la recherche du 3/11/2026 a trouvé :**
+
+| Chiffre | Valeur | Source | Statut |
+|---|---|---|---|
+| « La vitesse de la balle peut dépasser 20 m/s », « l'effet peut atteindre 1 000 rad/s » | valeurs générales, sans mesure dans l'article | [[acehw]] | L |
+| Raquette d'un smash d'élite | environ 20 m/s, cité ; le robot atteint 22 m/s à vide, sans balle | [[acehw]] | L |
+| Le jeu de données de Conti : 277 parties, amateurs, élites et pros, 58 000 trajectoires | **aucune distribution publiée** : ni moyenne, ni médiane, ni maximum ; les 35 m/s et 1 000 rad/s sont cités de Tang | [[conti]] | L |
+| Lien entre vitesse et effet chez de jeunes élites, capteurs optiques | corrélation forte, top en coup droit plus rapide qu'en revers ; les moyennes n'ont pas pu être lues | [[youth]] | E |
+| Effort subjectif et régularité, dix joueurs universitaires, 5 niveaux d'effort | vitesse moins stable à faible effort, effet le plus variable à 90 % | [[sato]] | E |
+| Smash d'Ovtcharov | 113 km/h ou 122 km/h selon les blogs, qui se contredisent | [[pingsunday3]] | E, écarté |
+| Effet jusqu'à 5 000 tr/min (83 tr/s) en top, citation de seconde main dans un article de tennis ; 200 tr/s sur un blog, sans étude | | [[tennistop]], [[pingsunday4]] | E, le second écarté |
+| Une machine à balles, à titre de comparaison | 42,5 m/s, plus de 5 000 tr/min : un matériel, pas un joueur | recherche du 3/11/2026, source non relevée | E |
+
+**Le détail des services du robot** [[ace]], table III (les colonnes extraites n'ont pas leurs titres : les trois composantes de la vitesse, puis celles de l'effet, en réel) :
+
+| Tâche | Essais | Vitesse (m/s) | Effet (rad/s) |
+|---|---|---|---|
+| Viser, 299 ± 313 mm d'erreur | 15 | 2,8 ± 1,0 ; −1,0 ± 0,4 ; 2,3 ± 0,3 | 23 ± 42 ; 57 ± 158 ; 4 ± 112 |
+| Lift et vitesse | 14 | 4,4 ± 1,1 ; −0,7 ± 0,6 ; 2,0 ± 0,1 | 49 ± 54 ; 263 ± 70 ; 101 ± 132 |
+| Coupé | 12 | 3,3 ± 0,8 ; −1,1 ± 0,5 ; 1,7 ± 0,2 | −70 ± 84 ; −132 ± 177 ; 29 ± 72 |
+| Latéral | 13 | 3,7 ± 1,0 ; −0,7 ± 0,7 ; 2,0 ± 0,2 | 37 ± 35 ; 140 ± 79 ; −13 ± 255 |
+
+Le même article cite 52,78 % (hommes) et 53,28 % (femmes) de points gagnés au service chez les pros, et 1 à 21 % d'aces pour le robot selon les mois.
+
+**Lu ou non.** Lus : [[worlds2009]] (le résumé), [[ace]] et [[acehw]] (le texte, sans les figures), [[conti]]. Vus seulement en extrait de recherche : [[pej2026]], [[youth]], [[sato]], [[tennistop]], [[pingsunday]], [[pingsunday2]], [[pingsunday3]], [[pingsunday4]]. Refusés (403 ou illisibles) : [[tamaki]], l'article de Kidokoro au-delà de son résumé déjà connu, et la comparaison celluloïd et plastique [[ijrss]], dont le PDF n'a pas pu être lu ici, à reprendre.
+
+**Ce qui manque, malgré la recherche.** Aucune source lue ne donne une **médiane**, ni la vitesse d'un service mesurée sur des joueurs pro, ni le maximum et la moyenne de vitesse et d'effet en match. Trois pistes non lues : l'étude de Tamaki et Yoshida 2025 sur les services courts et longs [[tamaki]], la comparaison [[ijrss]], et la figure 4 de [[ace]], à relever à l'œil. Pour les vitesses et les effets d'un joueur de club, rien (Q-P8).
 
 **Ce que le modèle en fait.** Les effets de service restent sous 62,5 tr/s. La bombe part à 11 m/s, le mieux qu'un contact bas permette : à 15 m/s, elle ne retomberait plus dans le camp adverse, ce qu'il faudrait confronter à un entraîneur (Q-P10). Le top des duels (11,2 m/s, 104 tr/s) est sous les 23 m/s et dans les 117 ± 29 tr/s de Kidokoro.
 
@@ -396,6 +422,38 @@ La dispersion de 3° donnait 19 cm d'écart-type sur le côté, pour une table d
 - **Le bloc perd désormais** : R4 prend 48,0 % à R3. Une balle rapide est maintenant coûteuse à contrôler, et la règle ne choisit pas bien quand bloquer.
 - **Une limite** : un plan alloue encore (la copie de l'échange, ses tirages). Le critère de 0 collection par décision de J6 n'est pas tenu, et la page attend la recherche sur le même fil : à 12 plans, jusqu'à 1 s de gel vue sur un premier point, à passer dans un *worker*.
 
+**Les réglages de la recherche, et les deux algorithmes** (3/11/2026). Par paires, dans la file, à partir de services variés, à partir de la graine 800 000. **Ces mesures datent d'avant la correction de R3 et le service coupé** ; les mêmes sont refaites, à partir de 900 000.
+
+| Duel | Graines | Part du premier | Intervalle à 95 % |
+|---|---|---|---|
+| Escalade contre Monte-Carlo à plat, 24 essais | 1 200 | 51,6 % | 49,7 à 53,4 % |
+| La même, 96 essais | 400 | 50,2 % | 47,2 à 53,3 % |
+| Escalade contre R3 | 1 200 | 56,5 % | 54,8 à 58,2 % |
+| Monte-Carlo contre R3 | 1 200 | 53,4 % | 51,6 à 55,2 % |
+| Escalade contre R0 | 1 200 | 62,0 % | 60,1 à 63,8 % |
+| 96 essais contre 24 | 400 | 52,8 % | 49,7 à 55,8 % |
+| 8 tirages contre 4 | 800 | **53,6 %** | 51,6 à 55,7 % |
+| 2 tirages contre 4 | 800 | 47,3 % | 45,3 à 49,2 % |
+| 2 coups d'avance contre 4 | 800 | 50,1 % | 48,1 à 52,2 % |
+| 6 coups d'avance contre 4 | 800 | 49,3 % | 47,2 à 51,4 % |
+
+Les deux algorithmes sont à égalité statistique. Ce qui compte ici est le nombre de tirages : noter un coup sur plus de hasard, plutôt que voir plus loin ou essayer plus de coups.
+
+**Les règles, après la correction de R3** (3/11/2026, 1 200 graines à partir de 900 000, services variés) : R3 contre R0 56,0 % [54,1 ; 57,8], contre 51,5 % avant ; R3 contre R2 71,8 % [70,2 ; 73,4] ; R1 contre R0 51,4 % [50,2 ; 52,5] ; R4 contre R3 50,0 % [48,6 ; 51,3].
+
+**Les services, R3 contre R3** (1 200 graines par service) :
+
+| Service | Part des points du serveur | Coups par échange |
+|---|---|---|
+| Pendule | 51,2 % | 6,7 |
+| Marteau | 46,6 % | 7,3 |
+| Mou | 49,2 % | 7,0 |
+| Coupé | 47,5 % | 7,1 |
+| Bombe | 56,5 % | 4,5 |
+| Latéral | 49,7 % | 6,4 |
+
+Avant la correction, le latéral tombait à 26,9 % pour le serveur : R3 jouait ensuite une poussette que la visée savait impossible. La bombe, à 10 m/s, montait à 72,4 %. Elle reste le seul service qui rapporte nettement au serveur.
+
 **Les performances** (3/11/2026, sur une machine chargée). 85 % du temps passait dans les vols de la visée, jusqu'à une quarantaine par coup. Elle essaie maintenant à 60 Hz, reprend chaque vitesse de la solution de la précédente, et vérifie le dernier vol à 240 Hz.
 
 | Mesure | Avant | Après |
@@ -470,6 +528,13 @@ Le modèle de Conti tombe tout près de la Loi (« environ 23 cm ») ; le calcul
 [pej2026]: https://www.physicaleducationjournal.net/archives/2026.v8.i3.B.240/a-comparative-analysis-of-ball-velocity-of-forehand-topspin-technique-against-no-spin-and-backspin-balls-in-table-tennis
 [pingsunday]: https://pingsunday.com/lightning-fastest-serve-speed-in-table-tennis/
 [pingsunday2]: https://pingsunday.com/the-dynamics-of-speed-in-table-tennis-a-comprehensive-analysis-of-ball-velocity-generation/
+[pingsunday3]: https://pingsunday.com/how-much-speed-can-a-table-tennis-player-generate-on-the-ball/
+[pingsunday4]: https://pingsunday.com/how-much-spin-can-a-table-tennis-player-generate/
+[acehw]: https://arxiv.org/abs/2606.26643
+[youth]: https://www.researchgate.net/publication/392448568_Relationship_Between_Ball_Speed_and_Spin_in_Elite_Youth_Table_Tennis_Players_Using_Optical_Sensors
+[sato]: https://journals.sagepub.com/doi/10.1177/17479541251380169
+[tennistop]: https://www.researchgate.net/publication/330849036_Effect_of_topspin_on_the_apparent_speed_of_a_tennis_court
+[ijrss]: https://journal.racketsportscience.org/index.php/ijrss/article/download/32/29
 [brandt]: https://labolycee.org/sites/default/files/2025-09/2024-AmNord-J2-Exo1-Sujet-TennisdeTable-11pts.docx
 [schneider]: https://www.intechopen.com/chapters/83844
 [kidokoro]: https://pubmed.ncbi.nlm.nih.gov/36537568/
