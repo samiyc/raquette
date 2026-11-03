@@ -31,6 +31,22 @@ export function eventsText(recording) {
   return `${shown.join(" ; ")}.${verdict}`;
 }
 
+const CAUSES = {
+  net: "balle dans le filet",
+  out: "balle hors de la table",
+  twoBounces: "deux rebonds, le receveur n'est pas arrivé à temps",
+  notReached: "balle pas rejointe",
+  behind: "balle passée dans le dos, hors du secteur",
+  limit: "limite de 60 coups, sans vainqueur",
+};
+
+/** How a rally went, in a sentence. */
+export function rallyText({ seed, result }) {
+  const who = result.winner === 0 ? "le joueur de gauche gagne" : "le joueur de droite gagne";
+  const end = result.winner < 0 ? CAUSES.limit : `${who} : ${CAUSES[result.cause]}`;
+  return `Graine ${seed}, ${result.strokes} coup(s) après le service, ${fixed(result.ticks * STEP, 2)} s ; ${end}.`;
+}
+
 /** The ball at one frame: time, height, speed, spin. */
 export function frameText(recording, index, size) {
   const at = index * size;

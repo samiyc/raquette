@@ -270,6 +270,42 @@ compter la préparation. Toutes ces valeurs de corps sont des hypothèses (§ 6 
 
 Le second rebond tombe près du fond : le receveur prend la balle tard, mais de loin.
 
+**La première vitesse de R0 ne passait pas** (J3, 3/11/2026). Une balle plate à 8 m/s, prise à hauteur de filet près de la ligne de fond, ne
+peut pas retomber au centre sans toucher le filet. La visée se rabat alors sur une balle haute. Sur 600 échanges par ligne, avec
+la dispersion et le corps du § 4 :
+
+| Vitesse de la balle | Coups par échange | Filet | Hors table | Pas rejointe ou dans le dos | Limite |
+|---|---|---|---|---|---|
+| 5,5 m/s | 15,7 | 551 | 8 | 31 | 10 |
+| 6 m/s | 7,0 | 528 | 27 | 45 | 0 |
+| **6,5 m/s, retenue** | **4,2** | 519 | 37 | 44 | 0 |
+| 7 m/s | 2,8 | 477 | 64 | 59 | 0 |
+| 8 m/s | 1,9 | 407 | 122 | 71 | 0 |
+
+Sur 2 000 échanges à 6,5 m/s : 4,29 coups, 1 712 au filet (86 %), 125 hors table, 163 passés dans le dos, et 56 % des points au serveur, dont le
+service n'a ni effet ni dispersion. **Ce réglage atteint la longueur voulue pour une mauvaise raison** : presque tout finit au filet. À revoir à J5.
+
+**Le banc de J3** (`npm run bench`) : une visée 82 µs, un échange 0,75 ms, soit 2 400 échanges en 2 s sur un fil, pour une règle. Un plan de recherche
+coûtera une visée au moins : l'estimation de 50 µs par plan du `modele.md`, § 7, est donc trop basse, à reprendre à J6.
+
+Une balle du même genre, prise à 17 cm, 2 000 à 4 000 tirages :
+
+| Coup | Dispersion | Valide | Filet | Hors table | Deux rebonds |
+|---|---|---|---|---|---|
+| R0, 6,5 m/s, centre | 3° et 6 % | 63,5 % | 31,0 % | 5,4 % | 0 |
+| R0, 6,5 m/s, centre | 1,5° et 3 % | 80,7 % | 19,3 % | 0 % | 0 |
+| Coupé court, 4 m/s, brossage −6 m/s, à x = 0,35 | 3° et 6 % | 66,4 % | 31,4 % | 2,1 % | 46,1 % |
+| Coupé court, 4 m/s, brossage −6 m/s, à x = 0,35 | 1,5° et 3 % | 80,8 % | 19,2 % | 0 % | 75,4 % |
+
+Le coupé court n'est donc pas plus risqué que la frappe de R0. Sans dispersion, la raquette le joue à 4,7 m/s et 82 tr/s de coupé : le lancer de Sami
+est à la portée du modèle de contact de Conti. Sur une balle facile, à 25 cm et 6 m/s d'arrivée à 8 m/s de départ, les 3° et 6 % donnent 16 cm de
+médiane et 90 % de balles valides, proches de la recommandation de Q-P1. C'est la balle basse qui coûte cher.
+
+**La règle court, un premier essai.** Sur 300 échanges, jouée contre un R0 attendant plus ou moins loin, avec un seuil de 1 m : elle ne gagne
+rien et perd même des points. À 1,5 m d'attente, le premier joueur gagne 64,7 % avec elle, 75,3 % sans elle. Elle jouait alors une balle encore
+rattrapable, d'où le seuil porté à 1,5 m, non mesuré. Et à 2 m et plus, le receveur perd déjà sur sa propre frappe, trop courte à 6,5 m/s depuis
+le fond. Rien n'est mesuré au sens du § 7 du modèle : c'est le travail de J5.
+
 **Le test du rebond.** Lâchée de 30 cm, la balle arrive à 2,37 m/s, traînée comprise.
 
 | Restitution | D'où elle vient | Rebond calculé |

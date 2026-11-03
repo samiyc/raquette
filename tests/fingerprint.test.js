@@ -4,6 +4,9 @@ import { createHash } from "node:crypto";
 import { BALL_SIZE } from "../src/ball/constants.js";
 import { createBall } from "../src/ball/flight.js";
 import { advance, NONE } from "../src/ball/table.js";
+import { CLUB_PLAYER } from "../src/player.js";
+import { recordRally } from "../src/rally-recording.js";
+import { R0 } from "../src/rules/center.js";
 
 /**
  * What the simulation does, held in a hash (as in mcts-urgences, mcts-entrepot and mcts-cuisine): a refactor must leave
@@ -13,6 +16,7 @@ import { advance, NONE } from "../src/ball/table.js";
 const EXPECTED = {
   // 2/11/2026: a ball ending its roll no longer falls through the table; flights before that point are unchanged.
   ball: "2aa4b251ea50ef1c",
+  rally: "f85cb2d0006385b9",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */
@@ -43,8 +47,21 @@ function trace([position, velocity, spin]) {
 
 const digest = (value) => createHash("sha256").update(JSON.stringify(value)).digest("hex").slice(0, 16);
 
+/** Twenty rallies of R0 against R0: how each ended, and every number of the ball at its last step. */
+function rallies() {
+  const players = [{ rule: R0, profile: CLUB_PLAYER }, { rule: R0, profile: CLUB_PLAYER }];
+  return Array.from({ length: 20 }, (_, seed) => {
+    const { result, frames } = recordRally({ seed, players, server: seed % 2 });
+    return [result, createHash("sha256").update(new Uint8Array(frames.buffer)).digest("hex")];
+  });
+}
+
 describe("the fingerprints", () => {
   it("of the ball", () => {
     assert.equal(digest(LAUNCHES.map(trace)), EXPECTED.ball);
+  });
+
+  it("of a rally", () => {
+    assert.equal(digest(rallies()), EXPECTED.rally);
   });
 });

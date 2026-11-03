@@ -1,5 +1,10 @@
 import { BALL_SIZE, NET, TABLE, VX, VY, WX, WY, WZ, X, Y, Z } from "../src/ball/constants.js";
-import { ballRadius, COLORS, liftOf, shadowOffset, sidePoint, sidePush, spinColor, spinMark, topPoint } from "./scale.js";
+import { CLUB_PLAYER } from "../src/player.js";
+import {
+  ballRadius, COLORS, liftOf, sectorAngles, shadowOffset, sidePoint, sidePush, spinColor, spinMark, topPoint, trailStart,
+} from "./scale.js";
+
+const REACH = CLUB_PLAYER.reach;
 
 /** The drawing: the table from above and from the side, the flight so far, the ball. It decides nothing. */
 
@@ -39,9 +44,10 @@ function drawTableFromSide(ctx, layout) {
   line(ctx, sidePoint(layout, 0, 0), sidePoint(layout, 0, NET.height));
 }
 
-/** The way the ball has come, in both views. */
+/** The way the ball has come since the last stroke, in both views. */
 function drawTrail(ctx, layout, recording, index) {
   const f = recording.frames;
+  const start = trailStart(recording.strokes, index);
   const views = [
     (at) => topPoint(layout, f[at + X], f[at + Y]),
     (at) => sidePoint(layout, f[at + X], f[at + Z]),
@@ -50,21 +56,23 @@ function drawTrail(ctx, layout, recording, index) {
   ctx.lineWidth = 1.5;
   for (const point of views) {
     ctx.beginPath();
-    for (let i = 0; i <= index; i += 1) {
+    for (let i = start; i <= index; i += 1) {
       const [x, y] = point(i * BALL_SIZE);
-      if (i === 0) ctx.moveTo(x, y);
+      if (i === start) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
     ctx.stroke();
   }
 }
 
-/** A cross where the flight touched something, once the ball has got there. */
+/** A cross where the flight touched something since the last stroke, once the ball has got there. */
 function drawEvents(ctx, layout, recording, index) {
   ctx.strokeStyle = COLORS.line;
   ctx.lineWidth = 1.5;
+  const start = trailStart(recording.strokes, index);
   for (const { step, x, y } of recording.events) {
     if (step > index) break;
+    if (step < start) continue;
     const [px, py] = topPoint(layout, x, y);
     line(ctx, [px - 4, py - 4], [px + 4, py + 4]);
     line(ctx, [px - 4, py + 4], [px + 4, py - 4]);
@@ -123,12 +131,36 @@ function drawBall(ctx, layout, recording, index) {
   drawBallAt(ctx, sidePoint(layout, f[at + X], f[at + Z]), 6, lift);
 }
 
+/** A player from above: its body, and what its arm reaches without moving. */
+function drawPlayer(ctx, layout, at, side) {
+  const point = topPoint(layout, at[0], at[1]);
+  const [from, to] = sectorAngles(side);
+  ctx.fillStyle = COLORS.sector;
+  ctx.strokeStyle = COLORS.line;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(point[0], point[1]);
+  ctx.arc(point[0], point[1], REACH * layout.scale, from, to);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  disc(ctx, point, 7, COLORS.line);
+}
+
+function drawPlayers(ctx, layout, recording, index) {
+  const b = recording.bodies;
+  if (!b) return;
+  drawPlayer(ctx, layout, [b[index * 4], b[index * 4 + 1]], -1);
+  drawPlayer(ctx, layout, [b[index * 4 + 2], b[index * 4 + 3]], 1);
+}
+
 /** The whole view at one frame. */
 export function drawScene(ctx, layout, recording, index) {
   ctx.fillStyle = COLORS.floor;
   ctx.fillRect(0, 0, layout.width, layout.height);
   drawTableFromAbove(ctx, layout);
   drawTableFromSide(ctx, layout);
+  drawPlayers(ctx, layout, recording, index);
   drawTrail(ctx, layout, recording, index);
   drawEvents(ctx, layout, recording, index);
   drawBall(ctx, layout, recording, index);

@@ -18,10 +18,26 @@ export const COLORS = Object.freeze({
   line: "#5f5f00",
   trail: "#8a8a4a",
   shadow: "#a9a97e",
+  sector: "rgba(95, 95, 0, 0.12)",
   neutral: "#4a4a3a",
   lift: "#b71c1c",
   cut: "#0d47a1",
 });
+
+const SECTOR_HALF = (110 * Math.PI) / 180;
+
+/** What the arm reaches, as a canvas draws it: from and to, in radians. The axis looks towards the net. */
+export function sectorAngles(side) {
+  const axis = side < 0 ? 0 : Math.PI;
+  return [axis - SECTOR_HALF, axis + SECTOR_HALF];
+}
+
+/** Where the trail starts: at the last stroke played by `index`, or at the start. */
+export function trailStart(strokes, index) {
+  let start = 0;
+  for (const step of strokes ?? []) if (step <= index) start = step;
+  return start;
+}
 
 /** The two bands for a canvas `width` pixels wide: the same lengths, so that a point of one lies above the other's. */
 export function layoutFor(width) {

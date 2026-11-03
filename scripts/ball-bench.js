@@ -1,5 +1,9 @@
-import { PerformanceObserver } from "node:perf_hooks";
+import { aim } from "../src/aim.js";
 import { createBall, fly } from "../src/ball/flight.js";
+import { CLUB_PLAYER } from "../src/player.js";
+import { playRally } from "../src/rally.js";
+import { R0, R0_SWING } from "../src/rules/center.js";
+import { PerformanceObserver } from "node:perf_hooks";
 import { STEP } from "../src/ball/constants.js";
 import { advance, NONE } from "../src/ball/table.js";
 
@@ -57,3 +61,27 @@ timed("vol, table, filet, sol", runSimulation);
 await new Promise((done) => setTimeout(done, 20));
 observer.disconnect();
 console.log(`${collections} collection(s) sur ${(2 * (count + WARM_UP)) / 1e6} millions de pas, échauffement compris`);
+
+/** The aim, the first bench of J3 (docs/modele.md, § 12): flights flown for one stroke aimed. */
+function timedAim() {
+  const task = { ball: createBall([1.5, 0, 0.18], [-4.7, 0, 0.4], [0, 30, 0]), forward: -1, target: [-0.685, 0], swing: R0_SWING };
+  const tilts = new Float64Array(3);
+  const rounds = 20000;
+  for (let i = 0; i < rounds; i += 1) aim(task, tilts);
+  const started = performance.now();
+  for (let i = 0; i < rounds; i += 1) aim(task, tilts);
+  console.log(`une visée ${(((performance.now() - started) * 1000) / rounds).toFixed(0)} µs`);
+}
+
+function timedRallies() {
+  const players = [{ rule: R0, profile: CLUB_PLAYER }, { rule: R0, profile: CLUB_PLAYER }];
+  const rounds = 2000;
+  let strokes = 0;
+  const started = performance.now();
+  for (let seed = 0; seed < rounds; seed += 1) strokes += playRally({ seed, players, server: seed % 2 }).strokes;
+  const elapsed = performance.now() - started;
+  console.log(`un échange R0 contre R0 ${(elapsed / rounds).toFixed(2).replace(".", ",")} ms, ${(strokes / rounds).toFixed(2).replace(".", ",")} coups`);
+}
+
+timedAim();
+timedRallies();

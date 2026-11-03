@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { BALL_SIZE, VX, WY, X } from "../src/ball/constants.js";
 import { PRESETS, throwBall } from "../src/launch.js";
 import { recordFlight } from "../src/recording.js";
-import { eventsText, frameText } from "../web/readout.js";
+import { eventsText, frameText, rallyText } from "../web/readout.js";
 import {
-  ballRadius, COLORS, layoutFor, liftOf, shadowOffset, sidePoint, sidePush, spinColor, spinMark, topPoint,
+  ballRadius, COLORS, layoutFor, liftOf, sectorAngles, shadowOffset, sidePoint, sidePush, spinColor, spinMark, topPoint, trailStart,
 } from "../web/scale.js";
 
 const flightOf = (key) => recordFlight(throwBall(PRESETS[key].launch));
@@ -112,6 +112,13 @@ describe("the words under the view", () => {
     assert.doesNotMatch(eventsText(flightOf("chop")), /Deux rebonds/);
   });
 
+  it("say how a rally went, its winner and its cause", () => {
+    const result = { winner: 1, cause: "twoBounces", strokes: 3, ticks: 480 };
+    assert.equal(rallyText({ seed: 7, result }), "Graine 7, 3 coup(s) après le service, 2,00 s ; le joueur de droite gagne : deux rebonds, le receveur n'est pas arrivé à temps.");
+    assert.match(rallyText({ seed: 7, result: { ...result, winner: 0, cause: "net" } }), /le joueur de gauche gagne : balle dans le filet\.$/);
+    assert.match(rallyText({ seed: 7, result: { ...result, winner: -1, cause: "limit" } }), /limite de 60 coups, sans vainqueur\.$/);
+  });
+
   it("cut a long list short", () => {
     const events = Array.from({ length: 5 }, (_, i) => ({ kind: "table", step: i + 1, x: -0.5, y: 0 }));
     assert.match(eventsText({ events, steps: 5, frames: new Float64Array(0) }), /son camp.*2 autre\(s\) ensuite\.$/);
@@ -148,6 +155,22 @@ describe("the view", () => {
     assert.equal(liftOf(10, 0, 0, -300), -300);
     assert.equal(liftOf(0, 10, -300, 0), 300);
     assert.equal(liftOf(0, 0, 0, 300), 0);
+  });
+
+  it("opens each player's sector towards the net, 220° wide", () => {
+    const [from, to] = sectorAngles(-1);
+    assert.ok(close(from, (-110 * Math.PI) / 180));
+    assert.ok(close(to, (110 * Math.PI) / 180));
+    const [back, round] = sectorAngles(1);
+    assert.ok(close((back + round) / 2, Math.PI));
+    assert.ok(close(round - back, (220 * Math.PI) / 180));
+  });
+
+  it("starts the trail at the last stroke played", () => {
+    assert.equal(trailStart(undefined, 50), 0);
+    assert.equal(trailStart([10, 40, 90], 5), 0);
+    assert.equal(trailStart([10, 40, 90], 40), 40);
+    assert.equal(trailStart([10, 40, 90], 89), 40);
   });
 
   it("colours and marks the spin", () => {

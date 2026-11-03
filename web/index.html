@@ -14,13 +14,17 @@
     <header class="masthead">
       <p class="links"><a href="changelog.html">Journal des versions</a></p>
       <h1>Raquette</h1>
-      <p>Le vol d'une balle de ping-pong, avec son effet et sa hauteur. Pas encore de joueur : on lance la balle à la main.</p>
+      <p>Le vol d'une balle de ping-pong, avec son effet et sa hauteur. On lance la balle à la main, ou on regarde deux robots R0 s'échanger la balle.</p>
     </header>
     <main>
       <section class="controls">
         <label>Coup<select id="preset"></select></label>
         <div id="fields" class="fields"></div>
         <button type="button" id="launch">Lancer</button>
+      </section>
+      <section class="controls">
+        <label>Graine<input id="seed" type="number" min="0" step="1" value="1" /></label>
+        <button type="button" id="rally">Échange R0 contre R0</button>
       </section>
       <p class="summary" id="events" aria-live="polite"></p>
       <section class="controls player">
@@ -37,7 +41,8 @@
         <strong>Comment lire.</strong> En haut, la table vue de dessus ; en dessous, de profil, avec le sol et le filet : mêmes longueurs, hauteurs ramenées à 65 % pour tenir à l'écran.
         Rouge et « + » : du lift. Bleu et « − » : du coupé. Gris : peu d'effet. Plus l'effet est fort, plus la couleur est franche.
         Vue de dessus, la balle grossit et son ombre s'éloigne quand elle monte ; une flèche montre où la pousse un effet latéral.
-        Les croix marquent ce que la balle a touché. Le lift se lit par rapport au sens de la balle : un fort coupé qui revient après son rebond peut donc passer au rouge.
+        Autour de chaque joueur, ce que son bras atteint sans bouger : 0,8 m, 220° face au filet.
+        Les croix marquent ce que la balle a touché depuis le dernier coup. Le lift se lit par rapport au sens de la balle : un fort coupé qui revient après son rebond peut donc passer au rouge.
         La balle est dessinée plus grosse qu'elle n'est.
       </p>
     </main>

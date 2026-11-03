@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.2.0",
+      "title": "Deux robots s'échangent la balle",
+      "date": "3/11/2026",
+      "items": [
+        "La raquette de Conti et al., sans leur réseau de neurones ; la visée, qui trouve l'inclinaison pour un point de la table adverse.",
+        "Le corps : réaction, course, portée de 0,8 m et secteur de 220° face au filet, penché de 0,4 m au-dessus de la table.",
+        "R0 contre R0 sur la page, depuis une graine : 4,3 coups par échange. Presque tout finit au filet, à revoir avant les mesures.",
+        "Le coupé à deux rebonds, joué par une raquette : il gagne contre un joueur très reculé, et n'est pas encore mesuré."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.1.1",
       "title": "Le coupé à deux rebonds et le tchop",
       "date": "3/11/2026",

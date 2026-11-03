@@ -39,7 +39,7 @@ préparateur physique. Pas de donnée nominative. Modèle fictif : on ne cherche
 
 | # | Question | Qui | La recommandation | Pèse sur |
 |---|---|---|---|---|
-| **Q-P1** | Un bon joueur de club vise un coin de la table avec un coup droit tranquille. À quelle distance de la cible tombent ses balles, le plus souvent ? | E, J | **Environ 10 à 15 cm**, soit une dispersion de 3° sur l'orientation et 6 % sur la vitesse. | Tout : la longueur des échanges, la valeur du placement. Si on ne répond qu'à une question, celle-là. |
+| **Q-P1** | Un bon joueur de club vise un coin de la table avec un coup droit tranquille. À quelle distance de la cible tombent ses balles, le plus souvent ? Combien de ses balles vont au filet ? | E, J | **Environ 16 cm en médiane sur une balle facile** : ce que donnent 3° sur l'orientation et 6 % sur la vitesse (calculé à J3). Mais une balle prise bas va au filet près d'une fois sur trois, à vérifier. | Tout : la longueur des échanges, la valeur du placement. Si on ne répond qu'à une question, celle-là. |
 | **Q-P2** | Qu'est-ce qui dégrade la frappe le plus : frapper plus fort, jouer avec plus d'effet, ou manquer de temps ? De combien ? | E, J | **Le temps avant tout : ×2 sans préparation.** Force et effet n'ajoutent rien au départ. | R2, et ce qui rapporte à forcer l'adversaire à courir. |
 | **Q-P3** | Sur 100 balles faciles en échange, combien un bon joueur de club en rate-t-il ? Et sur des balles difficiles ? | E, J | **Pas de chiffre fixé** : la dispersion est calibrée sur 4 à 5 coups par échange. | La calibration. Un chiffre servirait de vérification. |
 
@@ -57,7 +57,7 @@ préparateur physique. Pas de donnée nominative. Modèle fictif : on ne cherche
 
 | # | Question | Qui | La recommandation | Pèse sur |
 |---|---|---|---|---|
-| **Q-P7** | Quelle vitesse de raquette pour un bloc, un contre, un top, une frappe, à ce niveau ? | E, H | **Jusqu'à 20 m/s**, et la frappe de R0 à 8 m/s. | Les limites de `aim`, R0. |
+| **Q-P7** | Quelle vitesse de raquette pour un bloc, un contre, un top, une frappe, à ce niveau ? Et quelle vitesse de balle pour un coup d'échange tranquille ? | E, H | **Jusqu'à 20 m/s**, et une balle à 6,5 m/s pour R0. | Les limites de `aim`, R0. |
 | **Q-P8** | Quelle vitesse et quel effet joue un bon joueur de club ? Les chiffres publiés (117 tr/s, 23 m/s, de jeunes joueurs confirmés) sont-ils loin de lui ? | E, H | **Pas de borne de niveau**, seulement les bornes physiques (35 m/s, 1 000 rad/s) et la limite de raquette. | Le réalisme de R3 et de la recherche. |
 | **Q-P9** | Lit-on bien l'effet adverse ? Quelle part des fautes vient d'un effet mal lu, à ce niveau ? | E, J | **Lecture parfaite au départ** ; si la réponse est « une grande part », on ajoute une erreur de lecture, et le jeu devient à information cachée. | **Le rôle de l'ISMCTS.** C'est la question qui décide si MCTS a sa place ici. |
 | **Q-P14** | Les picots et l'anti-top changent-ils le jeu d'un duel de club au point de les modéliser ? | E | **Non pour l'instant**, un backside offensif des deux côtés. | Le périmètre. |

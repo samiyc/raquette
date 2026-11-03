@@ -1,8 +1,8 @@
 # Le modèle de Raquette : le cadrage (2/11/2026)
 
 Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, un joueur à la souris
-pour éprouver ce robot, puis l'autojeu. Ce document fixe ce qu'on va construire et comment on saura que ça marche. **À ce jour, `src/` n'a que
-la balle : ni joueur, ni règle, ni recherche.**
+pour éprouver ce robot, puis l'autojeu. Ce document fixe ce qu'on va construire et comment on saura que ça marche. **À ce jour, `src/` a la
+balle, la raquette, la visée, le corps et un échange de R0 contre R0 : ni souris, ni mesure, ni recherche.**
 
 **Le cap, précisé par Sami le 2/11/2026.** Tout représenter en 2D vue de dessus sera complexe, mais le jeu reste surtout de l'analyse,
 du positionnement et des trajectoires. Le joueur humain est simplifié pour finir des parties, à la souris et au pas à pas, et il sert à **vérifier
@@ -51,7 +51,7 @@ un lift.
 
 **Les simplifications** (toutes reprises au § 12) :
 
-- un service stylisé : pas de lancer, un contact au-dessus de la ligne de fond (Q-S6) ;
+- un service stylisé : pas de lancer, un contact au-dessus de la ligne de fond, sans effet ni dispersion pour l'instant (Q-S6, Sami, 3/11/2026) ;
 - pas de balle de bord : le plateau est un rectangle à plat ;
 - une balle qui touche le filet s'arrête là, ce qui est une faute si elle n'a pas encore passé (H, Q-P15) ;
 - pas de vent, l'air à 20 °C ;
@@ -122,7 +122,8 @@ constante `cos 110° = −0,3420…`. Un axe qui pivote vers la balle ne reviend
 
 **Le coup** passe par quatre étapes, les mêmes pour une règle, une recherche ou la souris :
 
-1. **L'intention** : un point visé sur le camp adverse, une vitesse de frappe, un brossage (la vitesse tangente de
+1. **L'intention** : un point visé sur le camp adverse, une vitesse de frappe (celle de la balle au départ, le long de la normale de
+   la raquette : la raquette recule si la balle arrive trop vite), un brossage (la vitesse tangente de
    raquette, donc l'effet voulu), l'instant du contact, et où aller ensuite. C'est ce qui se décide.
 2. **La visée** (`aim`) : les deux inclinaisons de raquette qui envoient la balle sur le point visé, trouvées par quelques
    itérations de Newton, chacune simulant un vol. C'est de la balistique, partagée, et ce n'est pas la recherche : une règle
@@ -154,7 +155,7 @@ le navigateur, pas sur notre horloge, comme l'a appris Hypersonic.
 **R0, « renvoyer au centre »**, c'est la règle de la feuille de route, lue ainsi (Q-S2) :
 
 - viser le centre du camp adverse, `x = 0,685` et `y = 0` ;
-- frapper à 8 m/s (H), sans brossage ;
+- frapper une balle à 6,5 m/s (H, réglée à J3), sans brossage ;
 - prendre la balle au sommet de son rebond, ou au dernier instant à portée si le sommet échappe ;
 - après le coup, retourner à la position d'attente ;
 - servir long et au centre, sans effet.
@@ -242,7 +243,8 @@ référence**. Les tests de J1 :
 | Roulement et glissement se raccordent à α = 0,4 | la dérivation (`chiffres.md`, § 3) | exact |
 
 **La calibration, à ne pas confondre.** R0 contre R0 doit donner autour de 4 à 5 coups par échange (Glynn, l'extrait d'une
-autre étude). On règle la dispersion pour y arriver : c'est un ajustement, pas une preuve. Les parts de points au service, à
+autre étude). On règle la force et la dispersion pour y arriver : c'est un ajustement, pas une preuve. Le premier état, à J3 :
+`chiffres.md`, § 8. Les parts de points au service, à
 la 3e et à la 5e balle (Djokic) restent, elles, une vérification indépendante, une fois le service en place.
 
 ## 8. La recherche, plus tard
@@ -362,7 +364,7 @@ passent des clics simulés. La page empêche le menu contextuel (`preventDefault
 
 **Ce qui est simplifié, seulement dans l'entrée :**
 
-- le clic droit donne le point visé ; la force (8 m/s), l'absence de brossage et le contact au sommet du rebond sont ceux de
+- le clic droit donne le point visé ; la force (6,5 m/s), l'absence de brossage et le contact au sommet du rebond sont ceux de
   R0 ; sans nouveau clic, la dernière cible reste, et la première est le centre ;
 - le contact se fait tout seul si la balle passe dans le secteur.
 
@@ -412,8 +414,8 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 
 **La découpe du code, à J1 et J3**, pour tenir le budget de lint (40 lignes par fonction, 220 par fichier) : `src/ball/`
-(`constants`, `coefficients`, `flight`, `table`), `src/launch.js`, `src/recording.js`, `src/racket.js`, `src/aim.js`, `src/player.js`, `src/rally.js`, `src/rules/`,
-`src/mouse.js`, `scripts/duel.js`.
+(`constants`, `coefficients`, `flight`, `table`), `src/launch.js`, `src/recording.js`, `src/racket.js`, `src/aim.js`, `src/player.js`, `src/forecast.js`, `src/rally.js`,
+`src/rally-recording.js`, `src/rules/` ; à venir, `src/mouse.js`, `scripts/duel.js`.
 
 ## 12. Ce qui est laissé de côté, et les risques
 
@@ -437,8 +439,10 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 2. **La raquette sans geste peut rendre le jeu trop facile.** Le bon coup demande alors seulement d'être à temps. La préparation
    et sa dispersion ×2 sont là pour ça, sans preuve qu'elles suffisent.
 3. **La visée peut coûter cher ou échouer** (près du filet, avec de forts effets). Elle est au cœur de toutes les règles et de
-   tous les plans : c'est le premier banc de J3.
-4. **Une règle à plat peut être imbattable** si le modèle ne punit rien : c'est le doute de Sami sur MCTS. Dans ce cas, le
+   tous les plans. Le banc de J3 : `chiffres.md`, § 8.
+4. **Le filet décide presque tout, au premier réglage.** R0 finit 86 % de ses échanges dans le filet, ce qui ne ressemble pas à
+   du ping-pong. Un bon joueur prend de la marge : la règle ne le sait pas encore. C'est à reprendre à J5, avant de croire R1.
+5. **Une règle à plat peut être imbattable** si le modèle ne punit rien : c'est le doute de Sami sur MCTS. Dans ce cas, le
    résultat honnête du projet est : « la règle R2 suffit dans ce modèle ».
-5. **L'autojeu peut tourner en rond ou exploiter le modèle.** Le panel figé et Sami servent de garde-fous (§ 8), sans garantie :
+6. **L'autojeu peut tourner en rond ou exploiter le modèle.** Le panel figé et Sami servent de garde-fous (§ 8), sans garantie :
    un gain ne se lit jamais hors du modèle.

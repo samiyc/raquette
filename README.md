@@ -10,8 +10,8 @@ centre de la table.
 **État** (2/11/2026) : le cadrage est écrit : [`docs/modele.md`](docs/modele.md) (le modèle, les règles à battre, les
 mesures, les jalons) et [`docs/recherche/`](docs/recherche/README.md) (les chiffres et leurs sources, le glossaire, les
 questions, le prompt de recherche). **La balle existe** (`src/ball/`) : son vol, son rebond, le filet, testés contre les
-valeurs publiées. **La page la montre** : `npm run page`, puis http://127.0.0.1:4804/web/index.html. Pas encore de joueur, de règle
-ni de recherche.
+valeurs publiées. **Deux robots R0 s'échangent la balle** (`src/rally.js`), avec la raquette, la visée et le corps. **La page les montre** :
+`npm run page`, puis http://127.0.0.1:4804/web/index.html. Pas encore de souris, de mesure ni de recherche.
 
 ## Les commandes
 

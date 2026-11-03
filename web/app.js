@@ -1,13 +1,16 @@
 import { replayHint, replayKeys } from "mcts-commun/replay-keys.js";
 import { BALL_SIZE, STEP } from "../src/ball/constants.js";
 import { PRESETS, throwBall } from "../src/launch.js";
+import { CLUB_PLAYER } from "../src/player.js";
+import { recordRally } from "../src/rally-recording.js";
 import { recordFlight } from "../src/recording.js";
+import { R0 } from "../src/rules/center.js";
 import { drawScene } from "./draw.js";
 import { createPlayer, SPEEDS } from "./player.js";
-import { eventsText, frameText } from "./readout.js";
+import { eventsText, frameText, rallyText } from "./readout.js";
 import { layoutFor } from "./scale.js";
 
-/** The page: J2, a ball thrown by hand. It listens and draws; what flies is src/ball/. */
+/** The page: a ball thrown by hand, or a rally of R0 against R0. It listens and draws; what decides is in src/. */
 const FIELDS = [
   ["speed", "Vitesse (m/s)", 0.5, 35, 0.5],
   ["elevation", "Élévation (°)", -20, 80, 1],
@@ -24,6 +27,7 @@ const position = /** @type {HTMLInputElement} */ (byId("position"));
 const canvas = /** @type {HTMLCanvasElement} */ (byId("view"));
 const context = canvas.getContext("2d");
 const inputs = {};
+/** @type {any} a flight or a rally: the view draws both */
 let recording = recordFlight(throwBall(PRESETS.top.launch));
 let layout = layoutFor(canvas.clientWidth);
 
@@ -55,6 +59,14 @@ function launchNow() {
   player.load(recording.steps);
 }
 
+function watchRally() {
+  const seed = Number(/** @type {HTMLInputElement} */ (byId("seed")).value);
+  const players = [{ rule: R0, profile: CLUB_PLAYER }, { rule: R0, profile: CLUB_PLAYER }];
+  recording = recordRally({ seed, players, server: seed % 2 });
+  byId("events").textContent = rallyText({ seed, result: recording.result });
+  player.load(recording.steps);
+}
+
 function usePreset(key) {
   const { launch } = PRESETS[key];
   for (const [name, input] of Object.entries(inputs)) input.value = String(launch[name] ?? DEFAULTS[name]);
@@ -79,6 +91,7 @@ function buildControls() {
 
 function wire() {
   byId("launch").addEventListener("click", launchNow);
+  byId("rally").addEventListener("click", watchRally);
   byId("play").addEventListener("click", player.toggle);
   byId("slower").addEventListener("click", () => player.faster(-1));
   byId("faster").addEventListener("click", () => player.faster(1));
