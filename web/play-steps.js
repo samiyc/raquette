@@ -6,7 +6,7 @@ import {
  * How the live game moves on, with a search thinking in a worker: the steps wait for its answer, and the page goes on drawing and
  * listening. What is decided stays in src/game.js.
  *
- * @typedef {{live: any, autopause: () => boolean, say: (text: string) => void, done: () => void, worker: Worker}} Page
+ * @typedef {{live: any, autopause: () => boolean, say: (text: string) => void, done: () => void, worker: Worker, onService: (answer: any) => void}} Page
  */
 
 function ask(page, owed) {
@@ -80,10 +80,14 @@ function sendOrder({ live, say }, order) {
 export function createStepper(setup) {
   const worker = new Worker(new URL("search-worker.js", import.meta.url), { type: "module" });
   const page = { ...setup, worker };
-  worker.addEventListener("message", ({ data }) => onAnswer(page, data));
+  worker.addEventListener("message", ({ data }) => {
+    if ("service" in data) page.onService(data);
+    else onAnswer(page, data);
+  });
   return {
     runSteps: (steps) => runSteps(page, steps),
     runToNext: () => runToNext(page),
     sendOrder: (order) => sendOrder(page, order),
+    askService: (service) => worker.postMessage({ service, robot: service.robot, budget: service.budget }),
   };
 }

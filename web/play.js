@@ -1,7 +1,7 @@
 import { nextSpeed } from "mcts-commun/replay-keys.js";
 import { BALL_SIZE } from "../src/ball/constants.js";
 import {
-  closePoint, createGame, nextPoint, pointOver, positionOf, replayOfPoint, stepsFor, winnerOf,
+  closePoint, createGame, nextPoint, pointOver, robotPicks, servicePicture, stepsFor, winnerOf,
 } from "../src/game.js";
 import { destinationOf, orderOf } from "../src/mouse.js";
 import { BX, BY } from "../src/player.js";
@@ -9,9 +9,10 @@ import { ballPath, depthFor, expectedMiss, nextContact, STROKE_KINDS, strokeChoi
 import { drawBallPath, drawOrders, drawScene } from "./draw.js";
 import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
+import { exportWon, savePoint } from "./play-files.js";
 import { createStepper } from "./play-steps.js";
 import { layoutFor } from "./scale.js";
-import { buildServices, buildStrokes, showServices, showStrokes } from "./stroke-panel.js";
+import { buildServices, buildStrokes, letGoOfButtons, showServices, showStrokes } from "./stroke-panel.js";
 
 /** The page of the game at the mouse: it listens and draws; what decides is in src/game.js and src/mouse.js. */
 const byId = (id) => document.getElementById(id);
@@ -95,11 +96,6 @@ function endOfGameText(winner) {
   return winner === 0 ? "Manche gagnée." : "Manche perdue.";
 }
 
-/** Every point is kept by the page server, out of git (docs/replays.md). A page opened without it plays on all the same. */
-function savePoint(point) {
-  fetch("/api/replays", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(replayOfPoint(point)) }).catch(() => {});
-}
-
 /** The point is over: the score, then a word on what happened. */
 function endPoint() {
   const { point, game } = live;
@@ -127,6 +123,9 @@ const stepper = createStepper({
     byId("events").textContent = text;
   },
   done: afterSteps,
+  onService: ({ service, seed }) => {
+    if (live.game && seed === live.game.seed + live.game.played) beginPoint(service ?? undefined);
+  },
 });
 
 function loop(time) {
@@ -155,7 +154,16 @@ function setRunning(running) {
 function startPoint() {
   if (!live.game || winnerOf(live.game.score) >= 0) return;
   live.game.scatter = scatterNow();
-  live.point = nextPoint(live.game);
+  if (!robotPicks(live.game)) {
+    beginPoint();
+    return;
+  }
+  byId("events").textContent = "Le robot choisit son service…";
+  stepper.askService(servicePicture(live.game));
+}
+
+function beginPoint(robotService) {
+  live.point = nextPoint(live.game, robotService);
   live.waiting = false;
   live.toEvent = false;
   live.clicks.length = 0;
@@ -169,16 +177,6 @@ function newGame() {
   live.point = null;
   input("next").disabled = false;
   startPoint();
-}
-
-function exportWon() {
-  const won = live.game.points.filter((point) => point.state.result.winner === 0).map(positionOf);
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(new Blob([JSON.stringify(won, null, 2)], { type: "application/json" }));
-  link.download = `positions-graine-${live.game.seed}.json`;
-  link.click();
-  URL.revokeObjectURL(link.href);
-  byId("events").textContent = `${won.length} point(s) gagné(s) exporté(s) : à ranger un par fichier dans positions/.`;
 }
 
 function clickOnView(event) {
@@ -223,13 +221,6 @@ function onKey(event) {
   action();
 }
 
-/** A button keeps no focus: the space bar is the game's, and would press it again. */
-function letGoOfButtons() {
-  document.addEventListener("click", (event) => {
-    if (event.target instanceof HTMLButtonElement || event.target instanceof HTMLInputElement) event.target.blur();
-  });
-}
-
 function wire() {
   letGoOfButtons();
   byId("next").addEventListener("click", startPoint);
@@ -239,7 +230,9 @@ function wire() {
   byId("event").addEventListener("click", toEvent);
   byId("slower").addEventListener("click", () => faster(-1));
   byId("faster").addEventListener("click", () => faster(1));
-  byId("export").addEventListener("click", exportWon);
+  byId("export").addEventListener("click", () => {
+    byId("events").textContent = `${exportWon(live.game)} point(s) gagné(s) exporté(s) : à ranger un par fichier dans positions/.`;
+  });
   input("scatter").addEventListener("input", render);
   canvas.addEventListener("pointerdown", clickOnView);
   canvas.addEventListener("contextmenu", (event) => event.preventDefault());

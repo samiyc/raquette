@@ -4,7 +4,7 @@ import { createSearch } from "./search.js";
 /**
  * The rules and searches by name, for the scripts and the page. A search's name says how it is set: `S` climbs, `MC` draws every plan
  * afresh, the witness; `full` tries everything, without leaving out what cannot be played; `S4` has four times the budget.
- * A name can set a search further, to measure its settings: `S-d8`, `MC-b96`.
+ * `Smix` does not pick its service. A name can set a search further, to measure its settings: `S-d16`, `MC-b96`.
  */
 const SEARCHES = {
   S: (budget) => ({ budget }),
@@ -12,6 +12,7 @@ const SEARCHES = {
   Sfull: (budget) => ({ budget, pruned: false }),
   MCfull: (budget) => ({ budget, freshEvery: 1, pruned: false }),
   S4: (budget) => ({ budget: budget * 4 }),
+  Smix: (budget) => ({ budget, serves: false }),
 };
 
 const SETTINGS = { b: "budget", d: "draws", h: "horizon" };

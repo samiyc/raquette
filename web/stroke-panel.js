@@ -40,3 +40,10 @@ export function showStrokes(box, choices, current) {
     button.setAttribute("aria-pressed", String(current === button.dataset.stroke));
   }
 }
+
+/** A button keeps no focus: the space bar is the game's, and would press it again. */
+export function letGoOfButtons() {
+  document.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLButtonElement || event.target instanceof HTMLInputElement) event.target.blur();
+  });
+}

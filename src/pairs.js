@@ -29,6 +29,13 @@ function tally(report, result, server) {
   return result.winner === 0 ? 1 : 0;
 }
 
+/** How a rally starts: the long service by default; or one of src/services.js, or `mix`; or `choice`: a rule that can picks its own, others a mix. */
+function startOf(seed, rule, serving) {
+  if (!serving) return {};
+  if (serving === "choice") return rule.chooseService ? { choosing: true } : serviceOf(seed);
+  return serviceOf(seed, serving);
+}
+
 /** A rally, its line given to `log` if there is one. */
 function playKept(options, log) {
   if (!log) return playRally(options);
@@ -42,7 +49,7 @@ function playKept(options, log) {
  * The raw count of a run of seeds, to be put together with others by `mergePairs`.
  * @param {{a: import("./types.js").Rule, b: import("./types.js").Rule, profile: any, from?: number, seeds: number, log?: any, serving?: string}} match
  *   `log`, to keep the rallies (src/replay-log.js): `start(seed, server)` gives a rally's log, `end(line)` takes its line.
- *   `serving`: a service of src/services.js, or `mix`; the long one otherwise
+ *   `serving`: a service of src/services.js, `mix` or `choice`; the long one otherwise
  */
 export function playSeeds({ a, b, profile, from = 0, seeds, log, serving }) {
   const players = [{ rule: a, profile }, { rule: b, profile }];
@@ -50,8 +57,7 @@ export function playSeeds({ a, b, profile, from = 0, seeds, log, serving }) {
   const scoresA = [];
   const scoresB = [];
   for (let seed = from; seed < from + seeds; seed += 1) {
-    const service = serving ? serviceOf(seed, serving) : {};
-    const play = (server) => tally(count, playKept({ seed, players, server, ...service }, log), server);
+    const play = (server) => tally(count, playKept({ seed, players, server, ...startOf(seed, players[server].rule, serving) }, log), server);
     const points = play(0) + play(1);
     scoresA.push(points);
     scoresB.push(2 - points);

@@ -6,7 +6,7 @@ import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
 import { BEHIND, createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
 import { controlOf, farOf, normalDraw, rushOf, stretchOf } from "./scatter.js";
-import { serviceBall } from "./services.js";
+import { serviceBall, SERVICE_KINDS } from "./services.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 
 /**
@@ -44,6 +44,7 @@ function createState({ seed, players, server, listener, service = SERVICES.long,
   return {
     seed, seats, server, listener,
     ball: serve(sides[server], { service, seed, serviceY }),
+    serviceName: service.label,
     contact: new Float64Array(3),
     bodies: seats.map((seat) => createBody(seat.side, seat.profile)),
     striker: server,
@@ -215,12 +216,22 @@ function oneTick(state) {
   if (state.strokes >= MAX_STROKES || state.tick >= MAX_TICKS) finish(state, -1, "limit");
 }
 
+/** The service a rally starts from: picked in advance, or now by a server that can. */
+function withService(options) {
+  const { players, server, seed } = options;
+  const chooser = options.choosing ? players[server].rule.chooseService : null;
+  const served = options.served ?? chooser?.({ seed, server, profile: players[server].profile });
+  if (!served) return options;
+  return { ...options, service: SERVICE_KINDS[served.key], serviceY: served.y };
+}
+
 /**
  * A rally ready to run, for a live game: its service has left.
  * @param {RallyOptions} options
  */
 export function startRally(options) {
-  const state = createState(options);
+  const state = createState(withService(options));
+  state.serviceName = state.serviceName ?? "long";
   hearStroke(state);
   state.listener?.tick?.(state);
   return state;

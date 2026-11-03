@@ -31,7 +31,7 @@ Un fichier compressé, une ligne JSON par échange, précédées d'une première
 
 ## Une ligne
 
-`seed`, `server`, `winner` (−1 à la limite), `cause`, `strokes`, `ticks` (240 par seconde), puis :
+`seed`, `server`, `service` (son nom), `winner` (−1 à la limite), `cause`, `strokes`, `ticks` (240 par seconde), puis :
 
 **`impacts`**, une entrée par frappe :
 

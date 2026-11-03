@@ -18,6 +18,7 @@ const FORWARD = 1;
 const WINNING = 11;
 const LOOSE_END = 10;
 const MAX_TICKS_TO_EVENT = 240 * 10;
+const SLOW_ROBOTS = new Set(["S", "MC"]);
 export const PAGE_BUDGET = 24; // Plans a stroke for a search at the mouse: as measured, since it thinks in a worker.
 
 /**
@@ -33,15 +34,24 @@ export function mouseProfile(scatter) {
   };
 }
 
+const robotServing = (seed, picked) => (picked ? { served: picked } : serviceOf(seed));
+
+/** Does the robot of this game pick its service, and must a page ask its worker before the point? */
+export const robotPicks = (game) => SLOW_ROBOTS.has(game.robot) && serverOf(game) === ROBOT;
+
+/** The seed of the next point, and what a worker needs to pick the robot's service. */
+export const servicePicture = (game) => ({ seed: game.seed + game.played, server: ROBOT, robot: game.robot, budget: PAGE_BUDGET });
+
 /**
  * A point under way.
- * @param {{seed: number, server: number, scatter: number, aim?: number[], robot?: string}} setup
+ * @param {{seed: number, server: number, scatter: number, aim?: number[], robot?: string, robotService?: {key: string, y: number}}} setup
+ *   `robotService`: the one the robot picked in advance; a mix from the seed otherwise
  */
-export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD), robot = "R0" }) {
+export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD), robot = "R0", robotService }) {
   const rule = createMouseRule(aim.slice());
   const recorder = createRecorder();
   const log = createRallyLog({ seed, server });
-  const point = { seed, server, scatter, robot, startAim: aim.slice(), rule, orders: [], recorder, sawEvent: false, robotStruck: false, state: null, log: null, players: null, robotRule: null };
+  const point = { seed, server, scatter, robot, robotService, startAim: aim.slice(), rule, orders: [], recorder, sawEvent: false, robotStruck: false, state: null, log: null, players: null, robotRule: null };
   const watch = {
     flight(kind) {
       if (kind !== NONE) point.sawEvent = true;
@@ -52,7 +62,7 @@ export function createPoint({ seed, server, scatter, aim = firstAim(FORWARD), ro
     },
   };
   const listener = bothListeners(bothListeners(recorder.listener, log.listener), watch);
-  const serving = server === MOUSE ? { service: SERVICE_KINDS[rule.service], serviceY: FORWARD * aim[1] } : serviceOf(seed);
+  const serving = server === MOUSE ? { service: SERVICE_KINDS[rule.service], serviceY: FORWARD * aim[1] } : robotServing(seed, robotService);
   const robotRule = createRemoteRule(namedRule(robot, PAGE_BUDGET));
   const players = [{ rule, profile: mouseProfile(scatter) }, { rule: robotRule, profile: CLUB_PLAYER }];
   point.robotRule = robotRule;
@@ -71,8 +81,6 @@ export function clickPoint(point, order) {
 }
 
 export const pointOver = (point) => point.state.result !== null;
-
-const SLOW_ROBOTS = new Set(["S", "MC"]);
 
 /** Is the next step one at which a robot that thinks for long must decide? A page then asks its worker, and waits. */
 export const needsAnswer = (point) => SLOW_ROBOTS.has(point.robot) && aboutToDecide(point.state, ROBOT) && point.robotRule.answer === null;
@@ -144,8 +152,8 @@ export function winnerOf([mine, theirs]) {
 }
 
 /** The next point. The aim stays from the point before. */
-export function nextPoint(game) {
-  game.current = createPoint({ seed: game.seed + game.played, server: serverOf(game), scatter: game.scatter, aim: game.aim, robot: game.robot });
+export function nextPoint(game, robotService) {
+  game.current = createPoint({ seed: game.seed + game.played, server: serverOf(game), scatter: game.scatter, aim: game.aim, robot: game.robot, robotService });
   game.played += 1;
   return game.current;
 }
@@ -153,7 +161,7 @@ export function nextPoint(game) {
 /** What a position needs to be played again, once kept in the bench of positions the robot lost (docs/modele.md, § 10). */
 export function positionOf(point) {
   const { result } = point.state;
-  return { seed: point.seed, server: point.server, scatter: point.scatter, robot: point.robot, aim: point.startAim, orders: point.orders, result };
+  return { seed: point.seed, server: point.server, scatter: point.scatter, robot: point.robot, robotService: point.robotService, aim: point.startAim, orders: point.orders, result };
 }
 
 /** A finished point as a replay: who played, its clicks, and everything the rally left (docs/replays.md). */

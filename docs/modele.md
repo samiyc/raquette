@@ -51,7 +51,7 @@ un lift.
 
 **Les simplifications** (toutes reprises au § 12) :
 
-- un service stylisé : pas de lancer, un contact au-dessus de la ligne de fond. Le service long, sans effet ni dispersion, sert aux duels de référence et aux règles ; les six vrais services (pendule, marteau, mou, coupé, bombe, latéral, Sami, 3/11/2026) ont un effet et une dispersion (`src/services.js`, Q-P10). La souris les choisit, les robots en tirent un au hasard, et la recherche ne choisit pas encore le sien ;
+- un service stylisé : pas de lancer, un contact au-dessus de la ligne de fond. Le service long, sans effet ni dispersion, sert aux duels de référence et aux règles ; les six vrais services (pendule, marteau, mou, coupé, bombe, latéral, Sami, 3/11/2026) ont un effet et une dispersion (`src/services.js`, Q-P10). La souris les choisit, les règles en tirent un au hasard, et la recherche choisit le sien (`src/rules/service-search.js`) ;
 - pas de balle de bord : le plateau est un rectangle à plat ;
 - une balle qui touche le filet s'arrête là, ce qui est une faute si elle n'a pas encore passé (H, Q-P15) ;
 - pas de vent, l'air à 20 °C ;

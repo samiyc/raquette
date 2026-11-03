@@ -142,7 +142,7 @@ export function createRallyLog({ seed, server }) {
   };
   const finish = () => {
     const { result } = last;
-    return { seed, server, ...result, impacts: log.impacts, touches: log.touches, reads: log.reads, lost: lostOf(log, result, last) };
+    return { seed, server, service: last.serviceName, ...result, impacts: log.impacts, touches: log.touches, reads: log.reads, lost: lostOf(log, result, last) };
   };
   return { listener, finish };
 }

@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.12.0",
+      "title": "La recherche choisit son service, et note sur 8 tirages",
+      "date": "3/11/2026",
+      "items": [
+        "Elle essaie les six services, de trois côtés, contre son modèle de l'adversaire, et garde le meilleur. Sur la page, elle réfléchit à part avant le point.",
+        "Elle note chaque coup sur 8 tirages au lieu de 4, le réglage qui a le plus rapporté."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.11.0",
       "title": "Le service coupé, et R3 ne jette plus un point sur une poussette impossible",
       "date": "3/11/2026",

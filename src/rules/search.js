@@ -5,6 +5,7 @@ import { frames } from "../forecast.js";
 import { waitingX } from "../player.js";
 import { rollout, setUpRollout } from "../rollout.js";
 import { choicesAt, STROKE_KINDS } from "../strokes.js";
+import { bestService } from "./service-search.js";
 import { RULES } from "./ladder.js";
 
 /**
@@ -78,12 +79,16 @@ function decode(stroke, plan, forward) {
   stroke.swing.brushSide = plan[SIDE];
 }
 
+const SEARCH_DEFAULTS = { draws: 8, horizon: 4, model: RULES.R3, freshEvery: 10, name: "S", pruned: true, serves: true };
+
 /**
- * @param {{budget: number, draws?: number, horizon?: number, model?: any, freshEvery?: number, name?: string, pruned?: boolean}} setup
- *   `budget` plans a stroke, each on `draws` rollouts of at most `horizon` strokes, the players following `model`
+ * @param {{budget: number, draws?: number, horizon?: number, model?: any, freshEvery?: number, name?: string, pruned?: boolean, serves?: boolean}} setup
+ *   `budget` plans a stroke, each on `draws` rollouts of at most `horizon` strokes, the players following `model`. `serves`: it picks its
+ *   service too. 8 draws: 53,1 % against 4, more than a larger budget (docs/recherche/chiffres.md, § 8)
  * @returns {import("../types.js").Rule}
  */
-export function createSearch({ budget, draws = 4, horizon = 4, model = RULES.R3, freshEvery = 10, name = "S", pruned = true }) {
+export function createSearch(setup) {
+  const { budget, draws, horizon, model, freshEvery, name, pruned, serves } = { ...SEARCH_DEFAULTS, ...setup };
   const climb = createClimb({ genes: GENES });
 
   function decide(view) {
@@ -112,5 +117,7 @@ export function createSearch({ budget, draws = 4, horizon = 4, model = RULES.R3,
     return { ...base, target: stroke.target.slice(), swing: { ...stroke.swing } };
   }
 
-  return { name, version: 1, decide };
+  const rule = { name, version: 2, decide };
+  if (serves) rule.chooseService = (rally) => bestService(rally, { model, draws: 2 * draws, horizon });
+  return rule;
 }

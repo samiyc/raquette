@@ -10,24 +10,21 @@ import { fileURLToPath } from "node:url";
 const BACKLOG = fileURLToPath(new URL("../../mcts-commun/bin/backlog.js", import.meta.url));
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const TAGS = fileURLToPath(new URL("../tmp/queue-j6.json", import.meta.url));
-const FROM = 900000;
+const FROM = 1000000;
 
 const MIX = ["--service", "mix"];
 
+const CHOICE = ["--service", "choice"];
+
 /** A, B, seeds, threads, estimate in minutes, and options. */
 const JOBS = [
-  ["S", "MC", 1200, 6, 5, ...MIX],
-  ["S-d8", "MC-d8", 800, 6, 8, ...MIX],
-  ["S", "R3", 1200, 6, 5, ...MIX, "--replays"],
-  ["MC", "R3", 1200, 6, 5, ...MIX],
-  ["S", "R0", 1200, 6, 5, ...MIX],
-  ["S-d8", "S", 800, 6, 8, ...MIX],
-  ["S4", "S", 400, 6, 8, ...MIX],
-  ["R3", "R0", 1200, 3, 2, ...MIX],
-  ["R1", "R0", 1200, 3, 2, ...MIX],
-  ["R3", "R2", 1200, 3, 2, ...MIX],
-  ["R4", "R3", 1200, 3, 2, ...MIX],
-  ...["pendule", "marteau", "mou", "coupe", "bombe", "lateral"].map((service) => ["R3", "R3", 1200, 3, 2, "--service", service]),
+  ["S", "R3", 1200, 6, 15, ...CHOICE, "--replays"],
+  ["S", "R0", 1200, 6, 15, ...CHOICE],
+  ["S", "Smix", 800, 6, 15, ...CHOICE],
+  ["S", "MC-d8", 800, 6, 15, ...MIX],
+  ["S-b96", "S", 300, 6, 20, ...MIX],
+  ["S-d16", "S", 400, 6, 15, ...MIX],
+  ["S-h2", "S", 800, 6, 15, ...MIX],
 ];
 
 // eslint-disable-next-line sonarjs/no-os-command-from-path -- a script of this machine, calling the queue's own command.
