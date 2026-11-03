@@ -10,29 +10,24 @@ import { fileURLToPath } from "node:url";
 const BACKLOG = fileURLToPath(new URL("../../mcts-commun/bin/backlog.js", import.meta.url));
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const TAGS = fileURLToPath(new URL("../tmp/queue-j6.json", import.meta.url));
-const FROM = 800000;
+const FROM = 900000;
 
 const MIX = ["--service", "mix"];
 
 /** A, B, seeds, threads, estimate in minutes, and options. */
 const JOBS = [
   ["S", "MC", 1200, 6, 5, ...MIX],
-  ["S-b96", "MC-b96", 400, 6, 8, ...MIX],
+  ["S-d8", "MC-d8", 800, 6, 8, ...MIX],
   ["S", "R3", 1200, 6, 5, ...MIX, "--replays"],
-  ["S", "R0", 1200, 6, 5, ...MIX],
   ["MC", "R3", 1200, 6, 5, ...MIX],
-  ["S-b96", "S", 400, 6, 8, ...MIX],
-  ["S-d2", "S", 800, 6, 5, ...MIX],
+  ["S", "R0", 1200, 6, 5, ...MIX],
   ["S-d8", "S", 800, 6, 8, ...MIX],
-  ["S-h2", "S", 800, 6, 5, ...MIX],
-  ["S-h6", "S", 800, 6, 8, ...MIX],
-  ["R3", "R3", 1200, 3, 2, "--service", "pendule"],
-  ["R3", "R3", 1200, 3, 2, "--service", "marteau"],
-  ["R3", "R3", 1200, 3, 2, "--service", "mou"],
-  ["R3", "R3", 1200, 3, 2, "--service", "bombe"],
-  ["R3", "R3", 1200, 3, 2, "--service", "lateral"],
+  ["S4", "S", 400, 6, 8, ...MIX],
   ["R3", "R0", 1200, 3, 2, ...MIX],
   ["R1", "R0", 1200, 3, 2, ...MIX],
+  ["R3", "R2", 1200, 3, 2, ...MIX],
+  ["R4", "R3", 1200, 3, 2, ...MIX],
+  ...["pendule", "marteau", "mou", "coupe", "bombe", "lateral"].map((service) => ["R3", "R3", 1200, 3, 2, "--service", service]),
 ];
 
 // eslint-disable-next-line sonarjs/no-os-command-from-path -- a script of this machine, calling the queue's own command.

@@ -1,4 +1,5 @@
 import { BALL_SIZE, TABLE, VX, VY, VZ, X, Z } from "../ball/constants.js";
+import { aim } from "../aim.js";
 import { catchPlan, frames } from "../forecast.js";
 import { BY, waitingX } from "../player.js";
 import { DRILL_STROKES } from "./drills.js";
@@ -23,6 +24,7 @@ const HIGH_BALL = 0.25; // Metres above the table: high enough to attack (H).
 const FAST_BALL = 9; // m/s: a ball to block rather than to hit (H).
 const TOO_FAR_BACK = 1.5; // Metres behind the line (H, Q-P19).
 const SHORT = 0.35;
+const tilts = new Float64Array(3);
 
 /**
  * The side of the other camp furthest from the opponent, given by where the opponent stands: a target wide, and as deep as asked.
@@ -64,14 +66,20 @@ function decidePrudent(view) {
   return plan && plain(view, plan, farSide(view), prudent(view, plan, FLAT));
 }
 
+/** Can this ball be pushed to that side? A push the aim cannot land would fall on the player's own side. */
+function canPush(view, step) {
+  const ball = frames.slice(step * BALL_SIZE, (step + 1) * BALL_SIZE);
+  return aim({ ball, forward: -view.side, target: farSide(view), swing: PUSH }, tilts);
+}
+
 /**
- * The swing a ball calls for: a lift on what comes high enough, a push on what stays low over the table, flat otherwise. A push from
- * behind the table would not reach the other side.
+ * The swing a ball calls for: a lift on what comes high enough, a push on what stays low over the table if it can be played, flat
+ * otherwise. A push from behind the table would not reach the other side.
  */
 function spinSwing(view, step) {
   const { x, height } = contactOf(step);
   if (height >= HIGH_BALL) return TOP;
-  return view.side * x < TABLE.halfLength ? PUSH : FLAT;
+  return view.side * x < TABLE.halfLength && canPush(view, step) ? PUSH : FLAT;
 }
 
 /** R3, « effet »: R2, with a lift in attack, deeper since the lift brings it down, and a push on a low ball over the table. */
@@ -104,7 +112,7 @@ export const RULES = Object.freeze({
   R0,
   R1: { name: "R1", version: 1, decide: decideFar },
   R2: { name: "R2", version: 1, decide: decidePrudent },
-  R3: { name: "R3", version: 1, decide: decideSpin },
-  R4: { name: "R4", version: 1, decide: decideCounter },
-  R5: { name: "R5", version: 1, decide: decideShort },
+  R3: { name: "R3", version: 2, decide: decideSpin },
+  R4: { name: "R4", version: 2, decide: decideCounter },
+  R5: { name: "R5", version: 2, decide: decideShort },
 });

@@ -6,6 +6,7 @@ import { batchesOf, playOnThreads } from "../scripts/lib/pairs-pool.js";
 import { playRally } from "../src/rally.js";
 import { R0, takeToCentre } from "../src/rules/center.js";
 import { farSide, RULES } from "../src/rules/ladder.js";
+import { serviceOf } from "../src/services.js";
 
 const SEEDS = 150;
 const pairs = (a, b, seeds = SEEDS, profile = CLUB_PLAYER) => playPairs({ a, b, profile, seeds });
@@ -64,6 +65,18 @@ describe("the guard of docs/modele.md, § 6", () => {
 
   it("the attack pays, and pays more placed: R3 takes more than half of the points from R0", () => {
     assert.ok(pairs(RULES.R3, RULES.R0).part > 0.5);
+  });
+});
+
+describe("R3", () => {
+  it("does not throw a rally away on a push it cannot land, whatever the service (a side service ended half its rallies so)", () => {
+    const players = [{ rule: RULES.R3, profile: CLUB_PLAYER }, { rule: RULES.R3, profile: CLUB_PLAYER }];
+    const seeds = Array.from({ length: 120 }, (_, seed) => seed);
+    const part = seeds.filter((seed) => {
+      const { winner } = playRally({ seed, players, server: 0, ...serviceOf(seed, "lateral") });
+      return winner === 0;
+    }).length / seeds.length;
+    assert.ok(part > 0.35, `${part}`);
   });
 });
 

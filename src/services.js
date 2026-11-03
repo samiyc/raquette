@@ -6,8 +6,9 @@ import { normalDraw } from "./scatter.js";
 
 /**
  * The services (Sami, 3/11/2026): from above the end line, a bounce on each side. A service is its spin and its pace: where it is
- * sent across the table is solved here, its curve included. Every value is a hypothesis, set so that each lands (Q-P10): the bomb is
- * as fast as a low contact allows, 10 m/s; the higher it starts, the less room there is for it to come down in the other camp.
+ * sent across the table is solved here, its curve included. Every value is a hypothesis, set so that each lands (Q-P10). The spins
+ * stay under the 62.5 turns measured at the 2009 Worlds (docs/recherche/chiffres.md, § 5). The bomb is as fast as a low contact allows
+ * with room over the net, 11 m/s: faster, it no longer comes down in the other camp.
  *
  * @typedef {object} ServiceKind
  * @property {string} label
@@ -33,8 +34,9 @@ export const SERVICE_KINDS = Object.freeze({
   pendule: { label: "Pendule", height: 0.25, ahead: 6, down: -1.25, lift: -30 * TURN, turn: 40 * TURN },
   marteau: { label: "Marteau", height: 0.3, ahead: 5, down: -0.5, lift: -20 * TURN, turn: -50 * TURN },
   mou: { label: "Mou", height: 0.3, ahead: 4, down: 0, lift: -10 * TURN, turn: 0 },
-  bombe: { label: "Bombe", height: 0.08, ahead: 10, down: -2.5, lift: 10 * TURN, turn: 0 },
-  lateral: { label: "Latéral", height: 0.25, ahead: 7, down: -1.5, lift: 0, turn: 70 * TURN },
+  coupe: { label: "Coupé", height: 0.25, ahead: 5, down: -1.5, lift: -55 * TURN, turn: 0 },
+  bombe: { label: "Bombe", height: 0.08, ahead: 11, down: -2.5, lift: 10 * TURN, turn: 0 },
+  lateral: { label: "Latéral", height: 0.25, ahead: 7, down: -1.5, lift: 0, turn: 55 * TURN },
 });
 
 /** A ball leaving at `slant` metres across per metre ahead, in the server's own frame: two servers facing each other do mirror images. */

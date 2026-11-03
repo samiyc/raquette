@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.11.0",
+      "title": "Le service coupé, et R3 ne jette plus un point sur une poussette impossible",
+      "date": "3/11/2026",
+      "items": [
+        "Un sixième service, le coupé, à 55 tr/s. Les effets restent sous les 62,5 tr/s mesurés aux Mondiaux 2009, et la bombe monte à 11 m/s.",
+        "R3 jouait des poussettes que la visée savait impossibles : après un service latéral, près de la moitié des échanges finissaient là."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.10.0",
       "title": "Les services et les effets latéraux",
       "date": "3/11/2026",

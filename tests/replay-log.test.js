@@ -102,7 +102,7 @@ describe("a replay's header", () => {
     const header = replayHeader({ players: both(RULES.R3) });
     assert.equal(header.format, REPLAY_FORMAT);
     assert.equal(header.version, VERSION);
-    assert.equal(header.players[0].bot, "R3@1");
+    assert.equal(header.players[0].bot, "R3@2");
     assert.equal(header.players[0].profile.reach, CLUB_PLAYER.reach);
     assert.match(header.startedAt, /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d$/);
   });

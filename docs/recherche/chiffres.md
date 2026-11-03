@@ -165,7 +165,23 @@ Deux laboratoires trouvent la même pente de restitution, vers 0,02 par m/s.
 | Vitesse typique de jeu | 20 à 30 m/s, sans référence | [[schneider]] | R |
 | Le passage à 40 mm | 5 à 10 % de vitesse et d'effet en moins que la balle de 38 mm | [[schneider]] | R |
 
-**Rien n'a été trouvé** sur les vitesses et les effets d'un joueur de club, ni sur l'effet des services (Q-P8, Q-P10).
+| Vitesse de top d'élites de niveau régional, au radar, sur balle sans effet et sur coupé | 57,5 ± 6,1 km/h et 52,3 ± 9,3 km/h, soit 16,0 et 14,5 m/s, 15 joueurs | [[pej2026]] | E |
+| Records de smash, hors match | 112,5 km/h en 2003 ; 116 km/h homologués en 2016 ([[guinness]]) | [[brandt]] | E |
+
+**Au service** (recherche du 3/11/2026, demandée par Sami) :
+
+| Chiffre | Valeur | Source | Statut |
+|---|---|---|---|
+| Effet du service, quarts de finale des Mondiaux 2009, 329 services, 16 joueurs, caméra 1 000 images/s | hommes 46,0 ± 9,0 tr/s, femmes 39,2 ± 9,3 tr/s ; de 13,7 à **62,5 tr/s** au plus, pour les deux | [[worlds2009]] | L |
+| Tranche la plus fréquente | hommes 50 à 60 tr/s (40 %), femmes 40 à 50 tr/s (44 %) | [[worlds2009]] | L |
+| Services d'un robot, qui « égalent ou dépassent » ceux de l'élite selon l'article | jusqu'à **6,7 m/s** et 550 rad/s (88 tr/s) ; 1 243 services de joueurs pro sont tracés, sans valeurs dans le texte | [[ace]] | L |
+| Vitesse moyenne de ses services, selon la tâche | de 2,6 à 4,5 m/s sur l'axe de la table | [[ace]] | L, colonnes extraites sans leurs titres |
+| Le service le plus rapide | 54 km/h (15 m/s), Asuka Sakai, calculé sur une vidéo | [[pingsunday]] | E : la page n'a pas pu être lue, à ne pas tenir pour une mesure |
+| « 40 à 60 mph » pour le haut niveau (18 à 27 m/s) | un blog, sans étude citée | [[pingsunday2]] | E, écarté : contredit le reste |
+
+**Ce qui manque, malgré la recherche.** Aucune source lue ne donne une **médiane**, ni la vitesse d'un service mesurée sur des joueurs pro, ni le maximum et la moyenne de vitesse et d'effet en match. Deux pistes non lues : l'étude de Tamaki et Yoshida 2025 sur les services courts et longs [[tamaki]] (page refusée), et la figure 4 de [[ace]], à relever à l'œil. Pour les vitesses et les effets d'un joueur de club, rien (Q-P8).
+
+**Ce que le modèle en fait.** Les effets de service restent sous 62,5 tr/s. La bombe part à 11 m/s, le mieux qu'un contact bas permette : à 15 m/s, elle ne retomberait plus dans le camp adverse, ce qu'il faudrait confronter à un entraîneur (Q-P10). Le top des duels (11,2 m/s, 104 tr/s) est sous les 23 m/s et dans les 117 ± 29 tr/s de Kidokoro.
 
 ## 6. Ce que font les joueurs
 
@@ -448,6 +464,13 @@ Le modèle de Conti tombe tout près de la Loi (« environ 23 cm ») ; le calcul
 [gossard-racket]: https://arxiv.org/abs/2604.11349
 [ito]: https://www.jstage.jst.go.jp/article/tjsst/17/1/17_25/_article/-char/en
 [miyazaki]: https://inis.iaea.org/records/7k9tr-6pp60
+[worlds2009]: https://www.jstage.jst.go.jp/article/jjpehss/advpub/0/advpub_13068/_article/-char/en
+[ace]: https://arxiv.org/abs/2607.06989
+[tamaki]: https://journals.sagepub.com/doi/10.1177/22150218251409592
+[pej2026]: https://www.physicaleducationjournal.net/archives/2026.v8.i3.B.240/a-comparative-analysis-of-ball-velocity-of-forehand-topspin-technique-against-no-spin-and-backspin-balls-in-table-tennis
+[pingsunday]: https://pingsunday.com/lightning-fastest-serve-speed-in-table-tennis/
+[pingsunday2]: https://pingsunday.com/the-dynamics-of-speed-in-table-tennis-a-comprehensive-analysis-of-ball-velocity-generation/
+[brandt]: https://labolycee.org/sites/default/files/2025-09/2024-AmNord-J2-Exo1-Sujet-TennisdeTable-11pts.docx
 [schneider]: https://www.intechopen.com/chapters/83844
 [kidokoro]: https://pubmed.ncbi.nlm.nih.gov/36537568/
 [arxiv-2109]: https://arxiv.org/abs/2109.03100

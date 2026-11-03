@@ -14,9 +14,13 @@ import { STROKE_KINDS } from "../src/strokes.js";
 const both = (rule) => [{ rule, profile: CLUB_PLAYER }, { rule, profile: CLUB_PLAYER }];
 const flightOf = (key, seed = 1, y = 0) => recordFlight(serviceBall(-1, SERVICE_KINDS[key], { seed, y }));
 
-describe("the five services (Sami)", () => {
+describe("the six services (Sami)", () => {
   it("are the ones he asked for", () => {
-    assert.deepEqual(Object.values(SERVICE_KINDS).map((kind) => kind.label), ["Pendule", "Marteau", "Mou", "Bombe", "Latéral"]);
+    assert.deepEqual(Object.values(SERVICE_KINDS).map((kind) => kind.label), ["Pendule", "Marteau", "Mou", "Coupé", "Bombe", "Latéral"]);
+  });
+
+  it("stay under the spin measured at the 2009 Worlds, 62.5 turns a second", () => {
+    for (const { lift, turn } of Object.values(SERVICE_KINDS)) assert.ok(Math.sqrt(lift * lift + turn * turn) / (2 * Math.PI) <= 62.5);
   });
 
   for (const key of Object.keys(SERVICE_KINDS)) {
@@ -32,7 +36,7 @@ describe("the five services (Sami)", () => {
     assert.deepEqual([mou[1].kind, mou[2].kind], ["table", "table"]);
     assert.ok(mou[2].x > 0 && mou[2].x < 1.37, JSON.stringify(mou[2]));
     const paces = Object.keys(SERVICE_KINDS).map((key) => Math.abs(flightOf(key).frames[VX]));
-    assert.equal(Math.max(...paces), paces[3]);
+    assert.equal(Math.max(...paces), paces[4]);
     assert.ok(flightOf("bombe").frames[VX] > 9);
   });
 
@@ -77,7 +81,7 @@ describe("a rally from a service", () => {
 
   it("the mix goes through all five, and stays the same for a seed", () => {
     const labels = new Set(Array.from({ length: 60 }, (_, seed) => serviceOf(seed).service.label));
-    assert.equal(labels.size, 5);
+    assert.equal(labels.size, 6);
     assert.deepEqual(serviceOf(9), serviceOf(9));
   });
 
