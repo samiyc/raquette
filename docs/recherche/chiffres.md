@@ -583,6 +583,17 @@ Le serveur décalé n'a pas regagné le milieu au retour. T en profite deux fois
 
 **La recherche et R3 après le coût du geste** (sur `c1216ec`, graine 1 200 000, S choisit son service) : S contre R3, 64,5 % [62,7 ; 66,3], 4,9 coups, serveur 56,7 %, sans changement (64,7 % avant) ; S contre R0, 64,8 % [63,0 ; 66,6], 7,4 coups, en baisse nette (68,6 % [66,8 ; 70,4] avant, sur d'autres graines) ; R3 contre R0, 58,4 % [57,2 ; 59,5], 11,4 coups (3 000 graines, `mix`).
 
+**T comme modèle de l'adversaire dans la recherche** (3/11/2026, sur `384cc3c`, 1 200 graines à partir de 1 300 000, service choisi par la recherche) :
+
+| Duel | Part du premier | Coups par échange | Part du serveur |
+|---|---:|---:|---:|
+| S-mT contre S | 68,2 % [66,4 ; 69,9] | 3,1 | 40,6 |
+| S-mT contre R3 | 71,9 % [70,1 ; 73,7] | 3,7 | 42,9 |
+| S-mT contre T | 78,1 % [76,5 ; 79,7] | 1,9 | 57,4 |
+| S contre T | 31,2 % [29,4 ; 33,0] | 3,1 | 40,0 |
+
+Changer le modèle suffit : contre R3, la recherche passe de 64,5 % à 71,9 %, et elle bat maintenant T, qui la battait à 68,8 %. Mais les échanges raccourcissent, et S perd 1 105 points sur 1 636 sur des balles non atteintes contre S-mT. Le serveur tombe à 40 % : le jeu se réduit à un retour large et gagnant. Le gain est réel dans le modèle ; rien ne dit encore qu'il le serait contre un humain.
+
 ## Les sources
 
 [lois]: https://www.tabletennisengland.co.uk/content/uploads/2026/07/Laws-of-Table-Tennis-2026-27.pdf

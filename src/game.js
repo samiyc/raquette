@@ -18,7 +18,7 @@ const FORWARD = 1;
 const WINNING = 11;
 const LOOSE_END = 10;
 const MAX_TICKS_TO_EVENT = 240 * 10;
-const SLOW_ROBOTS = new Set(["S", "MC"]);
+const SLOW_ROBOTS = new Set(["S", "MC", "S-mT"]);
 export const PAGE_BUDGET = 24; // Plans a stroke for a search at the mouse: as measured, since it thinks in a worker.
 
 /**

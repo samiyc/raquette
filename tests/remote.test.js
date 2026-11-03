@@ -71,6 +71,19 @@ describe("a point at the mouse against a search", () => {
     assert.deepEqual(again.state.result, away.state.result);
   });
 
+  it("asks its worker too when the search takes the opponent for T", () => {
+    const point = createPoint({ seed: 4, server: 1, scatter: 1, robot: "S-mT" });
+    let asked = 0;
+    while (!pointOver(point)) {
+      if (needsAnswer(point)) {
+        asked += 1;
+        giveAnswer(point, decideOn(pictureFor(point), 1, namedRule("S-mT", 4)));
+      }
+      stepPoint(point);
+    }
+    assert.ok(asked > 0);
+  });
+
   it("asks nothing of a robot that thinks at once", () => {
     const point = createPoint({ seed: 4, server: 1, scatter: 1, robot: "R3" });
     while (!pointOver(point)) {
