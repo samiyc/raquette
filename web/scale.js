@@ -4,8 +4,9 @@
  */
 
 /**
- * What the view shows, in metres: the table and room for the players; below it, the floor up to a lob's top. Heights are
- * squeezed in the side band, so that both bands fit on a screen without scrolling; lengths keep one scale.
+ * What the view shows, in metres: the floor up to a lob's top, and below it the table and room for the players. A lob higher than
+ * that leaves the screen rather than crossing the view from above, the one Sami watches (3/11/2026). Heights are squeezed in the
+ * side band, so that both bands fit on a screen without scrolling; lengths keep one scale.
  */
 const VIEW = { halfX: 3, halfY: 1.1, floor: -0.76, ceiling: 1.5 };
 const SIDE_HEIGHTS = 0.65;
@@ -39,24 +40,27 @@ export function trailStart(strokes, index) {
   return start;
 }
 
-/** The two bands for a canvas `width` pixels wide: the same lengths, so that a point of one lies above the other's. */
+/** The two bands for a canvas `width` pixels wide, the side first: the same lengths, so that a point of one lies above the other's. */
 export function layoutFor(width) {
   const scale = width / (2 * VIEW.halfX);
   const topHeight = 2 * VIEW.halfY * scale;
   const sideHeight = (VIEW.ceiling - VIEW.floor) * scale * SIDE_HEIGHTS;
-  return { width, scale, topHeight, sideHeight, sideTop: topHeight + BAND_GAP, height: topHeight + BAND_GAP + sideHeight };
+  return { width, scale, topHeight, sideHeight, topStart: sideHeight + BAND_GAP, height: sideHeight + BAND_GAP + topHeight };
 }
 
 /** A point of the table's plane, seen from above: +y upwards on the screen. */
 export const topPoint = (layout, x, y) => [
   layout.width / 2 + x * layout.scale,
-  layout.topHeight / 2 - y * layout.scale,
+  layout.topStart + layout.topHeight / 2 - y * layout.scale,
 ];
+
+/** A click's height on the canvas, as the view from above counts it (src/mouse.js): negative in the side band. */
+export const fromTopBand = (layout, py) => py - layout.topStart;
 
 /** A point seen from the side. */
 export const sidePoint = (layout, x, z) => [
   layout.width / 2 + x * layout.scale,
-  layout.sideTop + (VIEW.ceiling - z) * layout.scale * SIDE_HEIGHTS,
+  (VIEW.ceiling - z) * layout.scale * SIDE_HEIGHTS,
 ];
 
 const clampHeight = (z) => Math.max(0, Math.min(1, z));

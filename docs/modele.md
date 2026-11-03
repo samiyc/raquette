@@ -364,7 +364,7 @@ champs, et ce que fait chaque coup préréglé est testé.
 - **l'effet** : une teinte, rouge pour le lift, bleu pour le coupé, plus intense quand il est fort, et une petite flèche pour
   le latéral ;
 - **la hauteur** : la taille de la balle, et le décalage de son ombre sur la table ;
-- **un bandeau de profil** sous la table (Q-S5) : vue de dessus seule, on ne voit pas si la balle passe le filet. Il garde les
+- **un bandeau de profil** au-dessus de la table (Q-S5 ; Sami, 3/11/2026 : un lob en sort par le haut au lieu de déborder sur la vue de dessus) : vue de dessus seule, on ne voit pas si la balle passe le filet. Il garde les
   longueurs de la vue de dessus et ramène les hauteurs à 65 %, pour tenir à l'écran avec un lob.
 
 **Les couleurs sont testées** contre la table et le sol (au moins 3:1) et sous les trois daltonismes, simulés par les matrices de

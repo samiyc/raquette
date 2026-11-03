@@ -5,13 +5,13 @@ import {
   clickPoint, closePoint, createGame, createPoint, mouseProfile, nextPoint, pointOver, positionOf, replayPoint, runToEvent, serverOf, stepPoint, stepsFor, winnerOf,
 } from "../src/game.js";
 import { destinationOf, firstAim, orderOf } from "../src/mouse.js";
-import { layoutFor, topPoint } from "../web/scale.js";
+import { fromTopBand, layoutFor, topPoint } from "../web/scale.js";
 
 const layout = layoutFor(960);
 const view = { ...layout, forward: 1 };
 const at = (x, y, button) => {
   const [px, py] = topPoint(layout, x, y);
-  return { px, py, button };
+  return { px, py: fromTopBand(layout, py), button };
 };
 const close = (a, b, tolerance = 1e-9) => Math.abs(a - b) <= tolerance;
 

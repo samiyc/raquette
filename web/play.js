@@ -11,7 +11,7 @@ import { SPEEDS } from "./player.js";
 import { frameText, rallyText } from "./readout.js";
 import { exportWon, savePoint } from "./play-files.js";
 import { createStepper } from "./play-steps.js";
-import { layoutFor } from "./scale.js";
+import { fromTopBand, layoutFor } from "./scale.js";
 import { buildServices, buildStrokes, letGoOfButtons, showServices, showStrokes } from "./stroke-panel.js";
 
 /** The page of the game at the mouse: it listens and draws; what decides is in src/game.js and src/mouse.js. */
@@ -183,7 +183,7 @@ function clickOnView(event) {
   event.preventDefault();
   if (!live.point || live.point.closed) return;
   const box = canvas.getBoundingClientRect();
-  const click = { px: event.clientX - box.left, py: event.clientY - box.top, button: event.button };
+  const click = { px: event.clientX - box.left, py: fromTopBand(layout, event.clientY - box.top), button: event.button };
   const order = orderOf(click, { ...layout, forward: 1 });
   if (!order) return;
   stepper.sendOrder(order);

@@ -5,8 +5,9 @@ import { PRESETS, throwBall } from "../src/launch.js";
 import { recordFlight } from "../src/recording.js";
 import { eventsText, frameText, rallyText } from "../web/readout.js";
 import {
-  ballRadius, COLORS, layoutFor, liftOf, sectorAngles, shadowOffset, sidePoint, sidePush, spinColor, spinMark, topPoint, trailStart,
+  ballRadius, COLORS, fromTopBand, layoutFor, liftOf, sectorAngles, shadowOffset, sidePoint, sidePush, spinColor, spinMark, topPoint, trailStart,
 } from "../web/scale.js";
+import { orderOf } from "../src/mouse.js";
 
 const flightOf = (key) => recordFlight(throwBall(PRESETS[key].launch));
 const kinds = (recording) => recording.events.map((event) => event.kind);
@@ -136,11 +137,25 @@ describe("the view", () => {
   const layout = layoutFor(960);
 
   it("puts both bands on one scale, the table centred", () => {
-    assert.deepEqual(topPoint(layout, 0, 0), [480, layout.topHeight / 2]);
+    assert.deepEqual(topPoint(layout, 0, 0), [480, layout.topStart + layout.topHeight / 2]);
     assert.equal(topPoint(layout, 1, 0)[0], sidePoint(layout, 1, 0)[0]);
     assert.ok(topPoint(layout, 0, 1)[1] < topPoint(layout, 0, -1)[1]);
     assert.ok(sidePoint(layout, 0, 1)[1] < sidePoint(layout, 0, 0)[1]);
-    assert.ok(close(sidePoint(layout, 0, -0.76)[1], layout.height));
+    assert.ok(close(sidePoint(layout, 0, -0.76)[1], layout.sideHeight));
+    assert.ok(close(topPoint(layout, 0, -1.1)[1], layout.height));
+  });
+
+  it("keeps the side band above the view from above, so that a lob leaves the screen instead of crossing it", () => {
+    assert.ok(sidePoint(layout, 0, -0.76)[1] < topPoint(layout, 0, 1.1)[1]);
+    assert.ok(sidePoint(layout, 0, 3)[1] < 0);
+  });
+
+  it("reads a click where the view from above is drawn, and none in the side band", () => {
+    const view = { ...layout, forward: 1 };
+    const [px, py] = topPoint(layout, -1, 0.5);
+    const { moveTo } = orderOf({ px, py: fromTopBand(layout, py), button: 0 }, view);
+    assert.ok(close(moveTo[0], -1) && close(moveTo[1], 0.5));
+    assert.equal(orderOf({ px, py: fromTopBand(layout, sidePoint(layout, 0, 0.5)[1]), button: 0 }, view), null);
   });
 
   it("grows the ball and moves its shadow away with height, within bounds", () => {
