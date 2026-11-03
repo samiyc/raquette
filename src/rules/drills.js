@@ -1,6 +1,7 @@
 import { TABLE } from "../ball/constants.js";
 import { catchPlan } from "../forecast.js";
 import { SERVICES } from "../rally.js";
+import { R0 } from "./center.js";
 
 /**
  * The strokes of a training drill, each with one aim and one way of taking the ball (Sami, 3/11/2026; docs/modele.md, § 6). A
@@ -48,8 +49,24 @@ export function drillPlayers(first, second, profile) {
   return [first, second].map((stroke) => ({ rule: drillRule(stroke), profile: { ...profile, waitBehindLine: stroke.back } }));
 }
 
-/** The duels the page offers, and the tests hold (Sami, 3/11/2026): each starts with the service that suits it. */
+/**
+ * The three reference duels, which Sami watched and kept (3/11/2026): each starts with the service that suits it. They are held
+ * to docs/duels-reference.json (tests/duels-reference.test.js, `npm run duels`).
+ */
 export const DUELS = Object.freeze({
-  topBlock: { label: "Top contre bloc", first: DRILL_STROKES.top, second: DRILL_STROKES.block, service: SERVICES.long },
-  pushes: { label: "Poussette contre poussette", first: DRILL_STROKES.push, second: DRILL_STROKES.push, service: SERVICES.shortCut },
+  r0: {
+    label: "R0 contre R0",
+    players: (profile) => [{ rule: R0, profile }, { rule: R0, profile }],
+    service: SERVICES.long,
+  },
+  topBlock: {
+    label: "Top contre bloc",
+    players: (profile) => drillPlayers(DRILL_STROKES.top, DRILL_STROKES.block, profile),
+    service: SERVICES.long,
+  },
+  pushes: {
+    label: "Poussette contre poussette",
+    players: (profile) => drillPlayers(DRILL_STROKES.push, DRILL_STROKES.push, profile),
+    service: SERVICES.shortCut,
+  },
 });

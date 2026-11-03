@@ -1,0 +1,73 @@
+{
+  "note": "Les trois duels de référence, regardés et validés par Sami le 3/11/2026. npm run duels les compare, npm run duels -- --write les réécrit.",
+  "rallies": 1000,
+  "duels": {
+    "r0": {
+      "strokes": 47.4,
+      "causes": {
+        "limit": 0.597,
+        "net": 0.388,
+        "out": 0.015
+      },
+      "seats": [
+        {
+          "speed": 5.1,
+          "lift": 1,
+          "height": 0.31,
+          "lostPart": 0.204
+        },
+        {
+          "speed": 5.1,
+          "lift": 1,
+          "height": 0.31,
+          "lostPart": 0.199
+        }
+      ]
+    },
+    "topBlock": {
+      "strokes": 16.1,
+      "causes": {
+        "behind": 0.041,
+        "limit": 0.03,
+        "net": 0.479,
+        "out": 0.45
+      },
+      "seats": [
+        {
+          "speed": 11.2,
+          "lift": 104,
+          "height": 0.27,
+          "lostPart": 0.738
+        },
+        {
+          "speed": 7.7,
+          "lift": 36,
+          "height": 0.19,
+          "lostPart": 0.232
+        }
+      ]
+    },
+    "pushes": {
+      "strokes": 36.2,
+      "causes": {
+        "limit": 0.333,
+        "net": 0.179,
+        "out": 0.488
+      },
+      "seats": [
+        {
+          "speed": 5.2,
+          "lift": -39,
+          "height": 0.2,
+          "lostPart": 0.327
+        },
+        {
+          "speed": 5.2,
+          "lift": -39,
+          "height": 0.2,
+          "lostPart": 0.34
+        }
+      ]
+    }
+  }
+}

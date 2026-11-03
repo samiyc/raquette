@@ -50,6 +50,8 @@ les articles.
 | **Le latéral** (*sidespin*) | la rotation autour de la verticale : la balle dévie de côté | `ω_z` |
 | **Le brossage** | la raquette frotte la balle plutôt qu'elle ne la frappe | `brush` de l'intention |
 | **La frappe** | la raquette pousse la balle, selon sa normale | `drive` de l'intention |
+| **Le croisé** (*cross-court*) | une balle en diagonale, vers le coin opposé : la table y est la plus longue (3,14 m contre 2,74 m) | une cible, à partir de J5 |
+| **La ligne droite** (*down the line*) | une balle le long du même côté | une cible, à partir de J5 |
 | **La poussette** (*push*) | un coup court et coupé, près de la table | R3 |
 | **Le coupé à deux rebonds** | un coupé si court que la balle rebondirait deux fois sur la table : fatal à qui joue trop loin | R5, le coup préréglé de la page |
 | **Le tchop** (*chop*) | un coupé défensif, joué de loin, bas sur le filet et très tourné | le coup préréglé de la page ; ses réglages sont une hypothèse (Q-P19) |

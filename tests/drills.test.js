@@ -3,14 +3,14 @@ import assert from "node:assert/strict";
 import { VX, VY, WX, WY } from "../src/ball/constants.js";
 import { CLUB_PLAYER } from "../src/player.js";
 import { playRally } from "../src/rally.js";
-import { DRILL_STROKES, DUELS, drillPlayers } from "../src/rules/drills.js";
+import { DUELS } from "../src/rules/drills.js";
 
 const TURN = 2 * Math.PI;
 const SEEDS = Array.from({ length: 120 }, (_, seed) => seed);
 
 /** A duel over many seeds: how long it lasts, how it ends, and what each player sends. */
-function watch({ first, second, service }, profile = CLUB_PLAYER) {
-  const players = drillPlayers(first, second, profile);
+function watch(duel, profile = CLUB_PLAYER) {
+  const players = duel.players(profile);
   const sent = [[], []];
   const causes = {};
   let strokes = 0;
@@ -24,7 +24,7 @@ function watch({ first, second, service }, profile = CLUB_PLAYER) {
         sent[who].push({ speed: flat, lift: (ball[WY] * ball[VX] - ball[WX] * ball[VY]) / flat / TURN });
       },
     };
-    const result = playRally({ seed, players, server: seed % 2, service, listener });
+    const result = playRally({ seed, players, server: seed % 2, service: duel.service, listener });
     causes[result.cause] = (causes[result.cause] ?? 0) + 1;
     strokes += result.strokes;
   }
@@ -80,7 +80,7 @@ describe("a duel of pushes (Sami, 3/11/2026)", () => {
 
 describe("the mirror holds in a duel", () => {
   it("a duel with the same stroke on both sides replays as its mirror when the players swap", () => {
-    const players = drillPlayers(DRILL_STROKES.push, DRILL_STROKES.push, CLUB_PLAYER);
+    const players = DUELS.pushes.players(CLUB_PLAYER);
     for (const seed of SEEDS.slice(0, 20)) {
       const one = playRally({ seed, players, server: 0, service: DUELS.pushes.service });
       const other = playRally({ seed, players, server: 1, service: DUELS.pushes.service });

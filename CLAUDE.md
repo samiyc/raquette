@@ -39,6 +39,8 @@ project needing the same physics is what would move it to the library.
   outgrows it is split along its seams, the limit is never raised.
 - **The fingerprints** (`tests/fingerprint.test.js`) hash what the simulation does. A refactor changes none; a change meant
   to alter the model updates its hash and says so in the commit, with the measures before and after.
+- **The three reference duels** (`docs/duels-reference.json`, `npm run duels`, Sami, 3/11/2026): R0 against R0, top against block, pushes. They say the model still looks like table
+  tennis. A change meant to move them rewrites the file with `--write`, and gives the figures before and after in its commit.
 - **The simulation must not allocate** (`npm run bench`, and a test): on Mad Pod Racing, the garbage collector pushed turns
   to 72 ms out of 75. In the flight step, doubles travel in typed arrays: passed to or returned from a call V8 does not
   inline, each becomes a heap number.

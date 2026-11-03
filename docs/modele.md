@@ -179,8 +179,13 @@ jusqu'à 2,4 m et 1,6 m derrière la ligne au mieux, contre 0,5 m pour la positi
 un joueur à sa place. **Le tchop** est l'autre coupé : joué de loin, il repasse le filet bas, avec beaucoup de coupé. Il ne donne
 pas deux rebonds, mais ralentit la balle.
 
-**Les duels d'entraînement** (Sami, 3/11/2026) ne sont pas des règles à battre. Top contre bloc, et poussette contre poussette : tout le monde sait à quoi
-ces échanges ressemblent, ils disent donc si le modèle ressemble au ping-pong (`src/rules/drills.js`, `chiffres.md`, § 8). Ce sont eux qui fixent la dispersion.
+**Les trois duels de référence** (Sami, 3/11/2026 : « ça fait très réaliste ») ne sont pas des règles à battre. R0 contre R0, top contre bloc, poussette contre poussette :
+ils disent si le modèle ressemble encore au ping-pong, et ce sont eux qui fixent la dispersion (`src/rules/drills.js`, `chiffres.md`, § 8). Leurs chiffres sont gardés dans
+`docs/duels-reference.json` : `npm run duels` les compare, un test refuse un changement qui les éloigne de ce que Sami a vu, et un changement voulu les réécrit avec `--write`,
+en donnant l'avant et l'après dans son commit. Une empreinte les tient aussi au nombre près.
+
+**Viser ailleurs qu'au centre** (Sami, 3/11/2026). La visée sait déjà envoyer la balle sur n'importe quel point : c'est une règle qui choisit lequel. À la souris, le clic droit le fait dès J4. R1 commence à J5 : le coin le plus loin de
+l'adversaire. Les règles suivantes distingueront le **croisé** (vers le coin opposé, en diagonale, là où la table est la plus longue) et la **ligne droite** (le long du même côté, plus court et plus risqué, mais plus surprenant).
 
 **R1 sert de garde-fou.** Si viser loin de l'adversaire ne bat pas viser le centre, le modèle ne récompense pas le placement,
 et le jeu n'en est pas un : on corrige le modèle avant d'écrire la moindre recherche. Le pendant : si R1 écrase R0 à 90 %,

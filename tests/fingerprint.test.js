@@ -7,6 +7,7 @@ import { advance, NONE } from "../src/ball/table.js";
 import { CLUB_PLAYER } from "../src/player.js";
 import { recordRally } from "../src/rally-recording.js";
 import { R0 } from "../src/rules/center.js";
+import { DUELS } from "../src/rules/drills.js";
 
 /**
  * What the simulation does, held in a hash (as in mcts-urgences, mcts-entrepot and mcts-cuisine): a refactor must leave
@@ -17,6 +18,7 @@ const EXPECTED = {
   // 2/11/2026: a ball ending its roll no longer falls through the table; flights before that point are unchanged.
   ball: "2aa4b251ea50ef1c",
   rally: "c84e3aa58f32ef62",
+  duels: "8ba7cd1f5ceccd49",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */
@@ -56,6 +58,14 @@ function rallies() {
   });
 }
 
+/** Ten rallies of each reference duel: how each ended, and every number of the ball. */
+function referenceDuels() {
+  return Object.entries(DUELS).map(([key, duel]) => [key, Array.from({ length: 10 }, (_, seed) => {
+    const { result, frames } = recordRally({ seed, players: duel.players(CLUB_PLAYER), server: seed % 2, service: duel.service });
+    return [result, createHash("sha256").update(new Uint8Array(frames.buffer)).digest("hex")];
+  })]);
+}
+
 describe("the fingerprints", () => {
   it("of the ball", () => {
     assert.equal(digest(LAUNCHES.map(trace)), EXPECTED.ball);
@@ -63,5 +73,9 @@ describe("the fingerprints", () => {
 
   it("of a rally", () => {
     assert.equal(digest(rallies()), EXPECTED.rally);
+  });
+
+  it("of the three reference duels", () => {
+    assert.equal(digest(referenceDuels()), EXPECTED.duels);
   });
 });
