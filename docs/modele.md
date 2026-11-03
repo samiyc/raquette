@@ -2,7 +2,7 @@
 
 Le ping-pong en simulation : un duel, la trajectoire de la balle, son effet et sa hauteur, un robot, un joueur à la souris
 pour éprouver ce robot, puis l'autojeu. Ce document fixe ce qu'on va construire et comment on saura que ça marche. **À ce jour, `src/` a la
-balle, la raquette, la visée, le corps, un échange de R0 contre R0 et deux duels d'entraînement : ni souris, ni mesure, ni recherche.**
+balle, la raquette, la visée, le corps, les trois duels de référence et le jeu à la souris contre R0 : ni mesure, ni recherche.**
 
 **Le cap, précisé par Sami le 2/11/2026.** Tout représenter en 2D vue de dessus sera complexe, mais le jeu reste surtout de l'analyse,
 du positionnement et des trajectoires. Le joueur humain est simplifié pour finir des parties, à la souris et au pas à pas, et il sert à **vérifier
@@ -375,7 +375,7 @@ passent des clics simulés. La page empêche le menu contextuel (`preventDefault
 
 - le clic droit donne le point visé ; la force (6,5 m/s), l'absence de brossage et le contact au sommet du rebond sont ceux de
   R0 ; sans nouveau clic, la dernière cible reste, et la première est le centre ;
-- le contact se fait tout seul si la balle passe dans le secteur.
+- le contact se fait tout seul à partir du sommet du rebond, dès que la balle est dans le secteur ; une balle qui sort est laissée, comme le fait le robot.
 
 **Ce qui ne l'est pas : les limites sont celles du robot.** Réaction, vitesse, secteur et préparation restent les mêmes, et les
 clics comptent jusqu'au début de la préparation : la pause donne du temps pour réfléchir, pas pour courir. **La dispersion est
@@ -389,8 +389,10 @@ cause de chaque fin d'échange.
 **Le pas à pas** : une pause automatique à chaque frappe du robot (désactivable), une touche « événement suivant » (frappe,
 rebond, contact), un pas de 1/60 s, les vitesses de 1/8 à ×1.
 
-**Vérifier les limites du robot** : une position que le robot a perdue s'exporte (sa graine, ses clics, le coup en cause) vers un
-banc de positions, rejoué à chaque variante. Ce banc nourrit le panel de l'autojeu (§ 8).
+**La page** : `web/play.html`, à partir de `src/mouse.js` et `src/game.js`. Un point se rejoue exactement depuis sa graine, la dispersion et ses clics.
+
+**Vérifier les limites du robot** : un point que le robot a perdu s'exporte depuis la page (sa graine, ses clics, sa fin) vers `positions/`, un fichier par point, et
+`npm run positions` les rejoue avec le robot du moment. Ce banc nourrira le panel de l'autojeu (§ 8).
 
 **La manette, plus tard** (J8, si elle sert encore) : `readPad(gamepad)`, sur le même principe. Ce que dit la spécification :
 

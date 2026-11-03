@@ -27,8 +27,8 @@ export const BX = 0;
 export const BY = 1;
 const BVX = 2;
 const BVY = 3;
-const GOAL_X = 4;
-const GOAL_Y = 5;
+export const GOAL_X = 4;
+export const GOAL_Y = 5;
 const BODY_SIZE = 6;
 
 /** The place a player waits at, on `side` (−1 or +1): the middle, behind the line. */

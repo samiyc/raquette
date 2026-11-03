@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Raquette : jouer à la souris</title>
+    <link rel="stylesheet" href="../node_modules/mcts-commun/web/theme.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="importmap">
+      { "imports": { "mcts-commun/": "../node_modules/mcts-commun/src/" } }
+    </script>
+  </head>
+  <body>
+    <header class="masthead">
+      <p class="links"><a href="index.html">La table et les duels</a></p>
+      <h1>Jouer à la souris</h1>
+      <p>Une manche contre R0, pour éprouver le robot. Votre corps, votre bras et votre préparation sont les siens.</p>
+    </header>
+    <main>
+      <section class="controls player">
+        <span id="score">0 - 0</span>
+        <button type="button" id="next">Point suivant</button>
+        <button type="button" id="play">Pause</button>
+        <button type="button" class="quiet" id="step">Pas</button>
+        <button type="button" class="quiet" id="event">Événement suivant</button>
+        <button type="button" class="quiet" id="slower" title="Plus lent">−</button>
+        <span id="speed-label"></span>
+        <button type="button" class="quiet" id="faster" title="Plus vite">+</button>
+        <label><input id="autopause" type="checkbox" checked /> Pause à chaque frappe du robot</label>
+      </section>
+      <section class="controls">
+        <label>Graine<input id="seed" type="number" min="0" step="1" value="1" /></label>
+        <label>Dispersion : <span id="scatter-label">100 %</span><input id="scatter" type="range" min="0" max="100" step="10" value="100" /></label>
+        <button type="button" id="new">Nouvelle manche</button>
+        <button type="button" class="quiet" id="export">Exporter les points gagnés</button>
+      </section>
+      <p class="summary" id="events" aria-live="polite"></p>
+      <canvas id="view" aria-label="La table vue de dessus, et de profil en dessous"></canvas>
+      <p class="summary" id="frame"></p>
+      <p class="hint">
+        <strong>Clic gauche</strong> sur le plan : où aller (le carré). <strong>Clic droit</strong> sur le camp adverse : où envoyer la balle (la croix, avec la dispersion à attendre).
+        Le coup part seul quand la balle passe dans votre secteur, à droite de votre corps, après le sommet de son rebond.
+        Après une frappe du robot, un déplacement attend la fin de votre réaction, 0,20 s. La visée compte jusqu'à 0,15 s avant le contact.
+        Touches : <strong>espace</strong> pause ; <strong>.</strong> un pas de 1/60 s ; <strong>n</strong> l'événement suivant ; <strong>+ −</strong> la vitesse.
+        Un score ne vaut mesure qu'à 100 % de dispersion ; à une autre valeur, c'est une exploration.
+      </p>
+    </main>
+    <script type="module" src="play.js"></script>
+  </body>
+</html>

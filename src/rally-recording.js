@@ -5,14 +5,57 @@ import { playRally } from "./rally.js";
 
 /**
  * A rally kept step by step, for the page to replay: the page draws what is recorded here and decides nothing. It allocates,
- * unlike a rally played for a measure.
+ * unlike a rally played for a measure. A live game reads the recording as it grows.
  *
  * @typedef {import("./types.js").RallyRecording} RallyRecording
  */
+const BODY_NUMBERS = 4;
+const FIRST_SIZE = 2048;
+
 /** @returns {import("./types.js").FlightEvent} */
 function eventOf(kind, step, state) {
   if (kind === TABLE_BOUNCE) return { kind: "table", step, x: state.contact[0], y: state.contact[1] };
   return { kind: kind === NET_TOUCH ? "net" : "floor", step, x: state.ball[X], y: state.ball[Y] };
+}
+
+function grown(array, needed) {
+  if (needed <= array.length) return array;
+  const bigger = new Float64Array(array.length * 2);
+  bigger.set(array);
+  return bigger;
+}
+
+/** A recording that grows at each step, and what a rally tells it. */
+export function createRecorder() {
+  const recording = {
+    steps: -1,
+    frames: new Float64Array(FIRST_SIZE * BALL_SIZE),
+    bodies: new Float64Array(FIRST_SIZE * BODY_NUMBERS),
+    events: [],
+    strokes: [],
+    result: null,
+  };
+  const listener = {
+    tick(state) {
+      recording.steps += 1;
+      const step = recording.steps;
+      recording.frames = grown(recording.frames, (step + 1) * BALL_SIZE);
+      recording.bodies = grown(recording.bodies, (step + 1) * BODY_NUMBERS);
+      recording.frames.set(state.ball, step * BALL_SIZE);
+      state.bodies.forEach((body, i) => {
+        recording.bodies[step * BODY_NUMBERS + i * 2] = body[BX];
+        recording.bodies[step * BODY_NUMBERS + i * 2 + 1] = body[BY];
+      });
+      recording.result = state.result;
+    },
+    flight(kind, state) {
+      if (kind !== NONE) recording.events.push(eventOf(kind, recording.steps + 1, state));
+    },
+    stroke(_who, tick) {
+      recording.strokes.push(tick);
+    },
+  };
+  return { recording, listener };
 }
 
 /**
@@ -20,24 +63,13 @@ function eventOf(kind, step, state) {
  * @returns {RallyRecording}
  */
 export function recordRally(options) {
-  const balls = [];
-  const bodies = [];
-  const events = [];
-  const strokes = [];
-  const listener = {
-    tick(state) {
-      balls.push(state.ball.slice());
-      for (const body of state.bodies) bodies.push(body[BX], body[BY]);
-    },
-    flight(kind, state) {
-      if (kind !== NONE) events.push(eventOf(kind, balls.length, state));
-    },
-    stroke(_who, tick) {
-      strokes.push(tick);
-    },
-  };
+  const { recording, listener } = createRecorder();
   const result = playRally({ ...options, listener });
-  const frames = new Float64Array(balls.length * BALL_SIZE);
-  balls.forEach((ball, i) => frames.set(ball, i * BALL_SIZE));
-  return { steps: balls.length - 1, frames, bodies: Float64Array.from(bodies), events, strokes, result };
+  const size = recording.steps + 1;
+  return {
+    ...recording,
+    frames: recording.frames.slice(0, size * BALL_SIZE),
+    bodies: recording.bodies.slice(0, size * BODY_NUMBERS),
+    result,
+  };
 }

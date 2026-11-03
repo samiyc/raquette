@@ -40,10 +40,13 @@ const CAUSES = {
   limit: "limite de 60 coups, sans vainqueur",
 };
 
-/** How a rally went, in a sentence. */
-export function rallyText({ seed, result }) {
-  const who = result.winner === 0 ? "le joueur de gauche gagne" : "le joueur de droite gagne";
-  const end = result.winner < 0 ? CAUSES.limit : `${who} : ${CAUSES[result.cause]}`;
+/**
+ * How a rally went, in a sentence.
+ * @param {{seed: number, result: any}} rally
+ * @param {string[]} [winners] how to say each winner
+ */
+export function rallyText({ seed, result }, winners = ["le joueur de gauche gagne", "le joueur de droite gagne"]) {
+  const end = result.winner < 0 ? CAUSES.limit : `${winners[result.winner]} : ${CAUSES[result.cause]}`;
   return `Graine ${seed}, ${result.strokes} coup(s) après le service, ${fixed(result.ticks * STEP, 2)} s ; ${end}.`;
 }
 

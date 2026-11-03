@@ -128,7 +128,7 @@ function tryContact(state, who) {
   state.ownBounce = false;
   state.strokes += 1;
   state.missed = OK;
-  setGoal(state.bodies[who], plan.next, seat);
+  if (plan.next) setGoal(state.bodies[who], plan.next, seat);
   hearStroke(state);
   state.listener?.stroke?.(who, state.tick);
 }
@@ -185,14 +185,26 @@ function oneTick(state) {
 }
 
 /**
+ * A rally ready to run, for a live game: its service has left.
+ * @param {RallyOptions} options
+ */
+export function startRally(options) {
+  const state = createState(options);
+  hearStroke(state);
+  state.listener?.tick?.(state);
+  return state;
+}
+
+/** One step of a rally under way. */
+export const stepRally = oneTick;
+
+/**
  * Plays one rally.
  * @param {RallyOptions} options
  * @returns {RallyResult}
  */
 export function playRally(options) {
-  const state = createState(options);
-  hearStroke(state);
-  state.listener?.tick?.(state);
+  const state = startRally(options);
   while (!state.result) oneTick(state);
   return state.result;
 }

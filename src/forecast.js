@@ -126,6 +126,9 @@ function goalFor(view, step, h) {
   return rushFor(view, time, stand);
 }
 
+/** The step at which the ball is at the top of its bounce, for a player who only says where to stand. */
+export const topStep = topOf;
+
 /** Early, as a block takes it: as soon as it has risen this high off the table, or else at the top. */
 function riseOf(way, height) {
   for (let step = way.from; step <= way.to; step += 1) {

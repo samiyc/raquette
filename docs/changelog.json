@@ -4,6 +4,25 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.4.0",
+      "title": "Jouer à la souris contre R0",
+      "date": "3/11/2026",
+      "items": [
+        "Une nouvelle page : clic gauche pour se déplacer, clic droit pour viser, avec le corps, le secteur, la préparation et la dispersion du robot.",
+        "Une manche à 11 points, le service qui tourne, le score, un curseur de dispersion.",
+        "Le pas à pas : une pause à chaque frappe du robot, un pas de 1/60 s, l'événement suivant, les vitesses de 1/8 à ×1.",
+        "Un point se rejoue exactement ; les points gagnés s'exportent vers un banc de positions."
+      ],
+      "commits": []
+    },
+    {
+      "version": "0.3.1",
+      "title": "Trois duels de référence",
+      "date": "3/11/2026",
+      "items": ["R0 contre R0, top contre bloc et poussette contre poussette, que Sami a validés, sont gardés : un test refuse un changement qui les éloigne de ce qu'il a vu."],
+      "commits": []
+    },
+    {
       "version": "0.3.0",
       "title": "La poussette, le bloc, et deux duels d'entraînement",
       "date": "3/11/2026",

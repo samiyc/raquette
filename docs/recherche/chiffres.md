@@ -319,6 +319,19 @@ contact de Conti.
 **Elle ne bat pas R0 pour l'instant** : le coup fait bien mouche à 2,5 m, 52 fois sur 200, mais R0 y gagne déjà, car le receveur rate sa propre frappe, trop courte depuis si loin. Rien n'est
 mesuré au sens du § 7 du modèle : c'est le travail de J5.
 
+**Un premier signal pour R1, à vérifier à J5** (J4). Un joueur à la souris qui ne bouge jamais et vise un seul endroit, 400 points contre R0 à 100 % de dispersion :
+
+| Visée | Gagnés | Perdus | Nuls à la limite | Sa principale faute |
+|---|---|---|---|---|
+| Centre (0,685 ; 0) | 63 | 112 | 225 | filet, 55 |
+| Long (1,0 ; 0) | 93 | 299 | 8 | hors table, 205 |
+| Coins sûrs (0,95 ; ±0,35) | 97 | 292 | 11 | hors table, 165 |
+| Coins larges (1,1 ; ±0,55) | 54 | 346 | 0 | hors table, 292 |
+| Côtés courts (0,6 ; ±0,5) | 19 | 324 | 57 | hors table, 104 |
+
+Il ne se déplace pas et perd donc aussi des balles qu'il aurait rejointes : ce n'est pas la mesure de R1. Mais **viser près des lignes coûte plus de fautes que cela ne rapporte**, et R0 atteint presque tout sans bouger. Si R1 ne bat pas
+R0 à J5, le garde-fou du `modele.md`, § 6, s'applique : on corrige le modèle avant toute recherche. Les premières pistes : une dispersion plus faible le long de la table, une portée plus courte.
+
 **Le banc** (`npm run bench`) : une visée 348 µs, contre 82 µs avant la recherche du premier essai et la marge au filet ; un échange de R0, 47 coups, 19,5 ms. Un plan de recherche coûtera au moins une visée :
 l'estimation de 50 µs par plan du `modele.md`, § 7, est trop basse, et la visée sera à accélérer à J6.
 

@@ -11,7 +11,7 @@ centre de la table.
 mesures, les jalons) et [`docs/recherche/`](docs/recherche/README.md) (les chiffres et leurs sources, le glossaire, les
 questions, le prompt de recherche). **La balle existe** (`src/ball/`) : son vol, son rebond, le filet, testés contre les
 valeurs publiées. **Deux robots s'échangent la balle** (`src/rally.js`), avec la raquette, la visée et le corps : R0, et deux duels d'entraînement. **La page les montre** :
-`npm run page`, puis http://127.0.0.1:4804/web/index.html. Pas encore de souris, de mesure ni de recherche.
+`npm run page`, puis http://127.0.0.1:4804/web/index.html. **On joue contre R0 à la souris** sur http://127.0.0.1:4804/web/play.html. Pas encore de mesure ni de recherche.
 
 ## Les commandes
 
@@ -23,6 +23,8 @@ valeurs publiées. **Deux robots s'échangent la balle** (`src/rally.js`), avec 
 | `npm run types` | tsc vérifie le JavaScript d'après ses commentaires JSDoc, sans rien compiler |
 | `npm test` (`test:coverage`) | les tests de `node --test`, dont la longueur des `.md` et les empreintes |
 | `npm run bench` | le coût d'un pas de simulation et les collections de mémoire |
+| `npm run duels` | les trois duels de référence, comparés à `docs/duels-reference.json` |
+| `npm run positions` | rejoue les points perdus par le robot, rangés dans `positions/` |
 | `npm run page` | sert la page sur le port 4804 : http://127.0.0.1:4804/web/index.html |
 | `npm run changelog` | refait `web/changelog.html` depuis `docs/changelog.json` |
 

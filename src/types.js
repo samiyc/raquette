@@ -52,7 +52,7 @@
  * @property {number[]} goal where to stand for it
  * @property {number[]} target where to send the ball
  * @property {Swing} swing
- * @property {number[]} next where to go afterwards
+ * @property {number[] | null} next where to go afterwards; null: stay on course
  *
  * @typedef {object} Rule
  * @property {string} name

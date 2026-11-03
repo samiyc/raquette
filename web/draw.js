@@ -5,6 +5,7 @@ import {
 } from "./scale.js";
 
 const REACH = CLUB_PLAYER.reach;
+const EASY_SCATTER = 0.16;
 
 /** The drawing: the table from above and from the side, the flight so far, the ball. It decides nothing. */
 
@@ -152,6 +153,26 @@ function drawPlayers(ctx, layout, recording, index) {
   if (!b) return;
   drawPlayer(ctx, layout, [b[index * 4], b[index * 4 + 1]], -1);
   drawPlayer(ctx, layout, [b[index * 4 + 2], b[index * 4 + 3]], 1);
+}
+
+/**
+ * What the player asked: where it goes, and where it aims, with a circle of the scatter to expect. The radius comes from a stroke
+ * on an easy ball, 16 cm in median at 100 % (docs/recherche/chiffres.md, § 8).
+ */
+export function drawOrders(ctx, layout, { aim, goal, scatter }) {
+  const [ax, ay] = topPoint(layout, aim[0], aim[1]);
+  ctx.strokeStyle = COLORS.lift;
+  ctx.lineWidth = 2;
+  line(ctx, [ax - 7, ay], [ax + 7, ay]);
+  line(ctx, [ax, ay - 7], [ax, ay + 7]);
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.arc(ax, ay, Math.max(2, EASY_SCATTER * scatter * layout.scale), 0, 2 * Math.PI);
+  ctx.stroke();
+  const [gx, gy] = topPoint(layout, goal[0], goal[1]);
+  ctx.strokeStyle = COLORS.line;
+  ctx.lineWidth = 2;
+  ctx.strokeRect(gx - 5, gy - 5, 10, 10);
 }
 
 /** The whole view at one frame. */
