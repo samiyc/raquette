@@ -698,6 +698,18 @@ Le réglage le plus fort qui garde top contre bloc au-dessus de 10 coups, le seu
 
 **Les tirages de la recherche** (sur `a4315a1`, 300 graines à partir de 1 700 000, contre R3) : S, 60,7 % [57,1 ; 64,2] ; S-d32, 62,8 % [59,3 ; 66,4], 4 fois plus de tirages par plan. Aucun écart net : la piste de la chance ne se confirme pas à ce nombre de graines. Sur ce corps, S remonte à 60,7 %, contre 53,3 % à 16 m/s² sans coût de la course, sur d'autres graines.
 
+**V dans les duels, et comme modèle de la recherche** (4/11/2026, sur `c0f2645`, 1 200 graines à partir de 1 800 000) :
+
+| Duel | Part du premier | Coups par échange | Part du serveur |
+|---|---:|---:|---:|
+| V contre U | 74,3 % [72,6 ; 75,9] | 14,8 | 47,1 |
+| S-mV contre S | 54,5 % [52,5 ; 56,4] | 4,0 | 49,2 |
+| S-mV contre R3 | 62,6 % [60,7 ; 64,5] | 4,5 | 40,9 |
+| S-mV contre V | 72,0 % [70,3 ; 73,6] | 2,2 | 63,5 |
+| S contre V | 25,6 % [23,8 ; 27,3] | 4,9 | 49,2 |
+
+Pas de hiérarchie simple : V écrase S, S-mV écrase V (1 462 de ses 1 727 points perdus sont des balles pas atteintes), et S-mV ne bat S que de peu. Contre V, la recherche se sert de ce qu'elle sait de lui, et les échanges tombent à 2,2 coups : le retour gagnant revient. C'est le risque connu d'un modèle exact de l'adversaire (`docs/strategies.md` de `mcts-codingame`, « 98 % contre une copie exacte de soi »). V suit une règle fixe et ne choisit pas son service : il ne s'adapte pas à ce qui l'exploite. S reste donc le réglage par défaut, et S-mV va au menu pour que Sami le juge.
+
 ## Les sources
 
 [lois]: https://www.tabletennisengland.co.uk/content/uploads/2026/07/Laws-of-Table-Tennis-2026-27.pdf

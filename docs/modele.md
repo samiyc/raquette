@@ -317,7 +317,7 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Où en est l'autojeu** (4/11/2026). T et U ont été réglés avant ce coût. À faire, sans ordre fixé :
 
-- mesurer si V améliore la recherche quand elle le prend pour modèle (`S-mV`, dans la file), et comprendre pourquoi S fait tant de fautes ;
+- décider du modèle de la recherche : S-mV bat V à 72 %, mais S de peu (54,5 %), en échanges très courts contre V (`chiffres.md`, § 8) ; comprendre pourquoi S fait tant de fautes ;
 - vérifier si des échanges de 12 à 14 coups sont réalistes, au-dessus des 4 à 5 de l'élite (`chiffres.md`, § 6), et si une balle lente au milieu est aussi sûre qu'elle le paraît ;
 - ajouter T et U au panel, pour qu'une lignée doive battre autre chose que des règles écrites à la main ;
 - replacer le robot entre deux coups selon d'où l'adversaire peut frapper ;
