@@ -297,7 +297,7 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 - **un panel figé** : les règles R0 à R5, les versions gelées, des sparrings qui jouent autrement, et les positions que le
   robot a perdues contre Sami ;
-- **la règle d'adoption** : une variante bat sa version **et** le panel, par paires, sur des graines neuves ;
+- **la règle d'adoption** : une variante bat sa version, par paires, sur des graines neuves. Le panel ne décide plus (Sami, 4/11/2026) : le plancher à 50 % empêchait toute lignée partie de R3 d'avancer. Chaque version gardée et le contrôle final le jouent, pour voir si une lignée tourne en rond ;
 - **Sami comme juge extérieur** : ses parties à la souris sont, avec l'entraîneur, le seul adversaire qui ne vient pas de la
   lignée (Q-P17, Q-P18).
 
@@ -321,8 +321,7 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Où en est l'autojeu** (4/11/2026). T, U et V ont été réglés avant le bras court. À faire, sans ordre fixé :
 
-- punir la balle lente : une règle garde une seule vitesse de top, et rien ne tue une balle lente et haute, alors que l'attaque devrait gagner le point (Sami) ; les échanges dépassent de loin les 4 à 5 coups de l'élite (`chiffres.md`, § 6) ;
-- le plancher à 50 % contre chaque robot du panel : il empêche toute lignée partie de R3 d'avancer (la lignée `r`) ;
+- punir la balle lente : le coup décisif existe (`kill…`, `recherche/autojeu.md`), mais une balle reçue sous 10 m/s ne coûte rien (Q-P21) et les échanges lents restent bas ; ils dépassent de loin les 4 à 5 coups de l'élite (`chiffres.md`, § 6) ;
 - comprendre pourquoi S fait tant de fautes ;
 - une erreur de lecture sur les balles très brossées (Q-P9) : une visée exacte rend un service à fort effet trop facile à attaquer ;
 - séparer l'accélération du freinage si l'inertie gêne encore.
@@ -464,7 +463,7 @@ mesures (2/11/2026) : quelques parties peuvent montrer un défaut du corps ou de
 | **J4** | la souris : une manche contre R0, le pas à pas, le rejeu, le score avec le curseur, l'export d'une position perdue par le robot | des clics simulés dans les tests ; une manche jouée et rejouée par Sami |
 | **J5** | les mesures : R0 à R5 par paires | fait : R1 bat R0 (52,1 %) ; R3 contre R3 tient 5,5 coups |
 | **J6** | la première recherche, contre la meilleure règle ; Sami joue contre elle | S bat R3 (59,8 %) et R0 (64,0 %) à 8 tirages et avec le choix du service (52,9 %) ; ni 16 tirages, ni 4 fois le budget ne la battent ; Sami a joué contre elle. Reste 0 collection par décision, pas tenu |
-| **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version et le panel, sur des graines neuves |
+| **J7** | l'autojeu : le panel, la ligue, la lecture d'effet si besoin (§ 8) | une variante adoptée bat sa version, sur des graines neuves ; le panel est lu à côté |
 | **J8** | la manette, si elle sert encore | une manette simulée dans les tests |
 
 **La découpe du code, à J1 et J3**, pour tenir le budget de lint (40 lignes par fonction, 220 par fichier) : `src/ball/`

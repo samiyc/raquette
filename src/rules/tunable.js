@@ -11,6 +11,9 @@ import { BY } from "../player.js";
  * Two ideas of Sami's (4/11/2026) are in numbers that R3 leaves idle. After a stroke, the body goes where the easiest answer will come:
  * the crossed one, on the other side of where the ball was sent (`cover`). And a player attacks only with the time to stand set
  * (`ready`): otherwise it plays a steadier stroke, taken earlier if it likes, which may be cut (a chop block) or not (`soft…`).
+ *
+ * A third (Sami, 4/11/2026): who attacks has to win the point. A ball slow and high enough, with the body set, is hit to finish it
+ * (`kill…`), so that a slow rally is no longer safe. At `killSlow` 0, no ball is that slow.
  */
 export const R3_NUMBERS = Object.freeze({
   wide: 0.5, // Metres from the middle line.
@@ -31,6 +34,12 @@ export const R3_NUMBERS = Object.freeze({
   softDepth: 0.9,
   softWide: 0.3,
   softRise: 0.2, // Metres above the table, taken on the rise; 0, at the top of the bounce.
+  killSlow: 0, // m/s at contact: a ball under this may be finished; at 0, none (H).
+  killHigh: 0.25, // Metres above the table.
+  killReady: 0, // Seconds to spare at the ball.
+  killSpeed: 14,
+  killBrush: 12, // A low ball hit hard and with little brush does not stay hard: the aim gives back half the speed to land it.
+  killWide: 0.6,
 });
 
 const RUSHED = 0.15; // Seconds: under this, a prudent player hits softer (Q-P6).
@@ -79,6 +88,10 @@ export function createTunable(given, name, version = 1) {
   const push = { speed: numbers.pushSpeed, brushUp: numbers.pushBrush, brushSide: 0 };
   const flat = { speed: numbers.flatSpeed, brushUp: 0, brushSide: 0 };
   const soft = { speed: numbers.softSpeed, brushUp: numbers.softBrush, brushSide: 0 };
+  const kill = { speed: numbers.killSpeed, brushUp: numbers.killBrush, brushSide: 0 };
+  /** Slow and high enough, with the body set: a ball to finish. */
+  const canFinish = (view, plan, { height, speed }) =>
+    speed < numbers.killSlow && height >= numbers.killHigh && spareTime(view, plan) >= numbers.killReady;
   /** Not set for an attack: the steadier stroke, on the rise if it can be there in time. */
   function steady(view, plan) {
     const taken = (numbers.softRise > 0 && catchPlan(view, numbers.softRise)) || plan;
@@ -86,7 +99,9 @@ export function createTunable(given, name, version = 1) {
   }
   /** The swing, the target and the instant a ball calls for. */
   function strokeFor(view, plan) {
-    const { x, height } = contactOf(plan.step);
+    const contact = contactOf(plan.step);
+    const { x, height } = contact;
+    if (canFinish(view, plan, contact)) return { swing: kill, target: farSide(view, numbers.topDepth, numbers.killWide), taken: plan };
     if (height >= numbers.highBall) {
       if (spareTime(view, plan) < numbers.ready) return steady(view, plan);
       return { swing: top, target: farSide(view, numbers.topDepth, numbers.topWide), taken: plan };

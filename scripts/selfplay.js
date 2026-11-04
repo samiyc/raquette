@@ -10,7 +10,7 @@ import { playOnThreads } from "./lib/pairs-pool.js";
 /**
  * Self-play on the numbers of the attacking rule (docs/modele.md, § 8), as a job of the queue: `node scripts/selfplay.js --run a
  * --generations 40`. Each generation screens variants against the current version, then confirms the best on seeds of their own,
- * against it and against the panel. Many confirmations let a few lucky variants through, so the last version plays the panel once
+ * against it; a version kept reads the panel, which decides nothing (Sami, 4/11/2026). Many confirmations let a few lucky variants through, so the last version plays the panel once
  * more, on seeds no generation saw: that figure is the result. `--start V --set cover=0.3,ready=0` starts from a rule self-play already kept. The history goes to docs/selfplay/, a generation at a time, so that a
  * job stopped keeps its work.
  */
@@ -25,7 +25,7 @@ const VARIANTS = Number(option("--variants", 8));
 const SCREEN = Number(option("--screen", 150));
 const CONFIRM = Number(option("--confirm", 600));
 const THREADS = Number(process.env.MCTS_THREADS) || 1;
-const PANEL = ["R0", "R1", "R3", "U", "V"];
+const PANEL = ["R0", "R1", "R3", "U", "V", "W", "X"];
 const CURRENT = "version";
 const VARIANT = "variante";
 const SERVING = "mix";
@@ -53,13 +53,17 @@ async function screen(variants, from) {
   return bestOfScreen(variants, reports, 2);
 }
 
-/** A variant on seeds of its own, against its version and the panel. */
+/** A variant on seeds of its own, against its version. */
 async function confirm(numbers, from) {
   const catalog = { [VARIANT]: numbers, [CURRENT]: history.numbers };
-  const { report: against } = await pairs([VARIANT, CURRENT], catalog, { from, count: CONFIRM });
+  return (await pairs([VARIANT, CURRENT], catalog, { from, count: CONFIRM })).report;
+}
+
+/** A version kept, against the panel: only read, to see whether the lineage goes round in circles. */
+async function readPanel(numbers, from) {
   const panel = [];
-  for (const name of PANEL) panel.push((await pairs([VARIANT, name], catalog, { from, count: CONFIRM })).report);
-  return { against, panel };
+  for (const name of PANEL) panel.push((await pairs([VARIANT, name], { [VARIANT]: numbers }, { from, count: CONFIRM })).report);
+  return panel;
 }
 
 function note(generation, entry) {
@@ -72,17 +76,16 @@ function note(generation, entry) {
 async function finalCheck() {
   const final = {};
   const catalog = { [VARIANT]: history.numbers };
-  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH]]) {
+  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH], ["S-mW", FINAL_SEARCH]]) {
     const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count });
     final[name] = { part: Number(report.part.toFixed(3)), low: Number((0.5 + report.gap.low / 4).toFixed(3)), high: Number((0.5 + report.gap.high / 4).toFixed(3)), strokes: Number(report.strokes.toFixed(1)) };
   }
   return final;
 }
 
-const summary = ({ against, panel }) => ({
+const summary = (against) => ({
   part: Number(against.part.toFixed(3)),
   low: Number((0.5 + against.gap.low / 4).toFixed(3)),
-  panel: panel.map(({ part }) => Number(part.toFixed(3))),
 });
 
 for (let generation = history.generations.length; generation < GENERATIONS; generation += 1) {
@@ -94,9 +97,10 @@ for (let generation = history.generations.length; generation < GENERATIONS; gene
   let kept = false;
   for (const { numbers } of best) {
     if (kept) break;
-    const result = await confirm(numbers, seeds + 5000);
-    tried.push(summary(result));
-    if (isKept(result.against, result.panel)) {
+    const against = await confirm(numbers, seeds + 5000);
+    tried.push(summary(against));
+    if (isKept(against)) {
+      tried.at(-1).panel = (await readPanel(numbers, seeds + 5000)).map(({ part }) => Number(part.toFixed(3)));
       history.numbers = numbers;
       history.version += 1;
       kept = true;

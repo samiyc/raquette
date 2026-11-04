@@ -74,12 +74,11 @@ describe("a mutation", () => {
 });
 
 describe("what is kept", () => {
-  const panel = (...parts) => parts.map((part) => ({ part }));
 
-  it("beats its version by more than chance, and loses to no one in the panel", () => {
-    assert.equal(isKept({ gap: { low: 0.01 } }, panel(0.55, 0.5, 0.6)), true);
-    assert.equal(isKept({ gap: { low: -0.01 } }, panel(0.55, 0.55, 0.6)), false);
-    assert.equal(isKept({ gap: { low: 0.2 } }, panel(0.55, 0.49, 0.6)), false);
+  it("beats its version by more than chance, and that is all it has to do", () => {
+    assert.equal(isKept({ gap: { low: 0.01 } }), true);
+    assert.equal(isKept({ gap: { low: -0.01 } }), false);
+    assert.equal(isKept({ gap: { low: 0 } }), false);
   });
 
   it("a screen keeps the best, and never a variant that does not win it", () => {

@@ -45,6 +45,37 @@ describe("where a body goes after a stroke (Sami, 4/11/2026)", () => {
   });
 });
 
+describe("finishing a slow ball (Sami, 4/11/2026)", () => {
+  /** How many strokes of a rule go out as its finishing stroke, and in how many strokes. */
+  function kills(numbers, seeds = 40) {
+    const rule = createTunable({ ...R3_NUMBERS, topSpeed: 5, flatSpeed: 4, killSpeed: 15, killBrush: 1, ...numbers }, "test");
+    let count = 0;
+    for (let seed = 0; seed < seeds; seed += 1) {
+      const impact = ({ who, plan }) => {
+        if (who === 0 && plan.swing.brushUp === 1) count += 1;
+      };
+      playRally({ seed, players: players(rule, RULES.R3), server: seed % 2, listener: { impact }, ...serviceOf(seed) });
+    }
+    return count;
+  }
+
+  it("never happens with R3's numbers, where no ball is slow enough", () => {
+    assert.equal(R3_NUMBERS.killSlow, 0);
+    assert.equal(kills({ killSlow: 0 }), 0);
+  });
+
+  it("waits for a slow ball", () => {
+    assert.equal(kills({ killSlow: 1, killHigh: 0.1, killReady: -1 }), 0);
+    assert.ok(kills({ killSlow: 14, killHigh: 0.1, killReady: -1 }) > 0);
+  });
+
+  it("waits for the body to be set and the ball to be high", () => {
+    const any = kills({ killSlow: 14, killHigh: 0.1, killReady: -1 });
+    assert.ok(kills({ killSlow: 14, killHigh: 0.1, killReady: 0.3 }) < any);
+    assert.ok(kills({ killSlow: 14, killHigh: 0.5, killReady: -1 }) < any);
+  });
+});
+
 describe("waiting for the moment to attack (Sami, 4/11/2026)", () => {
   /** How many strokes of a rule go out as its top. */
   function topsOf(numbers, seeds = 40) {

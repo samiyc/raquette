@@ -1,7 +1,7 @@
 /**
  * Self-play (Sami, 2/11/2026; docs/modele.md, § 8): a rule's numbers move, and a variant is kept only if it beats the version it comes
- * from and does not lose to a panel that does not move. On CodinGame, three local gains vanished on the site because the arena only
- * measured against the bot's own line: the panel is there for that. Pure, so that it is tested; scripts/selfplay.js plays the rallies.
+ * from. On CodinGame, three local gains vanished on the site because the arena only measured against the bot's own line: a panel that
+ * does not move is read beside it, to see that happen. Pure, so that it is tested; scripts/selfplay.js plays the rallies.
  */
 
 /** How far each number may go, and how far a mutation moves it at most. All hypotheses: the bounds keep a rule within what the model was fitted on. */
@@ -24,6 +24,12 @@ export const NUMBER_RANGES = Object.freeze({
   softDepth: [0.5, 1.15, 0.1],
   softWide: [0, 0.65, 0.1],
   softRise: [0, 0.3, 0.05],
+  killSlow: [0, 14, 2],
+  killHigh: [0.1, 0.6, 0.05],
+  killReady: [-0.5, 0.5, 0.1],
+  killSpeed: [8, 16, 1.5],
+  killBrush: [0, 16, 2],
+  killWide: [0.1, 0.7, 0.1],
 });
 
 const clamp = (value, [low, high]) => Math.max(low, Math.min(high, value));
@@ -47,14 +53,14 @@ export function mutateNumbers(numbers, rng) {
 }
 
 /**
- * Is a variant kept? It must beat its version by more than chance, on seeds of its own, and not lose to anyone in the panel.
+ * Is a variant kept? It must beat its version by more than chance, on seeds of its own. No more than that (Sami, 4/11/2026): a floor
+ * against the panel stopped any lineage from R3, which V beats by far, from moving at all. The panel is now only read, for each version
+ * kept and at the end: it says whether a lineage goes round in circles.
  * @param {{gap: {low: number}}} againstVersion its report against the version it comes from
- * @param {{part: number}[]} againstPanel its reports against the panel
- * @param {number} [floor] the least part of the points against each of the panel
  * @returns {boolean}
  */
-export function isKept(againstVersion, againstPanel, floor = 0.5) {
-  return againstVersion.gap.low > 0 && againstPanel.every(({ part }) => part >= floor);
+export function isKept(againstVersion) {
+  return againstVersion.gap.low > 0;
 }
 
 /** The best variants of a screen, its reports in the same order. A quick screen only rejects: what it keeps must still be confirmed. */

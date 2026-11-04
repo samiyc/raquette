@@ -132,3 +132,26 @@ S-mV a reculé sur le bras court : il battait S à 54,5 % (`chiffres.md`, § 8),
 **Le duel de tops est fini, mais le défaut s'est retourné.** On passe de 2,6 coups à 20 ou 40, pour 4 à 5 chez l'élite (`chiffres.md`, § 6). Le corps ne court presque plus (coût de la course ×1,02 pour W contre W, ×1,19 pour V contre V) et les raquettes vont à 5 ou 6 m/s. Sami voulait qu'un attaquant gagne le point ; ici personne n'attaque vraiment.
 
 **Ce qui manque, à mesurer** : une règle n'a qu'une seule vitesse de top. Un coup décisif sur balle lente et haute, quand le corps est en place, donnerait une raison de ne pas jouer lent. C'est une hypothèse, rien n'est encore mesuré.
+
+## Le coup décisif (4/11/2026)
+
+Sami : si un joueur attaque, il doit gagner le point. Sur une balle plus lente que `killSlow` et plus haute que `killHigh`, corps en place (`killReady`), la règle frappe `killSpeed`, `killBrush`, à `killWide` du milieu. À `killSlow` 0, le coup n'existe pas : R3, T, U, V, W et X jouent comme avant.
+
+**La règle d'adoption change aussi** (Sami, 4/11/2026) : une variante n'a plus qu'à battre sa version. Le panel, R0, R1, R3, U, V, W, X, est lu à chaque version gardée et à la fin. Le risque connu : une lignée peut tourner en rond, ce que seule cette lecture montrera.
+
+### Ce que devient ce coup
+
+W avec le coup décisif (`killSlow` 8) contre W, 300 échanges par ligne, dans la file. Pour choisir d'où partir : pas des résultats.
+
+| Demandé : vitesse, brossage | Hauteur mini | Vitesse gardée par la visée | Arrivée au contact (médiane) | Rendus | Gagnants | Fautes | Points K / W / limite | Coups |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 14, 4 | 0,25 | 7,7 | 4,7 | 88,9 % | 0,1 % | 11,0 % | 68 / 154 / 78 | 31,3 |
+| 14, 8 | 0,25 | 7,7 | 6,6 | 90,7 % | 0,4 % | 8,9 % | 92 / 154 / 54 | 29,0 |
+| 14, 12 | 0,25 | 7,7 | 7,7 | 74,8 % | 3,5 % | 21,7 % | 105 / 191 / 4 | 15,4 |
+| 16, 12 | 0,25 | 8,8 | 8,2 | 65,7 % | 6,1 % | 28,1 % | 126 / 174 / 0 | 12,8 |
+| 14, 14 | 0,25 | 11,9 | 9,3 | 51,8 % | 4,6 % | 43,6 % | 98 / 202 / 0 | 10,8 |
+
+- **Une balle basse ne se frappe pas fort sans brossage.** La visée cherche une vitesse qui retombe sur la table, de la vitesse demandée vers le bas : 14 m/s demandés en gardent 7,7. C'est de la physique, pas une faute du modèle : il faut du lift pour garder la balle sur la table.
+- **Les échanges lents sont aussi bas.** À 25 cm, W trouve 3 balles par échange ; à 45 cm, 5 balles sur 300 échanges. Une frappe à plat sur balle haute n'existe presque pas dans ce jeu.
+- **Rien ne gêne celui qui reçoit.** Tout arrive sous 10 m/s, le seuil de Q-P21, et la réaction de 0,16 s laisse le temps de se préparer : le coût de la balle reste à ×1,00 ou ×1,10, celui du manque de temps à ×1,00.
+- **Le coup raccourcit les échanges, mais il perd contre W** dans chaque ligne. Les fautes coûtent plus que ce qu'il gagne.
