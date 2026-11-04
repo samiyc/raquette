@@ -97,7 +97,7 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 |---|---|---|
 | Position d'attente | centre, 0,5 m derrière la ligne de fond | Q-P12 |
 | Temps de réaction après la frappe adverse | 0,20 s | Q-P4 |
-| Vitesse et accélération du corps, sur le plan du sol | 3 m/s, 16 m/s² | Q-P5 |
+| Vitesse et accélération du corps, sur le plan du sol | 3 m/s, 14 m/s² | Q-P5 |
 | Portée du bras depuis le corps | 0,8 m | Q-P5 |
 | Ce que le corps peut avancer au-dessus de la table, penché | 0,4 m | Q-P19 |
 | Champ d'action autour du corps | **220°, axe fixe vers le filet (Sami, 2/11/2026)** ; 110° de chaque côté de l'axe | Q-P5 |
@@ -311,14 +311,19 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **U, le régulier** (3/11/2026, lignée `k`). Sur le corps à 16 m/s², l'angle gagne moins, et l'autojeu trouve une autre recette : attendre à 10 cm de la table, jouer un top lent vers le milieu, tenir la table à 97 %, et laisser l'adversaire se tromper. U bat R3 à 79 % et la recherche à 81 %, en 12 à 14 coups par échange ; la recherche, elle, tombe à 53 % contre R3 parce qu'elle fait trop de fautes. Trois de ses nombres collent à leur borne. Chiffres : `chiffres.md`, § 8.
 
-**Où en est l'autojeu** (3/11/2026, au soir). Le corps reste à 16 m/s² sur l'avis de Sami (`chiffres.md`, § 6). T est réglé sur l'ancien corps, U sur celui-ci ; les deux sont au menu, avec `S-mT`, pour être jugés à la souris. À faire, sans ordre fixé :
+**Frapper en courant coûte de la précision** (4/11/2026, `runningOf`, Q-P23). Contre U, Sami ne pouvait pas gagner en gauche-droite : U frappait à 2 m/s sans le moindre coût. Rien jusqu'à 1 m/s, puis une dispersion de plus tous les 4 m/s. Le corps passe aussi à 14 m/s². Top contre bloc passe de 15 à 11 coups, U contre U de 34 à 13.
+
+**Où en est l'autojeu** (4/11/2026). T et U ont été réglés avant ce coût ; ils restent au menu en attendant de nouvelles lignées. À faire, sans ordre fixé :
 
 - mesurer si U améliore la recherche quand elle le prend pour modèle (`S-mU`, dans la file), et comprendre pourquoi S fait tant de fautes sur ce corps ;
-- élargir les bornes où les lignées butent : `topSpeed` à 5 m/s, `topWide` et `wait` à 10 cm ;
 - vérifier si des échanges de 12 à 14 coups sont réalistes, au-dessus des 4 à 5 de l'élite (`chiffres.md`, § 6), et si une balle lente au milieu est aussi sûre qu'elle le paraît ;
 - ajouter T et U au panel, pour qu'une lignée doive battre autre chose que des règles écrites à la main ;
 - replacer le robot entre deux coups selon d'où l'adversaire peut frapper ;
 - séparer l'accélération du freinage si l'inertie gêne encore.
+
+Les bornes où les lignées butaient sont élargies : `topSpeed` part de 3 m/s, `wide`, `topWide` et `wait` de zéro.
+
+**Regarder deux robots jouer** (Sami, 4/11/2026) : la page `web/index.html` les fait jouer une manche, un échange après l'autre, avec le lecteur et ses vitesses (`src/watch.js`, `web/watch.js`). Un fil à part joue chaque échange, et le score ne bouge que quand le point se termine à l'écran.
 
 **Comment** (`scripts/selfplay.js`, une série = un job de la file, historique dans `docs/selfplay/`) : à chaque génération, 8 variantes déplacent 1 à 3 nombres dans leurs bornes ; un crible de 150 graines contre la version en cours élimine ; les 2 meilleures sont confirmées sur 600 graines neuves, contre la version (bas de l'intervalle au-dessus de 50 %) et contre R0, R1 et R3 (au moins 50 % à chacun). **Tant de confirmations laissent passer des chanceuses** : la dernière version rejoue donc le panel sur 2 000 graines qu'aucune génération n'a vues, et seul ce chiffre compte. Le panel ne contient encore ni les versions gelées, ni les positions perdues contre Sami.
 

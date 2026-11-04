@@ -107,8 +107,9 @@ describe("how far a body runs", () => {
   it("speeds up, then holds its speed", () => {
     assert.equal(runDistance(0, CLUB_PLAYER), 0);
     assert.equal(runDistance(-1, CLUB_PLAYER), 0);
-    assert.ok(Math.abs(runDistance(0.125, CLUB_PLAYER) - 0.125) < 1e-12);
-    assert.ok(Math.abs(runDistance(1, CLUB_PLAYER) - (0.28125 + 3 * 0.8125)) < 1e-12);
+    const speedUp = 3 / 14;
+    assert.ok(Math.abs(runDistance(speedUp / 2, CLUB_PLAYER) - (0.5 * 14 * (speedUp / 2) ** 2)) < 1e-12);
+    assert.ok(Math.abs(runDistance(1, CLUB_PLAYER) - (1.5 * speedUp + 3 * (1 - speedUp))) < 1e-12);
   });
 
   /** The furthest start behind the line that still gets the ball within reach before its second bounce, on the ball's axis. */
@@ -120,8 +121,8 @@ describe("how far a body runs", () => {
     return x + CLUB_PLAYER.reach + runDistance(last * STEP - CLUB_PLAYER.reaction, CLUB_PLAYER) - 1.37;
   }
 
-  it("Sami's two cuts are caught from 2.64 m and 1.93 m behind the line at best (docs/recherche/chiffres.md, § 8)", () => {
-    assert.ok(Math.abs(furthestBack("twoBounces") - 2.64) < 0.01, `${furthestBack("twoBounces")}`);
-    assert.ok(Math.abs(furthestBack("twoBouncesOver") - 1.93) < 0.01, `${furthestBack("twoBouncesOver")}`);
+  it("Sami's two cuts are caught from 2.60 m and 1.89 m behind the line at best (docs/recherche/chiffres.md, § 8)", () => {
+    assert.ok(Math.abs(furthestBack("twoBounces") - 2.6) < 0.01, `${furthestBack("twoBounces")}`);
+    assert.ok(Math.abs(furthestBack("twoBouncesOver") - 1.89) < 0.01, `${furthestBack("twoBouncesOver")}`);
   });
 });

@@ -8,7 +8,7 @@ export const CLUB_PLAYER = Object.freeze({
   waitBehindLine: 0.5, // Q-P12
   reaction: 0.2, // Q-P4, seconds
   speed: 3, // Q-P5, m/s
-  acceleration: 16, // Q-P5, m/s²: at 8, turning back took 0.75 s, and leaving the middle cost the point (Sami, 3/11/2026)
+  acceleration: 14, // Q-P5, m/s²: at 8, turning back took 0.75 s; at 16, too quick to be wrong-footed (Sami); 14 fits the measured steps
   reach: 0.8, // Q-P5, metres
   lean: 0.4, // Q-P19: how far the body goes over the table
   easySwing: 14.2, // m/s, the racket and its brush together: the ordinary top, 10 and 10, is no effort (H, Q-P22)
@@ -17,6 +17,8 @@ export const CLUB_PLAYER = Object.freeze({
   lowest: -0.5, // Q-P5: under the table's level
   highest: 1.2, // Q-P5: above it
   preparation: 0.15, // Q-P6, seconds
+  easyRun: 1, // Q-P23, m/s: a stroke played while moving this fast costs nothing
+  runningLoss: 4, // Q-P23, m/s more for one more scatter
   scatterTilt: 0.0524, // Q-P1: tan 3°, up and down
   scatterAcross: 0.0262, // Q-P1: tan 1.5°, sideways: at 3°, nothing near a side line was ever worth aiming at
   comfort: 0.5, // Q-P5, metres from the body to the ball, without stretching

@@ -3,54 +3,54 @@
   "rallies": 1000,
   "duels": {
     "r0": {
-      "strokes": 47.5,
+      "strokes": 47.4,
       "causes": {
-        "limit": 0.605,
+        "limit": 0.603,
         "net": 0.382,
-        "out": 0.013
+        "out": 0.015
       },
       "seats": [
         {
           "speed": 5.1,
           "lift": 1,
           "height": 0.31,
-          "lostPart": 0.204
+          "lostPart": 0.209
         },
         {
           "speed": 5.1,
           "lift": 1,
           "height": 0.31,
-          "lostPart": 0.191
+          "lostPart": 0.188
         }
       ]
     },
     "topBlock": {
-      "strokes": 15,
+      "strokes": 11,
       "causes": {
-        "limit": 0.027,
-        "net": 0.471,
-        "out": 0.502
+        "limit": 0.005,
+        "net": 0.501,
+        "out": 0.494
       },
       "seats": [
         {
-          "speed": 11.2,
+          "speed": 11.3,
           "lift": 104,
           "height": 0.27,
-          "lostPart": 0.734
+          "lostPart": 0.619
         },
         {
-          "speed": 7.8,
-          "lift": 36,
+          "speed": 7.7,
+          "lift": 35,
           "height": 0.19,
-          "lostPart": 0.239
+          "lostPart": 0.376
         }
       ]
     },
     "pushes": {
       "strokes": 38,
       "causes": {
-        "limit": 0.372,
-        "net": 0.156,
+        "limit": 0.37,
+        "net": 0.158,
         "out": 0.472
       },
       "seats": [
@@ -58,7 +58,7 @@
           "speed": 5.2,
           "lift": -39,
           "height": 0.2,
-          "lostPart": 0.315
+          "lostPart": 0.317
         },
         {
           "speed": 5.2,

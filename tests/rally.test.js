@@ -177,12 +177,12 @@ describe("how a rally ends", () => {
   });
 
   it("a ball the arm never gets in its sector, gone past the body, is lost behind it", () => {
-    // Off to the side, level with the ball's way: it comes from behind the sector's edge, and never enters it.
+    // Off to the side, level with the ball's way: it comes from behind the sector's edge, and never enters it. A quick body, to be there before the ball.
     const wrongWay = { name: "wrong way", decide: (view) => {
       const stroke = takeToCentre(view);
       return stroke && { ...stroke, goal: [view.side * 1.0, 0] };
     } };
-    const result = playRally({ seed: 1, players: [{ rule: R0, profile: CLUB_PLAYER }, { rule: wrongWay, profile: CLUB_PLAYER }], server: 0 });
+    const result = playRally({ seed: 1, players: [{ rule: R0, profile: CLUB_PLAYER }, { rule: wrongWay, profile: { ...CLUB_PLAYER, acceleration: 16 } }], server: 0 });
     assert.equal(result.winner, 0);
     assert.equal(result.cause, "behind");
   });

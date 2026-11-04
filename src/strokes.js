@@ -4,7 +4,7 @@ import { frames, readWay, riseStep, topStep } from "./forecast.js";
 import { createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 import { recordFlight } from "./recording.js";
-import { controlOf, effortOf, farOf, rushOf, stretchOf } from "./scatter.js";
+import { controlOf, effortOf, farOf, runningOf, rushOf, stretchOf } from "./scatter.js";
 import { R0_SWING } from "./rules/center.js";
 import { DRILL_STROKES } from "./rules/drills.js";
 import { SHORT_SWING } from "./rules/short.js";
@@ -206,7 +206,7 @@ export function expectedMiss(state, { who, rule }) {
   aim(task, pose);
   const worse = rushOf((contact.step - Math.max(0, state.decideAt[who] - state.tick)) * STEP, profile)
     * stretchOf(contact.ball, contact.body, profile) * controlOf(contact.ball, profile) * farOf(contact.ball, side, profile)
-    * effortOf({ ...swing, speed: pose[2] }, profile);
+    * effortOf({ ...swing, speed: pose[2] }, profile) * runningOf(contact.body, profile);
   const [across, up, speed] = [pose[0], pose[1], pose[2]];
   const base = missOf(task, { side: across, up, speed });
   const moved = [

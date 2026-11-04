@@ -240,7 +240,7 @@ Le même article cite 52,78 % (hommes) et 53,28 % (femmes) de points gagnés au 
 | Notre corps, 16 m/s², 3 m/s | 0,18 s | 0,26 s | 0,43 s | 1,76 s | C |
 | Notre corps, 14 m/s², 4 m/s | 0,19 s | 0,27 s | 0,39 s | 1,39 s | C |
 
-Jusqu'à un mètre, 14 m/s² colle le mieux (écart moyen 13 ms, 71 ms à 8 m/s², 21 ms à 16 m/s²), pour des athlètes de haut niveau qui savent quand partir ; un bon joueur de club serait un peu en dessous, vers 12. **Le modèle garde pourtant 16 m/s²** : Sami a joué dessus le 3/11/2026, et trouve qu'« on a encore un peu d'inertie, mais c'est jouable ». Descendre irait contre son ressenti. L'écart entre les mesures et ce ressenti reste à comprendre : le corps n'a qu'une seule accélération, pour partir comme pour freiner, et un joueur à la souris décide par clics. 8 m/s² était plus lent que les quatre pas à 25 cm et à 1 m. Sur 5 m, 3 m/s est trop lent de 0,5 s, ce qui compte peu autour d'une table. Leur temps de réaction au signal, 0,24 à 0,26 s (L [[vuong]]), est plus long que nos 0,20 s après la frappe adverse, mais un signal lumineux n'est pas une frappe qu'on voit venir.
+Jusqu'à un mètre, 14 m/s² colle le mieux (écart moyen 13 ms, 71 ms à 8 m/s², 21 ms à 16 m/s²), pour des athlètes de haut niveau qui savent quand partir ; un bon joueur de club serait un peu en dessous, vers 12. **Le modèle est à 14 m/s² depuis le 4/11/2026.** Sami a d'abord trouvé 16 jouable, avec « encore un peu d'inertie » ; contre U, il a ensuite trouvé le mouvement « encore un peu trop élevé ». Le corps n'a qu'une seule accélération, pour partir comme pour freiner, et un joueur à la souris décide par clics : son ressenti n'est pas celui du robot. 8 m/s² était plus lent que les quatre pas à 25 cm et à 1 m. Sur 5 m, 3 m/s est trop lent de 0,5 s, ce qui compte peu autour d'une table. Leur temps de réaction au signal, 0,24 à 0,26 s (L [[vuong]]), est plus long que nos 0,20 s après la frappe adverse, mais un signal lumineux n'est pas une frappe qu'on voit venir.
 
 Pour situer le freinage : environ 9,0 m/s² de décélération et 9,9 m/s² d'accélération moyennes sur des changements de direction de joueurs de tennis (E [[decel]], attribution non vérifiée) ; un pic de force horizontale de 2,1 à 2,2 fois le poids sur un demi-tour de basketteuses de l'équipe nationale japonaise, soit un pic de l'ordre de 20 m/s² (E [[basket]], C). Une moyenne autour de 10 et un pic autour de 20 encadrent nos 12 à 16. Les joueurs du haut du classement de l'Open d'Australie freinent et accélèrent plus fort sur leurs déplacements latéraux (d de 0,25 à 0,63 ; R [[armstrong]], sans valeur absolue lue). Au badminton, seuls des pics de tronc (plus de 4 g, chocs compris) ont été trouvés : rien de comparable à une accélération de déplacement.
 
@@ -321,13 +321,13 @@ de chute à partir d'un départ connu. Or c'est ce qui compte ici : un coup part
 On garde donc les tables. Le `k_m` de Gossard n'est pas forcément celui de Nakashima, dont les coefficients n'ont pas été lus.
 
 **Le coupé à deux rebonds** (Sami, 3/11/2026). Jusqu'où le receveur peut-il partir et arriver à temps ? Il démarre à l'arrêt, sur l'axe de
-la balle, 0,20 s après la frappe, à 16 m/s² et 3 m/s, avec 0,8 m de portée, et prend la balle juste avant son deuxième rebond, sans
+la balle, 0,20 s après la frappe, à 14 m/s² et 3 m/s, avec 0,8 m de portée, et prend la balle juste avant son deuxième rebond, sans
 compter la préparation. Toutes ces valeurs de corps sont des hypothèses (§ 6 ; `modele.md`, § 4).
 
 | Lancer | Marge au filet | 1er rebond | 2e rebond | Entre les deux | Rattrapable jusqu'à, derrière la ligne |
 |---|---|---|---|---|---|
-| 5 m/s, 18°, coupé 90 tr/s, depuis x = −1,6, 25 cm | 4 cm | x 0,34 à 0,48 s | x 1,32 à 0,93 s | 0,45 s | **2,64 m** |
-| 4 m/s, 18°, coupé 30 tr/s, depuis x = −0,8, 15 cm | 3 cm | x 0,44 à 0,36 s | x 1,21 à 0,73 s | 0,37 s | **1,93 m** |
+| 5 m/s, 18°, coupé 90 tr/s, depuis x = −1,6, 25 cm | 4 cm | x 0,34 à 0,48 s | x 1,32 à 0,93 s | 0,45 s | **2,60 m** |
+| 4 m/s, 18°, coupé 30 tr/s, depuis x = −0,8, 15 cm | 3 cm | x 0,44 à 0,36 s | x 1,21 à 0,73 s | 0,37 s | **1,89 m** |
 
 Le second rebond tombe près du fond : le receveur prend la balle tard, mais de loin.
 
@@ -645,6 +645,46 @@ La recette change : `j` et `k` ne cherchent plus l'angle gagnant, mais la balle 
 **La recherche sur ce corps** (sur `80945b0`, 1 200 graines à partir de 1 400 000) : S contre R3, 53,3 % [51,5 ; 55,1], 6,7 coups, serveur 58,1 %, contre 64,5 % sur l'ancien corps ; S-mT contre R3, 64,8 % [62,9 ; 66,6], 5,2 coups, contre 71,9 % ; S-mT contre S, 59,1 % [57,2 ; 61,0], 5,1 coups, contre 68,2 %. S se trompe surtout tout seul : contre R3, 1 062 de ses 1 121 points perdus sont au filet ou dehors.
 
 **Sami à la souris sur 0.17.0** (43 points) : 11 sur 23 contre R0, 2 sur 8 contre S, 1 sur 12 contre T. Il en prenait 7 sur 16 à T en 0.16.0. Ses latéraux : 35 sur 43 sur la table, 13 cm d'écart à la cible (10 cm avant), 3 réponses fautives du robot sur 35 (6 sur 17 avant).
+
+**U comme modèle de l'adversaire dans la recherche** (3/11/2026, sur `5d55333`, 1 200 graines à partir de 1 500 000) :
+
+| Duel | Part du premier | Coups par échange | À la limite |
+|---|---:|---:|---:|
+| S-mU contre S | 68,2 % [66,4 ; 70,0] | 9,9 | 0,2 % |
+| S-mU contre R3 | 65,2 % [63,3 ; 67,0] | 11,6 | 0,3 % |
+| S-mU contre U | 39,0 % [37,3 ; 40,6] | 22,5 | 8,0 % |
+| S contre U | 20,4 % [18,8 ; 22,0] | 11,9 | 0,1 % |
+
+Ce modèle fait presque doubler la part de la recherche contre U, mais elle reste battue par la règle même qu'elle imite, et perd surtout par ses propres fautes (1 354 de ses 1 369 points perdus contre U). L'explication par l'horizon est **fausse** : à 600 graines contre U, regarder 8 coups devant donne 38,5 % [36,1 ; 40,9] et 16 coups 36,8 % [34,5 ; 39,2], pas mieux que les 39,0 % à 4 coups. Reste à tester : avec 8 tirages par plan, le meilleur de 24 plans est peut-être surtout le plus chanceux, donc souvent un coup risqué (`S-d32`, dans la file).
+
+**Pourquoi U ne se laisse pas déborder** (Sami, 4/11/2026 : « quasiment impossible de prendre de vitesse U en lui faisant des gauche droite précis sur les bordures » ; « il remet rarement des balles haute que l'on peut smash. ce qui est bien »). Ses 8 points contre U en 0.18.0 : 2 gagnés, 13,6 coups par échange, 50 retours de U sur ses 52 balles sur la table, dont 17 sur 19 à 60 cm ou plus de l'axe. U attend à 10 cm de la table, et se retrouve au milieu (|y| moyen 0,07 m) quand Sami frappe. Sur une balle lente à 5-6 m/s, il a 0,7 à 1 s pour courir 1 à 1,3 m, et frappe sans le moindre coût (bras 1,00, hâte 1,00). Sur une balle à 10-12 m/s au bord, il a 0,3 à 0,45 s pour 0,2 à 0,8 m, à 2 m/s au moment de frapper, et cela ne lui coûtait rien non plus.
+
+Essais sur le corps à 16 m/s² (800 échanges par ligne, ±3,5 points, hors file, ce qui n'aurait pas dû être). LR est R3 visant à 70 cm de l'axe, du côté opposé à l'adversaire :
+
+| Variante | LR contre U | U contre U, coups | U contre R3 | R3 contre R3, coups | Pas atteint, R3 contre R3 |
+|---|---:|---:|---:|---:|---:|
+| Référence | 15,4 | 29,9 | 77,4 | 8,0 | 5,5 % |
+| Reprise de 0,25 s après la frappe | 14,4 | 32,9 | 75,9 | 7,7 | 7,5 % |
+| Reprise de 0,35 s | 16,9 | 29,7 | 72,9 | 7,1 | 14,8 % |
+| 14 m/s² | 15,8 | 35,0 | 76,6 | 7,9 | 7,3 % |
+| 12 m/s² | 18,8 | 29,6 | 73,8 | 7,5 | 10,5 % |
+| 2,5 m/s | 16,4 | 45,9 | 75,6 | 7,7 | 5,0 % |
+| Frappe en course, une dispersion de plus tous les 2 m/s au-delà de 1 m/s | 22,5 | 7,5 | 63,1 | 5,9 | 4,0 % |
+
+La reprise après la frappe, que j'attendais, ne change presque rien : elle n'est pas gardée. Ce qui compte est la frappe en course. Le réglage retenu (1 000 échanges par ligne, ±3,1 points, à 14 m/s², file) :
+
+| Sans frais jusqu'à | Une dispersion de plus tous les | Top contre bloc, coups | LR contre U | U contre U, coups | U contre R3 | R3 contre R3, coups |
+|---:|---:|---:|---:|---:|---:|---:|
+| — | jamais | 14,9 | 17,2 | 34,3 | 79,4 | 8,1 |
+| 1 m/s | 2 m/s | 8,6 | 25,5 | 8,0 | 65,1 | 5,8 |
+| 1 m/s | 3 m/s | 9,9 | 22,2 | 10,7 | 70,4 | 6,2 |
+| **1 m/s** | **4 m/s** | **11,0** | **19,6** | **13,4** | **71,9** | **6,5** |
+| 1,5 m/s | 2 m/s | 9,9 | 21,8 | 10,2 | 67,2 | 6,3 |
+| 1,5 m/s | 3 m/s | 11,3 | 18,7 | 13,9 | 71,5 | 6,7 |
+| 2 m/s | 1 m/s | 9,7 | 23,5 | 8,8 | 61,9 | 6,2 |
+| 2 m/s | 2 m/s | 11,7 | 18,7 | 14,6 | 71,1 | 7,0 |
+
+Le réglage le plus fort qui garde top contre bloc au-dessus de 10 coups, le seuil du duel de référence validé par Sami. Le gauche-droite y gagne peu (17,2 à 19,6), et le coût raccourcit surtout les échanges : U contre U, de 34 à 13 coups. U a été réglé sans ce coût ; de nouvelles lignées diront ce qu'il reste à gagner.
 
 ## Les sources
 

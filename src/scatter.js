@@ -1,5 +1,5 @@
 import { TABLE, VX, VY, VZ, X, Y } from "./ball/constants.js";
-import { BX, BY } from "./player.js";
+import { BVX, BVY, BX, BY } from "./player.js";
 
 /**
  * What makes a stroke less sure (docs/modele.md, § 4; Sami, 3/11/2026): each is a factor on the scatter, 1 when it costs nothing. All of
@@ -26,6 +26,15 @@ export function stretchOf(ball, body, profile) {
   const distance = Math.sqrt(dx * dx + dy * dy);
   if (distance <= profile.comfort) return 1;
   return 1 + ((profile.stretchedScatter - 1) * (distance - profile.comfort)) / (profile.reach - profile.comfort);
+}
+
+/**
+ * A stroke played on the run (Sami, 4/11/2026): whatever pulled a body wide cost it nothing, so that a left and right on the edges never
+ * paid. Nothing while it adjusts its feet, then more and more (Q-P23).
+ */
+export function runningOf(body, profile) {
+  const speed = Math.sqrt(body[BVX] * body[BVX] + body[BVY] * body[BVY]);
+  return speed <= profile.easyRun ? 1 : 1 + (speed - profile.easyRun) / profile.runningLoss;
 }
 
 /**

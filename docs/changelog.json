@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.19.0",
+      "title": "Regarder deux robots jouer, et frapper en courant coûte de la précision",
+      "date": "4/11/2026",
+      "items": [
+        "Sur la page de la table, choisissez deux robots : ils jouent une manche sous vos yeux, un échange après l'autre, avec le score.",
+        "Frapper en se déplaçant vite devient moins précis, pour vous comme pour le robot : tirer l'adversaire sur les côtés paie un peu plus.",
+        "Le corps accélère un peu moins : 14 m/s² au lieu de 16.",
+        "T et U ont été réglés avant ces changements : ils restent au menu en attendant de nouvelles lignées."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.18.0",
       "title": "U, un robot régulier sorti de l'autojeu",
       "date": "3/11/2026",

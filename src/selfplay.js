@@ -6,17 +6,17 @@
 
 /** How far each number may go, and how far a mutation moves it at most. All hypotheses: the bounds keep a rule within what the model was fitted on. */
 export const NUMBER_RANGES = Object.freeze({
-  wide: [0.1, 0.65, 0.1],
+  wide: [0, 0.65, 0.1],
   depth: [0.35, 1.15, 0.1],
-  topWide: [0.1, 0.65, 0.1],
+  topWide: [0, 0.65, 0.1],
   topDepth: [0.45, 1.2, 0.1],
-  topSpeed: [5, 16, 1.5],
+  topSpeed: [3, 16, 1.5],
   topBrush: [2, 16, 2],
   pushSpeed: [1.5, 6, 0.5],
   pushBrush: [-8, 0, 1],
   flatSpeed: [3, 12, 1],
   highBall: [0.1, 0.5, 0.05],
-  wait: [0.1, 1.5, 0.15],
+  wait: [0, 1.5, 0.15],
 });
 
 const clamp = (value, [low, high]) => Math.max(low, Math.min(high, value));

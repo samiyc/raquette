@@ -9,6 +9,7 @@ import { drawScene } from "./draw.js";
 import { createPlayer, SPEEDS } from "./player.js";
 import { eventsText, frameText, rallyText } from "./readout.js";
 import { layoutFor } from "./scale.js";
+import { createWatch } from "./watch.js";
 
 /** The page: a ball thrown by hand, or a rally between two robots. It listens and draws; what decides is in src/. */
 const FIELDS = [
@@ -33,12 +34,24 @@ let layout = layoutFor(canvas.clientWidth);
 
 const player = createPlayer({ onChange: render, frames: (run) => requestAnimationFrame(run) });
 
+/** A rally of two robots, come from their worker. */
+function showRally(rally) {
+  recording = rally;
+  player.load(recording.steps);
+}
+
+const say = (text) => {
+  byId("events").textContent = text;
+};
+const watch = createWatch({ byId, show: showRally, say });
+
 function render() {
   const index = Math.min(recording.steps, Math.round(player.t() / STEP));
   context.setTransform(canvas.width / layout.width, 0, 0, canvas.width / layout.width, 0, 0);
   drawScene(context, layout, recording, index);
   byId("frame").textContent = frameText(recording, index, BALL_SIZE);
   position.value = String(player.end() ? player.t() / player.end() : 0);
+  if (player.end() > 0 && player.t() >= player.end()) watch.ended();
   byId("play").textContent = player.playing() ? "Pause" : "Lecture";
   byId("speed-label").textContent = String(SPEEDS.find(([value]) => value === player.speed())[1]);
 }
@@ -53,6 +66,7 @@ function resize() {
 }
 
 function launchNow() {
+  watch.stop();
   const launch = Object.fromEntries(Object.entries(inputs).map(([key, input]) => [key, Number(input.value)]));
   recording = recordFlight(throwBall(/** @type {import("../src/types.js").Launch} */ (/** @type {unknown} */ (launch))));
   byId("events").textContent = eventsText(recording);
@@ -60,6 +74,7 @@ function launchNow() {
 }
 
 function watchRally() {
+  watch.stop();
   const seed = Number(/** @type {HTMLInputElement} */ (byId("seed")).value);
   const duel = DUELS[/** @type {HTMLSelectElement} */ (byId("duel")).value];
   recording = recordRally({ seed, server: seed % 2, players: duel.players(CLUB_PLAYER), service: duel.service });

@@ -1,0 +1,151 @@
+{
+ "run": "m",
+ "numbers": {
+  "wide": 0.5,
+  "depth": 0.685,
+  "topWide": 0.45,
+  "topDepth": 0.9,
+  "topSpeed": 8.633020273176953,
+  "topBrush": 8.573737091384828,
+  "pushSpeed": 3,
+  "pushBrush": -1.7435294720344245,
+  "flatSpeed": 6.5,
+  "highBall": 0.20016580179799348,
+  "wait": 0.5
+ },
+ "version": 2,
+ "generations": [
+  {
+   "generation": 0,
+   "kept": true,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.573,
+     "low": 0.551,
+     "panel": [
+      0.776,
+      0.818,
+      0.573
+     ]
+    }
+   ]
+  },
+  {
+   "generation": 1,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.492,
+     "low": 0.476,
+     "panel": [
+      0.788,
+      0.817,
+      0.535
+     ]
+    },
+    {
+     "part": 0.508,
+     "low": 0.494,
+     "panel": [
+      0.782,
+      0.815,
+      0.547
+     ]
+    }
+   ]
+  },
+  {
+   "generation": 2,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.501,
+     "low": 0.481,
+     "panel": [
+      0.802,
+      0.841,
+      0.552
+     ]
+    },
+    {
+     "part": 0.506,
+     "low": 0.49,
+     "panel": [
+      0.79,
+      0.824,
+      0.537
+     ]
+    }
+   ]
+  },
+  {
+   "generation": 3,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.495,
+     "low": 0.479,
+     "panel": [
+      0.779,
+      0.823,
+      0.527
+     ]
+    },
+    {
+     "part": 0.507,
+     "low": 0.494,
+     "panel": [
+      0.787,
+      0.838,
+      0.513
+     ]
+    }
+   ]
+  },
+  {
+   "generation": 4,
+   "kept": true,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.52,
+     "low": 0.501,
+     "panel": [
+      0.822,
+      0.846,
+      0.565
+     ]
+    }
+   ]
+  },
+  {
+   "generation": 5,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.514,
+     "low": 0.496,
+     "panel": [
+      0.859,
+      0.852,
+      0.575
+     ]
+    },
+    {
+     "part": 0.496,
+     "low": 0.477,
+     "panel": [
+      0.849,
+      0.855,
+      0.598
+     ]
+    }
+   ]
+  }
+ ]
+}
