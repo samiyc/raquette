@@ -47,7 +47,7 @@ export function setUpRollout(state, stroke, model) {
 /**
  * One rollout of a stroke.
  * @param {ReturnType<typeof setUpRollout>} setup
- * @param {{stroke: {target: number[], swing: any}, seed: number, horizon: number}} run
+ * @param {{stroke: {target: number[], swing: any, next?: number[]}, seed: number, horizon: number}} run
  * @returns {number} what the point is worth to the player who decides
  */
 export function rollout(setup, { stroke, seed, horizon }) {
@@ -56,6 +56,7 @@ export function rollout(setup, { stroke, seed, horizon }) {
   copy.seed = seed;
   plan.target = stroke.target;
   plan.swing = stroke.swing;
+  plan.next = stroke.next ?? setup.next;
   copy.plans[who] = plan;
   copy.decideAt[who] = -1;
   const last = state.strokes + horizon;

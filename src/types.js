@@ -62,6 +62,8 @@
  * @property {number} [version] goes up when what it does changes: replays name it `R3@1`
  * @property {(rally: {seed: number, server: number, profile: any}) => {key: string, y: number}} [chooseService] a rule that picks its service
  * @property {(view: View) => Intent | null} decide null: the ball is let go
+ * @property {(view: {side: number, profile: any}, target: number[]) => number[] | null} [recovery] where the body goes once the ball has left for
+ *   `target`; null, it stays where it is told; none, back to the middle after a service
  *
  * @typedef {object} RallyListener Optional: what a recording or a page wants to hear of a rally.
  * @property {(state: any) => void} [tick]

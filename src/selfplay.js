@@ -17,6 +17,13 @@ export const NUMBER_RANGES = Object.freeze({
   flatSpeed: [3, 12, 1],
   highBall: [0.1, 0.5, 0.05],
   wait: [0, 1.5, 0.15],
+  cover: [0, 1, 0.2],
+  ready: [-1, 0.5, 0.15],
+  softSpeed: [2, 9, 1],
+  softBrush: [-8, 8, 2],
+  softDepth: [0.5, 1.15, 0.1],
+  softWide: [0, 0.65, 0.1],
+  softRise: [0, 0.3, 0.05],
 });
 
 const clamp = (value, [low, high]) => Math.max(low, Math.min(high, value));

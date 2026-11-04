@@ -1,12 +1,16 @@
 import { aim } from "../aim.js";
 import { BALL_SIZE, TABLE, VX, VY, VZ, X, Z } from "../ball/constants.js";
-import { catchPlan, frames } from "../forecast.js";
+import { catchPlan, frames, spareTime } from "../forecast.js";
 import { BY } from "../player.js";
 
 /**
  * The rule of attack, its numbers in the open so that self-play can set them (docs/modele.md, § 8): a lift on what comes high enough,
  * a push on what stays low over the table if it can be played, flat otherwise, to the far side of the opponent, softer when rushed.
  * With its first numbers, it is R3. Each number is a hypothesis, which is the point: self-play moves them.
+ *
+ * Two ideas of Sami's (4/11/2026) are in numbers that R3 leaves idle. After a stroke, the body goes where the easiest answer will come:
+ * the crossed one, on the other side of where the ball was sent (`cover`). And a player attacks only with the time to stand set
+ * (`ready`): otherwise it plays a steadier stroke, taken earlier if it likes, which may be cut (a chop block) or not (`soft…`).
  */
 export const R3_NUMBERS = Object.freeze({
   wide: 0.5, // Metres from the middle line.
@@ -20,6 +24,13 @@ export const R3_NUMBERS = Object.freeze({
   flatSpeed: 6.5,
   highBall: 0.25, // Metres above the table: high enough to attack.
   wait: 0.5, // Metres behind the line, between strokes.
+  cover: 0, // From 0, the middle, to 1, the mirror of where the ball was sent (H, Q-P25).
+  ready: -1, // Seconds to spare at the ball for an attack: at −1, anything high enough is attacked (H).
+  softSpeed: 6,
+  softBrush: 0,
+  softDepth: 0.9,
+  softWide: 0.3,
+  softRise: 0.2, // Metres above the table, taken on the rise; 0, at the top of the bounce.
 });
 
 const RUSHED = 0.15; // Seconds: under this, a prudent player hits softer (Q-P6).
@@ -57,32 +68,44 @@ function canPush(view, step, target, swing) {
 }
 
 /**
- * @param {typeof R3_NUMBERS} numbers
+ * @param {Partial<typeof R3_NUMBERS>} given what differs from R3
  * @param {string} name
  * @param {number} [version]
  * @returns {import("../types.js").Rule}
  */
-export function createTunable(numbers, name, version = 1) {
+export function createTunable(given, name, version = 1) {
+  const numbers = { ...R3_NUMBERS, ...given };
   const top = { speed: numbers.topSpeed, brushUp: numbers.topBrush, brushSide: 0 };
   const push = { speed: numbers.pushSpeed, brushUp: numbers.pushBrush, brushSide: 0 };
   const flat = { speed: numbers.flatSpeed, brushUp: 0, brushSide: 0 };
-  /** The swing and the target a ball calls for. */
-  function strokeFor(view, step) {
-    const { x, height } = contactOf(step);
-    if (height >= numbers.highBall) return { swing: top, target: farSide(view, numbers.topDepth, numbers.topWide) };
-    const target = farSide(view, numbers.depth, numbers.wide);
-    const pushing = view.side * x < TABLE.halfLength && canPush(view, step, target, push);
-    return { swing: pushing ? push : flat, target };
+  const soft = { speed: numbers.softSpeed, brushUp: numbers.softBrush, brushSide: 0 };
+  /** Not set for an attack: the steadier stroke, on the rise if it can be there in time. */
+  function steady(view, plan) {
+    const taken = (numbers.softRise > 0 && catchPlan(view, numbers.softRise)) || plan;
+    return { swing: soft, target: farSide(view, numbers.softDepth, numbers.softWide), taken };
   }
+  /** The swing, the target and the instant a ball calls for. */
+  function strokeFor(view, plan) {
+    const { x, height } = contactOf(plan.step);
+    if (height >= numbers.highBall) {
+      if (spareTime(view, plan) < numbers.ready) return steady(view, plan);
+      return { swing: top, target: farSide(view, numbers.topDepth, numbers.topWide), taken: plan };
+    }
+    const target = farSide(view, numbers.depth, numbers.wide);
+    const pushing = view.side * x < TABLE.halfLength && canPush(view, plan.step, target, push);
+    return { swing: pushing ? push : flat, target, taken: plan };
+  }
+  /** Where the body goes once the ball has left for `target`. */
+  const recovery = (view, target) => [view.side * (TABLE.halfLength + numbers.wait), 0 - numbers.cover * target[1]];
   return {
     name,
     version,
+    recovery,
     decide(view) {
       const plan = catchPlan(view);
       if (!plan) return null;
-      const { swing, target } = strokeFor(view, plan.step);
-      const next = [view.side * (TABLE.halfLength + numbers.wait), 0];
-      return { step: plan.step, goal: plan.goal, target, swing: prudent(view, plan, swing), next };
+      const { swing, target, taken } = strokeFor(view, plan);
+      return { step: taken.step, goal: taken.goal, target, swing: prudent(view, taken, swing), next: recovery(view, target) };
     },
   };
 }

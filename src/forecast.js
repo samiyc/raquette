@@ -7,7 +7,6 @@ import { BX, BY, OK, reachOf, runDistance, SECTOR_COS, standFor } from "./player
  * instant and the stand to take it from. It decides nothing of where the ball goes next: that is the rule's.
  */
 const MAX_STEPS = 720;
-const COMFORT = 0.5; // Metres from the body to the ball at contact, with time to spare (H).
 const REACH_MARGIN = 0.97; // The body comes short of its full reach by a few centimetres of a step (H).
 const LEVEL_MARGIN = 0.05;
 const SHORT_OF_BALL = 0.4;
@@ -75,7 +74,7 @@ function topOf(way) {
 
 /** The stand with time to spare, behind the ball; a body already there stays. */
 function comfortStand(view) {
-  return standFor([seen[0] + view.side * COMFORT, seen[1]], view.side, view.profile);
+  return standFor([seen[0] + view.side * view.profile.comfort, seen[1]], view.side, view.profile);
 }
 
 /** The distance between two points of the plane, x and y first. */
@@ -91,6 +90,14 @@ function timeToStand(distance, profile) {
   if (distance < braking) return 2 * Math.sqrt(distance / profile.acceleration);
   return (2 * profile.speed) / profile.acceleration + (distance - braking) / profile.speed;
 }
+
+/**
+ * The time a body will have left once it stands where a plan wants it: what lets a player choose to attack (Sami, 4/11/2026).
+ * @param {import("./types.js").View} view
+ * @param {{step: number, goal: number[]}} plan
+ * @returns {number} seconds, negative if it will not be there in time
+ */
+export const spareTime = (view, plan) => plan.step * view.h - timeToStand(apart(view.body, plan.goal), view.profile);
 
 /** Where to run for a ball in front: short of it, for the arm to take it; a body never stops on the ball itself. */
 function runTowards(view, distance) {

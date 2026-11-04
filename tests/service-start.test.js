@@ -69,7 +69,7 @@ describe("the receiver", () => {
     assert.ok(y < 0 && y > -0.2, `${y}`);
     const lineAt = (corner) => from + ((corner - from) * (FAR + wait)) / FAR;
     assert.ok(Math.abs(lineAt(TABLE.halfWidth) - y - (y - lineAt(-TABLE.halfWidth))) < 1e-12);
-    assert.ok(lineAt(TABLE.halfWidth) - y < CLUB_PLAYER.reach * 1.2);
+    assert.ok(lineAt(TABLE.halfWidth) - y < 0.9, "the arm and one step, since the arm got shorter (Sami, 4/11/2026)");
   });
 
   it("is placed there for the service, and the server behind its ball", () => {

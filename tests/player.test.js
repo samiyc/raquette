@@ -31,8 +31,8 @@ describe("the arm's sector", () => {
   });
 
   it("ends at the arm's length", () => {
-    assert.equal(reach(ballAt(30, 0.79)), OK);
-    assert.equal(reach(ballAt(30, 0.81)), TOO_FAR);
+    assert.equal(reach(ballAt(30, CLUB_PLAYER.reach - 0.01)), OK);
+    assert.equal(reach(ballAt(30, CLUB_PLAYER.reach + 0.01)), TOO_FAR);
   });
 
   it("has a band of height", () => {
@@ -121,8 +121,8 @@ describe("how far a body runs", () => {
     return x + CLUB_PLAYER.reach + runDistance(last * STEP - CLUB_PLAYER.reaction, CLUB_PLAYER) - 1.37;
   }
 
-  it("Sami's two cuts are caught from 2.60 m and 1.89 m behind the line at best (docs/recherche/chiffres.md, § 8)", () => {
-    assert.ok(Math.abs(furthestBack("twoBounces") - 2.6) < 0.01, `${furthestBack("twoBounces")}`);
-    assert.ok(Math.abs(furthestBack("twoBouncesOver") - 1.89) < 0.01, `${furthestBack("twoBouncesOver")}`);
+  it("Sami's two cuts are caught from 2.64 m and 1.93 m behind the line at best (docs/recherche/chiffres.md, § 8)", () => {
+    assert.ok(Math.abs(furthestBack("twoBounces") - 2.64) < 0.01, `${furthestBack("twoBounces")}`);
+    assert.ok(Math.abs(furthestBack("twoBouncesOver") - 1.93) < 0.01, `${furthestBack("twoBouncesOver")}`);
   });
 });

@@ -2,7 +2,6 @@ import { createRng, streamOf } from "mcts-commun/random.js";
 import { createClimb } from "mcts-commun/climb.js";
 import { BALL_SIZE } from "../ball/constants.js";
 import { frames } from "../forecast.js";
-import { waitingX } from "../player.js";
 import { rollout, setUpRollout } from "../rollout.js";
 import { choicesAt, STROKE_KINDS } from "../strokes.js";
 import { bestService } from "./service-search.js";
@@ -21,8 +20,8 @@ import { RULES } from "./ladder.js";
  */
 const GENES = 5;
 const [DEPTH, WIDE, SPEED, BRUSH, SIDE] = [0, 1, 2, 3, 4];
-const LOW = [0.2, -0.7, 2.5, -10, -8];
-const HIGH = [1.25, 0.7, 13, 14, 8];
+const LOW = [0.2, -0.7, 2.5, -10, -8.8];
+const HIGH = [1.25, 0.7, 13, 14, 8.8];
 const NEAR = [0.3, 0.3, 3, 6, 6]; // How far a mutation moves a gene at full amplitude.
 const MOVED = 2; // Genes moved by a mutation, at most.
 const BRUSH_ROOM = 2; // m/s around a stroke's brush, for a fresh plan.
@@ -96,14 +95,16 @@ export function createSearch(setup) {
     if (!base) return null;
     const forward = -view.side;
     const kinds = pruned ? playableKinds(view, base, base.step) : null;
-    const stroke = { target: base.target.slice(), swing: { ...base.swing } };
-    const setup = setUpRollout(view.state, { who: view.who, step: base.step, goal: base.goal, next: [waitingX(view.side, view.profile), 0] }, model);
+    const stroke = { target: base.target.slice(), swing: { ...base.swing }, next: base.next };
+    const recover = (target) => model.recovery?.(view, target) ?? base.next;
+    const setup = setUpRollout(view.state, { who: view.who, step: base.step, goal: base.goal, next: base.next }, model);
     const seeds = Array.from({ length: draws }, (_, i) => streamOf(view.state.tick, SEARCH_STREAM + i).int(2 ** 31));
     const problem = {
       start: (first) => encode(first, base, forward),
       score(candidate) {
         if (kinds && !kinds.softAllowed && candidate[SPEED] < SOFT) return 0;
         decode(stroke, candidate, forward);
+        stroke.next = recover(stroke.target);
         let won = 0;
         for (const seed of seeds) won += rollout(setup, { stroke, seed, horizon });
         return won / draws;
@@ -114,10 +115,10 @@ export function createSearch(setup) {
     const { plan: best } = climb.run(problem, { budget, freshEvery, rng: createRng(view.state.tick + SEARCH_STREAM) });
     climb.forget();
     decode(stroke, best, forward);
-    return { ...base, target: stroke.target.slice(), swing: { ...stroke.swing } };
+    return { ...base, target: stroke.target.slice(), swing: { ...stroke.swing }, next: recover(stroke.target) };
   }
 
-  const rule = { name, version: 2, decide };
+  const rule = { name, version: 3, decide };
   if (serves) rule.chooseService = (rally) => bestService(rally, { model, draws: 2 * draws, horizon });
   return rule;
 }

@@ -44,7 +44,7 @@ export const SERVICE_KINDS = Object.freeze({
   mou: { label: "Mou", height: 0.3, ahead: 4, down: 0, lift: -10 * TURN, turn: 0 },
   coupe: { label: "Coupé", height: 0.25, ahead: 5, down: -1.5, lift: -55 * TURN, turn: 0 },
   bombe: { label: "Bombe", height: 0.08, ahead: 11, down: -2.5, lift: 10 * TURN, turn: 0 },
-  lateral: { label: "Latéral", height: 0.25, ahead: 7, down: -1.5, lift: 0, turn: 55 * TURN },
+  lateral: { label: "Latéral", height: 0.25, ahead: 7, down: -1.5, lift: 0, turn: 60.5 * TURN },
 });
 
 /** A ball leaving at `slant` metres across per metre ahead, in the server's own frame: two servers facing each other do mirror images. */

@@ -87,7 +87,7 @@ describe("a point at the mouse", () => {
     const start = body[BY];
     stepPoint(point);
     clickPoint(point, { moveTo: [-1.87, 1.5] });
-    for (let i = 0; i < 46; i += 1) stepPoint(point);
+    for (let i = 0; i < 36; i += 1) stepPoint(point);
     assert.equal(body[BY], start);
     for (let i = 0; i < 30; i += 1) stepPoint(point);
     assert.ok(body[BY] > start, `${body[BY]}`);

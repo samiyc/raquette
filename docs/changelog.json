@@ -4,6 +4,20 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.21.0",
+      "title": "Moins de bras, et deux coups de plus",
+      "date": "4/11/2026",
+      "items": [
+        "Le bras est 10 % plus court : 72 cm au lieu de 80. Il faut davantage se déplacer pour couvrir la table.",
+        "En échange, tout le monde réagit plus vite : 0,16 s au lieu de 0,20 s.",
+        "Frapper en pleine course coûte plus de précision : se placer à l'avance paie davantage.",
+        "Deux nouveaux coups, aux touches 8 et 9 : le bloc coupé, sur une balle rapide près de la table, et le strawberry, un coup de poignet sur une balle courte, avec l'effet latéral inverse.",
+        "Le latéral tourne 10 % plus fort, le service latéral aussi.",
+        "Les robots reviennent vers le milieu dès leur service."
+      ],
+      "commits": []
+    },
+    {
       "version": "0.20.0",
       "title": "V, le robot qui fait courir",
       "date": "4/11/2026",

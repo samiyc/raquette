@@ -182,7 +182,7 @@ describe("how a rally ends", () => {
       const stroke = takeToCentre(view);
       return stroke && { ...stroke, goal: [view.side * 1.0, 0] };
     } };
-    const result = playRally({ seed: 1, players: [{ rule: R0, profile: CLUB_PLAYER }, { rule: wrongWay, profile: { ...CLUB_PLAYER, acceleration: 16 } }], server: 0 });
+    const result = playRally({ seed: 1, players: [{ rule: R0, profile: CLUB_PLAYER }, { rule: wrongWay, profile: { ...CLUB_PLAYER, acceleration: 16, reaction: 0.2, reach: 0.8, comfort: 0.5 } }], server: 0 });
     assert.equal(result.winner, 0);
     assert.equal(result.cause, "behind");
   });

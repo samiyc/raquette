@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { createRng } from "mcts-commun/random.js";
 import { progress } from "mcts-commun/trace.js";
 import { bestOfScreen, isKept, mutateNumbers } from "../src/selfplay.js";
+import { TUNED } from "../src/rules/tuned.js";
 import { R3_NUMBERS } from "../src/rules/tunable.js";
 import { playOnThreads } from "./lib/pairs-pool.js";
 
@@ -10,7 +11,7 @@ import { playOnThreads } from "./lib/pairs-pool.js";
  * Self-play on the numbers of the attacking rule (docs/modele.md, § 8), as a job of the queue: `node scripts/selfplay.js --run a
  * --generations 40`. Each generation screens variants against the current version, then confirms the best on seeds of their own,
  * against it and against the panel. Many confirmations let a few lucky variants through, so the last version plays the panel once
- * more, on seeds no generation saw: that figure is the result. The history goes to docs/selfplay/, a generation at a time, so that a
+ * more, on seeds no generation saw: that figure is the result. `--start V --set cover=0.3,ready=0` starts from a rule self-play already kept. The history goes to docs/selfplay/, a generation at a time, so that a
  * job stopped keeps its work.
  */
 const args = process.argv.slice(2);
@@ -24,7 +25,7 @@ const VARIANTS = Number(option("--variants", 8));
 const SCREEN = Number(option("--screen", 150));
 const CONFIRM = Number(option("--confirm", 600));
 const THREADS = Number(process.env.MCTS_THREADS) || 1;
-const PANEL = ["R0", "R1", "R3"];
+const PANEL = ["R0", "R1", "R3", "U", "V"];
 const CURRENT = "version";
 const VARIANT = "variante";
 const SERVING = "mix";
@@ -36,7 +37,9 @@ const FINAL_SEARCH = Number(option("--final-search", 600)); // The search is out
 const SEED_BASE = 2000000 + [...run].reduce((sum, c) => sum + c.charCodeAt(0), 0) * 1000000;
 
 mkdirSync(FOLDER, { recursive: true });
-const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, numbers: { ...R3_NUMBERS }, version: 0, generations: [] };
+const setNumbers = Object.fromEntries(String(option("--set", "")).split(",").filter(Boolean).map((pair) => pair.split("=")).map(([key, value]) => [key, Number(value)]));
+const startNumbers = { ...R3_NUMBERS, ...TUNED[option("--start", "")], ...setNumbers };
+const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, numbers: startNumbers, version: 0, generations: [] };
 
 const pairs = (names, catalog, seeds) => playOnThreads({ names, budget: BUDGET, from: seeds.from, seeds: seeds.count, replays: false, serving: SERVING, catalog }, THREADS);
 
@@ -69,7 +72,7 @@ function note(generation, entry) {
 async function finalCheck() {
   const final = {};
   const catalog = { [VARIANT]: history.numbers };
-  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH]]) {
+  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH]]) {
     const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count });
     final[name] = { part: Number(report.part.toFixed(3)), low: Number((0.5 + report.gap.low / 4).toFixed(3)), high: Number((0.5 + report.gap.high / 4).toFixed(3)), strokes: Number(report.strokes.toFixed(1)) };
   }

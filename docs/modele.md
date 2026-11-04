@@ -96,28 +96,28 @@ Tout ce paragraphe est **hypothétique**, faute de source (`chiffres.md`, § 6),
 | Grandeur | Valeur de départ | Question |
 |---|---|---|
 | Position d'attente | centre, 0,5 m derrière la ligne de fond | Q-P12 |
-| Temps de réaction après la frappe adverse | 0,20 s | Q-P4 |
+| Temps de réaction après la frappe adverse | 0,16 s (0,20 s jusqu'au 4/11/2026) | Q-P4 |
 | Vitesse et accélération du corps, sur le plan du sol | 3 m/s, 14 m/s² | Q-P5 |
-| Portée du bras depuis le corps | 0,8 m | Q-P5 |
+| Portée du bras depuis le corps | 0,72 m (0,8 m jusqu'au 4/11/2026, Sami) | Q-P5 |
 | Ce que le corps peut avancer au-dessus de la table, penché | 0,4 m | Q-P19 |
 | Champ d'action autour du corps | **220°, axe fixe vers le filet (Sami, 2/11/2026)** ; 110° de chaque côté de l'axe | Q-P5 |
 | Bande de hauteur atteignable | du plateau moins 0,5 m au plateau plus 1,2 m | Q-P5 |
 | Préparation avant la frappe | 0,15 s | Q-P6 |
 | Vitesse de raquette maximale | 20 m/s | Q-P7 |
 | Dispersion de l'orientation de la raquette | 3° en hauteur, 1,5° sur le côté (mesuré à J5) | Q-P1 |
-| Dispersion au bout du bras | ×2 à 0,8 m, rien jusqu'à 0,5 m (J5) | Q-P2 |
+| Dispersion au bout du bras | ×2 au bout du bras, rien jusqu'à 0,45 m (J5) | Q-P2 |
 | Dispersion sur une balle rapide | rien jusqu'à 10 m/s au contact, puis une fois de plus tous les 2,5 m/s (Sami, 3/11/2026) | Q-P21 |
 | Dispersion loin de la table | rien jusqu'à 0,6 m derrière la ligne, puis une fois de plus tous les mètres (Sami, 3/11/2026) | Q-P21 |
 | Dispersion de la vitesse de raquette | 6 % | Q-P1 |
 | Croissance de la dispersion quand le temps manque | ×2 sans préparation | Q-P2 |
 
 **Le corps** est un point sur le sol, qui ne franchit pas la table, sauf les 0,4 m où il se penche au-dessus d'elle. Sans cela, avec une
-portée de 0,8 m, les 57 premiers centimètres après le filet seraient hors d'atteinte depuis le fond : une balle courte y gagnerait
+portée de 0,8 m à l'époque, les 57 premiers centimètres après le filet seraient hors d'atteinte depuis le fond : une balle courte y gagnerait
 toujours, et l'autojeu l'aurait vite trouvé. **La raquette n'a pas de bras** : pas de geste simulé,
 pas de cinématique. Un joueur s'engage sur un instant et un point du trajet de la balle. Si, à cet instant, le point est dans
 le secteur et que la préparation a eu lieu, le contact a lieu. Il frappe plus tôt si la balle allait sortir de sa portée : un corps peut arriver en retard sur son plan, et il ne la laisse pas passer pour autant.
 
-**Le secteur** est ce que le bras atteint sans déplacement : une distance de 0,8 m au plus sur le plan, un angle d'au plus
+**Le secteur** est ce que le bras atteint sans déplacement : une distance de 0,72 m au plus sur le plan, un angle d'au plus
 110° avec l'axe du joueur, et la bande de hauteur. Les 140° du dos restent hors d'atteinte : une balle passée derrière le
 joueur l'oblige à reculer, ou elle est perdue. L'axe est fixe, sans état ni paramètre de plus : le robot et Sami ont le même.
 Le test reste sans trigonométrie : le produit scalaire du vecteur unitaire vers la balle et de l'axe se compare à la
@@ -315,12 +315,13 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **V, celui qui fait courir** (4/11/2026, lignée `n`). Avec ce coût, deux lignées sur trois reviennent à la balle large et très brossée, et le régulier ne domine plus. V bat R3 à 84 % et la recherche à 79 %, en 4 à 6 coups par échange. Son effet, 120 à 135 tr/s, est à regarder : son geste reste juste sous le seuil du coût du geste, une hypothèse (Q-P22).
 
+**Moins de bras, et jouer en place** (Sami, 4/11/2026 ; détails et mesures dans [`recherche/autojeu.md`](recherche/autojeu.md)). S-mV est le robot dont Sami préfère le jeu ; les échanges courts et les duels de tops ne sont « pas très beaux ». Le bras passe à 0,72 m et la réaction à 0,16 s ; une frappe à 3 m/s coûte ×1,67 au lieu de ×1,5. Un robot revient dès son service, et peut couvrir le retour croisé (`cover`). Il peut attendre d'être en place pour attaquer (`ready`), et jouer sinon un coup plus sûr (`soft…`), coupé s'il le veut. Le bloc coupé et le strawberry rejoignent les coups de la souris et de la recherche. Le latéral monte de 10 %.
+
 **Où en est l'autojeu** (4/11/2026). T et U ont été réglés avant ce coût. À faire, sans ordre fixé :
 
 - décider du modèle de la recherche : S-mV bat V à 72 %, mais S de peu (54,5 %), en échanges très courts contre V (`chiffres.md`, § 8) ; comprendre pourquoi S fait tant de fautes ;
 - vérifier si des échanges de 12 à 14 coups sont réalistes, au-dessus des 4 à 5 de l'élite (`chiffres.md`, § 6), et si une balle lente au milieu est aussi sûre qu'elle le paraît ;
-- ajouter T et U au panel, pour qu'une lignée doive battre autre chose que des règles écrites à la main ;
-- replacer le robot entre deux coups selon d'où l'adversaire peut frapper ;
+- une erreur de lecture sur les balles très brossées (Q-P9) : une visée exacte rend un service à fort effet trop facile à attaquer ;
 - séparer l'accélération du freinage si l'inertie gêne encore.
 
 Les bornes où les lignées butaient sont élargies : `topSpeed` part de 3 m/s, `wide`, `topWide` et `wait` de zéro.
@@ -414,7 +415,7 @@ celle du robot par défaut** (Sami, 2/11/2026), avec un curseur de 0 à 100 %, d
 Sami battrait le robot par sa précision, ce qui ne dirait rien des limites du robot. Un score à une autre valeur reste une
 exploration, pas une mesure.
 
-**Le choix du coup** (Sami, 3/11/2026). Pendant une pause, on choisit le coup de la prochaine balle : plat, top, poussette, bloc, deux rebonds, tchop (`src/strokes.js`). Les options sans objet disparaissent par le calcul : le coup est essayé sur la balle telle qu'elle sera au contact, depuis l'endroit où le joueur la prendra. S'il faudrait frapper plus fort que ce coup pour atteindre la cible, il n'est pas proposé : loin de la table, ni poussette ni deux rebonds. Quelques seuils s'y ajoutent (H) : pas de poussette au-dessus de 40 cm, pas de bloc sous 6 m/s, pas de tchop à moins de 40 cm derrière la ligne. Le choix compte jusqu'au début de la préparation, comme la visée.
+**Le choix du coup** (Sami, 3/11/2026). Pendant une pause, on choisit le coup de la prochaine balle : plat, top, poussette, bloc, latéral, deux rebonds, tchop, bloc coupé, strawberry (`src/strokes.js`). Les options sans objet disparaissent par le calcul : le coup est essayé sur la balle telle qu'elle sera au contact, depuis l'endroit où le joueur la prendra. S'il faudrait frapper plus fort que ce coup pour atteindre la cible, il n'est pas proposé : loin de la table, ni poussette ni deux rebonds. Quelques seuils s'y ajoutent (H) : pas de poussette au-dessus de 40 cm, pas de bloc ni de bloc coupé sous 6 m/s, pas de tchop à moins de 40 cm derrière la ligne, pas de bloc coupé au-delà, pas de strawberry à plus de 15 cm derrière la ligne ni au-dessus de 8 m/s. Le choix compte jusqu'au début de la préparation, comme la visée.
 
 **La recherche réfléchit dans un *worker*** (`web/search-worker.js`, Sami, 3/11/2026) : la page continue de dessiner et d'écouter, et seule la simulation attend sa réponse. Elle reçoit une image de l'échange, et sa réponse est celle que la règle aurait donnée sur place, au nombre près : un point se rejoue pareil avec ou sans *worker*. Un clic fait pendant qu'elle réfléchit compte juste après ce pas.
 

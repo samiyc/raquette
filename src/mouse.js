@@ -49,6 +49,8 @@ export function createMouseRule(aim) {
     service: "pendule",
     /** The swing of the stroke picked, kept in place: a plan made before a pick plays it all the same. */
     swing: { ...STROKE_KINDS.flat.swing },
+    /** The body goes where the clicks say, a service included. */
+    recovery: () => null,
     /** @param {import("./types.js").View} view */
     decide(view) {
       if (rule.waiting) setGoal(view.body, rule.waiting, view);

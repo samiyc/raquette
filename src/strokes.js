@@ -27,8 +27,11 @@ const FAST_ENOUGH = 6; // m/s: under this, there is nothing to block (H).
 const FAR_ENOUGH = 0.4; // Metres behind the line: a chop is played from away from the table (H).
 const HARDER_AT_MOST = 1.5; // The aim may hit this much harder to get there: beyond, it is another stroke.
 const STEEPEST = 1; // A ball leaving at more than 45° is a high ball, not this stroke.
+const OVER_THE_TABLE = 0.15; // Metres behind the line: a wrist stroke is played over the table, or nearly (H, Q-P24).
 
 const tooFast = (speed) => (speed > CONTROLLED ? "balle trop rapide pour un coup contrôlé" : null);
+const tooSlow = (speed) => (speed < FAST_ENOUGH ? "balle trop lente" : null);
+const tooFarBack = (back, most) => (back > most ? "trop loin de la table" : null);
 
 /** @type {Readonly<Record<string, StrokeKind>>} */
 export const STROKE_KINDS = Object.freeze({
@@ -44,14 +47,26 @@ export const STROKE_KINDS = Object.freeze({
     label: "Bloc",
     swing: DRILL_STROKES.block.swing,
     rise: DRILL_STROKES.block.rise,
-    refuses: ({ speed }) => (speed < FAST_ENOUGH ? "balle trop lente" : null),
+    refuses: ({ speed }) => tooSlow(speed),
   },
-  side: { label: "Latéral", swing: { speed: 6, brushUp: 2, brushSide: 5, sideways: true } }, // About 55 turns: 89 at 8, more than a service (Sami, 3/11/2026).
+  side: { label: "Latéral", swing: { speed: 6, brushUp: 2, brushSide: 5.5, sideways: true } }, // 10 % more than the 5 of 3/11/2026 (Sami, 4/11/2026): 89 turns at 8 was more than a service.
   short: { label: "Deux rebonds", swing: SHORT_SWING, depths: [0.35, 0.45, 0.55, 0.65, 0.75], refuses: ({ speed }) => tooFast(speed) },
   chop: {
     label: "Tchop",
     swing: { speed: 7, brushUp: -8, brushSide: 0 },
     refuses: ({ back }) => (back < FAR_ENOUGH ? "trop près de la table" : null),
+  },
+  chopBlock: {
+    label: "Bloc coupé",
+    swing: { speed: 5, brushUp: -5, brushSide: 0 }, // A block with a downward motion: risky on a heavy top, and it kills its pace (Q-P24).
+    rise: DRILL_STROKES.block.rise,
+    refuses: ({ speed, back }) => tooSlow(speed) ?? tooFarBack(back, FAR_ENOUGH),
+  },
+  strawberry: {
+    label: "Strawberry",
+    swing: { speed: 5, brushUp: 2, brushSide: -4.5, sideways: true }, // The wrist goes round the ball, away from the side aimed at (Q-P24).
+    rise: DRILL_STROKES.push.rise,
+    refuses: ({ speed, back }) => tooFast(speed) ?? tooFarBack(back, OVER_THE_TABLE),
   },
 });
 

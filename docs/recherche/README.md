@@ -6,7 +6,7 @@ glossaire et les questions. Ce dossier rassemble ce que disent les sources publi
 À lire dans cet ordre :
 
 1. [`../modele.md`](../modele.md) : le modèle, la règle simple, les mesures, ce qu'on prend de la lib ;
-2. [chiffres.md](chiffres.md) : chaque chiffre, sa source et jusqu'où elle a été lue, puis les calculs de cadrage ;
+2. [chiffres.md](chiffres.md) : chaque chiffre, sa source et jusqu'où elle a été lue, puis les calculs de cadrage ; [autojeu.md](autojeu.md) prend la suite des mesures le 4/11/2026, `chiffres.md` étant presque plein ;
 3. [glossaire.md](glossaire.md) : les mots du jeu et de la physique, et leur nom dans le code ;
 4. [questions.md](questions.md) : ce qui reste à trancher, pour Sami et pour un entraîneur, chaque fois avec une
    recommandation ;

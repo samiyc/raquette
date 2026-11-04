@@ -61,6 +61,28 @@ describe("the strokes offered for the next ball", () => {
     assert.notEqual(choices.block, null, "nothing to block on a slow ball");
   });
 
+  it("a chop block is played near the table on a fast ball, and sends it back with less pace and some backspin", () => {
+    const fast = () => Float64Array.of(-1.7, 0, 0.25, -9, 0, 0.5, 0, 400, 0);
+    const aimed = { side: -1, aim: [0.9, 0.3] };
+    assert.equal(choicesAt(fast(), aimed).chopBlock, null);
+    assert.match(choicesAt(Float64Array.of(-1.7, 0, 0.25, -4, 0, 0.5, 0, 0, 0), aimed).chopBlock, /trop lente/);
+    assert.match(choicesAt(Float64Array.of(-2.5, 0, 0.25, -9, 0, 0.5, 0, 400, 0), aimed).chopBlock, /trop loin/);
+  });
+
+  it("a strawberry is played over the table, on a ball under control", () => {
+    const aimed = { side: -1, aim: [0.9, 0.3] };
+    const short = Float64Array.of(-1.2, 0, 0.2, -2.5, 0, 0.5, 0, 200, 0);
+    assert.equal(choicesAt(short, aimed).strawberry, null);
+    assert.match(choicesAt(Float64Array.of(-2, 0, 0.2, -3, 0, 0.5, 0, 200, 0), aimed).strawberry, /trop loin/);
+    assert.match(choicesAt(Float64Array.of(-1.2, 0, 0.2, -10, 0, 0.5, 0, 200, 0), aimed).strawberry, /trop rapide/);
+  });
+
+  it("a strawberry goes round the ball the other way from a side stroke", () => {
+    assert.ok(STROKE_KINDS.side.swing.brushSide > 0);
+    assert.ok(STROKE_KINDS.strawberry.swing.brushSide < 0);
+    assert.ok(Math.abs(STROKE_KINDS.strawberry.swing.brushSide) < STROKE_KINDS.side.swing.brushSide, "the weaker of the two");
+  });
+
   it("on a fast ball, no push and no short cut (Sami): a block and a flat ball stay", () => {
     const point = createPoint({ seed: 3, server: 1, scatter: 0 });
     const fast = Float64Array.of(-1.6, 0, 0.25, -11, 0, 0.5, 0, -200, 0);

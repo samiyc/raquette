@@ -18,8 +18,8 @@ const EXPECTED = {
   // 2/11/2026: a ball ending its roll no longer falls through the table; flights before that point are unchanged.
   ball: "2aa4b251ea50ef1c",
   // 3/11/2026: 1.5° sideways, the scatter grows at the end of the arm and on a fast ball (docs/recherche/chiffres.md, § 8); the aim tries at 60 Hz.
-  rally: "0168263640ddc476",
-  duels: "3add387535ff737c",
+  rally: "60785595e830d25b",
+  duels: "5a4f8f93f58cb3f9",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */

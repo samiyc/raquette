@@ -31,7 +31,8 @@ describe("the rule with its numbers in the open", () => {
     for (const [name, numbers] of Object.entries(TUNED)) {
       assert.equal(namedRule(name).name, name);
       for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) {
-        assert.ok(numbers[key] >= low && numbers[key] <= high, `${name} ${key}`);
+        const value = numbers[key] ?? R3_NUMBERS[key]; // What a kept rule does not name, it leaves as R3 has it.
+        assert.ok(value >= low && value <= high, `${name} ${key}`);
       }
     }
   });

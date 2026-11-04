@@ -4,7 +4,7 @@ import { createBall } from "./ball/flight.js";
 import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
-import { BEHIND, BX, createBody, moveBody, OK, placeBody, reachOf, setGoal } from "./player.js";
+import { BEHIND, BX, createBody, moveBody, OK, placeBody, reachOf, setGoal, waitingX } from "./player.js";
 import { controlOf, effortOf, farOf, normalDraw, runningOf, rushOf, stretchOf } from "./scatter.js";
 import { receiverY, serviceBall, SERVICE_KINDS } from "./services.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
@@ -46,6 +46,16 @@ function placedForService(seats, server, y) {
   });
 }
 
+/**
+ * A server stands where its service leaves from, up to 50 cm from the middle: it sets off back at once (Sami, 4/11/2026), as after any
+ * other stroke. Standing there until its reaction ran out left the whole table open to the first return.
+ */
+function recoverFromService({ seats, server, bodies, serviceY }) {
+  const seat = seats[server];
+  const goal = seat.rule.recovery ? seat.rule.recovery(seat, [-seat.side, -seat.side * serviceY]) : [waitingX(seat.side, seat.profile), 0];
+  if (goal) setGoal(bodies[server], goal, seat);
+}
+
 /** @param {RallyOptions} options */
 function createState({ seed, players, server, listener, service = SERVICES.long, serviceY = 0, serviceFrom = 0 }) {
   const sides = [-1, 1];
@@ -55,6 +65,7 @@ function createState({ seed, players, server, listener, service = SERVICES.long,
     seed, seats, server, listener,
     ball,
     serviceName: service.label,
+    serviceY,
     contact: new Float64Array(3),
     bodies: placedForService(seats, server, ball[Y]),
     striker: server,
@@ -244,6 +255,7 @@ function withService(options) {
 export function startRally(options) {
   const state = createState(withService(options));
   state.serviceName = state.serviceName ?? "long";
+  recoverFromService(state);
   hearStroke(state);
   state.listener?.tick?.(state);
   return state;
