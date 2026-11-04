@@ -101,6 +101,7 @@ for (let generation = history.generations.length; generation < GENERATIONS; gene
     tried.push(summary(against));
     if (isKept(against)) {
       tried.at(-1).panel = (await readPanel(numbers, seeds + 5000)).map(({ part }) => Number(part.toFixed(3)));
+      tried.at(-1).numbers = numbers; // A lineage can wander off: the best version read on the panel may not be the last.
       history.numbers = numbers;
       history.version += 1;
       kept = true;

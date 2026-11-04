@@ -155,3 +155,60 @@ W avec le coup décisif (`killSlow` 8) contre W, 300 échanges par ligne, dans l
 - **Les échanges lents sont aussi bas.** À 25 cm, W trouve 3 balles par échange ; à 45 cm, 5 balles sur 300 échanges. Une frappe à plat sur balle haute n'existe presque pas dans ce jeu.
 - **Rien ne gêne celui qui reçoit.** Tout arrive sous 10 m/s, le seuil de Q-P21, et la réaction de 0,16 s laisse le temps de se préparer : le coût de la balle reste à ×1,00 ou ×1,10, celui du manque de temps à ×1,00.
 - **Le coup raccourcit les échanges, mais il perd contre W** dans chaque ligne. Les fautes coûtent plus que ce qu'il gagne.
+
+### Les lignées s, t, u (4/11/2026)
+
+100 générations, le coup décisif allumé au départ (`killSlow` 8, `killSpeed` 16, `killBrush` 12, `killHigh` 0,25), une variante n'ayant que sa version à battre. Final de chaque lignée : 2 000 graines neuves contre les règles, 600 contre les recherches.
+
+| Lignée | Départ | Versions | R0 | R1 | R3 | U | V | W | X | S | S-mV | S-mW |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `s` | W | 22 | 95,7 | 91,6 | 77,3 | 68,9 | 68,4 | 44,0 | 49,3 | 77,7 | 70,5 | 48,8 |
+| `t` | X | 26 | 74,2 | 78,7 | 78,2 | 61,4 | 59,9 | 54,1 | 50,2 | 78,0 | 66,4 | 57,5 |
+| `u` | R3 | 12 | 66,6 | 73,4 | 70,1 | 58,3 | 43,9 | 34,3 | 28,1 | 71,7 | 62,2 | 44,4 |
+
+Fourchettes : `t` contre W 52,7-55,6, contre X 48,8-51,5, contre S-mW 54,6-60,4.
+
+Le style, contre soi-même, 1 000 échanges :
+
+| Lignée | Coups | À la limite | Part de décisifs | Décisifs qui finissent l'échange : gagnés / ratés | `killReady` gardé | Frappe moyenne |
+|---|---:|---:|---:|---:|---:|---:|
+| `s` | 26,0 | 12,2 % | 10 % | 15 / 199 | 0,08 s | 5,1 m/s |
+| `t` | 10,5 | 0,9 % | 6 à 7 % | 105 / 101 | 0,26 s | 3,4 m/s |
+| `u` | 19,8 | 5,8 % | 15 % | 30 / 229 | 0 s | 8,8 m/s |
+
+Pour comparer : W contre W 40,8 coups, 48 % à la limite ; X contre X 30,4 coups, 32 % à la limite.
+
+- **Le coup survit dans les trois lignées** : `killSlow` reste entre 7 et 8,2, `killSpeed` descend de 16 vers 12,7 à 14,3, `killBrush` vers 10 à 11.
+- **`t` a appris à attendre** : elle ne joue le coup qu'avec 0,26 s d'avance, et c'est la seule où il gagne autant qu'il perd. C'est ce que demandait Sami (attendre le bon moment), trouvé sans lui être imposé. Le coup ne gagne pas encore le point : environ 680 décisifs pour 206 fins d'échange, donc 15 % de gagnants et 15 % de fautes, le reste est rendu.
+- **Les longueurs de `t` restent en deux paquets** : 35 % d'échanges de 1 à 2 coups, 43 % de 9 et plus.
+- **`u` montre que la règle d'adoption débloque R3** : de 48 à 70 % contre R3, là où la lignée `r` n'avançait pas. Elle reste loin de V, W et X.
+- **`s` n'a pas rattrapé W** : 50,6 % au mieux à la lecture du panel, 44,0 % au final. Le coup allumé la faisait partir sous W, et 22 versions n'ont pas suffi.
+
+**Une lignée s'éloigne de son meilleur niveau.** Lecture du panel de `t`, 600 graines :
+
+| Version | R3 | U | V | W | X |
+|---:|---:|---:|---:|---:|---:|
+| 9 | 75,8 | 59,2 | 78,2 | 56,3 | 45,5 |
+| 16 | 82,9 | 63,1 | 51,2 | 56,9 | 51,0 |
+| 19 | 87,4 | 75,2 | 75,0 | 62,7 | 48,4 |
+| 22 | 80,2 | 70,1 | 59,7 | 52,0 | 40,7 |
+| 26 | 78,0 | 61,7 | 61,2 | 53,3 | 52,5 |
+
+Chaque version bat la précédente, mais la 26 est sous la 19 contre tout, sauf X. C'est le risque annoncé quand le panel a cessé de décider. L'historique ne gardait que les derniers nombres : `scripts/selfplay.js` garde maintenant ceux de chaque version. La lignée `A3` a les mêmes graines que `t` (même somme de caractères) et s'arrête à la version 19.
+
+### Le seuil `easyBall` : on n'y touche pas
+
+Toutes les règles et les duels sous chaque réglage du seuil, 600 échanges (1 000 pour le duel), coups par échange :
+
+| `easyBall`, `controlLoss` | Top contre bloc | W/W | X/X | V/V | U/U | R3/R3 | W/R3 | V/U |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 10 ; 2,5 (aujourd'hui) | 10,6 | 41,3 | 29,6 | 2,7 | 10,7 | 6,4 | 11,6 | 16,6 |
+| 8 ; 2,5 | 8,3 | 34,3 | 25,3 | 2,6 | 10,6 | 6,0 | 10,2 | 11,7 |
+| 7 ; 2,5 | 6,4 | 28,0 | 18,6 | 2,5 | 10,1 | 5,6 | 8,9 | 7,5 |
+| 6 ; 2,5 | 4,9 | 19,5 | 14,0 | 2,4 | 8,6 | 5,3 | 7,2 | 5,6 |
+| 5 ; 2,5 | 4,2 | 12,6 | 10,1 | 2,3 | 6,7 | 5,0 | 5,8 | 4,9 |
+| 8 ; 1,5 | 7,6 | 31,5 | 21,3 | 2,5 | 10,7 | 5,8 | 9,3 | 10,3 |
+| 6 ; 1,5 | 4,1 | 13,9 | 9,6 | 2,3 | 7,8 | 5,1 | 6,0 | 4,8 |
+| 5 ; 1,5 | 3,5 | 8,1 | 6,6 | 2,2 | 6,1 | 4,7 | 4,6 | 4,1 |
+
+Baisser le seuil raccourcit bien les échanges, mais le duel top contre bloc est déjà à 10,6 coups pour un minimum de 10 : chaque ligne le fait passer dessous, à 3,5 coups au pire. Comme `t` arrive à 10,5 coups sans toucher au corps, le seuil reste à 10 m/s.
