@@ -71,3 +71,64 @@ Hors file, 300 échanges par case, dans un créneau, pour choisir les valeurs à
 | 0,72 m / 0,12 s | 6,7, 17 | 3,7, 117 | 80,3 %, 7,2 |
 
 Il faudrait 0,12 s pour tout rattraper ; 0,16 s en rattrape une bonne partie et laisse le bras plus court se sentir. Les autres coûts de course sur les duels de référence : top contre bloc à 11,2 coups (+1 tous les 4 m/s), 10,6 (3), 9,9 (2,5), 8,2 (seuil 0,75, 2) ; le test tient entre 10 et 25.
+
+## Les lignées sur le bras court (4/11/2026)
+
+Trois lignées de 100 générations, le 4/11 au soir, sur le corps 0.21.0, panel R0, R1, R3, U, V. Toutes partent de `cover` 0,3 ; `p` et `r` d'un coup sûr coupé, `q` d'un coup sûr en petit top.
+
+| Lignée | Départ | Versions | `cover` | `ready` | Top | Coup sûr |
+|---|---|---:|---:|---:|---|---|
+| `p`, gardée : W | V | 21 | 0,06 | −0,12 | 4,9 m/s, brossage 9,9 | 5,8 m/s, brossage −3,9 |
+| `q`, gardée : X | V | 57 | 0,33 | +0,03 | 3 m/s, brossage 14,3 | 2 m/s, brossage 2 |
+| `r` | R3 | 0 | 0,3 | 0 | 10 m/s, brossage 10 | 5 m/s, brossage −5 |
+
+- **`r` n'a rien adopté, et cela ne dit rien de ses nombres.** Une variante doit faire 50 % contre chaque robot du panel, et V la bat à 77 %. Ce plancher bloque tout départ de R3 : à revoir.
+- **X bute sur deux bornes** : `topSpeed` à 3 m/s et `softSpeed` à 2 m/s, les plus bas permis. Son jeu très lent peut être un défaut du modèle plutôt qu'un style.
+- **`cover` ne s'impose pas** : W l'a presque abandonné. La fonction d'autojeu ne compte que les points.
+
+Le contrôle final de chaque lignée, un échange à la limite comptant pour moitié (2 000 graines, 600 contre les recherches) :
+
+| Part de la lignée | R0 | R1 | R3 | U | V | S | S-mV |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| W | 96,0 % | 94,6 % | 82,6 % | 82,3 % | 57,3 % | 80,9 % | 72,3 % |
+| X | 90,5 % | 76,0 % | 73,9 % | 61,4 % | 60,7 % | 72,6 % | 66,5 % |
+| `r` | 70,8 % | 78,5 % | 55,6 % | 45,2 % | 23,0 % | 60,7 % | 46,2 % |
+
+### Les duels
+
+1 200 graines, le service au choix ; intervalle à 95 % entre parenthèses.
+
+| Duel, corps 0.21.0 | Part du premier | Coups | À la limite |
+|---|---:|---:|---:|
+| V / R3 | 81,8 % (80,3 à 83,3) | 6,1 | 0 % |
+| V / U | 65,8 % (64,1 à 67,6) | 16,4 | 7,0 % |
+| S-mV / S | 46,9 % (45,0 à 48,8) | 3,9 | 0 % |
+| S-mV / R3 | 58,7 % (56,8 à 60,7) | 4,9 | 0 % |
+| S-mV / V | 62,7 % (61,1 à 64,3) | 2,5 | 0 % |
+| W / X | 48,4 % (46,8 à 50,1) | 30,4 | 34,8 % |
+| S-mW / S-mV | 60,5 % (58,6 à 62,4) | 6,3 | 0,1 % |
+| S-mW / S | 71,6 % (69,8 à 73,4) | 9,7 | 0,1 % |
+| S-mW / W | 48,6 % (46,8 à 50,4) | 25,4 | 19,1 % |
+| S-mX / S-mV | 55,8 % (54,0 à 57,5) | 4,6 | 0 % |
+| S-mX / S | 56,4 % (54,6 à 58,2) | 5,1 | 0 % |
+| S-mX / X | 62,9 % (61,2 à 64,5) | 6,2 | 0,2 % |
+
+S-mV a reculé sur le bras court : il battait S à 54,5 % (`chiffres.md`, § 8), il passe sous lui. S-mW prend sa place. S-mX, nettement moins fort, reste hors du menu.
+
+### Le style
+
+2 000 échanges par paire pour les règles, 300 pour les recherches, le service tiré au hasard : des repères de style, pas des parts à citer. Les « tops » sont le top de la règle ; pour une recherche, tout brossage au-dessus de 4 (`coupé` : sous −3).
+
+| Paire | Coups | 1 ou 2 coups | 9 coups et plus | À la limite | Tops du premier |
+|---|---:|---:|---:|---:|---:|
+| V / V | 2,6 | 54 % | 0 % | 0 % | 97 % |
+| S-mV / S-mV | 2,6 | 59 % | 1 % | 0 % | 84 % |
+| R3 / R3 | 6,4 | 12 % | 21 % | 0 % | 53 % |
+| W / W | 40,8 | 8 % | 85 % | 48 % | 56 % (44 % de coupés) |
+| X / X | 30,4 | 26 % | 67 % | 32 % | 48 % |
+| S-mW / S-mW | 19,8 | 18 % | 62 % | 8 % | 59 % (35 % de coupés) |
+| S-mW / S-mV | 6,8 | 33 % | 26 % | 0 % | 46 % (47 % de coupés) |
+
+**Le duel de tops est fini, mais le défaut s'est retourné.** On passe de 2,6 coups à 20 ou 40, pour 4 à 5 chez l'élite (`chiffres.md`, § 6). Le corps ne court presque plus (coût de la course ×1,02 pour W contre W, ×1,19 pour V contre V) et les raquettes vont à 5 ou 6 m/s. Sami voulait qu'un attaquant gagne le point ; ici personne n'attaque vraiment.
+
+**Ce qui manque, à mesurer** : une règle n'a qu'une seule vitesse de top. Un coup décisif sur balle lente et haute, quand le corps est en place, donnerait une raison de ne pas jouer lent. C'est une hypothèse, rien n'est encore mesuré.

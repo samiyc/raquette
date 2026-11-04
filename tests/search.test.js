@@ -68,7 +68,7 @@ describe("a search by name", () => {
   it("takes its settings from its name, and keeps the name", () => {
     assert.equal(namedRule("S-d2-h3-b6", 24).name, "S-d2-h3-b6");
     assert.equal(namedRule("R3", 24), RULES.R3);
-    assert.throws(() => namedRule("X", 24), /inconnue/);
+    assert.throws(() => namedRule("Zzz", 24), /inconnue/);
   });
 });
 

@@ -4,6 +4,17 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.22.0",
+      "title": "W et X, réglés sur le bras court",
+      "date": "4/11/2026",
+      "commits": [],
+      "items": [
+        "Deux nouveaux robots réglés par l'autojeu : W alterne le top et un coupé, X se replace après sa frappe et attend un peu avant d'attaquer.",
+        "Une nouvelle recherche, qui prend l'adversaire pour W : la plus forte à ce jour, avec un jeu moins fait de tops que celle qui prend l'adversaire pour V.",
+        "À surveiller : W contre W joue trop lentement, près de la moitié des échanges vont jusqu'à la limite de 60 coups."
+      ]
+    },
+    {
       "version": "0.21.0",
       "title": "Moins de bras, et deux coups de plus",
       "date": "4/11/2026",

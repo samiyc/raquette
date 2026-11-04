@@ -71,7 +71,7 @@ describe("a point at the mouse against a search", () => {
     assert.deepEqual(again.state.result, away.state.result);
   });
 
-  for (const robot of ["S-mT", "S-mV"]) {
+  for (const robot of ["S-mT", "S-mV", "S-mW"]) {
     it(`asks its worker too when the search has another model: ${robot}`, () => {
       const point = createPoint({ seed: 4, server: 1, scatter: 1, robot });
       let asked = 0;

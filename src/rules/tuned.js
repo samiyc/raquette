@@ -2,7 +2,9 @@
  * What self-play kept: the numbers of the attacking rule (src/rules/tunable.js), copied whole from a lineage's history, so that a
  * measure of the lineage is a measure of this rule. `T`: lineage h, the strongest of g, h and i, on the body of 8 m/s²
  * (docs/selfplay/h.json). `U`: lineage k, the strongest of j, k and l, on the body of 16 m/s² (docs/selfplay/k.json). `V`: lineage n,
- * level with o, on the body of 14 m/s² that pays for a stroke on the run (docs/selfplay/n.json).
+ * level with o, on the body of 14 m/s² that pays for a stroke on the run (docs/selfplay/n.json). `W` and `X`: lineages p and q, level
+ * with each other, on the arm of 72 cm: W keeps a cut for when it is not in place and barely covers, X covers a third of the way and
+ * waits a little, but sits at the bottom of the range for its top and its soft stroke (docs/selfplay/p.json, q.json).
  */
 export const TUNED = Object.freeze({
   T: Object.freeze({
@@ -43,5 +45,45 @@ export const TUNED = Object.freeze({
     flatSpeed: 6.706215665210038,
     highBall: 0.1504727798514068,
     wait: 0.3767238041618839,
+  }),
+  W: Object.freeze({
+    wide: 0.3206986870616675,
+    depth: 0.685,
+    topWide: 0.5014704894274472,
+    topDepth: 0.9357812209054828,
+    topSpeed: 4.889617069857195,
+    topBrush: 9.949469573795795,
+    pushSpeed: 2.3994549345225096,
+    pushBrush: -2.557134680915624,
+    flatSpeed: 5.589381829369813,
+    highBall: 0.1,
+    wait: 0.10714204369578512,
+    cover: 0.05526808938011527,
+    ready: -0.1222701316466555,
+    softSpeed: 5.787668405100703,
+    softBrush: -3.9447901444509625,
+    softDepth: 0.9,
+    softWide: 0.2179408595431596,
+    softRise: 0.1291746153496206,
+  }),
+  X: Object.freeze({
+    wide: 0.520476712565869,
+    depth: 0.5988358669821173,
+    topWide: 0.5947404607199132,
+    topDepth: 0.9654839917551725,
+    topSpeed: 3,
+    topBrush: 14.283890642225742,
+    pushSpeed: 1.7644115283619612,
+    pushBrush: -1.3315164353698492,
+    flatSpeed: 6.708490592427552,
+    highBall: 0.14554593316279352,
+    wait: 0.26824613818898796,
+    cover: 0.3328232533298434,
+    ready: 0.031667522131465384,
+    softSpeed: 2,
+    softBrush: 2.023626952432096,
+    softDepth: 0.9606898412108421,
+    softWide: 0.4682317918166518,
+    softRise: 0.15924145278986543,
   }),
 });

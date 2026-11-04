@@ -317,10 +317,13 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Moins de bras, et jouer en place** (Sami, 4/11/2026 ; détails et mesures dans [`recherche/autojeu.md`](recherche/autojeu.md)). S-mV est le robot dont Sami préfère le jeu ; les échanges courts et les duels de tops ne sont « pas très beaux ». Le bras passe à 0,72 m et la réaction à 0,16 s ; une frappe à 3 m/s coûte ×1,67 au lieu de ×1,5. Un robot revient dès son service, et peut couvrir le retour croisé (`cover`). Il peut attendre d'être en place pour attaquer (`ready`), et jouer sinon un coup plus sûr (`soft…`), coupé s'il le veut. Le bloc coupé et le strawberry rejoignent les coups de la souris et de la recherche. Le latéral monte de 10 %.
 
-**Où en est l'autojeu** (4/11/2026). T et U ont été réglés avant ce coût. À faire, sans ordre fixé :
+**W et X** (4/11/2026, lignées `p` et `q`, [`recherche/autojeu.md`](recherche/autojeu.md)). Sur le bras court, à égalité entre eux. W garde un coupé pour quand il n'est pas en place ; X se replace vraiment. S-mW devient la recherche la plus forte (60,5 % contre S-mV, 71,6 % contre S), avec moins de tops et des échanges plus longs. Le défaut s'est retourné : W contre W finit à la limite de 60 coups dans 48 % des échanges.
 
-- décider du modèle de la recherche : S-mV bat V à 72 %, mais S de peu (54,5 %), en échanges très courts contre V (`chiffres.md`, § 8) ; comprendre pourquoi S fait tant de fautes ;
-- vérifier si des échanges de 12 à 14 coups sont réalistes, au-dessus des 4 à 5 de l'élite (`chiffres.md`, § 6), et si une balle lente au milieu est aussi sûre qu'elle le paraît ;
+**Où en est l'autojeu** (4/11/2026). T, U et V ont été réglés avant le bras court. À faire, sans ordre fixé :
+
+- punir la balle lente : une règle garde une seule vitesse de top, et rien ne tue une balle lente et haute, alors que l'attaque devrait gagner le point (Sami) ; les échanges dépassent de loin les 4 à 5 coups de l'élite (`chiffres.md`, § 6) ;
+- le plancher à 50 % contre chaque robot du panel : il empêche toute lignée partie de R3 d'avancer (la lignée `r`) ;
+- comprendre pourquoi S fait tant de fautes ;
 - une erreur de lecture sur les balles très brossées (Q-P9) : une visée exacte rend un service à fort effet trop facile à attaquer ;
 - séparer l'accélération du freinage si l'inertie gêne encore.
 
