@@ -686,6 +686,18 @@ La reprise après la frappe, que j'attendais, ne change presque rien : elle n'es
 
 Le réglage le plus fort qui garde top contre bloc au-dessus de 10 coups, le seuil du duel de référence validé par Sami. Le gauche-droite y gagne peu (17,2 à 19,6), et le coût raccourcit surtout les échanges : U contre U, de 34 à 13 coups. U a été réglé sans ce coût ; de nouvelles lignées diront ce qu'il reste à gagner.
 
+**L'autojeu avec le coût de la frappe en course** (4/11/2026, 14 m/s², 100 générations, 2 000 graines neuves, 600 contre S ; les bornes élargies) :
+
+| Lignée | Version | Contre R0 | Contre R1 | Contre R3 | Contre S | Coups contre S | Raquette / brossage du top | Largeur du top | Attente |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `m` | 43 | 91,9 | 82,7 | 66,4 | 62,4 [59,8 ; 65,0] | 5,7 | 3 / 10,6 | 0,20 | 1,31 m |
+| `n`, gardée sous le nom V | 18 | 88,7 | 87,2 | 84,3 | 79,4 [77,2 ; 81,6] | 4,3 | 4,1 / 13,3 | 0,59 | 0,38 m |
+| `o` | 18 | 88,5 | 88,5 | 84,3 | 79,0 [76,8 ; 81,2] | 4,4 | 3,5 / 13,9 | 0,59 | 0,31 m |
+
+`n` et `o`, parties chacune de leur côté, reviennent à l'angle : le régulier de `k` ne domine plus, et la balle large rapporte de nouveau, avec des échanges de 4 à 6 coups. Contre R3 (800 échanges), V sort sa balle à 9,1 m/s et 121 tr/s au premier coup, 11,6 m/s et 134 tr/s ensuite, sur la table à 94-95 % ; R3 tombe à 84 %. Ses 669 points gagnés : 309 balles pas atteintes, 360 fautes de R3. `topSpeed` ne colle plus à sa borne, mais le geste reste juste sous le seuil de 14,2 m/s du coût du geste : 13,9 pour `n`, 14,3 pour `o`.
+
+**Les tirages de la recherche** (sur `a4315a1`, 300 graines à partir de 1 700 000, contre R3) : S, 60,7 % [57,1 ; 64,2] ; S-d32, 62,8 % [59,3 ; 66,4], 4 fois plus de tirages par plan. Aucun écart net : la piste de la chance ne se confirme pas à ce nombre de graines. Sur ce corps, S remonte à 60,7 %, contre 53,3 % à 16 m/s² sans coût de la course, sur d'autres graines.
+
 ## Les sources
 
 [lois]: https://www.tabletennisengland.co.uk/content/uploads/2026/07/Laws-of-Table-Tennis-2026-27.pdf

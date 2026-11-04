@@ -1,7 +1,8 @@
 /**
  * What self-play kept: the numbers of the attacking rule (src/rules/tunable.js), copied whole from a lineage's history, so that a
  * measure of the lineage is a measure of this rule. `T`: lineage h, the strongest of g, h and i, on the body of 8 m/s²
- * (docs/selfplay/h.json). `U`: lineage k, the strongest of j, k and l, on the body of 16 m/s² (docs/selfplay/k.json).
+ * (docs/selfplay/h.json). `U`: lineage k, the strongest of j, k and l, on the body of 16 m/s² (docs/selfplay/k.json). `V`: lineage n,
+ * level with o, on the body of 14 m/s² that pays for a stroke on the run (docs/selfplay/n.json).
  */
 export const TUNED = Object.freeze({
   T: Object.freeze({
@@ -29,5 +30,18 @@ export const TUNED = Object.freeze({
     flatSpeed: 4.749996110796928,
     highBall: 0.22810621045064183,
     wait: 0.1,
+  }),
+  V: Object.freeze({
+    wide: 0.36415244434028865,
+    depth: 0.685,
+    topWide: 0.5879015626385807,
+    topDepth: 0.9357812209054828,
+    topSpeed: 4.064922779798508,
+    topBrush: 13.306580382399261,
+    pushSpeed: 2.2394939097575843,
+    pushBrush: -2.0875269658863544,
+    flatSpeed: 6.706215665210038,
+    highBall: 0.1504727798514068,
+    wait: 0.3767238041618839,
   }),
 });

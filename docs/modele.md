@@ -313,9 +313,11 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Frapper en courant coûte de la précision** (4/11/2026, `runningOf`, Q-P23). Contre U, Sami ne pouvait pas gagner en gauche-droite : U frappait à 2 m/s sans le moindre coût. Rien jusqu'à 1 m/s, puis une dispersion de plus tous les 4 m/s. Le corps passe aussi à 14 m/s². Top contre bloc passe de 15 à 11 coups, U contre U de 34 à 13.
 
-**Où en est l'autojeu** (4/11/2026). T et U ont été réglés avant ce coût ; ils restent au menu en attendant de nouvelles lignées. À faire, sans ordre fixé :
+**V, celui qui fait courir** (4/11/2026, lignée `n`). Avec ce coût, deux lignées sur trois reviennent à la balle large et très brossée, et le régulier ne domine plus. V bat R3 à 84 % et la recherche à 79 %, en 4 à 6 coups par échange. Son effet, 120 à 135 tr/s, est à regarder : son geste reste juste sous le seuil du coût du geste, une hypothèse (Q-P22).
 
-- mesurer si U améliore la recherche quand elle le prend pour modèle (`S-mU`, dans la file), et comprendre pourquoi S fait tant de fautes sur ce corps ;
+**Où en est l'autojeu** (4/11/2026). T et U ont été réglés avant ce coût. À faire, sans ordre fixé :
+
+- mesurer si V améliore la recherche quand elle le prend pour modèle (`S-mV`, dans la file), et comprendre pourquoi S fait tant de fautes ;
 - vérifier si des échanges de 12 à 14 coups sont réalistes, au-dessus des 4 à 5 de l'élite (`chiffres.md`, § 6), et si une balle lente au milieu est aussi sûre qu'elle le paraît ;
 - ajouter T et U au panel, pour qu'une lignée doive battre autre chose que des règles écrites à la main ;
 - replacer le robot entre deux coups selon d'où l'adversaire peut frapper ;
