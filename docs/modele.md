@@ -321,7 +321,11 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Y** (5/11/2026, lignée `t` à sa version 19, [`recherche/autojeu.md`](recherche/autojeu.md)). La première règle avec le coup décisif, qu'elle ne joue qu'avec 0,26 s d'avance. Elle bat W (63,4 %) et toutes les autres, sauf X (48,2 %). S-mY devient la recherche la plus forte : 53,0 % contre S-mW, 57,9 % contre S-mV, avec 4,9 coups par échange contre elle-même. Elle perd contre Y (45,1 %).
 
-**Où en est l'autojeu** (4/11/2026). T, U et V ont été réglés avant le bras court. À faire, sans ordre fixé :
+**Z** (6/11/2026, lignée `v` partie de Y, version 40, [`recherche/autojeu.md`](recherche/autojeu.md)). La première règle qui bat X : 51,6 % [50,2-52,9]. Elle bat Y (65,3 %) et W (61,7 %). Elle gagne à l'usure : ses tops et ses coups doux partent aux bornes basses (3 et 2 m/s), et elle n'attaque qu'avec 0,5 s d'avance, si bien qu'elle ne joue presque jamais son coup décisif. Contre X, 36 coups par échange et 43 % à la limite. S-mZ est plus faible que S-mY (40,2 %) : prendre l'adversaire pour Z ne sert pas la recherche, qui n'est pas ajoutée aux menus.
+
+**Où en est l'autojeu** (6/11/2026). T, U et V ont été réglés avant le bras court. À faire, sans ordre fixé :
+
+- l'usure paie : un échange à la limite compte un demi-point à chacun, ce qui sert celui qui renvoie lent. Z en vit, et ses vitesses butent sur les bornes basses ;
 
 - finir le point : le coup décisif survit à l'autojeu et ramène X contre X de 30 à 10,5 coups (lignée `t`, `recherche/autojeu.md`), mais il ne finit qu'un échange sur trois quand il est joué, et les longueurs restent en deux paquets, loin des 4 à 5 coups de l'élite (`chiffres.md`, § 6). Le seuil `easyBall` reste à 10 m/s : le baisser casse le duel top contre bloc, sous ses 10 coups ;
 - une lignée peut s'éloigner de son meilleur niveau, maintenant qu'elle n'a que sa version à battre (`t`, version 19 contre version 26). L'historique garde désormais les nombres de chaque version gardée ;

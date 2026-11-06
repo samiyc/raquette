@@ -6,7 +6,8 @@
  * with each other, on the arm of 72 cm: W keeps a cut for when it is not in place and barely covers, X covers a third of the way and
  * waits a little, but sits at the bottom of the range for its top and its soft stroke (docs/selfplay/p.json, q.json). `Y`: lineage t
  * at its version 19, better read on the panel than its last one (docs/selfplay/A3.json, same seeds as t.json): the first rule with a
- * finishing stroke, which it plays only with a quarter of a second in hand.
+ * finishing stroke, which it plays only with a quarter of a second in hand. `Z`: lineage v, from Y, the first rule to beat X;
+ * it waits half a second in hand before finishing (docs/selfplay/v.json).
  */
 export const TUNED = Object.freeze({
   T: Object.freeze({
@@ -113,5 +114,31 @@ export const TUNED = Object.freeze({
     killSpeed: 14.289232811890543,
     killBrush: 11.049850398674607,
     killWide: 0.5953315470367669,
+  }),
+  Z: Object.freeze({
+    wide: 0.5497010544873774,
+    depth: 0.6639345762226732,
+    topWide: 0.5419849468860775,
+    topDepth: 0.9565341322682797,
+    topSpeed: 3,
+    topBrush: 14.266756687313318,
+    pushSpeed: 2.9496877938508987,
+    pushBrush: -0.24429901828989387,
+    flatSpeed: 5.612121009733528,
+    highBall: 0.10870104469358921,
+    wait: 0.2590251467889174,
+    cover: 0.5650607306510211,
+    ready: 0.016811553877778385,
+    softSpeed: 2,
+    softBrush: 4.308458175510168,
+    softDepth: 0.9709483748301864,
+    softWide: 0.22491139662452037,
+    softRise: 0.29372793002985415,
+    killSlow: 8.903533079661429,
+    killHigh: 0.29283180851489304,
+    killReady: 0.5,
+    killSpeed: 15.522288361098617,
+    killBrush: 11.58275556191802,
+    killWide: 0.5598107071127743,
   }),
 });

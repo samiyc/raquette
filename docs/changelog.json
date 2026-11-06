@@ -4,6 +4,17 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.24.0",
+      "title": "Z, le premier à battre X",
+      "date": "6/11/2026",
+      "commits": [],
+      "items": [
+        "Un nouveau robot réglé par l'autojeu, Z : il bat X, de peu, et toutes les autres règles nettement.",
+        "Z gagne à l'usure : il renvoie lent et attend une demi-seconde d'avance pour finir, si bien que contre X un échange sur trois va à la limite de 60 coups.",
+        "La vue de côté prend moins de place : un tiers de moins au-dessus de la table, moitié moins dessous, à la demande de Sami."
+      ]
+    },
+    {
       "version": "0.23.0",
       "title": "Y, qui attend pour finir le point",
       "date": "5/11/2026",

@@ -248,3 +248,41 @@ Le style, 1 000 échanges (300 pour les recherches) :
 - **Y est plus forte que la version 26, mais joue plus long** : 16,6 coups contre elle-même, 3,5 % à la limite, contre 10,5 et 0,9 %. Elle ne trouve presque pas de balle à finir contre elle-même (1 %).
 - **Le coup décisif sert surtout contre W**, qui renvoie lent (11 % des coups), mais il y rate plus qu'il ne gagne. Contre R3, il gagne deux fois sur trois.
 - **S-mY joue des échanges d'élite contre elle-même** : 4,9 coups, sans échange à la limite. La recherche n'a pas ce coup à part : son top est celui du duel d'entraînement, et le style ne lui compte aucun décisif.
+
+### Les lignées `v` et `w`, et Z (6/11/2026)
+
+Les deux partent de Y. `v` part de ses nombres, `w` d'un coup décisif plus fort et joué plus tôt. Le panel gagne Y. Final, 2 000 graines neuves contre les règles, 600 contre les recherches :
+
+| Lignée | R0 | R1 | R3 | U | V | W | X | Y | S | S-mV | S-mW | S-mY |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `v`, version 40 | 97,2 | 91,9 | 85,8 | 79,8 | 78,1 | 60,2 | 52,0 | 63,8 | 84,0 | 67,5 | 61,7 | 63,7 |
+| `w`, version 29 | 78,6 | 67,2 | 69,0 | 61,9 | 65,5 | 61,6 | 34,6 | 49,1 | 68,8 | 65,0 | 63,5 | 57,1 |
+
+`w` est écartée : elle ne fait que jeu égal avec Y. `v` devient Z. Duels, 1 200 graines à partir de 8 000 000, service choisi :
+
+| Duel | Part du premier | Fourchette | Coups | À la limite |
+|---|---:|---:|---:|---:|
+| Z contre X | 51,6 % | 50,2-52,9 | 36,1 | 42,9 % |
+| Z contre Y | 65,3 % | 63,5-67,1 | 16,5 | 3,1 % |
+| Z contre W | 61,7 % | 60,1-63,3 | 29,2 | 28,5 % |
+| S-mZ contre S-mY | 40,2 % | 38,5-41,9 | 4,7 | 0 % |
+| S-mZ contre S-mW | 41,6 % | 39,6-43,5 | 9,9 | 0,6 % |
+| S-mZ contre S | 49,5 % | 47,6-51,3 | 4,8 | 0 % |
+| S-mZ contre Z | 25,7 % | 24,0-27,4 | 9,6 | 0 % |
+
+Le style, 1 000 échanges (300 pour les recherches) :
+
+| Paire | Coups | Échanges de 9 coups et plus | Décisifs qui finissent l'échange : gagnés / ratés | Ce que joue le premier |
+|---|---:|---:|---:|---|
+| Z / Z | 31,6 | 75 % | 7 / 8 | doux 67 %, top 33 % |
+| Z / X | 36,2 | 75 % | 5 / 0 | doux 52 %, top 48 % |
+| Z / Y | 16,5 | 58 % | 1 / 0 | doux 59 %, top 41 % |
+| Z / W | 29,1 | 66 % | 4 / 19 | top 76 %, doux 20 %, décisif 4 % |
+| Z / V | 9,3 | 39 % | 0 / 0 | doux 89 %, top 11 % |
+| Z / R3 | 9,2 | 35 % | 0 / 0 | top 48 %, doux 52 % |
+| S-mZ / S-mZ | 5,8 | 22 % | — | top 79 %, plat 10 %, coupé 6 %, poussette 6 % |
+| S-mZ / S-mY | 5,5 | 22 % | — | top 77 %, plat 12 %, poussette 6 %, coupé 5 % |
+
+- **Z gagne à l'usure.** Ses tops partent à 3 m/s et ses coups doux à 2 m/s, les bornes basses de l'autojeu ; elle frappe à 2,3 m/s en moyenne contre elle-même. Elle attend 0,5 s d'avance pour finir, deux fois plus que Y, et ne joue presque plus son coup décisif, sauf contre W, où elle le rate quatre fois sur cinq.
+- **L'usure est payée par la mesure.** Un échange à la limite compte un demi-point à chacun : celui qui ne sait pas gagner l'échange a intérêt à le faire durer. Contre X, 43 % des échanges vont à la limite ; sur ceux qui finissent, Z en gagne 52,8 %.
+- **Z est un mauvais modèle pour la recherche.** S-mZ perd contre S-mY et S-mW, et ne prend que 25,7 % des points à Z, son propre modèle. Elle n'entre ni dans les menus ni dans le contrôle final.
