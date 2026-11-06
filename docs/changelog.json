@@ -4,6 +4,17 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.26.0",
+      "title": "La fatigue, et l'effet mal lu",
+      "date": "6/11/2026",
+      "commits": [],
+      "items": [
+        "Un joueur se fatigue pendant un long échange : chaque coup lui coûte en précision, un top bien plus qu'une poussette, qui reste le coup le plus sûr. Il repart reposé au point suivant.",
+        "L'effet de la balle est lu un peu de travers, et un effet qui change est lu en retard : une poussette dont le coupé varie peut faire faute.",
+        "Les robots réglés par l'autojeu pourront faire varier le coupé de leurs poussettes."
+      ]
+    },
+    {
       "version": "0.25.1",
       "title": "L'autojeu revient au partage",
       "date": "6/11/2026",

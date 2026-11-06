@@ -2,6 +2,7 @@ import { TABLE } from "../ball/constants.js";
 import { catchPlan } from "../forecast.js";
 import { SERVICES } from "../rally.js";
 import { R0 } from "./center.js";
+import { variedSwing } from "./vary.js";
 
 /**
  * The strokes of a training drill, each with one aim and one way of taking the ball (Sami, 3/11/2026; docs/modele.md, § 6). A
@@ -14,6 +15,7 @@ import { R0 } from "./center.js";
  * @property {import("../types.js").Swing} swing
  * @property {number} [rise] metres above the table, for a ball taken on the rise; otherwise at the top of its bounce
  * @property {number} back where the player waits, metres behind its line
+ * @property {number} [vary] m/s of brush taken off at random, up to this, stroke by stroke: a spin that changes is read late
  */
 
 /** @type {Readonly<Record<string, DrillStroke>>} */
@@ -38,7 +40,7 @@ export function drillRule(stroke) {
         step: plan.step,
         goal: plan.goal,
         target: [-view.side * stroke.depth, 0],
-        swing: stroke.swing,
+        swing: variedSwing(stroke.swing, stroke.vary, view),
         next: [view.side * (TABLE.halfLength + stroke.back), 0],
       };
     },

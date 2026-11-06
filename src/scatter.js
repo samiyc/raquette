@@ -50,6 +50,18 @@ export function effortOf({ speed, brushUp, brushSide }, profile) {
   return effort <= profile.easySwing ? 1 : 1 + (effort - profile.easySwing) / profile.swingLoss;
 }
 
+/**
+ * What a stroke spends (Sami, 6/11/2026): the square of the swing against the ordinary top, which spends 1. A push spends next to
+ * nothing, a kill nearly twice as much.
+ */
+export function energyOf({ speed, brushUp, brushSide }, profile) {
+  const side = profile.sideWeight * brushSide;
+  return (speed * speed + brushUp * brushUp + side * side) / (profile.easySwing * profile.easySwing);
+}
+
+/** Tired by the strokes already played in the rally: nothing at first, one more scatter for every `tiredLoss` spent (Q-P26). */
+export const tiredOf = (spent, profile) => 1 + spent / profile.tiredLoss;
+
 /** A fast ball: a racket could otherwise give way by just what it takes, and return a smash as softly as it likes at no cost. */
 export function controlOf(ball, profile) {
   const speed = Math.sqrt(ball[VX] * ball[VX] + ball[VY] * ball[VY] + ball[VZ] * ball[VZ]);

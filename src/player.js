@@ -29,6 +29,9 @@ export const CLUB_PLAYER = Object.freeze({
   farLoss: 1, // Q-P21, metres further for the scatter to grow by one more time
   scatterSpeed: 0.06, // Q-P1
   rushedScatter: 2, // Q-P2: the scatter with no preparation at all
+  tiredLoss: 10, // Q-P26: what the strokes of a rally spend, an ordinary top being 1, for one more scatter (Sami, 6/11/2026)
+  spinRead: 0.02, // Q-P9: the spin is read within this part of it, one standard deviation (Sami, 6/11/2026)
+  spinAnchor: 0.1, // Q-P9: the part of the last ball's spin that stays in the read: a change of spin is read late
 });
 
 /** cos 110°, kept as a constant so that the test reads no cosine: 220° around the axis, 110° on each side (Sami, 2/11/2026). */

@@ -5,7 +5,8 @@ import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
 import { BEHIND, BX, createBody, moveBody, OK, placeBody, reachOf, setGoal, waitingX } from "./player.js";
-import { controlOf, effortOf, farOf, normalDraw, runningOf, rushOf, stretchOf } from "./scatter.js";
+import { normalDraw } from "./scatter.js";
+import { factorsOf, readBall } from "./stroke-error.js";
 import { receiverY, serviceBall, SERVICE_KINDS } from "./services.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 
@@ -75,6 +76,8 @@ function createState({ seed, players, server, listener, service = SERVICES.long,
     tick: 0,
     plans: [null, null],
     decideAt: [-1, -1],
+    spent: new Float64Array(2),
+    lastSpin: new Float64Array(6),
     missed: OK,
     result: null,
   };
@@ -117,35 +120,31 @@ function decide(state, who) {
 const racket = new Float64Array(RACKET_SIZE);
 const pose = new Float64Array(3);
 
-/** What a stroke draws of its scatter: across, up, and on the speed, in that order, whatever the rule. */
+/** What a stroke draws of its scatter: across, up, and on the speed, then the read of the spin, in that order, whatever the rule. */
 function drawScatter(state, who) {
   const role = who === state.server ? 0 : 1;
   const rng = streamOf(state.seed, role * STREAM_PER_ROLE + state.strokes);
-  return [normalDraw(rng), normalDraw(rng), normalDraw(rng)];
+  return [normalDraw(rng), normalDraw(rng), normalDraw(rng), normalDraw(rng)];
 }
 
 /** Aims, then scatters the racket, then strikes the true ball. */
 function play(state, who, plan) {
   const { side, profile } = state.seats[who];
   const forward = -side;
-  const found = aim({ ball: state.ball, forward, target: plan.target, swing: plan.swing }, pose);
+  const draws = drawScatter(state, who);
+  const found = aim({ ball: readBall(state, who, draws[3], profile), forward, target: plan.target, swing: plan.swing }, pose);
   const kept = pose[2];
   pose[2] = forward;
-  const rush = rushOf((plan.at - plan.decided) * STEP, profile);
-  const stretched = stretchOf(state.ball, state.bodies[who], profile);
-  const control = controlOf(state.ball, profile);
-  const far = farOf(state.ball, side, profile);
-  const effort = effortOf({ ...plan.swing, speed: kept }, profile);
-  const running = runningOf(state.bodies[who], profile);
-  const worse = rush * stretched * control * far * effort * running;
-  const draws = drawScatter(state, who);
+  const factors = factorsOf(state, who, plan, kept);
+  const { rush, stretch, control, far, effort, running, tired } = factors;
+  const worse = rush * stretch * control * far * effort * running * tired;
   pose[0] += draws[0] * profile.scatterAcross * worse;
   pose[1] += draws[1] * profile.scatterTilt * worse;
   const swing = { ...plan.swing, speed: kept * (1 + draws[2] * profile.scatterSpeed * worse) };
   poseRacket(racket, pose, swing, state.ball);
   const before = state.listener?.impact ? state.ball.slice() : null;
   strike(state.ball, racket);
-  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, rush, stretch: stretched, control, far, effort, running }, state);
+  if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, ...factors }, state);
 }
 
 const nextBall = new Float64Array(3);

@@ -20,6 +20,8 @@ function copyInto(copy, state) {
   copy.plans[1] = null;
   copy.decideAt[0] = state.decideAt[0];
   copy.decideAt[1] = state.decideAt[1];
+  copy.spent.set(state.spent);
+  copy.lastSpin.set(state.lastSpin);
   copy.missed = state.missed;
   copy.result = null;
 }
@@ -40,6 +42,8 @@ export function setUpRollout(state, stroke, model) {
     bodies: state.bodies.map((body) => body.slice()),
     plans: [null, null],
     decideAt: state.decideAt.slice(),
+    spent: state.spent.slice(),
+    lastSpin: state.lastSpin.slice(),
   };
   return { state, copy, ...stroke, plan: { ...stroke, at: state.tick + stroke.step, decided: state.tick, target: null, swing: null } };
 }

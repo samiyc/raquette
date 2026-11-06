@@ -2,6 +2,7 @@ import { aim } from "../aim.js";
 import { BALL_SIZE, TABLE, VX, VY, VZ, X, Z } from "../ball/constants.js";
 import { catchPlan, frames, spareTime } from "../forecast.js";
 import { BY } from "../player.js";
+import { variedSwing } from "./vary.js";
 
 /**
  * The rule of attack, its numbers in the open so that self-play can set them (docs/modele.md, § 8): a lift on what comes high enough,
@@ -24,6 +25,7 @@ export const R3_NUMBERS = Object.freeze({
   topBrush: 10,
   pushSpeed: 3,
   pushBrush: -2,
+  pushVary: 0, // m/s of brush taken off a push at random, up to this: a backspin that changes is read late (Sami, 6/11/2026).
   flatSpeed: 6.5,
   highBall: 0.25, // Metres above the table: high enough to attack.
   wait: 0.5, // Metres behind the line, between strokes.
@@ -107,8 +109,9 @@ export function createTunable(given, name, version = 1) {
       return { swing: top, target: farSide(view, numbers.topDepth, numbers.topWide), taken: plan };
     }
     const target = farSide(view, numbers.depth, numbers.wide);
-    const pushing = view.side * x < TABLE.halfLength && canPush(view, plan.step, target, push);
-    return { swing: pushing ? push : flat, target, taken: plan };
+    const pushed = variedSwing(push, numbers.pushVary, view);
+    const pushing = view.side * x < TABLE.halfLength && canPush(view, plan.step, target, pushed);
+    return { swing: pushing ? pushed : flat, target, taken: plan };
   }
   /** Where the body goes once the ball has left for `target`. */
   const recovery = (view, target) => [view.side * (TABLE.halfLength + numbers.wait), 0 - numbers.cover * target[1]];

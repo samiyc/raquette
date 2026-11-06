@@ -36,8 +36,8 @@ const average = (balls, key) => balls.reduce((sum, ball) => sum + ball[key], 0) 
 describe("a duel of top against block (Sami, 3/11/2026)", () => {
   const { sent, causes, mean } = watch(DUELS.topBlock);
 
-  it("lasts as a training drill lasts: 8 strokes or more on average, under the limit of 20 (10 to 25 before it)", () => {
-    assert.ok(mean >= 8 && mean <= 20, `${mean}`);
+  it("lasts as a training drill lasts: 6 strokes or more on average, tired and reading the spin within 2 % (8 before, 10 to 25 before the limit)", () => {
+    assert.ok(mean >= 6 && mean <= 20, `${mean}`);
   });
 
   it("the top is a real one: at least 9 m/s and 60 turns of lift", () => {

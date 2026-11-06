@@ -1,0 +1,783 @@
+{
+ "run": "x2",
+ "numbers": {
+  "wide": 0.5497010544873774,
+  "depth": 0.6639345762226732,
+  "topWide": 0.5419849468860775,
+  "topDepth": 0.9565341322682797,
+  "topSpeed": 3,
+  "topBrush": 13.850805439986289,
+  "pushSpeed": 3.2958959927782416,
+  "pushBrush": -0.36582277063280344,
+  "flatSpeed": 5.612121009733528,
+  "highBall": 0.10870104469358921,
+  "wait": 0.2590251467889174,
+  "cover": 0.537035045400262,
+  "ready": 0.016811553877778385,
+  "softSpeed": 2,
+  "softBrush": 4.308458175510168,
+  "softDepth": 0.9709483748301864,
+  "softWide": 0.25965185598470264,
+  "softRise": 0.2848956986097619,
+  "killSlow": 9.900252337567508,
+  "killHigh": 0.29283180851489304,
+  "killReady": 0.5,
+  "killSpeed": 15.522288361098617,
+  "killBrush": 11.58275556191802,
+  "killWide": 0.5598107071127743
+ },
+ "version": 4,
+ "maxStrokes": 20,
+ "limitScore": "shared",
+ "generations": [
+  {
+   "generation": 0,
+   "kept": false,
+   "version": 0,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.49
+    },
+    {
+     "part": 0.505,
+     "low": 0.494
+    }
+   ]
+  },
+  {
+   "generation": 1,
+   "kept": false,
+   "version": 0,
+   "tried": [
+    {
+     "part": 0.505,
+     "low": 0.496
+    },
+    {
+     "part": 0.5,
+     "low": 0.49
+    }
+   ]
+  },
+  {
+   "generation": 2,
+   "kept": false,
+   "version": 0,
+   "tried": [
+    {
+     "part": 0.507,
+     "low": 0.5
+    }
+   ]
+  },
+  {
+   "generation": 3,
+   "kept": false,
+   "version": 0,
+   "tried": [
+    {
+     "part": 0.507,
+     "low": 0.497
+    }
+   ]
+  },
+  {
+   "generation": 4,
+   "kept": false,
+   "version": 0,
+   "tried": [
+    {
+     "part": 0.508,
+     "low": 0.498
+    }
+   ]
+  },
+  {
+   "generation": 5,
+   "kept": true,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.494,
+     "low": 0.485
+    },
+    {
+     "part": 0.507,
+     "low": 0.5,
+     "panel": [
+      0.928,
+      0.858,
+      0.802,
+      0.693,
+      0.73,
+      0.562,
+      0.515,
+      0.603,
+      0.507
+     ],
+     "numbers": {
+      "wide": 0.5497010544873774,
+      "depth": 0.6639345762226732,
+      "topWide": 0.5419849468860775,
+      "topDepth": 0.9565341322682797,
+      "topSpeed": 3,
+      "topBrush": 14.266756687313318,
+      "pushSpeed": 2.9496877938508987,
+      "pushBrush": -0.24429901828989387,
+      "flatSpeed": 5.612121009733528,
+      "highBall": 0.10870104469358921,
+      "wait": 0.2590251467889174,
+      "cover": 0.5650607306510211,
+      "ready": 0.016811553877778385,
+      "softSpeed": 2,
+      "softBrush": 4.308458175510168,
+      "softDepth": 0.9709483748301864,
+      "softWide": 0.22491139662452037,
+      "softRise": 0.2848956986097619,
+      "killSlow": 9.900252337567508,
+      "killHigh": 0.29283180851489304,
+      "killReady": 0.5,
+      "killSpeed": 15.522288361098617,
+      "killBrush": 11.58275556191802,
+      "killWide": 0.5598107071127743
+     }
+    }
+   ]
+  },
+  {
+   "generation": 6,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.495,
+     "low": 0.487
+    },
+    {
+     "part": 0.505,
+     "low": 0.496
+    }
+   ]
+  },
+  {
+   "generation": 7,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.507,
+     "low": 0.498
+    },
+    {
+     "part": 0.502,
+     "low": 0.498
+    }
+   ]
+  },
+  {
+   "generation": 8,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.508,
+     "low": 0.498
+    },
+    {
+     "part": 0.501,
+     "low": 0.497
+    }
+   ]
+  },
+  {
+   "generation": 9,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.504,
+     "low": 0.496
+    },
+    {
+     "part": 0.491,
+     "low": 0.482
+    }
+   ]
+  },
+  {
+   "generation": 10,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.504,
+     "low": 0.494
+    },
+    {
+     "part": 0.497,
+     "low": 0.488
+    }
+   ]
+  },
+  {
+   "generation": 11,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.506,
+     "low": 0.496
+    },
+    {
+     "part": 0.502,
+     "low": 0.494
+    }
+   ]
+  },
+  {
+   "generation": 12,
+   "kept": true,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.501,
+     "low": 0.497
+    },
+    {
+     "part": 0.504,
+     "low": 0.5,
+     "panel": [
+      0.925,
+      0.862,
+      0.806,
+      0.688,
+      0.724,
+      0.579,
+      0.512,
+      0.572,
+      0.508
+     ],
+     "numbers": {
+      "wide": 0.5497010544873774,
+      "depth": 0.6639345762226732,
+      "topWide": 0.5419849468860775,
+      "topDepth": 0.9565341322682797,
+      "topSpeed": 3,
+      "topBrush": 14.266756687313318,
+      "pushSpeed": 3.2958959927782416,
+      "pushBrush": -0.36582277063280344,
+      "flatSpeed": 5.612121009733528,
+      "highBall": 0.10870104469358921,
+      "wait": 0.2590251467889174,
+      "cover": 0.537035045400262,
+      "ready": 0.016811553877778385,
+      "softSpeed": 2,
+      "softBrush": 4.308458175510168,
+      "softDepth": 0.9709483748301864,
+      "softWide": 0.22491139662452037,
+      "softRise": 0.2848956986097619,
+      "killSlow": 9.900252337567508,
+      "killHigh": 0.29283180851489304,
+      "killReady": 0.5,
+      "killSpeed": 15.522288361098617,
+      "killBrush": 11.58275556191802,
+      "killWide": 0.5598107071127743
+     }
+    }
+   ]
+  },
+  {
+   "generation": 13,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.499
+    }
+   ]
+  },
+  {
+   "generation": 14,
+   "kept": false,
+   "version": 2,
+   "tried": []
+  },
+  {
+   "generation": 15,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.495,
+     "low": 0.484
+    },
+    {
+     "part": 0.497,
+     "low": 0.49
+    }
+   ]
+  },
+  {
+   "generation": 16,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.51,
+     "low": 0.499
+    },
+    {
+     "part": 0.507,
+     "low": 0.498
+    }
+   ]
+  },
+  {
+   "generation": 17,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.503,
+     "low": 0.494
+    }
+   ]
+  },
+  {
+   "generation": 18,
+   "kept": true,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.509,
+     "low": 0.501,
+     "panel": [
+      0.93,
+      0.864,
+      0.816,
+      0.685,
+      0.74,
+      0.56,
+      0.524,
+      0.599,
+      0.515
+     ],
+     "numbers": {
+      "wide": 0.5497010544873774,
+      "depth": 0.6639345762226732,
+      "topWide": 0.5419849468860775,
+      "topDepth": 0.9565341322682797,
+      "topSpeed": 3,
+      "topBrush": 13.850805439986289,
+      "pushSpeed": 3.2958959927782416,
+      "pushBrush": -0.36582277063280344,
+      "flatSpeed": 5.612121009733528,
+      "highBall": 0.10870104469358921,
+      "wait": 0.2590251467889174,
+      "cover": 0.537035045400262,
+      "ready": 0.016811553877778385,
+      "softSpeed": 2,
+      "softBrush": 4.308458175510168,
+      "softDepth": 0.9709483748301864,
+      "softWide": 0.22491139662452037,
+      "softRise": 0.2848956986097619,
+      "killSlow": 9.900252337567508,
+      "killHigh": 0.29283180851489304,
+      "killReady": 0.5,
+      "killSpeed": 15.522288361098617,
+      "killBrush": 11.58275556191802,
+      "killWide": 0.5598107071127743
+     }
+    }
+   ]
+  },
+  {
+   "generation": 19,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.506,
+     "low": 0.5
+    }
+   ]
+  },
+  {
+   "generation": 20,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.496
+    },
+    {
+     "part": 0.5,
+     "low": 0.498
+    }
+   ]
+  },
+  {
+   "generation": 21,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.498,
+     "low": 0.491
+    },
+    {
+     "part": 0.499,
+     "low": 0.49
+    }
+   ]
+  },
+  {
+   "generation": 22,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.499,
+     "low": 0.498
+    }
+   ]
+  },
+  {
+   "generation": 23,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.501,
+     "low": 0.5
+    }
+   ]
+  },
+  {
+   "generation": 24,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.487,
+     "low": 0.477
+    }
+   ]
+  },
+  {
+   "generation": 25,
+   "kept": true,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.506,
+     "low": 0.498
+    },
+    {
+     "part": 0.511,
+     "low": 0.504,
+     "panel": [
+      0.924,
+      0.85,
+      0.807,
+      0.681,
+      0.742,
+      0.575,
+      0.514,
+      0.571,
+      0.518
+     ],
+     "numbers": {
+      "wide": 0.5497010544873774,
+      "depth": 0.6639345762226732,
+      "topWide": 0.5419849468860775,
+      "topDepth": 0.9565341322682797,
+      "topSpeed": 3,
+      "topBrush": 13.850805439986289,
+      "pushSpeed": 3.2958959927782416,
+      "pushBrush": -0.36582277063280344,
+      "flatSpeed": 5.612121009733528,
+      "highBall": 0.10870104469358921,
+      "wait": 0.2590251467889174,
+      "cover": 0.537035045400262,
+      "ready": 0.016811553877778385,
+      "softSpeed": 2,
+      "softBrush": 4.308458175510168,
+      "softDepth": 0.9709483748301864,
+      "softWide": 0.25965185598470264,
+      "softRise": 0.2848956986097619,
+      "killSlow": 9.900252337567508,
+      "killHigh": 0.29283180851489304,
+      "killReady": 0.5,
+      "killSpeed": 15.522288361098617,
+      "killBrush": 11.58275556191802,
+      "killWide": 0.5598107071127743
+     }
+    }
+   ]
+  },
+  {
+   "generation": 26,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.504,
+     "low": 0.496
+    },
+    {
+     "part": 0.499,
+     "low": 0.496
+    }
+   ]
+  },
+  {
+   "generation": 27,
+   "kept": false,
+   "version": 4,
+   "tried": []
+  },
+  {
+   "generation": 28,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.497
+    },
+    {
+     "part": 0.508,
+     "low": 0.499
+    }
+   ]
+  },
+  {
+   "generation": 29,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.51,
+     "low": 0.499
+    }
+   ]
+  },
+  {
+   "generation": 30,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.499,
+     "low": 0.491
+    }
+   ]
+  },
+  {
+   "generation": 31,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.493,
+     "low": 0.484
+    },
+    {
+     "part": 0.501,
+     "low": 0.494
+    }
+   ]
+  },
+  {
+   "generation": 32,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.5,
+     "low": 0.493
+    },
+    {
+     "part": 0.502,
+     "low": 0.496
+    }
+   ]
+  },
+  {
+   "generation": 33,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.495,
+     "low": 0.482
+    }
+   ]
+  },
+  {
+   "generation": 34,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.5,
+     "low": 0.494
+    }
+   ]
+  },
+  {
+   "generation": 35,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.498,
+     "low": 0.49
+    },
+    {
+     "part": 0.501,
+     "low": 0.498
+    }
+   ]
+  },
+  {
+   "generation": 36,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.493
+    },
+    {
+     "part": 0.499,
+     "low": 0.496
+    }
+   ]
+  },
+  {
+   "generation": 37,
+   "kept": false,
+   "version": 4,
+   "tried": []
+  },
+  {
+   "generation": 38,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.507,
+     "low": 0.5
+    },
+    {
+     "part": 0.497,
+     "low": 0.494
+    }
+   ]
+  },
+  {
+   "generation": 39,
+   "kept": false,
+   "version": 4,
+   "tried": []
+  }
+ ],
+ "final": {
+  "R0": {
+   "part": 0.924,
+   "low": 0.918,
+   "high": 0.931,
+   "strokes": 8.4,
+   "limits": 0.104
+  },
+  "R1": {
+   "part": 0.852,
+   "low": 0.843,
+   "high": 0.861,
+   "strokes": 8.4,
+   "limits": 0.159
+  },
+  "R3": {
+   "part": 0.819,
+   "low": 0.808,
+   "high": 0.829,
+   "strokes": 7.9,
+   "limits": 0.113
+  },
+  "U": {
+   "part": 0.683,
+   "low": 0.675,
+   "high": 0.692,
+   "strokes": 13.8,
+   "limits": 0.53
+  },
+  "V": {
+   "part": 0.726,
+   "low": 0.714,
+   "high": 0.737,
+   "strokes": 8.1,
+   "limits": 0.13
+  },
+  "W": {
+   "part": 0.566,
+   "low": 0.557,
+   "high": 0.576,
+   "strokes": 14.7,
+   "limits": 0.59
+  },
+  "X": {
+   "part": 0.511,
+   "low": 0.504,
+   "high": 0.519,
+   "strokes": 15.4,
+   "limits": 0.68
+  },
+  "Y": {
+   "part": 0.585,
+   "low": 0.574,
+   "high": 0.596,
+   "strokes": 12.9,
+   "limits": 0.409
+  },
+  "Z": {
+   "part": 0.517,
+   "low": 0.512,
+   "high": 0.522,
+   "strokes": 15.6,
+   "limits": 0.658
+  },
+  "S": {
+   "part": 0.819,
+   "low": 0.799,
+   "high": 0.839,
+   "strokes": 7.1,
+   "limits": 0.071
+  },
+  "S-mV": {
+   "part": 0.706,
+   "low": 0.683,
+   "high": 0.73,
+   "strokes": 4.7,
+   "limits": 0.016
+  },
+  "S-mW": {
+   "part": 0.604,
+   "low": 0.584,
+   "high": 0.623,
+   "strokes": 12.9,
+   "limits": 0.458
+  },
+  "S-mY": {
+   "part": 0.609,
+   "low": 0.585,
+   "high": 0.633,
+   "strokes": 7.7,
+   "limits": 0.131
+  }
+ }
+}

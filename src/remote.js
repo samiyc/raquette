@@ -23,6 +23,8 @@ export function snapshotOf(state) {
     strokes: state.strokes,
     plans: state.plans,
     decideAt: state.decideAt.slice(),
+    spent: state.spent.slice(),
+    lastSpin: state.lastSpin.slice(),
     missed: state.missed,
   };
 }
@@ -40,7 +42,8 @@ export function decideOn(picture, who, rule) {
     copy.set(body);
     return copy;
   });
-  const state = { ...picture, seats, bodies, ball: Float64Array.from(picture.ball), contact: Float64Array.from(picture.contact), listener: null, result: null };
+  const state = { ...picture, seats, bodies, ball: Float64Array.from(picture.ball), contact: Float64Array.from(picture.contact),
+    spent: Float64Array.from(picture.spent), lastSpin: Float64Array.from(picture.lastSpin), listener: null, result: null };
   moveBody(bodies[state.server], seats[state.server]);
   moveBody(bodies[1 - state.server], seats[1 - state.server]);
   return rule.decide(viewOf(state, who));

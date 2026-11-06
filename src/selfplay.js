@@ -14,6 +14,7 @@ export const NUMBER_RANGES = Object.freeze({
   topBrush: [2, 16, 2],
   pushSpeed: [1.5, 6, 0.5],
   pushBrush: [-8, 0, 1],
+  pushVary: [0, 6, 1],
   flatSpeed: [3, 12, 1],
   highBall: [0.1, 0.5, 0.05],
   wait: [0, 1.5, 0.15],
