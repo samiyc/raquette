@@ -4,6 +4,15 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.25.1",
+      "title": "L'autojeu revient au partage",
+      "date": "6/11/2026",
+      "commits": [],
+      "items": [
+        "Compter perdu pour la variante l'échange arrêté à la limite bloquait l'autojeu : même une variante égale à sa version ne pouvait plus la battre. L'échange à la limite redevient un partage."
+      ]
+    },
+    {
       "version": "0.25.0",
       "title": "Un échange s'arrête à 20 coups",
       "date": "6/11/2026",

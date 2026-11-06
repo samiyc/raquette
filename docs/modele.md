@@ -58,7 +58,7 @@ un lift.
 - un seul revêtement, un backside offensif (Q-P14).
 
 **Une limite d'échange** : 20 coups (Sami, 6/11/2026 ; 60 jusque-là, H). Un échange qui l'atteint vaut un partage (0,5), et il est compté à part. Une série
-qui en a beaucoup signale un modèle sans faute. L'élite joue 4,5 coups par échange (`chiffres.md`, § 6) : 20 coups laissent de la marge, hors défenseurs, et les simulations ne s'attardent plus sur les échanges sans fin. Dans l'autojeu, l'échange à la limite est perdu par la variante, sans quoi le faire durer paie (Z, § 8). Les duels de référence passent ainsi de 47,3 à 18,6 coups pour R0 contre R0 (85 % à la limite), de 10,6 à 8,6 pour top contre bloc (17 %), de 38 à 17,3 pour les poussettes (74 %) ; vitesses et effets ne bougent pas.
+qui en a beaucoup signale un modèle sans faute. L'élite joue 4,5 coups par échange (`chiffres.md`, § 6) : 20 coups laissent de la marge, hors défenseurs, et les simulations ne s'attardent plus sur les échanges sans fin. L'autojeu garde le partage : le donner perdu à la variante l'a bloqué (lignées `x` et `y`, [`recherche/autojeu.md`](recherche/autojeu.md)). Les duels de référence passent ainsi de 47,3 à 18,6 coups pour R0 contre R0 (85 % à la limite), de 10,6 à 8,6 pour top contre bloc (17 %), de 38 à 17,3 pour les poussettes (74 %) ; vitesses et effets ne bougent pas.
 
 ## 3. La balle
 
@@ -325,7 +325,7 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Où en est l'autojeu** (6/11/2026). T, U et V ont été réglés avant le bras court. À faire, sans ordre fixé :
 
-- l'usure paie : un échange à la limite compte un demi-point à chacun, ce qui sert celui qui renvoie lent. Z en vit, et ses vitesses butent sur les bornes basses ;
+- l'usure paie : un échange à la limite compte un demi-point à chacun, ce qui sert celui qui renvoie lent. Z en vit, et ses vitesses butent sur les bornes basses. La limite à 20 coups abrège ces échanges ; il reste que le modèle ne fait presque pas de faute sur une balle lente et sûre ;
 
 - finir le point : le coup décisif survit à l'autojeu et ramène X contre X de 30 à 10,5 coups (lignée `t`, `recherche/autojeu.md`), mais il ne finit qu'un échange sur trois quand il est joué, et les longueurs restent en deux paquets, loin des 4 à 5 coups de l'élite (`chiffres.md`, § 6). Le seuil `easyBall` reste à 10 m/s : le baisser casse le duel top contre bloc, sous ses 10 coups ;
 - une lignée peut s'éloigner de son meilleur niveau, maintenant qu'elle n'a que sa version à battre (`t`, version 19 contre version 26). L'historique garde désormais les nombres de chaque version gardée ;

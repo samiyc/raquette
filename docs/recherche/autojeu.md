@@ -286,3 +286,18 @@ Le style, 1 000 échanges (300 pour les recherches) :
 - **Z gagne à l'usure.** Ses tops partent à 3 m/s et ses coups doux à 2 m/s, les bornes basses de l'autojeu ; elle frappe à 2,3 m/s en moyenne contre elle-même. Elle attend 0,5 s d'avance pour finir, deux fois plus que Y, et ne joue presque plus son coup décisif, sauf contre W, où elle le rate quatre fois sur cinq.
 - **L'usure est payée par la mesure.** Un échange à la limite compte un demi-point à chacun : celui qui ne sait pas gagner l'échange a intérêt à le faire durer. Contre X, 43 % des échanges vont à la limite ; sur ceux qui finissent, Z en gagne 52,8 %.
 - **Z est un mauvais modèle pour la recherche.** S-mZ perd contre S-mY et S-mW, et ne prend que 25,7 % des points à Z, son propre modèle. Elle n'entre ni dans les menus ni dans le contrôle final.
+
+### La limite à 20 coups, et les lignées `x` et `y` (6/11/2026)
+
+Sami ramène la limite d'un échange de 60 à 20 coups : l'élite joue 4,5 coups par échange, et les échanges sans fin coûtaient du temps de calcul. Dans l'autojeu, l'échange à la limite comptait alors comme perdu par la variante, pour que le faire durer ne paie plus. `x` part de Z, `y` de Y, 40 générations chacune.
+
+**Aucune version gardée, ni dans l'une ni dans l'autre.** Une variante égale à sa version ne prend plus 50 % des points, mais 50 % moins la moitié des échanges à la limite : Z contre Z va à la limite 61 fois sur 100, soit environ 20 % pour la variante. Aucune variante ne passe le crible. Le comptage pénalisait la variante pour l'usure de son adversaire autant que pour la sienne.
+
+Un partage et une défaite pour les deux reviennent au même dans l'écart par paires, qui seul décide : il n'y a pas de comptage symétrique qui pousse à finir le point. L'autojeu revient donc au partage. Finals de `x` et `y` (versions 0, donc Z et Y eux-mêmes), 2 000 graines, limite à 20 coups, avec la part d'échanges à la limite :
+
+| Règle | R0 | R3 | U | W | X | Y | Z | S-mW | S-mY |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Z | 92,9 (9 %) | 80,8 (11 %) | 68,1 (52 %) | 57,4 (55 %) | 50,9 (67 %) | 59,6 (32 %) | — | 60,1 (40 %) | 63,6 (10 %) |
+| Y | 84,1 (4 %) | 85,5 (6 %) | 67,2 (41 %) | 62,0 (42 %) | 49,9 (41 %) | — | 40,4 (32 %) | 61,5 (31 %) | 61,9 (11 %) |
+
+À 20 coups, Z ne bat plus X que de 50,9 % [50,1-51,7], et deux tiers de leurs échanges vont à la limite.

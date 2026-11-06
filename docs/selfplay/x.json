@@ -1,0 +1,367 @@
+{
+ "run": "x",
+ "numbers": {
+  "wide": 0.5497010544873774,
+  "depth": 0.6639345762226732,
+  "topWide": 0.5419849468860775,
+  "topDepth": 0.9565341322682797,
+  "topSpeed": 3,
+  "topBrush": 14.266756687313318,
+  "pushSpeed": 2.9496877938508987,
+  "pushBrush": -0.24429901828989387,
+  "flatSpeed": 5.612121009733528,
+  "highBall": 0.10870104469358921,
+  "wait": 0.2590251467889174,
+  "cover": 0.5650607306510211,
+  "ready": 0.016811553877778385,
+  "softSpeed": 2,
+  "softBrush": 4.308458175510168,
+  "softDepth": 0.9709483748301864,
+  "softWide": 0.22491139662452037,
+  "softRise": 0.29372793002985415,
+  "killSlow": 8.903533079661429,
+  "killHigh": 0.29283180851489304,
+  "killReady": 0.5,
+  "killSpeed": 15.522288361098617,
+  "killBrush": 11.58275556191802,
+  "killWide": 0.5598107071127743
+ },
+ "version": 0,
+ "maxStrokes": 20,
+ "limitScore": "againstA",
+ "generations": [
+  {
+   "generation": 0,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 1,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 2,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 3,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 4,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 5,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 6,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 7,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 8,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 9,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 10,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 11,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 12,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 13,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 14,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 15,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 16,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 17,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 18,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 19,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 20,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 21,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 22,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 23,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 24,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 25,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 26,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 27,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 28,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 29,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 30,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 31,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 32,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 33,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 34,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 35,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 36,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 37,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 38,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  },
+  {
+   "generation": 39,
+   "kept": false,
+   "version": 0,
+   "tried": []
+  }
+ ],
+ "final": {
+  "R0": {
+   "part": 0.929,
+   "low": 0.923,
+   "high": 0.936,
+   "strokes": 8,
+   "limits": 0.089
+  },
+  "R1": {
+   "part": 0.855,
+   "low": 0.846,
+   "high": 0.863,
+   "strokes": 8.1,
+   "limits": 0.154
+  },
+  "R3": {
+   "part": 0.808,
+   "low": 0.798,
+   "high": 0.819,
+   "strokes": 7.9,
+   "limits": 0.114
+  },
+  "U": {
+   "part": 0.681,
+   "low": 0.672,
+   "high": 0.69,
+   "strokes": 13.5,
+   "limits": 0.524
+  },
+  "V": {
+   "part": 0.722,
+   "low": 0.711,
+   "high": 0.734,
+   "strokes": 7.8,
+   "limits": 0.125
+  },
+  "W": {
+   "part": 0.574,
+   "low": 0.564,
+   "high": 0.584,
+   "strokes": 14.2,
+   "limits": 0.55
+  },
+  "X": {
+   "part": 0.509,
+   "low": 0.501,
+   "high": 0.517,
+   "strokes": 15.3,
+   "limits": 0.671
+  },
+  "Y": {
+   "part": 0.596,
+   "low": 0.584,
+   "high": 0.607,
+   "strokes": 11.9,
+   "limits": 0.317
+  },
+  "Z": {
+   "part": 0.5,
+   "low": 0.5,
+   "high": 0.5,
+   "strokes": 14.9,
+   "limits": 0.607
+  },
+  "S": {
+   "part": 0.825,
+   "low": 0.805,
+   "high": 0.845,
+   "strokes": 7,
+   "limits": 0.078
+  },
+  "S-mV": {
+   "part": 0.697,
+   "low": 0.672,
+   "high": 0.722,
+   "strokes": 4.9,
+   "limits": 0.014
+  },
+  "S-mW": {
+   "part": 0.601,
+   "low": 0.58,
+   "high": 0.622,
+   "strokes": 12.3,
+   "limits": 0.398
+  },
+  "S-mY": {
+   "part": 0.636,
+   "low": 0.612,
+   "high": 0.66,
+   "strokes": 7.5,
+   "limits": 0.102
+  }
+ }
+}
