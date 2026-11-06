@@ -4,6 +4,17 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.27.0",
+      "title": "F, réglé avec la fatigue",
+      "date": "6/11/2026",
+      "commits": [],
+      "items": [
+        "Un nouveau robot réglé par l'autojeu, F, le premier qui a appris avec la fatigue et l'effet mal lu : il bat tous les autres robots, X compris.",
+        "Ses échanges sont courts : 6,7 coups contre lui-même, et presque aucun ne va à la limite.",
+        "La recherche qui prend l'adversaire pour Y le bat encore (47,3 % pour F)."
+      ]
+    },
+    {
       "version": "0.26.0",
       "title": "La fatigue, et l'effet mal lu",
       "date": "6/11/2026",

@@ -325,6 +325,8 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Z** (6/11/2026, lignée `v` partie de Y, version 40, [`recherche/autojeu.md`](recherche/autojeu.md)). La première règle qui bat X : 51,6 % [50,2-52,9]. Elle bat Y (65,3 %) et W (61,7 %). Elle gagne à l'usure : ses tops et ses coups doux partent aux bornes basses (3 et 2 m/s), et elle n'attaque qu'avec 0,5 s d'avance, si bien qu'elle ne joue presque jamais son coup décisif. Contre X, 36 coups par échange et 43 % à la limite. S-mZ est plus faible que S-mY (40,2 %) : prendre l'adversaire pour Z ne sert pas la recherche, qui n'est pas ajoutée aux menus.
 
+**F** (6/11/2026, lignée `y3` partie de Y, version 8, [`recherche/autojeu.md`](recherche/autojeu.md)). La première règle réglée avec la limite à 20 coups, la fatigue et l'effet mal lu. Elle bat X (53,8 %), Y (63,1 %), Z (55,3 %), W (58,0 %) et S-mW (54,8 %), pas S-mY (47,3 %). Ses échanges sont courts : 6,7 coups contre elle-même, 5,3 % à la limite contre X. Elle renvoie toujours lent (2,9 m/s en moyenne), et ne fait pas varier son coupé.
+
 **Où en est l'autojeu** (6/11/2026). T, U et V ont été réglés avant le bras court. À faire, sans ordre fixé :
 
 - l'usure paie : un échange à la limite compte un demi-point à chacun, ce qui sert celui qui renvoie lent. Z en vit, et ses vitesses butent sur les bornes basses. La limite à 20 coups abrège ces échanges ; il reste que le modèle ne fait presque pas de faute sur une balle lente et sûre ;

@@ -301,3 +301,42 @@ Un partage et une défaite pour les deux reviennent au même dans l'écart par p
 | Y | 84,1 (4 %) | 85,5 (6 %) | 67,2 (41 %) | 62,0 (42 %) | 49,9 (41 %) | — | 40,4 (32 %) | 61,5 (31 %) | 61,9 (11 %) |
 
 À 20 coups, Z ne bat plus X que de 50,9 % [50,1-51,7], et deux tiers de leurs échanges vont à la limite.
+
+### La fatigue, et F (6/11/2026)
+
+Avec la limite à 20 coups et le partage revenu, `x2` (de Z) garde 4 versions et `y2` (de Y) 10, pour un à deux points de gain : elles précèdent la fatigue, et ne sont pas retenues. Sami ajoute ensuite la fatigue et l'effet mal lu (`modele.md`, § 4). Sur ce modèle, `z3` part de Z et `y3` de Y. Final, 2 000 graines neuves contre les règles, 600 contre les recherches, avec la part d'échanges à la limite :
+
+| Lignée | R0 | R3 | U | V | W | X | Y | Z | S | S-mW | S-mY |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `y3`, version 8 | 83,8 (0 %) | 79,9 (1 %) | 74,6 (2 %) | 64,5 (2 %) | 56,9 (17 %) | 53,2 (6 %) | 63,1 (3 %) | 55,0 (10 %) | 76,5 (1 %) | 54,2 (5 %) | 60,6 (0 %) |
+| `z3`, version 14 | 80,3 (2 %) | 76,8 (1 %) | 75,2 (7 %) | 75,6 (0 %) | 56,4 (17 %) | 52,3 (25 %) | 61,0 (10 %) | 61,2 (43 %) | 76,0 (0 %) | 48,0 (2 %) | 66,1 (4 %) |
+
+`y3` devient F. Duels, 1 200 graines à partir de 8 000 000 (600 contre les recherches), service choisi :
+
+| Duel | Part du premier | Fourchette | Coups | À la limite |
+|---|---:|---:|---:|---:|
+| F contre X | 53,8 % | 52,1-55,4 | 7,5 | 5,3 % |
+| F contre Y | 63,1 % | 61,4-64,7 | 6,5 | 1,8 % |
+| F contre Z | 55,3 % | 53,6-57,1 | 8,1 | 8,3 % |
+| F contre W | 58,0 % | 56,3-59,7 | 9,4 | 16,4 % |
+| F contre `z3` | 52,2 % | 50,4-53,9 | 7,6 | 7,7 % |
+| F contre S-mW | 54,8 % | 52,1-57,4 | 6,3 | 4,5 % |
+| F contre S-mY | 47,3 % | 44,8-49,8 | 4,0 | 0,3 % |
+| `z3` contre X | 53,0 % | 51,5-54,4 | 9,1 | 24,6 % |
+| `z3` contre Z | 60,9 % | 59,6-62,2 | 11,6 | 43,1 % |
+
+Le style, 1 000 échanges :
+
+| Paire | Coups | Échanges de 9 coups et plus | Décisifs qui finissent l'échange : gagnés / ratés | Ce que joue le premier |
+|---|---:|---:|---:|---|
+| F / F | 6,7 | 31 % | 10 / 32 | top 54 %, doux 43 %, décisif 3 % |
+| F / X | 7,8 | 41 % | 21 / 60 | doux 49 %, top 48 %, décisif 3 % |
+| F / Z | 8,5 | 43 % | 15 / 69 | doux 59 %, top 38 %, décisif 3 % |
+| F / W | 9,1 | 45 % | 4 / 87 | top 52 %, doux 42 %, décisif 6 % |
+| F / R3 | 4,9 | 14 % | 8 / 12 | top 78 %, doux 20 %, décisif 1 % |
+| `z3` / `z3` | 13,5 | 67 % | 0 / 0 | doux 90 %, top 10 % |
+
+- **F joue des échanges courts** : 6,7 coups contre elle-même, contre 16,6 pour Y et 31,6 pour Z avant la fatigue. Elle reste lente (2,9 m/s en moyenne à la frappe), avec son top et son coup doux aux bornes basses.
+- **Son coup décisif rate plus qu'il ne gagne** : trois fois sur quatre contre elle-même, 87 fois sur 91 contre W. Il finit l'échange, mais souvent pour l'adversaire.
+- **`z3` reste une usure** : 90 % de coups doux contre elle-même et 43 % d'échanges à la limite contre Z. Elle n'est pas retenue.
+- **Aucune ne fait varier son coupé** (`pushVary` reste à 0) : l'autojeu n'y a rien trouvé, avec une poussette qu'elles ne jouent presque plus.
