@@ -212,3 +212,39 @@ Toutes les règles et les duels sous chaque réglage du seuil, 600 échanges (1 
 | 5 ; 1,5 | 3,5 | 8,1 | 6,6 | 2,2 | 6,1 | 4,7 | 4,6 | 4,1 |
 
 Baisser le seuil raccourcit bien les échanges, mais le duel top contre bloc est déjà à 10,6 coups pour un minimum de 10 : chaque ligne le fait passer dessous, à 3,5 coups au pire. Comme `t` arrive à 10,5 coups sans toucher au corps, le seuil reste à 10 m/s.
+
+### Y : la lignée `t` à sa version 19 (5/11/2026)
+
+La lignée `A3` rejoue `t` sur les mêmes graines et retrouve ses 19 premières versions à l'identique, lectures du panel comprises. Final, 2 000 graines neuves contre les règles, 600 contre les recherches :
+
+| Contre | R0 | R1 | R3 | U | V | W | X | S | S-mV | S-mW |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| version 19 (Y) | 84,5 | 91,6 | 87,8 | 76,5 | 74,6 | 63,6 | 48,0 | 88,0 | 71,2 | 62,3 |
+| version 26 | 74,2 | 78,7 | 78,2 | 61,4 | 59,9 | 54,1 | 50,2 | 78,0 | 66,4 | 57,5 |
+
+Elle devient Y. Duels, 1 200 graines à partir de 8 000 000, service choisi :
+
+| Duel | Part du premier | Fourchette | Coups | À la limite |
+|---|---:|---:|---:|---:|
+| Y contre X | 48,2 % | 46,5-49,9 | 20,5 | 8,2 % |
+| Y contre W | 63,4 % | 61,7-65,1 | 23,0 | 16,5 % |
+| S-mY contre S-mW | 53,0 % | 51,0-54,9 | 9,5 | 0,6 % |
+| S-mY contre S-mV | 57,9 % | 56,2-59,7 | 4,4 | 0 % |
+| S-mY contre S | 57,0 % | 55,2-58,9 | 5,4 | 0 % |
+| S-mY contre Y | 45,1 % | 43,2-47,0 | 8,5 | 0,3 % |
+
+Le style, 1 000 échanges (300 pour les recherches) :
+
+| Paire | Coups | Part de décisifs | Décisifs qui finissent l'échange : gagnés / ratés | Ce que joue le premier |
+|---|---:|---:|---:|---|
+| Y / Y | 16,6 | 1 % | 23 / 43 | doux 57 %, top 42 % |
+| Y / X | 20,4 | 5 % | 64 / 150 | doux 54 %, top 41 % |
+| Y / W | 22,3 | 11 % | 9 / 55 | top 63 %, doux 25 % |
+| Y / V | 8,8 | 0 % | 2 / 0 | doux 77 %, top 23 % |
+| Y / R3 | 7,5 | 4 % | 25 / 12 | top 68 %, doux 28 % |
+| S-mY / S-mY | 4,9 | — | — | top 51 %, plat 34 %, poussette 9 %, coupé 6 % |
+| S-mY / S-mW | 9,3 | — | — | top 49 %, plat 39 %, poussette 8 %, coupé 4 % |
+
+- **Y est plus forte que la version 26, mais joue plus long** : 16,6 coups contre elle-même, 3,5 % à la limite, contre 10,5 et 0,9 %. Elle ne trouve presque pas de balle à finir contre elle-même (1 %).
+- **Le coup décisif sert surtout contre W**, qui renvoie lent (11 % des coups), mais il y rate plus qu'il ne gagne. Contre R3, il gagne deux fois sur trois.
+- **S-mY joue des échanges d'élite contre elle-même** : 4,9 coups, sans échange à la limite. La recherche n'a pas ce coup à part : son top est celui du duel d'entraînement, et le style ne lui compte aucun décisif.

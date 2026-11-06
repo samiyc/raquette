@@ -4,7 +4,9 @@
  * (docs/selfplay/h.json). `U`: lineage k, the strongest of j, k and l, on the body of 16 m/s² (docs/selfplay/k.json). `V`: lineage n,
  * level with o, on the body of 14 m/s² that pays for a stroke on the run (docs/selfplay/n.json). `W` and `X`: lineages p and q, level
  * with each other, on the arm of 72 cm: W keeps a cut for when it is not in place and barely covers, X covers a third of the way and
- * waits a little, but sits at the bottom of the range for its top and its soft stroke (docs/selfplay/p.json, q.json).
+ * waits a little, but sits at the bottom of the range for its top and its soft stroke (docs/selfplay/p.json, q.json). `Y`: lineage t
+ * at its version 19, better read on the panel than its last one (docs/selfplay/A3.json, same seeds as t.json): the first rule with a
+ * finishing stroke, which it plays only with a quarter of a second in hand.
  */
 export const TUNED = Object.freeze({
   T: Object.freeze({
@@ -85,5 +87,31 @@ export const TUNED = Object.freeze({
     softDepth: 0.9606898412108421,
     softWide: 0.4682317918166518,
     softRise: 0.15924145278986543,
+  }),
+  Y: Object.freeze({
+    wide: 0.5610064342617989,
+    depth: 0.6216168966516853,
+    topWide: 0.5947404607199132,
+    topDepth: 0.9826740829274058,
+    topSpeed: 3,
+    topBrush: 14.283890642225742,
+    pushSpeed: 2.1689616134390235,
+    pushBrush: -1.3315164353698492,
+    flatSpeed: 6.708490592427552,
+    highBall: 0.1,
+    wait: 0.09506617865990846,
+    cover: 0.29220286626368774,
+    ready: -0.09431461077183483,
+    softSpeed: 3.684565305709839,
+    softBrush: 1.6555103342980146,
+    softDepth: 0.9366577289998531,
+    softWide: 0.3996309629641473,
+    softRise: 0.15924145278986543,
+    killSlow: 7.976958626881242,
+    killHigh: 0.2972419385099784,
+    killReady: 0.2567783311009407,
+    killSpeed: 14.289232811890543,
+    killBrush: 11.049850398674607,
+    killWide: 0.5953315470367669,
   }),
 });

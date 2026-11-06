@@ -25,7 +25,7 @@ const VARIANTS = Number(option("--variants", 8));
 const SCREEN = Number(option("--screen", 150));
 const CONFIRM = Number(option("--confirm", 600));
 const THREADS = Number(process.env.MCTS_THREADS) || 1;
-const PANEL = ["R0", "R1", "R3", "U", "V", "W", "X"];
+const PANEL = ["R0", "R1", "R3", "U", "V", "W", "X", "Y"];
 const CURRENT = "version";
 const VARIANT = "variante";
 const SERVING = "mix";
@@ -76,7 +76,7 @@ function note(generation, entry) {
 async function finalCheck() {
   const final = {};
   const catalog = { [VARIANT]: history.numbers };
-  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH], ["S-mW", FINAL_SEARCH]]) {
+  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH], ["S-mW", FINAL_SEARCH], ["S-mY", FINAL_SEARCH]]) {
     const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count });
     final[name] = { part: Number(report.part.toFixed(3)), low: Number((0.5 + report.gap.low / 4).toFixed(3)), high: Number((0.5 + report.gap.high / 4).toFixed(3)), strokes: Number(report.strokes.toFixed(1)) };
   }
