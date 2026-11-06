@@ -36,6 +36,17 @@ describe("two rules by pairs", () => {
     assert.equal(report.part, 0.5);
     assert.deepEqual(report.lostByA, {});
   });
+
+  it("gives a rally at its limit to B when asked, for self-play", () => {
+    const soft = { name: "soft", decide: (view) => {
+      const stroke = takeToCentre(view);
+      return stroke && { ...stroke, swing: { speed: 5, brushUp: 0, brushSide: 0 } };
+    } };
+    const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterAcross: 0, scatterSpeed: 0 };
+    const report = mergePairs([playSeeds({ a: soft, b: soft, profile: steady, from: 0, seeds: 3, limitScore: "againstA" })]);
+    assert.equal(report.limits, 1);
+    assert.ok(report.part < 0.5);
+  });
 });
 
 describe("seeds played in batches", () => {

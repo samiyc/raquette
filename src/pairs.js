@@ -4,7 +4,9 @@ import { serviceOf } from "./services.js";
 
 /**
  * Two rules by pairs (docs/modele.md, § 7): a seed gives two rallies, A serving then B serving, with the same draws of scatter. A's
- * score on a seed is its points, 0 to 2; a rally stopped at its limit counts half a point each, and is counted apart.
+ * score on a seed is its points, 0 to 2; a rally stopped at its limit counts half a point each, and is counted apart. With
+ * `limitScore: "againstA"`, it is B's point: self-play gives it against the variant, so that dragging a rally out does not pay (Sami,
+ * 6/11/2026).
  *
  * @typedef {object} PairsReport
  * @property {ReturnType<typeof paired>} gap of A − B, in points per seed
@@ -16,12 +18,12 @@ import { serviceOf } from "./services.js";
  * @property {Record<string, number>} lostByB how B lost them
  */
 
-function tally(report, result, server) {
+function tally(report, result, server, limitScore) {
   report.strokes += result.strokes;
   report.rallies += 1;
   if (result.winner < 0) {
     report.limits += 1;
-    return 0.5;
+    return limitScore === "againstA" ? 0 : 0.5;
   }
   if (result.winner === server) report.serverPoints += 1;
   const lost = result.winner === 0 ? report.lostByB : report.lostByA;
@@ -47,17 +49,17 @@ function playKept(options, log) {
 
 /**
  * The raw count of a run of seeds, to be put together with others by `mergePairs`.
- * @param {{a: import("./types.js").Rule, b: import("./types.js").Rule, profile: any, from?: number, seeds: number, log?: any, serving?: string}} match
+ * @param {{a: import("./types.js").Rule, b: import("./types.js").Rule, profile: any, from?: number, seeds: number, log?: any, serving?: string, limitScore?: "shared" | "againstA"}} match
  *   `log`, to keep the rallies (src/replay-log.js): `start(seed, server)` gives a rally's log, `end(line)` takes its line.
  *   `serving`: a service of src/services.js, `mix` or `choice`; the long one otherwise
  */
-export function playSeeds({ a, b, profile, from = 0, seeds, log, serving }) {
+export function playSeeds({ a, b, profile, from = 0, seeds, log, serving, limitScore = "shared" }) {
   const players = [{ rule: a, profile }, { rule: b, profile }];
   const count = { strokes: 0, rallies: 0, limits: 0, serverPoints: 0, lostByA: {}, lostByB: {} };
   const scoresA = [];
   const scoresB = [];
   for (let seed = from; seed < from + seeds; seed += 1) {
-    const play = (server) => tally(count, playKept({ seed, players, server, ...startOf(seed, players[server].rule, serving) }, log), server);
+    const play = (server) => tally(count, playKept({ seed, players, server, ...startOf(seed, players[server].rule, serving) }, log), server, limitScore);
     const points = play(0) + play(1);
     scoresA.push(points);
     scoresB.push(2 - points);

@@ -17,7 +17,7 @@ import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
  * @typedef {import("./types.js").RallyResult} RallyResult
  * @typedef {import("./types.js").RallyOptions} RallyOptions
  */
-const MAX_STROKES = 60; // H, docs/modele.md, § 2.
+const MAX_STROKES = 20; // Sami, 6/11/2026: elite rallies are 4 to 5 strokes; docs/modele.md, § 2.
 const MAX_TICKS = 240 * 120;
 const STREAM_PER_ROLE = 1000;
 

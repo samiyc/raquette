@@ -112,7 +112,7 @@ describe("a ball read late", () => {
 describe("R0 against R0", () => {
   it("goes on and on: two players sending the ball to the centre with room over the net rarely miss", () => {
     const { causes, mean } = tally(both(R0));
-    assert.ok(mean > 30, `${mean}`);
+    assert.ok(mean > 15, `${mean}`); // Near the limit of 20 strokes.
     assert.ok(causes.limit > 0);
     assert.ok(causes.net > 0);
   });
@@ -134,7 +134,7 @@ describe("R0 against R0", () => {
     const steady = { ...CLUB_PLAYER, scatterTilt: 0, scatterAcross: 0, scatterSpeed: 0 };
     const result = playRally({ seed: 1, players: both(soft, steady), server: 0 });
     assert.equal(result.winner, -1);
-    assert.equal(result.strokes, 60);
+    assert.equal(result.strokes, 20);
   });
 });
 

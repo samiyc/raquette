@@ -37,7 +37,7 @@ const CAUSES = {
   twoBounces: "deux rebonds, le receveur n'est pas arrivé à temps",
   notReached: "balle pas rejointe",
   behind: "balle passée dans le dos, hors du secteur",
-  limit: "limite de 60 coups, sans vainqueur",
+  limit: "limite de 20 coups, sans vainqueur",
 };
 
 /**

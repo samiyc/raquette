@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.25.0",
+      "title": "Un échange s'arrête à 20 coups",
+      "date": "6/11/2026",
+      "commits": [],
+      "items": [
+        "La limite d'un échange passe de 60 à 20 coups, sur les conseils de Sami : l'élite joue 4 à 5 coups par échange, et les simulations vont plus vite.",
+        "Dans l'autojeu, un échange arrêté à la limite compte comme perdu pour la variante : faire durer le point ne paie plus."
+      ]
+    },
+    {
       "version": "0.24.0",
       "title": "Z, le premier à battre X",
       "date": "6/11/2026",

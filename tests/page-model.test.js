@@ -118,7 +118,7 @@ describe("the words under the view", () => {
     const result = { winner: 1, cause: "twoBounces", strokes: 3, ticks: 480 };
     assert.equal(rallyText({ seed: 7, result }), "Graine 7, 3 coup(s) après le service, 2,00 s ; le joueur de droite gagne : deux rebonds, le receveur n'est pas arrivé à temps.");
     assert.match(rallyText({ seed: 7, result: { ...result, winner: 0, cause: "net" } }), /le joueur de gauche gagne : balle dans le filet\.$/);
-    assert.match(rallyText({ seed: 7, result: { ...result, winner: -1, cause: "limit" } }), /limite de 60 coups, sans vainqueur\.$/);
+    assert.match(rallyText({ seed: 7, result: { ...result, winner: -1, cause: "limit" } }), /limite de 20 coups, sans vainqueur\.$/);
     assert.match(rallyText({ seed: 7, result: { ...result, winner: 0, cause: "net" } }, ["vous gagnez", "le robot gagne"]), /vous gagnez : balle dans le filet\.$/);
   });
 

@@ -57,8 +57,8 @@ un lift.
 - pas de vent, l'air à 20 °C ;
 - un seul revêtement, un backside offensif (Q-P14).
 
-**Une limite d'échange** : 60 coups (H). Un échange qui l'atteint vaut un partage (0,5), et il est compté à part. Une série
-qui en a beaucoup signale un modèle sans faute.
+**Une limite d'échange** : 20 coups (Sami, 6/11/2026 ; 60 jusque-là, H). Un échange qui l'atteint vaut un partage (0,5), et il est compté à part. Une série
+qui en a beaucoup signale un modèle sans faute. L'élite joue 4,5 coups par échange (`chiffres.md`, § 6) : 20 coups laissent de la marge, hors défenseurs, et les simulations ne s'attardent plus sur les échanges sans fin. Dans l'autojeu, l'échange à la limite est perdu par la variante, sans quoi le faire durer paie (Z, § 8). Les duels de référence passent ainsi de 47,3 à 18,6 coups pour R0 contre R0 (85 % à la limite), de 10,6 à 8,6 pour top contre bloc (17 %), de 38 à 17,3 pour les poussettes (74 %) ; vitesses et effets ne bougent pas.
 
 ## 3. La balle
 

@@ -36,8 +36,8 @@ const average = (balls, key) => balls.reduce((sum, ball) => sum + ball[key], 0) 
 describe("a duel of top against block (Sami, 3/11/2026)", () => {
   const { sent, causes, mean } = watch(DUELS.topBlock);
 
-  it("lasts as a training drill lasts: 10 to 25 strokes on average", () => {
-    assert.ok(mean >= 10 && mean <= 25, `${mean}`);
+  it("lasts as a training drill lasts: 8 strokes or more on average, under the limit of 20 (10 to 25 before it)", () => {
+    assert.ok(mean >= 8 && mean <= 20, `${mean}`);
   });
 
   it("the top is a real one: at least 9 m/s and 60 turns of lift", () => {
@@ -74,7 +74,7 @@ describe("a duel of pushes (Sami, 3/11/2026)", () => {
 
   it("gets shorter as the players get less sure: what a low level would see", () => {
     const shaky = { ...CLUB_PLAYER, scatterTilt: 0.0875, scatterAcross: 0.0875, scatterSpeed: 0.1 };
-    assert.ok(watch(DUELS.pushes, shaky).mean < mean / 2);
+    assert.ok(watch(DUELS.pushes, shaky).mean < mean * 0.6); // Half before the limit of 20 cut the steady duel.
   });
 });
 

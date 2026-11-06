@@ -29,6 +29,7 @@ const PANEL = ["R0", "R1", "R3", "U", "V", "W", "X", "Y", "Z"];
 const CURRENT = "version";
 const VARIANT = "variante";
 const SERVING = "mix";
+const LIMIT_SCORE = "againstA"; // A rally at its limit is the variant's loss (Sami, 6/11/2026); the final check shares it, as the duels do.
 const BUDGET = 24;
 const FOLDER = fileURLToPath(new URL("../docs/selfplay/", import.meta.url));
 const FILE = `${FOLDER}${run}.json`;
@@ -39,9 +40,9 @@ const SEED_BASE = 2000000 + [...run].reduce((sum, c) => sum + c.charCodeAt(0), 0
 mkdirSync(FOLDER, { recursive: true });
 const setNumbers = Object.fromEntries(String(option("--set", "")).split(",").filter(Boolean).map((pair) => pair.split("=")).map(([key, value]) => [key, Number(value)]));
 const startNumbers = { ...R3_NUMBERS, ...TUNED[option("--start", "")], ...setNumbers };
-const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, numbers: startNumbers, version: 0, generations: [] };
+const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, numbers: startNumbers, version: 0, maxStrokes: 20, limitScore: LIMIT_SCORE, generations: [] };
 
-const pairs = (names, catalog, seeds) => playOnThreads({ names, budget: BUDGET, from: seeds.from, seeds: seeds.count, replays: false, serving: SERVING, catalog }, THREADS);
+const pairs = (names, catalog, seeds, limitScore = LIMIT_SCORE) => playOnThreads({ names, budget: BUDGET, from: seeds.from, seeds: seeds.count, replays: false, serving: SERVING, catalog, limitScore }, THREADS);
 
 /** Variant against the current version, on few seeds. */
 async function screen(variants, from) {
@@ -77,8 +78,8 @@ async function finalCheck() {
   const final = {};
   const catalog = { [VARIANT]: history.numbers };
   for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH], ["S-mW", FINAL_SEARCH], ["S-mY", FINAL_SEARCH]]) {
-    const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count });
-    final[name] = { part: Number(report.part.toFixed(3)), low: Number((0.5 + report.gap.low / 4).toFixed(3)), high: Number((0.5 + report.gap.high / 4).toFixed(3)), strokes: Number(report.strokes.toFixed(1)) };
+    const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count }, "shared");
+    final[name] = { part: Number(report.part.toFixed(3)), low: Number((0.5 + report.gap.low / 4).toFixed(3)), high: Number((0.5 + report.gap.high / 4).toFixed(3)), strokes: Number(report.strokes.toFixed(1)), limits: Number(report.limits.toFixed(3)) };
   }
   return final;
 }
