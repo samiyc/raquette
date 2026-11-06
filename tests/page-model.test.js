@@ -142,7 +142,8 @@ describe("the view", () => {
     assert.equal(topPoint(layout, 1, 0)[0], sidePoint(layout, 1, 0)[0]);
     assert.ok(topPoint(layout, 0, 1)[1] < topPoint(layout, 0, -1)[1]);
     assert.ok(sidePoint(layout, 0, 1)[1] < sidePoint(layout, 0, 0)[1]);
-    assert.ok(close(sidePoint(layout, 0, -0.76)[1], layout.sideHeight));
+    assert.ok(close(sidePoint(layout, 0, -0.38)[1], layout.sideHeight));
+    assert.equal(sidePoint(layout, 0, -0.76)[1], layout.sideHeight, "a ball on the floor stays on the band's edge (Sami, 6/11/2026)");
     assert.ok(close(topPoint(layout, 0, -1.375)[1], layout.height));
   });
 

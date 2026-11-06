@@ -4,11 +4,12 @@
  */
 
 /**
- * What the view shows, in metres: the floor up to a lob's top, and below it the table and room for the players. A lob higher than
- * that leaves the screen rather than crossing the view from above, the one Sami watches (3/11/2026). Heights are squeezed in the
- * side band, so that both bands fit on a screen without scrolling; lengths keep one scale.
+ * What the view shows, in metres: from half the way down to the floor up to a lob's top, and below it the table and room for the
+ * players. A lob higher than that leaves the screen rather than crossing the view from above, the one Sami watches (3/11/2026). A
+ * ball lower than the band, on its way to the floor, stays on its bottom edge. Heights are squeezed in the side band, so that both
+ * bands fit on a screen without scrolling; lengths keep one scale.
  */
-const VIEW = { halfX: 3, halfY: 1.375, floor: -0.76, ceiling: 1.5 }; // 25 % more room from above than the 1.1 m it had (Sami, 3/11/2026).
+const VIEW = { halfX: 3, halfY: 1.375, floor: -0.38, ceiling: 1 }; // A third less above the table, half less below, to bring the view from above up the page (Sami, 6/11/2026).
 const SIDE_HEIGHTS = 0.55;
 const BAND_GAP = 14;
 
@@ -61,7 +62,7 @@ export const fromTopBand = (layout, py) => py - layout.topStart;
 /** A point seen from the side. */
 export const sidePoint = (layout, x, z) => [
   layout.width / 2 + x * layout.scale,
-  (VIEW.ceiling - z) * layout.scale * SIDE_HEIGHTS,
+  (VIEW.ceiling - Math.max(z, VIEW.floor)) * layout.scale * SIDE_HEIGHTS,
 ];
 
 const clampHeight = (z) => Math.max(0, Math.min(1, z));
