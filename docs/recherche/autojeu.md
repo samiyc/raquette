@@ -381,3 +381,25 @@ Sur le modèle à l'erreur d'angle (0.28.0), deux lignées partent de F, 40 gén
 - **W passe en tête.** Duels, 1 200 graines à partir de 8 000 000 (600 contre les recherches) : W bat `f1` 57,2 % [55,3-59,1], F 61,6, X 69,5, Y 68,2, Z 66,3, V 57,1, R3 59,0 et S-mY 60,1, mais perd contre S-mW (40,9 %). Son top, 4,9 m/s de raquette et 9,9 de brossage, est un top ordinaire, celui que le nouveau modèle rend sûr. W contre W : 8,2 coups ; `f1` contre `f1` : 6,5 ; F contre F : 2,6, F ratant son top lent.
 
 Deux lignées partent de W : `w1` de W tel quel, `w2` de W avec le coup décisif de `f1`.
+
+### Les lignées `w1` et `w2`, et G (9/11/2026)
+
+Finals, 2 000 graines neuves contre les règles, 600 contre les recherches :
+
+| Lignée | R0 | R3 | V | W | X | Y | Z | F | S | S-mW | S-mY |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `w1`, version 8 | 79,7 | 67,4 | 61,3 | 62,3 | 68,2 | 66,3 | 68,7 | 62,0 | 63,7 | 55,7 | 62,0 |
+| `w2`, version 9 | 67,7 | 66,4 | 60,6 | 62,1 | 66,7 | 65,4 | 68,2 | 62,0 | 64,2 | 57,8 | 61,8 |
+
+Duels, 1 200 graines à partir de 8 000 000 (600 contre les recherches) :
+
+| Duel | `w1` | `w2` |
+|---|---:|---:|
+| l'une contre l'autre | 45,5 % [43,8-47,2] | 54,5 % |
+| contre W | 63,5 % [61,8-65,2] | 60,8 % [59,0-62,5] |
+| contre `f1` | 59,7 % | 55,3 % |
+| contre X | 67,1 % | 66,5 % |
+| contre S-mW | 47,6 % [44,9-50,2] | **53,0 % [50,3-55,7]** |
+| contre S-mY | 59,4 % | 60,1 % |
+
+`w2` devient G : elle bat `w1` et c'est la première règle à battre S-mW. Les deux gardent un top ordinaire (`w1` 4,9 m/s de raquette et 11,0 de brossage, `w2` 5,4 et 12,4), et leur coup doux devient un coupé (brossage −6,9 et −6,0). `w2` garde le coup décisif de `f1` ; contre elle-même, elle en joue 13 % de ses coups et en gagne 57 sur 143 qui finissent l'échange. G contre G : 4,0 coups par échange, 38 % des échanges en 1 ou 2 coups, 9 % en 9 coups et plus ; contre W, 4,2 coups.

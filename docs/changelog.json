@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.29.0",
+      "title": "G, le premier à battre S-mW",
+      "date": "9/11/2026",
+      "commits": [],
+      "items": [
+        "Un nouveau robot réglé par l'autojeu sur l'erreur d'angle de la face, G : il bat tous les robots, W de 60,8 %, et la recherche S-mW de 53,0 %, une première.",
+        "Il joue un top ordinaire, un coup doux coupé et un coup décisif, et fait varier le coupé de ses poussettes. Ses échanges contre lui-même durent 4 coups en moyenne."
+      ]
+    },
+    {
       "version": "0.28.0",
       "title": "L'erreur sur la face devient un angle",
       "date": "9/11/2026",

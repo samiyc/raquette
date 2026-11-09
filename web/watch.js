@@ -13,6 +13,7 @@ const ROBOTS = [
   ["Y", "Y, attend pour finir"],
   ["Z", "Z, patient"],
   ["F", "F, réglé avec la fatigue"],
+  ["G", "G, réglé sur l'erreur d'angle"],
   ["S", "La recherche"],
   ["S-mT", "La recherche, modèle T"],
   ["S-mU", "La recherche, modèle U"],
