@@ -152,7 +152,8 @@ describe("the sidespin", () => {
       if (intent) sides.push(intent.swing.brushSide);
       return intent;
     } };
-    for (let seed = 0; seed < 12; seed += 1) playRally({ seed, players: [{ rule: spy, profile: CLUB_PLAYER }, { rule: RULES.R3, profile: CLUB_PLAYER }], server: seed % 2 });
+    // 40 rallies: after the face error became an angle (9/11/2026), the first sidespin comes at seed 28; 6 in 60 rallies, as before.
+    for (let seed = 0; seed < 40; seed += 1) playRally({ seed, players: [{ rule: spy, profile: CLUB_PLAYER }, { rule: RULES.R3, profile: CLUB_PLAYER }], server: seed % 2 });
     assert.ok(sides.some((brush) => brush !== 0), sides.join());
   });
 });

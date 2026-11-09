@@ -98,6 +98,14 @@ export function racketSpeedFor(wanted, coming) {
   return Math.max(-MAX_RACKET, Math.min(MAX_RACKET, speed));
 }
 
+/** The face alone, from a pose: the racket keeps the way it moves. */
+export function turnFace(racket, pose) {
+  const norm = Math.sqrt(1 + pose[0] * pose[0] + pose[1] * pose[1]);
+  racket[NX] = pose[2] / norm;
+  racket[NY] = (pose[2] * pose[0]) / norm;
+  racket[NZ] = pose[1] / norm;
+}
+
 /**
  * A racket from its pose, seen from the player: two tilts of its face, across and up, then the way the player plays (+1 or −1).
  * `swing.speed` is how fast the ball is to leave along the normal; the brush goes along the face, up for a lift, down for a

@@ -20,8 +20,9 @@ const EXPECTED = {
   // 3/11/2026: 1.5° sideways, the scatter grows at the end of the arm and on a fast ball (docs/recherche/chiffres.md, § 8); the aim tries at 60 Hz.
   // 6/11/2026: a rally stops at 20 strokes instead of 60 (Sami).
   // 6/11/2026: tired by the strokes of the rally, and the spin read within 2 %, late when it changes (Sami).
-  rally: "8353b3f8794c9008",
-  duels: "ec3dd1b240462b81",
+  // 9/11/2026: the error up turns the face alone, as an angle, not the racket's way (Sami).
+  rally: "8d37d95b3f7c954f",
+  duels: "808e35931fcd0deb",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */

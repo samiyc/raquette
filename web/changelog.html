@@ -19,6 +19,17 @@
         <h2>Les versions</h2>
 
       <article class="version">
+        <h3><span class="tag">0.28.0</span> L'erreur sur la face devient un angle <span class="date">9/11/2026</span></h3>
+        <ul>
+          <li>Les 3° d'erreur sur l'orientation de la raquette portaient sur la tangente de son inclinaison : une face très fermée n'avait presque plus d'erreur, et un top lent très brossé ne ratait que 0,7 % des balles. L'autojeu s'en servait.</li>
+          <li>L'erreur tourne désormais l'angle de la face, et la face seule : un contact fin devient peu sûr, le top ordinaire l'est davantage qu'avant (4,7 % de fautes au lieu de 8,8 %), le coup décisif aussi.</li>
+          <li>Top contre bloc ne bouge pas (6,1 coups) ; R0 contre R0 passe à 19,4 coups, les poussettes à 14,3.</li>
+          <li>Tous les robots réglés l'ont été sur l'ancienne erreur.</li>
+        </ul>
+        <p class="commits"></p>
+      </article>
+
+      <article class="version">
         <h3><span class="tag">0.27.0</span> F, réglé avec la fatigue <span class="date">6/11/2026</span></h3>
         <ul>
           <li>Un nouveau robot réglé par l'autojeu, F, le premier qui a appris avec la fatigue et l'effet mal lu : il bat tous les autres robots, X compris.</li>

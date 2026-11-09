@@ -5,10 +5,10 @@ import { advance, FLOOR_TOUCH, NET_TOUCH, TABLE_BOUNCE } from "./ball/table.js";
 import { aim } from "./aim.js";
 import { readWay } from "./forecast.js";
 import { BEHIND, BX, createBody, moveBody, OK, placeBody, reachOf, setGoal, waitingX } from "./player.js";
-import { normalDraw } from "./scatter.js";
+import { normalDraw, tiltedBy } from "./scatter.js";
 import { factorsOf, readBall } from "./stroke-error.js";
 import { receiverY, serviceBall, SERVICE_KINDS } from "./services.js";
-import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
+import { poseRacket, RACKET_SIZE, strike, turnFace } from "./racket.js";
 
 /**
  * A rally: a served ball, then each player reads it, moves and takes it, until a fault (docs/modele.md, § 2, § 4 and § 7).
@@ -127,7 +127,10 @@ function drawScatter(state, who) {
   return [normalDraw(rng), normalDraw(rng), normalDraw(rng), normalDraw(rng)];
 }
 
-/** Aims, then scatters the racket, then strikes the true ball. */
+/**
+ * Aims, then scatters the racket, then strikes the true ball. The error up turns the face alone, not the way the racket moves (Sami,
+ * 9/11/2026): a thin contact, a slow racket under a heavy brush, is then the unsure one, and the ordinary top is not.
+ */
 function play(state, who, plan) {
   const { side, profile } = state.seats[who];
   const forward = -side;
@@ -139,9 +142,10 @@ function play(state, who, plan) {
   const { rush, stretch, control, far, effort, running, tired } = factors;
   const worse = rush * stretch * control * far * effort * running * tired;
   pose[0] += draws[0] * profile.scatterAcross * worse;
-  pose[1] += draws[1] * profile.scatterTilt * worse;
   const swing = { ...plan.swing, speed: kept * (1 + draws[2] * profile.scatterSpeed * worse) };
   poseRacket(racket, pose, swing, state.ball);
+  pose[1] = tiltedBy(pose[1], draws[1] * profile.scatterTilt * worse);
+  turnFace(racket, pose);
   const before = state.listener?.impact ? state.ball.slice() : null;
   strike(state.ball, racket);
   if (before) state.listener.impact({ who, plan, before, racket, found, kept, draws, ...factors }, state);

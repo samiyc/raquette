@@ -19,7 +19,7 @@ export const CLUB_PLAYER = Object.freeze({
   preparation: 0.15, // Q-P6, seconds
   easyRun: 1, // Q-P23, m/s: a stroke played while moving this fast costs nothing
   runningLoss: 3, // Q-P23, m/s more for one more scatter: at 4, not much of a reason to be there early (Sami, 4/11/2026); at 2.5, top against block falls under 10 strokes
-  scatterTilt: 0.0524, // Q-P1: tan 3°, up and down
+  scatterTilt: 0.0524, // Q-P1: tan 3°, up and down, on the angle of the face (src/scatter.js, tiltedBy)
   scatterAcross: 0.0262, // Q-P1: tan 1.5°, sideways: at 3°, nothing near a side line was ever worth aiming at
   comfort: 0.45, // Q-P5, metres from the body to the ball, without stretching: the same part of the arm as before
   stretchedScatter: 2, // Q-P2: the scatter at full reach

@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.28.0",
+      "title": "L'erreur sur la face devient un angle",
+      "date": "9/11/2026",
+      "commits": [],
+      "items": [
+        "Les 3° d'erreur sur l'orientation de la raquette portaient sur la tangente de son inclinaison : une face très fermée n'avait presque plus d'erreur, et un top lent très brossé ne ratait que 0,7 % des balles. L'autojeu s'en servait.",
+        "L'erreur tourne désormais l'angle de la face, et la face seule : un contact fin devient peu sûr, le top ordinaire l'est davantage qu'avant (4,7 % de fautes au lieu de 8,8 %), le coup décisif aussi.",
+        "Top contre bloc ne bouge pas (6,1 coups) ; R0 contre R0 passe à 19,4 coups, les poussettes à 14,3.",
+        "Tous les robots réglés l'ont été sur l'ancienne erreur."
+      ]
+    },
+    {
       "version": "0.27.0",
       "title": "F, réglé avec la fatigue",
       "date": "6/11/2026",

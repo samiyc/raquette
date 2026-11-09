@@ -340,3 +340,29 @@ Le style, 1 000 échanges :
 - **Son coup décisif rate plus qu'il ne gagne** : trois fois sur quatre contre elle-même, 87 fois sur 91 contre W. Il finit l'échange, mais souvent pour l'adversaire.
 - **`z3` reste une usure** : 90 % de coups doux contre elle-même et 43 % d'échanges à la limite contre Z. Elle n'est pas retenue.
 - **Aucune ne fait varier son coupé** (`pushVary` reste à 0) : l'autojeu n'y a rien trouvé, avec une poussette qu'elles ne jouent presque plus.
+
+### Pourquoi le top lent ne rate pas, et F sans son coup décisif (9/11/2026)
+
+**Le top lent.** Sur 230 balles que F reçoit contre lui-même, chaque coup vise la même cible, puis 40 tirages de dispersion identiques, sans facteur aggravant :
+
+| Coup | Face fermée de | Balle envoyée | Fautes, tangente | Angle, avec la trajectoire | Angle, face seule |
+|---|---:|---:|---:|---:|---:|
+| top de F, 3 et 14,3 m/s | 64° | 11,8 m/s, 141 tr/s | 0,7 % | 25,9 % | 30,9 % |
+| top ordinaire, 10 et 10 | 46° | 12,4 m/s, 108 tr/s | 14,1 % | 39,3 % | 4,7 % |
+| top 6 et 12 | 53° | 12,1 m/s | 6,2 % | 31,1 % | 12,0 % |
+| coup doux de F | 50° | 7,8 m/s | 0,2 % | 14,5 % | 2,2 % |
+| plat 6,7 m/s | 23° | 7,9 m/s | 8,2 % | 18,3 % | 8,6 % |
+| décisif de F | 43° | 14,4 m/s | 21,1 % | 44,3 % | 8,4 % |
+
+La colonne « face seule » est mesurée sur une seconde série de balles (85 balles, celles de F sous le modèle corrigé), avec la colonne tangente refaite sur ces balles : 0,6, 8,8, 4,6, 0,2, 6,5 et 23,7 %. Dispersion par l'angle à la place de la tangente, sur 400 échanges : à 3°, R0 18,3, top contre bloc 3,5, poussettes 14,0 ; à 2°, 19,7, 5,9 et 15,5. Sami garde 3° sur l'angle, sans raccourcir top contre bloc : c'est la face seule qui tourne. Le top y rate 6,2 % des coups au lieu de 16,0 %, le bloc 25,6 % au lieu de 13,8 %.
+
+**F sans son coup décisif**, sur l'ancien modèle, 1 200 graines à partir de 8 000 000, celles des duels de F :
+
+| Variante | contre F | X | Z | Y | W |
+|---|---:|---:|---:|---:|---:|
+| F | — | 53,8 | 55,3 | 63,1 | 58,0 |
+| F sans décisif (`killSlow` 0) | 51,2 [50,3-52,0] | 55,0 | 58,7 | 63,2 | 60,1 |
+| décisif avec 0,5 s d'avance | 51,2 [50,5-52,0] | | | | |
+| décisif sur balle à 40 cm et plus | 50,0 [49,9-50,1] | | | | |
+
+Le décisif de F coûtait 1 à 3 points. Il ratait 21 % de ses balles à dispersion égale ; avec la face seule, 8 %. Il est à remesurer sur le nouveau modèle.

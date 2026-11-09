@@ -13,6 +13,19 @@ export function normalDraw(rng) {
   return sum;
 }
 
+const MOST_TILT = 4; // A face closed or open by 76°: past it, the ball goes anywhere but onto the table.
+
+/**
+ * A tilt of the face, as the tangent the racket is posed with (src/racket.js), turned by an error given as the tangent of an angle:
+ * tan(a + b), without trigonometry. Adding the error to the tangent itself shrank it on a closed face, to a fifth at 64°: self-play
+ * found that a slow top with a heavy brush missed 0.7 % of balls where the ordinary top missed 14 % (Sami, 9/11/2026, Q-P1).
+ */
+export function tiltedBy(tilt, error) {
+  const across = 1 - tilt * error;
+  const turned = across > 1 / MOST_TILT ? (tilt + error) / across : Math.sign(tilt + error) * MOST_TILT;
+  return Math.max(-MOST_TILT, Math.min(MOST_TILT, turned));
+}
+
 /** Too little time to prepare: ×2 with none at all. */
 export function rushOf(seconds, profile) {
   if (seconds >= profile.preparation) return 1;

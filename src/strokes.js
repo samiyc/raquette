@@ -4,7 +4,7 @@ import { frames, readWay, riseStep, topStep } from "./forecast.js";
 import { createBody, moveBody, OK, reachOf, setGoal } from "./player.js";
 import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
 import { recordFlight } from "./recording.js";
-import { controlOf, effortOf, farOf, runningOf, rushOf, stretchOf } from "./scatter.js";
+import { controlOf, effortOf, farOf, runningOf, rushOf, stretchOf, tiltedBy } from "./scatter.js";
 import { R0_SWING } from "./rules/center.js";
 import { DRILL_STROKES } from "./rules/drills.js";
 import { SHORT_SWING } from "./rules/short.js";
@@ -226,7 +226,7 @@ export function expectedMiss(state, { who, rule }) {
   const base = missOf(task, { side: across, up, speed });
   const moved = [
     missOf(task, { side: across + profile.scatterAcross * worse, up, speed }),
-    missOf(task, { side: across, up: up + profile.scatterTilt * worse, speed }),
+    missOf(task, { side: across, up, speed, face: tiltedBy(up, profile.scatterTilt * worse) }),
     missOf(task, { side: across, up, speed: speed * (1 + profile.scatterSpeed * worse) }),
   ];
   const squares = moved.reduce((sum, [x, y]) => sum + (x - base[0]) * (x - base[0]) + (y - base[1]) * (y - base[1]), 0);

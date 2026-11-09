@@ -39,7 +39,7 @@ préparateur physique. Pas de donnée nominative. Modèle fictif : on ne cherche
 
 | # | Question | Qui | La recommandation | Pèse sur |
 |---|---|---|---|---|
-| **Q-P1** | Un bon joueur de club vise un coin de la table avec un coup droit tranquille. À quelle distance de la cible tombent ses balles, le plus souvent ? Combien de ses balles vont au filet ? | E, J | **3° sur l'orientation et 6 % sur la vitesse** : environ 16 cm en médiane sur une balle facile, et 13 % au filet sur une balle prise bas (calculés à J3). | Tout : la longueur des échanges, la valeur du placement. Si on ne répond qu'à une question, celle-là. |
+| **Q-P1** | Un bon joueur de club vise un coin de la table avec un coup droit tranquille. À quelle distance de la cible tombent ses balles, le plus souvent ? Combien de ses balles vont au filet ? | E, J | **3° sur l'orientation et 6 % sur la vitesse** : environ 16 cm en médiane sur une balle facile, et 13 % au filet sur une balle prise bas (calculés à J3). L'erreur porte sur l'angle de la face, la face seule, pas sur sa tangente (Sami, 9/11/2026, `modele.md`, § 8). | Tout : la longueur des échanges, la valeur du placement. Si on ne répond qu'à une question, celle-là. |
 | **Q-P2** | Qu'est-ce qui dégrade la frappe le plus : frapper plus fort, jouer avec plus d'effet, ou manquer de temps ? De combien ? | E, J | **Le temps avant tout : ×2 sans préparation.** Force et effet n'ajoutent rien au départ. | R2, et ce qui rapporte à forcer l'adversaire à courir. |
 | **Q-P3** | Sur 100 balles faciles en échange, combien un bon joueur de club en rate-t-il ? Et sur des balles difficiles ? | E, J | **Pas de chiffre fixé** : la dispersion est calibrée sur 4 à 5 coups par échange. | La calibration. Un chiffre servirait de vérification. |
 

@@ -1,6 +1,6 @@
 import { BALL, BALL_SIZE, NET, STEP, TABLE, VX, VY, VZ, X, Y, Z } from "./ball/constants.js";
 import { fly } from "./ball/flight.js";
-import { poseRacket, RACKET_SIZE, strike } from "./racket.js";
+import { poseRacket, RACKET_SIZE, strike, turnFace } from "./racket.js";
 
 /**
  * The aim: the two tilts of the racket that send the ball onto a point of the other camp, by Newton's method, each try
@@ -70,12 +70,16 @@ function flyToLanding() {
  * What a racket with these tilts does: the miss in the player's own frame, into `landed`.
  * @param {import("./types.js").AimTask} task
  */
-function tryTilts(task, side, up) {
+function tryTilts(task, side, up, face = up) {
   flying.set(task.ball);
   pose[0] = side;
   pose[1] = up;
   pose[2] = task.forward;
   poseRacket(racket, pose, current, flying);
+  if (face !== up) {
+    pose[1] = face;
+    turnFace(racket, pose);
+  }
   strike(flying, racket);
   leaving[0] = flying[VZ] / Math.sqrt(flying[VX] * flying[VX] + flying[VY] * flying[VY] + 1e-9);
   flyToLanding();
@@ -235,15 +239,16 @@ function highFlight(task, out) {
 
 /**
  * Where a stroke lands, from the target, in the player's own frame: at 60 Hz, as the tries. For what a page shows of the scatter.
+ * `face` is the tilt of the face alone, when it is off the racket's way (src/rally.js).
  * @param {import("./types.js").AimTask} task
- * @param {{side: number, up: number, speed: number}} tilts
+ * @param {{side: number, up: number, speed: number, face?: number}} tilts
  * @returns {number[]} the miss along the table, and across
  */
-export function missOf(task, { side, up, speed }) {
+export function missOf(task, { side, up, speed, face = up }) {
   current.speed = speed;
   current.brushUp = task.swing.brushUp;
   current.brushSide = task.swing.brushSide;
-  tryTilts(task, side, up);
+  tryTilts(task, side, up, face);
   return [landed[0], landed[1]];
 }
 
