@@ -403,3 +403,17 @@ Duels, 1 200 graines à partir de 8 000 000 (600 contre les recherches) :
 | contre S-mY | 59,4 % | 60,1 % |
 
 `w2` devient G : elle bat `w1` et c'est la première règle à battre S-mW. Les deux gardent un top ordinaire (`w1` 4,9 m/s de raquette et 11,0 de brossage, `w2` 5,4 et 12,4), et leur coup doux devient un coupé (brossage −6,9 et −6,0). `w2` garde le coup décisif de `f1` ; contre elle-même, elle en joue 13 % de ses coups et en gagne 57 sur 143 qui finissent l'échange. G contre G : 4,0 coups par échange, 38 % des échanges en 1 ou 2 coups, 9 % en 9 coups et plus ; contre W, 4,2 coups.
+
+### G et les services courts de S-mW (9/11/2026)
+
+Sami voit G attaquer les services courts de S-mW et les mettre au filet. Sur 120 services choisis par S-mW, G joue un top à chaque fois, sur une balle à 17 cm au-dessus de la table, à 68 cm du filet, à 1,5 m/s. Sur ces balles, à dispersion égale :
+
+| Coup | Visée posée | Fautes |
+|---|---:|---:|
+| top de G (5,4 et 12,4 m/s) | 20 / 120 | 39,6 % (35,5 % au filet) |
+| coup doux de G | 102 / 120 | 31,2 % |
+| poussette de G | 4 / 120 | 96,6 % |
+| plat de G | 120 / 120 | 1,0 % |
+| top 6 et 6 | 120 / 120 | 0,4 % |
+
+La règle ne vérifiait que la poussette. Avec la vérification du top et du coup décisif, G ne perd plus que 15 retours sur 120 tout de suite (2 au filet), et S-mW change de service. Duels, mêmes graines (avant → après ; les autres robots réglés suivent aussi la nouvelle règle) : contre S-mW 53,0 → 53,9 % [51,2-56,6], S-mY 60,1 → 63,8, W 60,8 → 62,8, `w1` 54,5 → 55,0, X 66,5 → 68,2 ; contre F 62,2, Z 67,1, R3 66,9. W contre S-mW : 36,5 % (40,9 avant).

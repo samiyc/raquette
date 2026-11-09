@@ -72,11 +72,26 @@ export function prudent(view, plan, swing) {
   return plan.step * view.h < RUSHED ? { ...swing, speed: swing.speed * SOFT } : swing;
 }
 
-/** Can this ball be pushed to that side? A push the aim cannot land would fall on the player's own side. */
-function canPush(view, step, target, swing) {
+/**
+ * Does this stroke land there? A push the aim cannot land would fall on the player's own side; a top or a finishing stroke, in the net:
+ * on a short service, low and slow over the table, G topped every ball and lost 53 returns out of 120 at once, the aim landing 20 of
+ * them (Sami, 9/11/2026). The ball as it will be, not as it is read.
+ */
+function lands(view, step, target, swing) {
   const ball = frames.slice(step * BALL_SIZE, (step + 1) * BALL_SIZE);
   return aim({ ball, forward: -view.side, target, swing }, tilts);
 }
+
+/** A ball too low to attack, or an attack that would not land: pushed if it is over the table and the push lands, flat otherwise. */
+function lowStroke(view, plan, x, { numbers, push, flat }) {
+  const target = farSide(view, numbers.depth, numbers.wide);
+  const pushed = variedSwing(push, numbers.pushVary, view);
+  const pushing = view.side * x < TABLE.halfLength && lands(view, plan.step, target, pushed);
+  return { swing: pushing ? pushed : flat, target, taken: plan };
+}
+
+/** An attack, if it lands. */
+const attack = (view, plan, swing, target) => lands(view, plan.step, target, swing) && { swing, target, taken: plan };
 
 /**
  * @param {Partial<typeof R3_NUMBERS>} given what differs from R3
@@ -102,16 +117,14 @@ export function createTunable(given, name, version = 1) {
   /** The swing, the target and the instant a ball calls for. */
   function strokeFor(view, plan) {
     const contact = contactOf(plan.step);
-    const { x, height } = contact;
-    if (canFinish(view, plan, contact)) return { swing: kill, target: farSide(view, numbers.topDepth, numbers.killWide), taken: plan };
-    if (height >= numbers.highBall) {
-      if (spareTime(view, plan) < numbers.ready) return steady(view, plan);
-      return { swing: top, target: farSide(view, numbers.topDepth, numbers.topWide), taken: plan };
-    }
-    const target = farSide(view, numbers.depth, numbers.wide);
-    const pushed = variedSwing(push, numbers.pushVary, view);
-    const pushing = view.side * x < TABLE.halfLength && canPush(view, plan.step, target, pushed);
-    return { swing: pushing ? pushed : flat, target, taken: plan };
+    const { height } = contact;
+    const finish = canFinish(view, plan, contact) && attack(view, plan, kill, farSide(view, numbers.topDepth, numbers.killWide));
+    if (finish) return finish;
+    const high = height >= numbers.highBall;
+    if (high && spareTime(view, plan) < numbers.ready) return steady(view, plan);
+    const topped = high && attack(view, plan, top, farSide(view, numbers.topDepth, numbers.topWide));
+    if (topped) return topped;
+    return lowStroke(view, plan, contact.x, { numbers, push, flat });
   }
   /** Where the body goes once the ball has left for `target`. */
   const recovery = (view, target) => [view.side * (TABLE.halfLength + numbers.wait), 0 - numbers.cover * target[1]];
