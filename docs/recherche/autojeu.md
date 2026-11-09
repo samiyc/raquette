@@ -366,3 +366,18 @@ La colonne « face seule » est mesurée sur une seconde série de balles (85 ba
 | décisif sur balle à 40 cm et plus | 50,0 [49,9-50,1] | | | | |
 
 Le décisif de F coûtait 1 à 3 points. Il ratait 21 % de ses balles à dispersion égale ; avec la face seule, 8 %. Il est à remesurer sur le nouveau modèle.
+
+### Les lignées `f1` et `f2`, et W en tête (9/11/2026)
+
+Sur le modèle à l'erreur d'angle (0.28.0), deux lignées partent de F, 40 générations : `f1` de F tel quel, `f2` de F sans coup décisif (`killSlow` 0). Finals, 2 000 graines neuves contre les règles, 600 contre les recherches :
+
+| Lignée | R0 | R3 | V | W | X | Y | Z | F | S-mW | S-mY |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `f1`, version 8 | 64,9 | 59,6 | 69,9 | 44,3 | 62,5 | 65,2 | 63,5 | 63,1 | 41,3 | 62,3 |
+| `f2`, version 12 | 84,2 | 52,1 | 56,6 | 38,6 | 61,3 | 59,9 | 59,5 | 61,6 | 37,3 | 58,2 |
+
+- **Le top lent est abandonné.** `f1` monte son top de 3 à 4,8 m/s de raquette, brossage 12,9 ; `f2` à 5,4 et 9,2.
+- **Le coup décisif sert à nouveau** : `f1` le garde et le joue sur 16 % de ses coups contre W. `f2` ne le reprend pas vraiment (`killSlow` 1,05 m/s, presque aucune balle) ; elle fait varier son coupé (`pushVary` 0,84), la première à le faire. `f1` contre `f2` : 51,7 % [49,8-53,5].
+- **W passe en tête.** Duels, 1 200 graines à partir de 8 000 000 (600 contre les recherches) : W bat `f1` 57,2 % [55,3-59,1], F 61,6, X 69,5, Y 68,2, Z 66,3, V 57,1, R3 59,0 et S-mY 60,1, mais perd contre S-mW (40,9 %). Son top, 4,9 m/s de raquette et 9,9 de brossage, est un top ordinaire, celui que le nouveau modèle rend sûr. W contre W : 8,2 coups ; `f1` contre `f1` : 6,5 ; F contre F : 2,6, F ratant son top lent.
+
+Deux lignées partent de W : `w1` de W tel quel, `w2` de W avec le coup décisif de `f1`.
