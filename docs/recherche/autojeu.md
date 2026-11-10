@@ -503,3 +503,40 @@ La recherche qui prend l'adversaire pour H, 600 graines par duel :
 | S-mH | 51,2 % [48,7-53,8] | 51,7 % [49,1-54,4] | 53,8 % [50,9-56,6] | 52,8 % [50,2-55,5] |
 
 La recherche n'ajoute rien à H : à égalité contre lui, et contre G elle fait moins bien que lui (51,7 % contre 55,8 %). Elle est plus réactive, 3,5 coups par échange contre H, mais sa note d'une variante tient sur 8 parties de 4 coups, avec la dispersion des deux joueurs : autour d'une règle déjà bien réglée, le bruit de cette note pèse autant que ce qu'elle trouve. Elle bat de peu S-mW et S-mG et devient la recherche la plus forte ; elle rejoint les menus.
+
+### L'autojeu contre S-mH : les lignées `i1` et `i2` (10/11/2026)
+
+Sami propose de faire jouer S-mH aux générations : elle choisit le service qui fait rater, ce qu'aucune version d'une lignée ne fait. Avec `--sparring S-mH`, une variante qui gagne sa confirmation joue aussi 300 graines contre S-mH, et sa version les mêmes. Elle est gardée si son gain contre sa version, plus ce qu'elle gagne de plus que sa version contre S-mH, dépasse le hasard (`isKeptWithSparring`). Deux lignées partent de H, 40 générations chacune, et gardent chacune deux versions.
+
+| Lignée | H | G | S-mW | S-mY | S-mH |
+|---|---:|---:|---:|---:|---:|
+| `i1`, version 2 | 48,7 % | 54,4 % | 59,8 % | 63,5 % | 49,0 % |
+| `i2`, version 2 | 50,6 % [49,8-51,5] | 55,8 % | 62,6 % | 65,3 % | 52,2 % [49,7-54,7] |
+
+Aucune ne bat H. Sur 300 graines, la mesure contre S-mH est trop bruitée pour trier : la même version y lit de 47 à 54 % d'une génération à l'autre, alors que les variantes n'en diffèrent que d'un ou deux points. Elle ne trie donc presque rien. Autour de H, la règle réglable semble au bout de ce qu'elle peut : les gains viendront de nouvelles décisions à régler.
+
+### Les schémas de H contre H (10/11/2026)
+
+Sami voit revenir un schéma en regardant H contre H : un service court coupé, une poussette au milieu de la table, puis un top du serveur sur un bord. Sur 6 000 échanges, le serveur gagne 60 % des points :
+
+| Service → retour → 3e balle | Échanges | Serveur gagne | Faute directe de la 3e balle |
+|---|---:|---:|---:|
+| Mou → plat milieu → top bord | 930 | 65 % | 12 % |
+| (service) → top bord → top bord | 753 | 70 % | 14 % |
+| (service) → top bord → doux milieu | 3 172 | 54 % | 16 % |
+| Bombe → doux milieu → décisif bord | 132 | 30 % | 17 % |
+
+Le serveur gagne 63 % avec le marteau ou le mou, 54 % avec le latéral. Après un coup doux coupé du relanceur, il ne gagne plus que 26 à 30 % des points, quoi qu'il joue.
+
+**La 3e balle imposée**, sur les mêmes 4 000 graines (part du serveur, faute directe de la 3e balle entre parenthèses) :
+
+| 3e balle | Tous | Après un retour plat | Après un top | Après un doux |
+|---|---:|---:|---:|---:|
+| le choix de H | **55 % (15)** | 61 % (10) | 55 % (17) | 26 % (10) |
+| top bord | 53 % (30) | 60 % (10) | 53 % (37) | 30 % (8) |
+| top milieu | 49 % (29) | 53 % (15) | 49 % (34) | 28 % (6) |
+| doux milieu | 51 % (20) | 46 % (28) | 55 % (14) | 2 % (97) |
+| plat bord | 42 % (26) | 41 % (2) | 43 % (33) | 14 % (20) |
+| décisif bord | 36 % (54) | 59 % (26) | 31 % (64) | 25 % (11) |
+
+Aucune 3e balle fixe ne vaut le choix de H, qui dépend de la balle : un top si elle est haute et qu'il a le temps, sinon un coup doux. Un schéma rentable est une réponse à une situation, pas une suite de coups fixée d'avance. D'où la suite : régler le choix du service, puis des réponses propres à la 3e balle et au retour, et laisser l'autojeu trouver les schémas.

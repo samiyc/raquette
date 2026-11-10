@@ -1,0 +1,873 @@
+{
+ "run": "i1",
+ "numbers": {
+  "wide": 0.23149882843717937,
+  "depth": 0.685,
+  "topWide": 0.5811254220083355,
+  "topDepth": 0.9328799451235681,
+  "topSpeed": 7.100642495555803,
+  "topBrush": 12.36481721047312,
+  "pushSpeed": 1.9378881037700921,
+  "pushBrush": -1.7437373641878366,
+  "pushVary": 0.5713844890706241,
+  "flatSpeed": 5.793402028270066,
+  "highBall": 0.10359561834484339,
+  "wait": 0.31729065817780794,
+  "cover": 0.27418547468259935,
+  "ready": -0.1125696362927556,
+  "softSpeed": 6.225587263237685,
+  "softBrush": -7.236448443494737,
+  "softDepth": 0.8321663798764348,
+  "softWide": 0.2179408595431596,
+  "softRise": 0.150911890110001,
+  "killSlow": 7.98,
+  "killHigh": 0.24060783573426303,
+  "killReady": 0.18,
+  "killSpeed": 13.809074238408357,
+  "killBrush": 13.471126807928085,
+  "killWide": 0.6399159454368054
+ },
+ "version": 2,
+ "maxStrokes": 20,
+ "limitScore": "shared",
+ "sparring": "S-mH",
+ "generations": [
+  {
+   "generation": 0,
+   "kept": true,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.507,
+     "low": 0.493,
+     "sparring": {
+      "variant": 0.525,
+      "version": 0.485
+     },
+     "panel": [
+      0.733,
+      0.75,
+      0.698,
+      0.679,
+      0.637,
+      0.65,
+      0.661,
+      0.656,
+      0.647,
+      0.633,
+      0.557,
+      0.507
+     ],
+     "numbers": {
+      "wide": 0.23149882843717937,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.9328799451235681,
+      "topSpeed": 7.100642495555803,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.7437373641878366,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.793402028270066,
+      "highBall": 0.10359561834484339,
+      "wait": 0.31729065817780794,
+      "cover": 0.27418547468259935,
+      "ready": -0.10295073045417666,
+      "softSpeed": 6.225587263237685,
+      "softBrush": -7.236448443494737,
+      "softDepth": 0.8321663798764348,
+      "softWide": 0.2179408595431596,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.24060783573426303,
+      "killReady": 0.18,
+      "killSpeed": 13.809074238408357,
+      "killBrush": 12.67,
+      "killWide": 0.59
+     }
+    }
+   ]
+  },
+  {
+   "generation": 1,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.508,
+     "low": 0.49,
+     "sparring": {
+      "variant": 0.537,
+      "version": 0.523
+     }
+    },
+    {
+     "part": 0.502,
+     "low": 0.489,
+     "sparring": {
+      "variant": 0.513,
+      "version": 0.523
+     }
+    }
+   ]
+  },
+  {
+   "generation": 2,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.482
+    },
+    {
+     "part": 0.481,
+     "low": 0.466
+    }
+   ]
+  },
+  {
+   "generation": 3,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.501,
+     "low": 0.49,
+     "sparring": {
+      "variant": 0.517,
+      "version": 0.51
+     }
+    },
+    {
+     "part": 0.488,
+     "low": 0.477
+    }
+   ]
+  },
+  {
+   "generation": 4,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.487,
+     "sparring": {
+      "variant": 0.502,
+      "version": 0.515
+     }
+    },
+    {
+     "part": 0.494,
+     "low": 0.478
+    }
+   ]
+  },
+  {
+   "generation": 5,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.494,
+     "low": 0.485
+    },
+    {
+     "part": 0.509,
+     "low": 0.495,
+     "sparring": {
+      "variant": 0.537,
+      "version": 0.537
+     }
+    }
+   ]
+  },
+  {
+   "generation": 6,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.486,
+     "low": 0.466
+    }
+   ]
+  },
+  {
+   "generation": 7,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.471,
+     "low": 0.449
+    },
+    {
+     "part": 0.492,
+     "low": 0.474
+    }
+   ]
+  },
+  {
+   "generation": 8,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.508,
+     "low": 0.493,
+     "sparring": {
+      "variant": 0.547,
+      "version": 0.533
+     }
+    },
+    {
+     "part": 0.495,
+     "low": 0.485
+    }
+   ]
+  },
+  {
+   "generation": 9,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.486,
+     "low": 0.473
+    },
+    {
+     "part": 0.497,
+     "low": 0.483
+    }
+   ]
+  },
+  {
+   "generation": 10,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.488,
+     "sparring": {
+      "variant": 0.514,
+      "version": 0.523
+     }
+    },
+    {
+     "part": 0.496,
+     "low": 0.483
+    }
+   ]
+  },
+  {
+   "generation": 11,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.488,
+     "low": 0.467
+    },
+    {
+     "part": 0.5,
+     "low": 0.486
+    }
+   ]
+  },
+  {
+   "generation": 12,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.496,
+     "low": 0.475
+    }
+   ]
+  },
+  {
+   "generation": 13,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.5,
+     "low": 0.486
+    },
+    {
+     "part": 0.507,
+     "low": 0.49,
+     "sparring": {
+      "variant": 0.518,
+      "version": 0.527
+     }
+    }
+   ]
+  },
+  {
+   "generation": 14,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.488,
+     "low": 0.472
+    },
+    {
+     "part": 0.5,
+     "low": 0.486
+    }
+   ]
+  },
+  {
+   "generation": 15,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.495,
+     "low": 0.479
+    },
+    {
+     "part": 0.517,
+     "low": 0.501,
+     "sparring": {
+      "variant": 0.517,
+      "version": 0.513
+     }
+    }
+   ]
+  },
+  {
+   "generation": 16,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.492,
+     "low": 0.476
+    },
+    {
+     "part": 0.486,
+     "low": 0.469
+    }
+   ]
+  },
+  {
+   "generation": 17,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.49,
+     "low": 0.469
+    },
+    {
+     "part": 0.502,
+     "low": 0.488,
+     "sparring": {
+      "variant": 0.513,
+      "version": 0.505
+     }
+    }
+   ]
+  },
+  {
+   "generation": 18,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.475
+    },
+    {
+     "part": 0.506,
+     "low": 0.494,
+     "sparring": {
+      "variant": 0.508,
+      "version": 0.515
+     }
+    }
+   ]
+  },
+  {
+   "generation": 19,
+   "kept": true,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.511,
+     "low": 0.497,
+     "sparring": {
+      "variant": 0.5,
+      "version": 0.488
+     },
+     "panel": [
+      0.677,
+      0.721,
+      0.651,
+      0.62,
+      0.634,
+      0.636,
+      0.662,
+      0.63,
+      0.619,
+      0.614,
+      0.548,
+      0.51
+     ],
+     "numbers": {
+      "wide": 0.23149882843717937,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.9328799451235681,
+      "topSpeed": 7.100642495555803,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.7437373641878366,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.793402028270066,
+      "highBall": 0.10359561834484339,
+      "wait": 0.31729065817780794,
+      "cover": 0.27418547468259935,
+      "ready": -0.1125696362927556,
+      "softSpeed": 6.225587263237685,
+      "softBrush": -7.236448443494737,
+      "softDepth": 0.8321663798764348,
+      "softWide": 0.2179408595431596,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.24060783573426303,
+      "killReady": 0.18,
+      "killSpeed": 13.809074238408357,
+      "killBrush": 13.471126807928085,
+      "killWide": 0.6399159454368054
+     }
+    }
+   ]
+  },
+  {
+   "generation": 20,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.488,
+     "low": 0.467
+    },
+    {
+     "part": 0.507,
+     "low": 0.5,
+     "sparring": {
+      "variant": 0.522,
+      "version": 0.513
+     }
+    }
+   ]
+  },
+  {
+   "generation": 21,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.48
+    },
+    {
+     "part": 0.489,
+     "low": 0.469
+    }
+   ]
+  },
+  {
+   "generation": 22,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.48,
+     "low": 0.462
+    },
+    {
+     "part": 0.5,
+     "low": 0.486
+    }
+   ]
+  },
+  {
+   "generation": 23,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.485,
+     "low": 0.466
+    },
+    {
+     "part": 0.507,
+     "low": 0.494,
+     "sparring": {
+      "variant": 0.533,
+      "version": 0.53
+     }
+    }
+   ]
+  },
+  {
+   "generation": 24,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.494,
+     "low": 0.473
+    },
+    {
+     "part": 0.497,
+     "low": 0.49
+    }
+   ]
+  },
+  {
+   "generation": 25,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.472,
+     "low": 0.453
+    },
+    {
+     "part": 0.498,
+     "low": 0.487
+    }
+   ]
+  },
+  {
+   "generation": 26,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.484,
+     "sparring": {
+      "variant": 0.508,
+      "version": 0.505
+     }
+    },
+    {
+     "part": 0.515,
+     "low": 0.501,
+     "sparring": {
+      "variant": 0.503,
+      "version": 0.505
+     }
+    }
+   ]
+  },
+  {
+   "generation": 27,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.491,
+     "sparring": {
+      "variant": 0.513,
+      "version": 0.528
+     }
+    },
+    {
+     "part": 0.5,
+     "low": 0.5
+    }
+   ]
+  },
+  {
+   "generation": 28,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.478
+    },
+    {
+     "part": 0.498,
+     "low": 0.482
+    }
+   ]
+  },
+  {
+   "generation": 29,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.477
+    }
+   ]
+  },
+  {
+   "generation": 30,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.482,
+     "low": 0.46
+    },
+    {
+     "part": 0.494,
+     "low": 0.483
+    }
+   ]
+  },
+  {
+   "generation": 31,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.488
+    },
+    {
+     "part": 0.512,
+     "low": 0.492,
+     "sparring": {
+      "variant": 0.505,
+      "version": 0.54
+     }
+    }
+   ]
+  },
+  {
+   "generation": 32,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.488,
+     "low": 0.468
+    },
+    {
+     "part": 0.473,
+     "low": 0.453
+    }
+   ]
+  },
+  {
+   "generation": 33,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.5,
+     "low": 0.485
+    },
+    {
+     "part": 0.49,
+     "low": 0.469
+    }
+   ]
+  },
+  {
+   "generation": 34,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.5,
+     "low": 0.491
+    },
+    {
+     "part": 0.487,
+     "low": 0.466
+    }
+   ]
+  },
+  {
+   "generation": 35,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.481,
+     "low": 0.464
+    },
+    {
+     "part": 0.485,
+     "low": 0.468
+    }
+   ]
+  },
+  {
+   "generation": 36,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.492,
+     "low": 0.474
+    }
+   ]
+  },
+  {
+   "generation": 37,
+   "kept": false,
+   "version": 2,
+   "tried": []
+  },
+  {
+   "generation": 38,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.486,
+     "low": 0.471
+    },
+    {
+     "part": 0.496,
+     "low": 0.481
+    }
+   ]
+  },
+  {
+   "generation": 39,
+   "kept": false,
+   "version": 2,
+   "tried": []
+  }
+ ],
+ "final": {
+  "R0": {
+   "part": 0.688,
+   "low": 0.674,
+   "high": 0.701,
+   "strokes": 3.9,
+   "limits": 0.001
+  },
+  "R1": {
+   "part": 0.736,
+   "low": 0.723,
+   "high": 0.749,
+   "strokes": 3.6,
+   "limits": 0.001
+  },
+  "R3": {
+   "part": 0.696,
+   "low": 0.682,
+   "high": 0.71,
+   "strokes": 3.8,
+   "limits": 0
+  },
+  "U": {
+   "part": 0.649,
+   "low": 0.635,
+   "high": 0.664,
+   "strokes": 4.2,
+   "limits": 0
+  },
+  "V": {
+   "part": 0.661,
+   "low": 0.648,
+   "high": 0.675,
+   "strokes": 2.9,
+   "limits": 0
+  },
+  "W": {
+   "part": 0.644,
+   "low": 0.63,
+   "high": 0.658,
+   "strokes": 4,
+   "limits": 0
+  },
+  "X": {
+   "part": 0.65,
+   "low": 0.637,
+   "high": 0.664,
+   "strokes": 4,
+   "limits": 0.003
+  },
+  "Y": {
+   "part": 0.651,
+   "low": 0.637,
+   "high": 0.665,
+   "strokes": 3.6,
+   "limits": 0
+  },
+  "Z": {
+   "part": 0.644,
+   "low": 0.63,
+   "high": 0.658,
+   "strokes": 3.8,
+   "limits": 0
+  },
+  "F": {
+   "part": 0.631,
+   "low": 0.618,
+   "high": 0.645,
+   "strokes": 3.5,
+   "limits": 0
+  },
+  "G": {
+   "part": 0.544,
+   "low": 0.531,
+   "high": 0.558,
+   "strokes": 4.1,
+   "limits": 0.001
+  },
+  "H": {
+   "part": 0.487,
+   "low": 0.477,
+   "high": 0.496,
+   "strokes": 3.9,
+   "limits": 0
+  },
+  "S": {
+   "part": 0.669,
+   "low": 0.643,
+   "high": 0.695,
+   "strokes": 3.8,
+   "limits": 0
+  },
+  "S-mV": {
+   "part": 0.655,
+   "low": 0.631,
+   "high": 0.679,
+   "strokes": 2.9,
+   "limits": 0
+  },
+  "S-mW": {
+   "part": 0.598,
+   "low": 0.571,
+   "high": 0.624,
+   "strokes": 3.9,
+   "limits": 0
+  },
+  "S-mY": {
+   "part": 0.635,
+   "low": 0.611,
+   "high": 0.659,
+   "strokes": 3.3,
+   "limits": 0
+  },
+  "S-mH": {
+   "part": 0.49,
+   "low": 0.465,
+   "high": 0.515,
+   "strokes": 3.6,
+   "limits": 0
+  }
+ }
+}
