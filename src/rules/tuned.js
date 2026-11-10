@@ -14,7 +14,8 @@ import { EARLY } from "./tuned-early.js";
  * f1, the first one tuned with the error of the face as an angle, and the first rule to beat S-mW (docs/selfplay/w2.json). `H`: lineage
  * g1, from G, version 6: a faster top and a deeper cut, the strongest of g1 to g4 (docs/selfplay/g1.json). `I`: H, which picks its
  * service, each kind at the best place a map of 1 500 seeds a place found against H (raq-place, 10/11/2026): the pendulum, the hammer,
- * the soft and the cut service, as likely, none of the bomb and the sidespin (docs/recherche/autojeu.md).
+ * the soft and the cut service, as likely, none of the bomb and the sidespin (docs/recherche/autojeu.md). `J`: lineage k3, from I, its
+ * return tuned on services drawn at random: level with I, better than I against every other rule (docs/selfplay/k3.json).
  */
 /** H, apart: I is H with a service of its own. */
 const H = Object.freeze({
@@ -43,6 +44,18 @@ const H = Object.freeze({
     killSpeed: 13.809074238408357,
     killBrush: 12.67,
     killWide: 0.59,
+});
+
+/** I, apart: J is I with a return of its own. */
+const I = Object.freeze({
+  ...H,
+  // Each kind: its weight, where across it lands, where its server stands (src/rules/serving.js).
+  servePendule: 1, serveAimPendule: 0.45, serveFromPendule: 0.25,
+  serveMarteau: 1, serveAimMarteau: -0.15, serveFromMarteau: 0,
+  serveMou: 1, serveAimMou: 0, serveFromMou: 0.5,
+  serveCoupe: 1, serveAimCoupe: -0.45, serveFromCoupe: -0.25,
+  serveBombe: 0, serveAimBombe: 0, serveFromBombe: 0.25,
+  serveLateral: 0, serveAimLateral: 0.45, serveFromLateral: 0.5,
 });
 
 export const TUNED = Object.freeze({
@@ -102,14 +115,21 @@ export const TUNED = Object.freeze({
     killWide: 0.59,
   }),
   H,
-  I: Object.freeze({
-    ...H,
-    // Each kind: its weight, where across it lands, where its server stands (src/rules/serving.js).
-    servePendule: 1, serveAimPendule: 0.45, serveFromPendule: 0.25,
-    serveMarteau: 1, serveAimMarteau: -0.15, serveFromMarteau: 0,
-    serveMou: 1, serveAimMou: 0, serveFromMou: 0.5,
-    serveCoupe: 1, serveAimCoupe: -0.45, serveFromCoupe: -0.25,
-    serveBombe: 0, serveAimBombe: 0, serveFromBombe: 0.25,
-    serveLateral: 0, serveAimLateral: 0.45, serveFromLateral: 0.5,
+  I,
+  J: Object.freeze({
+    ...I,
+    // The return of service (src/rules/phases.js), set apart from the rest of the rally.
+    returnHighBall: 0.12629526732489466,
+    returnReady: -0.022538782632909718,
+    returnTopSpeed: 8.598249659175053,
+    returnTopBrush: 12.36481721047312,
+    returnTopDepth: 0.9328799451235681,
+    returnTopWide: 0.6229975426569581,
+    returnPushSpeed: 1.8447126210667193,
+    returnPushBrush: -1.7437373641878366,
+    returnDepth: 0.685,
+    returnWide: 0.23149882843717937,
+    returnSoftDepth: 0.8584402306005359,
+    returnSoftWide: 0.2179408595431596,
   }),
 });

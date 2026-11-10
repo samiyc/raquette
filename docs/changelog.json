@@ -4,6 +4,17 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.33.0",
+      "title": "J, un retour réglé à part",
+      "date": "11/11/2026",
+      "commits": [],
+      "items": [
+        "Un nouveau robot, J : c'est I, avec un retour de service réglé par l'autojeu sur des services tirés au hasard. Il attaque moins de retours, mais en top plus rapide et plus près des lignes.",
+        "À égalité avec I quand I choisit ses services, meilleur que lui contre des services variés : 59,3 % contre H, quand I en fait 56,5 %. Il est dans les menus pour jouer à la souris.",
+        "La 3e balle réglée à part n'apporte rien : le choix de H était déjà le bon."
+      ]
+    },
+    {
       "version": "0.32.0",
       "title": "I, qui choisit son service",
       "date": "10/11/2026",

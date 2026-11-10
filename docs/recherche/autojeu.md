@@ -617,7 +617,7 @@ Son retour s'adaptait à un service qui bougeait, ce qui l'a gardé plus génér
 ### Le retour sur tous les services : `k3`, et la 3e balle : `k4` (10/11/2026)
 
 Les deux lignées partent de I, 60 générations chacune.
-- **`k3`** règle le retour seul, les services tirés au hasard (`--serving mix`). Elle garde trois versions : elle attaque un peu plus de retours (`returnHighBall` 0,13), en top plus rapide (8,6 m/s) et plus près des lignes, et pousse un peu plus vite.
+- **`k3`** règle le retour seul, les services tirés au hasard (`--serving mix`). Elle garde trois versions : elle attaque moins de retours (`returnHighBall` 0,13 au lieu de 0,10, avec plus de temps en main), mais en top plus rapide (8,6 m/s) et plus près des lignes, et pousse un peu plus lentement.
 - **`k4`** règle la 3e balle seule et ne garde qu'une version, qui vise un peu plus large.
 
 Vérification sur 4 000 graines neuves :
@@ -630,7 +630,7 @@ Vérification sur 4 000 graines neuves :
 | I contre H | choisis | 56,5 % [55,5-57,5] |
 | `k4` contre I | choisis | 50,3 % [49,5-51,2] |
 
-Le retour de `k3` vaut mieux que celui de I sur des services quelconques : près de 3 points contre H, et contre I quand les services sont tirés au hasard. Contre les services choisis de I, il est à égalité. `k3` ne bat donc pas I et n'est pas adoptée. Elle reste la meilleure candidate pour un joueur qui sert de tout, comme Sami à la souris.
+Le retour de `k3` vaut mieux que celui de I sur des services quelconques : près de 3 points contre H, et contre I quand les services sont tirés au hasard. Contre les services choisis de I, il est à égalité. `k3` ne bat donc pas I. Sami l'adopte comme **J** (11/11/2026), pour la souris : un joueur qui sert de tout.
 
 La 3e balle n'apporte rien. Le choix de H, un top si la balle est haute et qu'il a le temps, un coup doux sinon, était déjà le bon (la 3e balle imposée, plus haut).
 

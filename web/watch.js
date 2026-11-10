@@ -16,6 +16,7 @@ const ROBOTS = [
   ["G", "G, réglé sur l'erreur d'angle"],
   ["H", "H, le top rapide"],
   ["I", "I, H qui choisit son service"],
+  ["J", "J, I avec un retour réglé à part"],
   ["S", "La recherche"],
   ["S-mT", "La recherche, modèle T"],
   ["S-mU", "La recherche, modèle U"],
