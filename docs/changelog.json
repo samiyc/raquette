@@ -4,6 +4,16 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.31.0",
+      "title": "H, le top rapide",
+      "date": "10/11/2026",
+      "commits": [],
+      "items": [
+        "Un nouveau robot réglé par l'autojeu, H, parti de G : il bat G de 55,8 % et la recherche S-mW de 56,8 %. Son top part plus vite, son coup doux est plus coupé, et il attend plus loin de la table.",
+        "Trois autres lignées parties de G ou de w1 ne font pas mieux que G ; 80 générations n'apportent rien de plus que 40. La recherche qui prend l'adversaire pour G ne fait pas mieux que S-mW."
+      ]
+    },
+    {
       "version": "0.30.0",
       "title": "Pas d'attaque qui ne passe pas",
       "date": "9/11/2026",

@@ -9,7 +9,8 @@
  * finishing stroke, which it plays only with a quarter of a second in hand. `Z`: lineage v, from Y, the first rule to beat X;
  * it waits half a second in hand before finishing (docs/selfplay/v.json). `F`: lineage y3, from Y, the first one tuned with the fatigue
  * and the spin read late, at a rally of 20 strokes at most (docs/selfplay/y3.json). `G`: lineage w2, from W with the finishing stroke of
- * f1, the first one tuned with the error of the face as an angle, and the first rule to beat S-mW (docs/selfplay/w2.json).
+ * f1, the first one tuned with the error of the face as an angle, and the first rule to beat S-mW (docs/selfplay/w2.json). `H`: lineage
+ * g1, from G, version 6: a faster top and a deeper cut, the strongest of g1 to g4 (docs/selfplay/g1.json).
  */
 export const TUNED = Object.freeze({
   T: Object.freeze({
@@ -194,6 +195,33 @@ export const TUNED = Object.freeze({
     killHigh: 0.29,
     killReady: 0.18,
     killSpeed: 14.785901677561924,
+    killBrush: 12.67,
+    killWide: 0.59,
+  }),
+  H: Object.freeze({
+    wide: 0.23149882843717937,
+    depth: 0.685,
+    topWide: 0.5811254220083355,
+    topDepth: 0.9328799451235681,
+    topSpeed: 7.100642495555803,
+    topBrush: 12.36481721047312,
+    pushSpeed: 1.9378881037700921,
+    pushBrush: -1.7437373641878366,
+    pushVary: 0.5713844890706241,
+    flatSpeed: 5.793402028270066,
+    highBall: 0.10359561834484339,
+    wait: 0.31729065817780794,
+    cover: 0.17895307829603554,
+    ready: -0.10295073045417666,
+    softSpeed: 6.225587263237685,
+    softBrush: -7.236448443494737,
+    softDepth: 0.8321663798764348,
+    softWide: 0.2179408595431596,
+    softRise: 0.150911890110001,
+    killSlow: 7.98,
+    killHigh: 0.24060783573426303,
+    killReady: 0.18,
+    killSpeed: 13.809074238408357,
     killBrush: 12.67,
     killWide: 0.59,
   }),

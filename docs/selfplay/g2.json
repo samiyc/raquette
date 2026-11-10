@@ -1,0 +1,892 @@
+{
+ "run": "g2",
+ "numbers": {
+  "wide": 0.3206986870616675,
+  "depth": 0.685,
+  "topWide": 0.5811254220083355,
+  "topDepth": 0.88473213436082,
+  "topSpeed": 6.316310912370682,
+  "topBrush": 12.36481721047312,
+  "pushSpeed": 1.9378881037700921,
+  "pushBrush": -1.2374729802832007,
+  "pushVary": 0.5713844890706241,
+  "flatSpeed": 5.73334011528641,
+  "highBall": 0.15486172130331397,
+  "wait": 0.15826186870690437,
+  "cover": 0.17895307829603554,
+  "ready": -0.10295073045417666,
+  "softSpeed": 4.791799228172749,
+  "softBrush": -7.974957673810422,
+  "softDepth": 0.8225480400491506,
+  "softWide": 0.27321047014556826,
+  "softRise": 0.150911890110001,
+  "killSlow": 7.98,
+  "killHigh": 0.3049751189164817,
+  "killReady": 0.18,
+  "killSpeed": 14.785901677561924,
+  "killBrush": 13.107848767265677,
+  "killWide": 0.59
+ },
+ "version": 5,
+ "maxStrokes": 20,
+ "limitScore": "shared",
+ "generations": [
+  {
+   "generation": 0,
+   "kept": true,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.522,
+     "low": 0.506,
+     "panel": [
+      0.708,
+      0.705,
+      0.554,
+      0.607,
+      0.556,
+      0.617,
+      0.619,
+      0.557,
+      0.58,
+      0.573,
+      0.42
+     ],
+     "numbers": {
+      "wide": 0.3206986870616675,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.88473213436082,
+      "topSpeed": 5.418558279285207,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -2.557134680915624,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.73334011528641,
+      "highBall": 0.2355796602088958,
+      "wait": 0.15826186870690437,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 5.787668405100703,
+      "softBrush": -7.974957673810422,
+      "softDepth": 0.8225480400491506,
+      "softWide": 0.2179408595431596,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.29,
+      "killReady": 0.18,
+      "killSpeed": 14.785901677561924,
+      "killBrush": 12.67,
+      "killWide": 0.59
+     }
+    }
+   ]
+  },
+  {
+   "generation": 1,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.474,
+     "low": 0.457
+    },
+    {
+     "part": 0.477,
+     "low": 0.463
+    }
+   ]
+  },
+  {
+   "generation": 2,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.485
+    }
+   ]
+  },
+  {
+   "generation": 3,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.498,
+     "low": 0.48
+    },
+    {
+     "part": 0.5,
+     "low": 0.488
+    }
+   ]
+  },
+  {
+   "generation": 4,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.504,
+     "low": 0.497
+    },
+    {
+     "part": 0.503,
+     "low": 0.497
+    }
+   ]
+  },
+  {
+   "generation": 5,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.501,
+     "low": 0.476
+    },
+    {
+     "part": 0.49,
+     "low": 0.468
+    }
+   ]
+  },
+  {
+   "generation": 6,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.501,
+     "low": 0.49
+    },
+    {
+     "part": 0.497,
+     "low": 0.479
+    }
+   ]
+  },
+  {
+   "generation": 7,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.506,
+     "low": 0.495
+    },
+    {
+     "part": 0.502,
+     "low": 0.494
+    }
+   ]
+  },
+  {
+   "generation": 8,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.476,
+     "low": 0.46
+    },
+    {
+     "part": 0.482,
+     "low": 0.466
+    }
+   ]
+  },
+  {
+   "generation": 9,
+   "kept": false,
+   "version": 1,
+   "tried": []
+  },
+  {
+   "generation": 10,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.474,
+     "low": 0.458
+    },
+    {
+     "part": 0.494,
+     "low": 0.48
+    }
+   ]
+  },
+  {
+   "generation": 11,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.501,
+     "low": 0.493
+    },
+    {
+     "part": 0.498,
+     "low": 0.49
+    }
+   ]
+  },
+  {
+   "generation": 12,
+   "kept": true,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.517,
+     "low": 0.505,
+     "panel": [
+      0.743,
+      0.762,
+      0.6,
+      0.644,
+      0.593,
+      0.617,
+      0.65,
+      0.596,
+      0.609,
+      0.608,
+      0.415
+     ],
+     "numbers": {
+      "wide": 0.3206986870616675,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.88473213436082,
+      "topSpeed": 6.316310912370682,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -2.557134680915624,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.73334011528641,
+      "highBall": 0.2355796602088958,
+      "wait": 0.15826186870690437,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 5.787668405100703,
+      "softBrush": -7.974957673810422,
+      "softDepth": 0.8225480400491506,
+      "softWide": 0.2853761960286647,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.29,
+      "killReady": 0.18,
+      "killSpeed": 14.785901677561924,
+      "killBrush": 12.67,
+      "killWide": 0.59
+     }
+    }
+   ]
+  },
+  {
+   "generation": 13,
+   "kept": true,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.529,
+     "low": 0.515,
+     "panel": [
+      0.754,
+      0.752,
+      0.585,
+      0.614,
+      0.561,
+      0.597,
+      0.65,
+      0.573,
+      0.585,
+      0.598,
+      0.435
+     ],
+     "numbers": {
+      "wide": 0.3206986870616675,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.88473213436082,
+      "topSpeed": 6.316310912370682,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.6078319260850549,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.73334011528641,
+      "highBall": 0.2355796602088958,
+      "wait": 0.15826186870690437,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 5.787668405100703,
+      "softBrush": -7.974957673810422,
+      "softDepth": 0.8225480400491506,
+      "softWide": 0.2853761960286647,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.3049751189164817,
+      "killReady": 0.18,
+      "killSpeed": 14.785901677561924,
+      "killBrush": 12.41314236547798,
+      "killWide": 0.59
+     }
+    }
+   ]
+  },
+  {
+   "generation": 14,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.487,
+     "low": 0.467
+    },
+    {
+     "part": 0.494,
+     "low": 0.473
+    }
+   ]
+  },
+  {
+   "generation": 15,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.483
+    },
+    {
+     "part": 0.511,
+     "low": 0.493
+    }
+   ]
+  },
+  {
+   "generation": 16,
+   "kept": true,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.565,
+     "low": 0.541,
+     "panel": [
+      0.758,
+      0.743,
+      0.649,
+      0.625,
+      0.613,
+      0.608,
+      0.667,
+      0.608,
+      0.625,
+      0.623,
+      0.485
+     ],
+     "numbers": {
+      "wide": 0.3206986870616675,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.88473213436082,
+      "topSpeed": 6.316310912370682,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.6078319260850549,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.73334011528641,
+      "highBall": 0.18723762058652937,
+      "wait": 0.15826186870690437,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 4.791799228172749,
+      "softBrush": -7.974957673810422,
+      "softDepth": 0.8225480400491506,
+      "softWide": 0.27321047014556826,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.3049751189164817,
+      "killReady": 0.18,
+      "killSpeed": 14.785901677561924,
+      "killBrush": 12.41314236547798,
+      "killWide": 0.59
+     }
+    }
+   ]
+  },
+  {
+   "generation": 17,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.495,
+     "low": 0.476
+    },
+    {
+     "part": 0.495,
+     "low": 0.477
+    }
+   ]
+  },
+  {
+   "generation": 18,
+   "kept": true,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.547,
+     "low": 0.523,
+     "panel": [
+      0.747,
+      0.757,
+      0.694,
+      0.639,
+      0.629,
+      0.641,
+      0.66,
+      0.62,
+      0.623,
+      0.613,
+      0.518
+     ],
+     "numbers": {
+      "wide": 0.3206986870616675,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.88473213436082,
+      "topSpeed": 6.316310912370682,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.2374729802832007,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.73334011528641,
+      "highBall": 0.15486172130331397,
+      "wait": 0.15826186870690437,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 4.791799228172749,
+      "softBrush": -7.974957673810422,
+      "softDepth": 0.8225480400491506,
+      "softWide": 0.27321047014556826,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.3049751189164817,
+      "killReady": 0.18,
+      "killSpeed": 14.785901677561924,
+      "killBrush": 13.107848767265677,
+      "killWide": 0.59
+     }
+    }
+   ]
+  },
+  {
+   "generation": 19,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.498,
+     "low": 0.493
+    }
+   ]
+  },
+  {
+   "generation": 20,
+   "kept": false,
+   "version": 5,
+   "tried": []
+  },
+  {
+   "generation": 21,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.5,
+     "low": 0.483
+    },
+    {
+     "part": 0.518,
+     "low": 0.496
+    }
+   ]
+  },
+  {
+   "generation": 22,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.477,
+     "low": 0.453
+    },
+    {
+     "part": 0.502,
+     "low": 0.489
+    }
+   ]
+  },
+  {
+   "generation": 23,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.493,
+     "low": 0.474
+    },
+    {
+     "part": 0.497,
+     "low": 0.489
+    }
+   ]
+  },
+  {
+   "generation": 24,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.485
+    },
+    {
+     "part": 0.504,
+     "low": 0.49
+    }
+   ]
+  },
+  {
+   "generation": 25,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.503,
+     "low": 0.483
+    },
+    {
+     "part": 0.496,
+     "low": 0.477
+    }
+   ]
+  },
+  {
+   "generation": 26,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.477,
+     "low": 0.452
+    },
+    {
+     "part": 0.5,
+     "low": 0.493
+    }
+   ]
+  },
+  {
+   "generation": 27,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.486,
+     "low": 0.464
+    },
+    {
+     "part": 0.492,
+     "low": 0.475
+    }
+   ]
+  },
+  {
+   "generation": 28,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.49,
+     "low": 0.471
+    },
+    {
+     "part": 0.506,
+     "low": 0.495
+    }
+   ]
+  },
+  {
+   "generation": 29,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.52,
+     "low": 0.5
+    },
+    {
+     "part": 0.506,
+     "low": 0.487
+    }
+   ]
+  },
+  {
+   "generation": 30,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.492,
+     "low": 0.472
+    },
+    {
+     "part": 0.502,
+     "low": 0.487
+    }
+   ]
+  },
+  {
+   "generation": 31,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.508,
+     "low": 0.486
+    },
+    {
+     "part": 0.488,
+     "low": 0.469
+    }
+   ]
+  },
+  {
+   "generation": 32,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.507,
+     "low": 0.486
+    },
+    {
+     "part": 0.457,
+     "low": 0.433
+    }
+   ]
+  },
+  {
+   "generation": 33,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.493,
+     "low": 0.481
+    },
+    {
+     "part": 0.477,
+     "low": 0.454
+    }
+   ]
+  },
+  {
+   "generation": 34,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.492,
+     "low": 0.468
+    }
+   ]
+  },
+  {
+   "generation": 35,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.486,
+     "low": 0.464
+    },
+    {
+     "part": 0.497,
+     "low": 0.488
+    }
+   ]
+  },
+  {
+   "generation": 36,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.492,
+     "low": 0.48
+    },
+    {
+     "part": 0.5,
+     "low": 0.482
+    }
+   ]
+  },
+  {
+   "generation": 37,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.496,
+     "low": 0.488
+    },
+    {
+     "part": 0.496,
+     "low": 0.487
+    }
+   ]
+  },
+  {
+   "generation": 38,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.516,
+     "low": 0.494
+    },
+    {
+     "part": 0.502,
+     "low": 0.492
+    }
+   ]
+  },
+  {
+   "generation": 39,
+   "kept": false,
+   "version": 5,
+   "tried": [
+    {
+     "part": 0.498,
+     "low": 0.48
+    },
+    {
+     "part": 0.495,
+     "low": 0.487
+    }
+   ]
+  }
+ ],
+ "final": {
+  "R0": {
+   "part": 0.737,
+   "low": 0.724,
+   "high": 0.751,
+   "strokes": 4.7,
+   "limits": 0.004
+  },
+  "R1": {
+   "part": 0.717,
+   "low": 0.703,
+   "high": 0.731,
+   "strokes": 3.7,
+   "limits": 0
+  },
+  "R3": {
+   "part": 0.668,
+   "low": 0.654,
+   "high": 0.682,
+   "strokes": 3.9,
+   "limits": 0
+  },
+  "U": {
+   "part": 0.643,
+   "low": 0.628,
+   "high": 0.657,
+   "strokes": 4.3,
+   "limits": 0.001
+  },
+  "V": {
+   "part": 0.64,
+   "low": 0.626,
+   "high": 0.654,
+   "strokes": 3.2,
+   "limits": 0
+  },
+  "W": {
+   "part": 0.639,
+   "low": 0.624,
+   "high": 0.653,
+   "strokes": 4.3,
+   "limits": 0
+  },
+  "X": {
+   "part": 0.661,
+   "low": 0.647,
+   "high": 0.674,
+   "strokes": 3.7,
+   "limits": 0
+  },
+  "Y": {
+   "part": 0.626,
+   "low": 0.612,
+   "high": 0.64,
+   "strokes": 3.6,
+   "limits": 0
+  },
+  "Z": {
+   "part": 0.629,
+   "low": 0.615,
+   "high": 0.643,
+   "strokes": 3.7,
+   "limits": 0
+  },
+  "F": {
+   "part": 0.623,
+   "low": 0.609,
+   "high": 0.636,
+   "strokes": 3.6,
+   "limits": 0.001
+  },
+  "G": {
+   "part": 0.51,
+   "low": 0.498,
+   "high": 0.522,
+   "strokes": 4.4,
+   "limits": 0.002
+  },
+  "S": {
+   "part": 0.658,
+   "low": 0.632,
+   "high": 0.685,
+   "strokes": 3.8,
+   "limits": 0
+  },
+  "S-mV": {
+   "part": 0.636,
+   "low": 0.611,
+   "high": 0.66,
+   "strokes": 3,
+   "limits": 0
+  },
+  "S-mW": {
+   "part": 0.59,
+   "low": 0.563,
+   "high": 0.617,
+   "strokes": 4,
+   "limits": 0
+  },
+  "S-mY": {
+   "part": 0.642,
+   "low": 0.617,
+   "high": 0.668,
+   "strokes": 3.3,
+   "limits": 0
+  }
+ }
+}

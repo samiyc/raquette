@@ -417,3 +417,49 @@ Sami voit G attaquer les services courts de S-mW et les mettre au filet. Sur 120
 | top 6 et 6 | 120 / 120 | 0,4 % |
 
 La règle ne vérifiait que la poussette. Avec la vérification du top et du coup décisif, G ne perd plus que 15 retours sur 120 tout de suite (2 au filet), et S-mW change de service. Duels, mêmes graines (avant → après ; les autres robots réglés suivent aussi la nouvelle règle) : contre S-mW 53,0 → 53,9 % [51,2-56,6], S-mY 60,1 → 63,8, W 60,8 → 62,8, `w1` 54,5 → 55,0, X 66,5 → 68,2 ; contre F 62,2, Z 67,1, R3 66,9. W contre S-mW : 36,5 % (40,9 avant).
+
+### Les lignées `g1` à `g4`, et H (10/11/2026)
+
+Quatre lignées sur le modèle à l'angle, avec la règle qui ne joue plus d'attaque que sa visée ne pose pas :
+
+- `g1` part de G, 40 générations ;
+- `g2` part de G avec `highBall` à 25 cm, pour qu'elle attaque moins de balles basses. Elle revient à 15 cm ;
+- `g3` part des nombres de `w1`, l'autre lignée partie de W, 40 générations ;
+- `g4` part de G, 80 générations.
+
+Finals, 2 000 graines neuves contre les règles, 600 contre les recherches :
+
+| Lignée | R0 | R3 | V | W | X | Y | Z | F | G | S | S-mW | S-mY |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `g1`, version 6 | 71,3 | 69,7 | 66,0 | 66,3 | 66,1 | 64,3 | 64,0 | 61,9 | 54,8 | 67,7 | 60,9 | 66,5 |
+| `g2`, version 5 | 73,7 | 66,8 | 64,0 | 63,9 | 66,1 | 62,6 | 62,9 | 62,3 | 51,0 | 65,8 | 59,0 | 64,2 |
+| `g3`, version 4 | 84,5 | 70,8 | 63,6 | 63,7 | 70,3 | 66,1 | 68,2 | 62,6 | 47,8 | 66,1 | 56,8 | 62,7 |
+| `g4`, version 6 | 69,6 | 69,0 | 63,8 | 63,6 | 66,6 | 63,3 | 63,3 | 60,7 | 52,8 | 63,3 | 56,6 | 61,6 |
+
+Duels, 1 200 graines (600 contre les recherches) ; la ligne se lit « la lignée contre » :
+
+| Contre | `g1` | `g2` | `g3` | `g4` |
+|---|---:|---:|---:|---:|
+| G | **55,8 % [54,1-57,5]** | 49,9 % | 47,5 % | 51,1 % |
+| W | 65,9 % | 61,7 % | 65,3 % | 63,0 % |
+| S-mW | **56,8 % [54,3-59,4]** | 55,2 % | 53,0 % | 54,8 % |
+| S-mY | 66,5 % | 63,7 % | 64,5 % | 61,8 % |
+| `g2` | 55,0 % | | 52,3 % | 48,5 % |
+| `g3` | 57,5 % | | | 45,5 % |
+| `g4` | 54,0 % | | | |
+
+`g1` devient H : elle bat G et les trois autres lignées. Son top part plus vite que celui de G (7,1 m/s de raquette au lieu de 5,4, même brossage 12,4), son coup doux est plus coupé (−7,2 au lieu de −6,0), elle attend à 32 cm derrière sa ligne au lieu de 16, et vise ses balles basses plus près du milieu (23 cm au lieu de 32). Son coup décisif part un peu moins vite (13,8 m/s au lieu de 14,8) et sur des balles moins hautes (24 cm au lieu de 29). Contre G, elle joue le coup décisif sur 27 % de ses coups (42 gagnés pour 86 ratés), et frappe à 8,6 m/s en moyenne, contre 6,0 pour G. H contre H : 4,0 coups par échange, 26 % des échanges en 1 ou 2 coups, 5 % en 9 coups et plus.
+
+Les trois autres n'apportent rien :
+
+- `g4` ne fait pas mieux en 80 générations qu'en 40 : elle reste à 51,1 % contre G ;
+- `g2` revient vers G ;
+- `g3` garde les échanges longs de `w1` (5,3 coups contre G) et perd contre G.
+
+**S-mG**, la recherche qui prend l'adversaire pour G, 600 graines par duel :
+
+| Contre | S-mW | S-mY | G | W | S |
+|---|---:|---:|---:|---:|---:|
+| S-mG | 51,2 % [48,5-54,0] | 59,7 % | 51,3 % [48,7-53,9] | 58,4 % | 63,5 % |
+
+Elle ne fait pas mieux que S-mW et n'est pas ajoutée aux menus. S-mW reste la recherche la plus forte, et H la bat.
