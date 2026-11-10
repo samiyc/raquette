@@ -1,0 +1,1222 @@
+{
+ "run": "k1",
+ "numbers": {
+  "wide": 0.23149882843717937,
+  "depth": 0.685,
+  "topWide": 0.5811254220083355,
+  "topDepth": 0.9328799451235681,
+  "topSpeed": 7.100642495555803,
+  "topBrush": 12.36481721047312,
+  "pushSpeed": 1.9378881037700921,
+  "pushBrush": -1.7437373641878366,
+  "pushVary": 0.5713844890706241,
+  "flatSpeed": 5.793402028270066,
+  "highBall": 0.10359561834484339,
+  "wait": 0.31729065817780794,
+  "cover": 0.17895307829603554,
+  "ready": -0.10295073045417666,
+  "softSpeed": 6.225587263237685,
+  "softBrush": -7.236448443494737,
+  "softDepth": 0.8321663798764348,
+  "softWide": 0.2179408595431596,
+  "softRise": 0.150911890110001,
+  "killSlow": 7.98,
+  "killHigh": 0.24060783573426303,
+  "killReady": 0.18,
+  "killSpeed": 13.809074238408357,
+  "killBrush": 12.67,
+  "killWide": 0.59,
+  "servePendule": 1,
+  "serveAimPendule": 0.45,
+  "serveFromPendule": 0.25,
+  "serveMarteau": 1,
+  "serveAimMarteau": -0.15,
+  "serveFromMarteau": 0,
+  "serveMou": 1,
+  "serveAimMou": 0,
+  "serveFromMou": 0.5,
+  "serveCoupe": 1,
+  "serveAimCoupe": -0.45,
+  "serveFromCoupe": -0.25,
+  "serveBombe": 0,
+  "serveAimBombe": 0,
+  "serveFromBombe": 0.25,
+  "serveLateral": 0,
+  "serveAimLateral": 0.45,
+  "serveFromLateral": 0.5,
+  "returnHighBall": 0.10359561834484339,
+  "returnReady": -0.10295073045417666,
+  "returnTopSpeed": 7.100642495555803,
+  "returnTopBrush": 13.06719436775893,
+  "returnTopDepth": 0.7823707636911421,
+  "returnTopWide": 0.5811254220083355,
+  "returnPushSpeed": 1.6997006942983717,
+  "returnPushBrush": -1.7437373641878366,
+  "returnDepth": 0.685,
+  "returnWide": 0.23149882843717937,
+  "returnSoftDepth": 0.8321663798764348,
+  "returnSoftWide": 0.2179408595431596,
+  "thirdHighBall": 0.10359561834484339,
+  "thirdReady": -0.20982794256415216,
+  "thirdTopSpeed": 7.100642495555803,
+  "thirdTopBrush": 12.36481721047312,
+  "thirdTopDepth": 0.9328799451235681,
+  "thirdTopWide": 0.5563477237243204,
+  "thirdPushSpeed": 2.0731973343063146,
+  "thirdPushBrush": -1.7437373641878366,
+  "thirdDepth": 0.685,
+  "thirdWide": 0.23424590197391812,
+  "thirdSoftDepth": 0.8321663798764348,
+  "thirdSoftWide": 0.2179408595431596
+ },
+ "version": 4,
+ "maxStrokes": 20,
+ "limitScore": "shared",
+ "generations": [
+  {
+   "generation": 0,
+   "kept": true,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.526,
+     "low": 0.502,
+     "panel": [
+      0.727,
+      0.736,
+      0.7,
+      0.672,
+      0.651,
+      0.672,
+      0.63,
+      0.647,
+      0.625,
+      0.603,
+      0.587,
+      0.552,
+      0.526
+     ],
+     "numbers": {
+      "wide": 0.23149882843717937,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.9328799451235681,
+      "topSpeed": 7.100642495555803,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.7437373641878366,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.793402028270066,
+      "highBall": 0.10359561834484339,
+      "wait": 0.31729065817780794,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 6.225587263237685,
+      "softBrush": -7.236448443494737,
+      "softDepth": 0.8321663798764348,
+      "softWide": 0.2179408595431596,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.24060783573426303,
+      "killReady": 0.18,
+      "killSpeed": 13.809074238408357,
+      "killBrush": 12.67,
+      "killWide": 0.59,
+      "servePendule": 1,
+      "serveAimPendule": 0.45,
+      "serveFromPendule": 0.25,
+      "serveMarteau": 1,
+      "serveAimMarteau": -0.15,
+      "serveFromMarteau": 0,
+      "serveMou": 1,
+      "serveAimMou": 0,
+      "serveFromMou": 0.5,
+      "serveCoupe": 1,
+      "serveAimCoupe": -0.45,
+      "serveFromCoupe": -0.25,
+      "serveBombe": 0,
+      "serveAimBombe": 0,
+      "serveFromBombe": 0.25,
+      "serveLateral": 0,
+      "serveAimLateral": 0.45,
+      "serveFromLateral": 0.5,
+      "returnHighBall": 0.10359561834484339,
+      "returnReady": -0.10295073045417666,
+      "returnTopSpeed": 7.100642495555803,
+      "returnTopBrush": 12.36481721047312,
+      "returnTopDepth": 0.8561702362727373,
+      "returnTopWide": 0.5811254220083355,
+      "returnPushSpeed": 1.9378881037700921,
+      "returnPushBrush": -1.7437373641878366,
+      "returnDepth": 0.685,
+      "returnWide": 0.23149882843717937,
+      "returnSoftDepth": 0.8321663798764348,
+      "returnSoftWide": 0.2179408595431596,
+      "thirdHighBall": 0.10359561834484339,
+      "thirdReady": -0.20982794256415216,
+      "thirdTopSpeed": 7.100642495555803,
+      "thirdTopBrush": 12.36481721047312,
+      "thirdTopDepth": 0.9328799451235681,
+      "thirdTopWide": 0.5811254220083355,
+      "thirdPushSpeed": 1.9378881037700921,
+      "thirdPushBrush": -1.7437373641878366,
+      "thirdDepth": 0.685,
+      "thirdWide": 0.23424590197391812,
+      "thirdSoftDepth": 0.8321663798764348,
+      "thirdSoftWide": 0.2179408595431596
+     }
+    }
+   ]
+  },
+  {
+   "generation": 1,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.521,
+     "low": 0.497
+    },
+    {
+     "part": 0.511,
+     "low": 0.487
+    }
+   ]
+  },
+  {
+   "generation": 2,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.509,
+     "low": 0.487
+    },
+    {
+     "part": 0.508,
+     "low": 0.486
+    }
+   ]
+  },
+  {
+   "generation": 3,
+   "kept": false,
+   "version": 1,
+   "tried": [
+    {
+     "part": 0.478,
+     "low": 0.456
+    }
+   ]
+  },
+  {
+   "generation": 4,
+   "kept": true,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.535,
+     "low": 0.511,
+     "panel": [
+      0.707,
+      0.72,
+      0.664,
+      0.662,
+      0.652,
+      0.66,
+      0.656,
+      0.648,
+      0.651,
+      0.629,
+      0.592,
+      0.575,
+      0.573
+     ],
+     "numbers": {
+      "wide": 0.23149882843717937,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.9328799451235681,
+      "topSpeed": 7.100642495555803,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.7437373641878366,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.793402028270066,
+      "highBall": 0.10359561834484339,
+      "wait": 0.31729065817780794,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 6.225587263237685,
+      "softBrush": -7.236448443494737,
+      "softDepth": 0.8321663798764348,
+      "softWide": 0.2179408595431596,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.24060783573426303,
+      "killReady": 0.18,
+      "killSpeed": 13.809074238408357,
+      "killBrush": 12.67,
+      "killWide": 0.59,
+      "servePendule": 1,
+      "serveAimPendule": 0.45,
+      "serveFromPendule": 0.25,
+      "serveMarteau": 1,
+      "serveAimMarteau": -0.15,
+      "serveFromMarteau": 0,
+      "serveMou": 1,
+      "serveAimMou": 0,
+      "serveFromMou": 0.5,
+      "serveCoupe": 1,
+      "serveAimCoupe": -0.45,
+      "serveFromCoupe": -0.25,
+      "serveBombe": 0,
+      "serveAimBombe": 0,
+      "serveFromBombe": 0.25,
+      "serveLateral": 0,
+      "serveAimLateral": 0.45,
+      "serveFromLateral": 0.5,
+      "returnHighBall": 0.10359561834484339,
+      "returnReady": -0.10295073045417666,
+      "returnTopSpeed": 7.100642495555803,
+      "returnTopBrush": 13.06719436775893,
+      "returnTopDepth": 0.8561702362727373,
+      "returnTopWide": 0.5811254220083355,
+      "returnPushSpeed": 1.9378881037700921,
+      "returnPushBrush": -1.7437373641878366,
+      "returnDepth": 0.685,
+      "returnWide": 0.23149882843717937,
+      "returnSoftDepth": 0.8321663798764348,
+      "returnSoftWide": 0.2179408595431596,
+      "thirdHighBall": 0.10359561834484339,
+      "thirdReady": -0.20982794256415216,
+      "thirdTopSpeed": 7.100642495555803,
+      "thirdTopBrush": 12.36481721047312,
+      "thirdTopDepth": 0.9328799451235681,
+      "thirdTopWide": 0.5811254220083355,
+      "thirdPushSpeed": 1.9378881037700921,
+      "thirdPushBrush": -1.7437373641878366,
+      "thirdDepth": 0.685,
+      "thirdWide": 0.23424590197391812,
+      "thirdSoftDepth": 0.8321663798764348,
+      "thirdSoftWide": 0.2179408595431596
+     }
+    }
+   ]
+  },
+  {
+   "generation": 5,
+   "kept": false,
+   "version": 2,
+   "tried": []
+  },
+  {
+   "generation": 6,
+   "kept": false,
+   "version": 2,
+   "tried": []
+  },
+  {
+   "generation": 7,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.506,
+     "low": 0.482
+    },
+    {
+     "part": 0.501,
+     "low": 0.476
+    }
+   ]
+  },
+  {
+   "generation": 8,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.507,
+     "low": 0.483
+    }
+   ]
+  },
+  {
+   "generation": 9,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.49,
+     "low": 0.465
+    },
+    {
+     "part": 0.491,
+     "low": 0.467
+    }
+   ]
+  },
+  {
+   "generation": 10,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.512,
+     "low": 0.488
+    },
+    {
+     "part": 0.512,
+     "low": 0.488
+    }
+   ]
+  },
+  {
+   "generation": 11,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.496,
+     "low": 0.472
+    },
+    {
+     "part": 0.516,
+     "low": 0.493
+    }
+   ]
+  },
+  {
+   "generation": 12,
+   "kept": false,
+   "version": 2,
+   "tried": []
+  },
+  {
+   "generation": 13,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.487,
+     "low": 0.463
+    },
+    {
+     "part": 0.495,
+     "low": 0.472
+    }
+   ]
+  },
+  {
+   "generation": 14,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.521,
+     "low": 0.497
+    },
+    {
+     "part": 0.487,
+     "low": 0.464
+    }
+   ]
+  },
+  {
+   "generation": 15,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.51,
+     "low": 0.487
+    }
+   ]
+  },
+  {
+   "generation": 16,
+   "kept": false,
+   "version": 2,
+   "tried": []
+  },
+  {
+   "generation": 17,
+   "kept": false,
+   "version": 2,
+   "tried": [
+    {
+     "part": 0.492,
+     "low": 0.47
+    },
+    {
+     "part": 0.497,
+     "low": 0.475
+    }
+   ]
+  },
+  {
+   "generation": 18,
+   "kept": true,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.534,
+     "low": 0.509,
+     "panel": [
+      0.71,
+      0.704,
+      0.658,
+      0.651,
+      0.655,
+      0.641,
+      0.624,
+      0.633,
+      0.603,
+      0.594,
+      0.549,
+      0.529,
+      0.596
+     ],
+     "numbers": {
+      "wide": 0.23149882843717937,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.9328799451235681,
+      "topSpeed": 7.100642495555803,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.7437373641878366,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.793402028270066,
+      "highBall": 0.10359561834484339,
+      "wait": 0.31729065817780794,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 6.225587263237685,
+      "softBrush": -7.236448443494737,
+      "softDepth": 0.8321663798764348,
+      "softWide": 0.2179408595431596,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.24060783573426303,
+      "killReady": 0.18,
+      "killSpeed": 13.809074238408357,
+      "killBrush": 12.67,
+      "killWide": 0.59,
+      "servePendule": 1,
+      "serveAimPendule": 0.45,
+      "serveFromPendule": 0.25,
+      "serveMarteau": 1,
+      "serveAimMarteau": -0.15,
+      "serveFromMarteau": 0,
+      "serveMou": 1,
+      "serveAimMou": 0,
+      "serveFromMou": 0.5,
+      "serveCoupe": 1,
+      "serveAimCoupe": -0.45,
+      "serveFromCoupe": -0.25,
+      "serveBombe": 0,
+      "serveAimBombe": 0,
+      "serveFromBombe": 0.25,
+      "serveLateral": 0,
+      "serveAimLateral": 0.45,
+      "serveFromLateral": 0.5,
+      "returnHighBall": 0.10359561834484339,
+      "returnReady": -0.10295073045417666,
+      "returnTopSpeed": 7.100642495555803,
+      "returnTopBrush": 13.06719436775893,
+      "returnTopDepth": 0.7823707636911421,
+      "returnTopWide": 0.5811254220083355,
+      "returnPushSpeed": 1.9378881037700921,
+      "returnPushBrush": -1.7437373641878366,
+      "returnDepth": 0.685,
+      "returnWide": 0.23149882843717937,
+      "returnSoftDepth": 0.8321663798764348,
+      "returnSoftWide": 0.2179408595431596,
+      "thirdHighBall": 0.10359561834484339,
+      "thirdReady": -0.20982794256415216,
+      "thirdTopSpeed": 7.100642495555803,
+      "thirdTopBrush": 12.36481721047312,
+      "thirdTopDepth": 0.9328799451235681,
+      "thirdTopWide": 0.5563477237243204,
+      "thirdPushSpeed": 2.0731973343063146,
+      "thirdPushBrush": -1.7437373641878366,
+      "thirdDepth": 0.685,
+      "thirdWide": 0.23424590197391812,
+      "thirdSoftDepth": 0.8321663798764348,
+      "thirdSoftWide": 0.2179408595431596
+     }
+    }
+   ]
+  },
+  {
+   "generation": 19,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 20,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 21,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.505,
+     "low": 0.481
+    },
+    {
+     "part": 0.504,
+     "low": 0.48
+    }
+   ]
+  },
+  {
+   "generation": 22,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.495,
+     "low": 0.469
+    },
+    {
+     "part": 0.488,
+     "low": 0.465
+    }
+   ]
+  },
+  {
+   "generation": 23,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.474
+    },
+    {
+     "part": 0.497,
+     "low": 0.474
+    }
+   ]
+  },
+  {
+   "generation": 24,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 25,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.496,
+     "low": 0.473
+    },
+    {
+     "part": 0.504,
+     "low": 0.482
+    }
+   ]
+  },
+  {
+   "generation": 26,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 27,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.505,
+     "low": 0.482
+    },
+    {
+     "part": 0.503,
+     "low": 0.481
+    }
+   ]
+  },
+  {
+   "generation": 28,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.511,
+     "low": 0.486
+    },
+    {
+     "part": 0.503,
+     "low": 0.479
+    }
+   ]
+  },
+  {
+   "generation": 29,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.505,
+     "low": 0.48
+    }
+   ]
+  },
+  {
+   "generation": 30,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 31,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.488,
+     "low": 0.463
+    },
+    {
+     "part": 0.495,
+     "low": 0.472
+    }
+   ]
+  },
+  {
+   "generation": 32,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.468,
+     "low": 0.443
+    },
+    {
+     "part": 0.468,
+     "low": 0.443
+    }
+   ]
+  },
+  {
+   "generation": 33,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.481,
+     "low": 0.456
+    },
+    {
+     "part": 0.479,
+     "low": 0.454
+    }
+   ]
+  },
+  {
+   "generation": 34,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.504,
+     "low": 0.48
+    },
+    {
+     "part": 0.504,
+     "low": 0.48
+    }
+   ]
+  },
+  {
+   "generation": 35,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 36,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.498,
+     "low": 0.474
+    },
+    {
+     "part": 0.491,
+     "low": 0.465
+    }
+   ]
+  },
+  {
+   "generation": 37,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 38,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.469,
+     "low": 0.445
+    },
+    {
+     "part": 0.481,
+     "low": 0.457
+    }
+   ]
+  },
+  {
+   "generation": 39,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 40,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 41,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.515,
+     "low": 0.492
+    },
+    {
+     "part": 0.516,
+     "low": 0.493
+    }
+   ]
+  },
+  {
+   "generation": 42,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.507,
+     "low": 0.484
+    },
+    {
+     "part": 0.516,
+     "low": 0.492
+    }
+   ]
+  },
+  {
+   "generation": 43,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.523,
+     "low": 0.499
+    },
+    {
+     "part": 0.509,
+     "low": 0.485
+    }
+   ]
+  },
+  {
+   "generation": 44,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.482,
+     "low": 0.459
+    }
+   ]
+  },
+  {
+   "generation": 45,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 46,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.501,
+     "low": 0.477
+    },
+    {
+     "part": 0.507,
+     "low": 0.484
+    }
+   ]
+  },
+  {
+   "generation": 47,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.473
+    },
+    {
+     "part": 0.489,
+     "low": 0.465
+    }
+   ]
+  },
+  {
+   "generation": 48,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 49,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.502,
+     "low": 0.478
+    },
+    {
+     "part": 0.502,
+     "low": 0.479
+    }
+   ]
+  },
+  {
+   "generation": 50,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 51,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 52,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.511,
+     "low": 0.487
+    },
+    {
+     "part": 0.513,
+     "low": 0.489
+    }
+   ]
+  },
+  {
+   "generation": 53,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.497,
+     "low": 0.472
+    },
+    {
+     "part": 0.509,
+     "low": 0.486
+    }
+   ]
+  },
+  {
+   "generation": 54,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.478,
+     "low": 0.453
+    }
+   ]
+  },
+  {
+   "generation": 55,
+   "kept": false,
+   "version": 3,
+   "tried": [
+    {
+     "part": 0.496,
+     "low": 0.47
+    }
+   ]
+  },
+  {
+   "generation": 56,
+   "kept": false,
+   "version": 3,
+   "tried": []
+  },
+  {
+   "generation": 57,
+   "kept": true,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.528,
+     "low": 0.505,
+     "panel": [
+      0.726,
+      0.715,
+      0.667,
+      0.639,
+      0.66,
+      0.649,
+      0.634,
+      0.656,
+      0.661,
+      0.607,
+      0.586,
+      0.542,
+      0.591
+     ],
+     "numbers": {
+      "wide": 0.23149882843717937,
+      "depth": 0.685,
+      "topWide": 0.5811254220083355,
+      "topDepth": 0.9328799451235681,
+      "topSpeed": 7.100642495555803,
+      "topBrush": 12.36481721047312,
+      "pushSpeed": 1.9378881037700921,
+      "pushBrush": -1.7437373641878366,
+      "pushVary": 0.5713844890706241,
+      "flatSpeed": 5.793402028270066,
+      "highBall": 0.10359561834484339,
+      "wait": 0.31729065817780794,
+      "cover": 0.17895307829603554,
+      "ready": -0.10295073045417666,
+      "softSpeed": 6.225587263237685,
+      "softBrush": -7.236448443494737,
+      "softDepth": 0.8321663798764348,
+      "softWide": 0.2179408595431596,
+      "softRise": 0.150911890110001,
+      "killSlow": 7.98,
+      "killHigh": 0.24060783573426303,
+      "killReady": 0.18,
+      "killSpeed": 13.809074238408357,
+      "killBrush": 12.67,
+      "killWide": 0.59,
+      "servePendule": 1,
+      "serveAimPendule": 0.45,
+      "serveFromPendule": 0.25,
+      "serveMarteau": 1,
+      "serveAimMarteau": -0.15,
+      "serveFromMarteau": 0,
+      "serveMou": 1,
+      "serveAimMou": 0,
+      "serveFromMou": 0.5,
+      "serveCoupe": 1,
+      "serveAimCoupe": -0.45,
+      "serveFromCoupe": -0.25,
+      "serveBombe": 0,
+      "serveAimBombe": 0,
+      "serveFromBombe": 0.25,
+      "serveLateral": 0,
+      "serveAimLateral": 0.45,
+      "serveFromLateral": 0.5,
+      "returnHighBall": 0.10359561834484339,
+      "returnReady": -0.10295073045417666,
+      "returnTopSpeed": 7.100642495555803,
+      "returnTopBrush": 13.06719436775893,
+      "returnTopDepth": 0.7823707636911421,
+      "returnTopWide": 0.5811254220083355,
+      "returnPushSpeed": 1.6997006942983717,
+      "returnPushBrush": -1.7437373641878366,
+      "returnDepth": 0.685,
+      "returnWide": 0.23149882843717937,
+      "returnSoftDepth": 0.8321663798764348,
+      "returnSoftWide": 0.2179408595431596,
+      "thirdHighBall": 0.10359561834484339,
+      "thirdReady": -0.20982794256415216,
+      "thirdTopSpeed": 7.100642495555803,
+      "thirdTopBrush": 12.36481721047312,
+      "thirdTopDepth": 0.9328799451235681,
+      "thirdTopWide": 0.5563477237243204,
+      "thirdPushSpeed": 2.0731973343063146,
+      "thirdPushBrush": -1.7437373641878366,
+      "thirdDepth": 0.685,
+      "thirdWide": 0.23424590197391812,
+      "thirdSoftDepth": 0.8321663798764348,
+      "thirdSoftWide": 0.2179408595431596
+     }
+    }
+   ]
+  },
+  {
+   "generation": 58,
+   "kept": false,
+   "version": 4,
+   "tried": []
+  },
+  {
+   "generation": 59,
+   "kept": false,
+   "version": 4,
+   "tried": [
+    {
+     "part": 0.5,
+     "low": 0.475
+    }
+   ]
+  }
+ ],
+ "final": {
+  "R0": {
+   "part": 0.716,
+   "low": 0.702,
+   "high": 0.73,
+   "strokes": 3.9,
+   "limits": 0.001
+  },
+  "R1": {
+   "part": 0.709,
+   "low": 0.695,
+   "high": 0.722,
+   "strokes": 3.6,
+   "limits": 0
+  },
+  "R3": {
+   "part": 0.659,
+   "low": 0.645,
+   "high": 0.674,
+   "strokes": 3.8,
+   "limits": 0
+  },
+  "U": {
+   "part": 0.653,
+   "low": 0.639,
+   "high": 0.668,
+   "strokes": 4.5,
+   "limits": 0
+  },
+  "V": {
+   "part": 0.643,
+   "low": 0.63,
+   "high": 0.657,
+   "strokes": 2.7,
+   "limits": 0
+  },
+  "W": {
+   "part": 0.649,
+   "low": 0.634,
+   "high": 0.663,
+   "strokes": 3.9,
+   "limits": 0.001
+  },
+  "X": {
+   "part": 0.626,
+   "low": 0.611,
+   "high": 0.64,
+   "strokes": 3.7,
+   "limits": 0.002
+  },
+  "Y": {
+   "part": 0.64,
+   "low": 0.626,
+   "high": 0.654,
+   "strokes": 3.3,
+   "limits": 0
+  },
+  "Z": {
+   "part": 0.633,
+   "low": 0.619,
+   "high": 0.647,
+   "strokes": 3.4,
+   "limits": 0
+  },
+  "F": {
+   "part": 0.613,
+   "low": 0.598,
+   "high": 0.627,
+   "strokes": 3.2,
+   "limits": 0
+  },
+  "G": {
+   "part": 0.562,
+   "low": 0.548,
+   "high": 0.577,
+   "strokes": 3.9,
+   "limits": 0.002
+  },
+  "H": {
+   "part": 0.56,
+   "low": 0.546,
+   "high": 0.573,
+   "strokes": 3.5,
+   "limits": 0
+  },
+  "I": {
+   "part": 0.595,
+   "low": 0.581,
+   "high": 0.608,
+   "strokes": 3.4,
+   "limits": 0
+  },
+  "S": {
+   "part": 0.675,
+   "low": 0.649,
+   "high": 0.701,
+   "strokes": 3.6,
+   "limits": 0
+  },
+  "S-mV": {
+   "part": 0.623,
+   "low": 0.598,
+   "high": 0.647,
+   "strokes": 2.9,
+   "limits": 0
+  },
+  "S-mW": {
+   "part": 0.608,
+   "low": 0.581,
+   "high": 0.634,
+   "strokes": 3.6,
+   "limits": 0
+  },
+  "S-mY": {
+   "part": 0.638,
+   "low": 0.613,
+   "high": 0.663,
+   "strokes": 2.9,
+   "limits": 0
+  },
+  "S-mH": {
+   "part": 0.578,
+   "low": 0.551,
+   "high": 0.604,
+   "strokes": 3.6,
+   "limits": 0
+  }
+ }
+}

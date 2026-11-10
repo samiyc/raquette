@@ -1,0 +1,103 @@
+{
+ "run": "k3",
+ "numbers": {
+  "wide": 0.23149882843717937,
+  "depth": 0.685,
+  "topWide": 0.5811254220083355,
+  "topDepth": 0.9328799451235681,
+  "topSpeed": 7.100642495555803,
+  "topBrush": 12.36481721047312,
+  "pushSpeed": 1.9378881037700921,
+  "pushBrush": -1.7437373641878366,
+  "pushVary": 0.5713844890706241,
+  "flatSpeed": 5.793402028270066,
+  "highBall": 0.10359561834484339,
+  "wait": 0.31729065817780794,
+  "cover": 0.17895307829603554,
+  "ready": -0.10295073045417666,
+  "softSpeed": 6.225587263237685,
+  "softBrush": -7.236448443494737,
+  "softDepth": 0.8321663798764348,
+  "softWide": 0.2179408595431596,
+  "softRise": 0.150911890110001,
+  "killSlow": 7.98,
+  "killHigh": 0.24060783573426303,
+  "killReady": 0.18,
+  "killSpeed": 13.809074238408357,
+  "killBrush": 12.67,
+  "killWide": 0.59,
+  "servePendule": 1,
+  "serveAimPendule": 0.45,
+  "serveFromPendule": 0.25,
+  "serveMarteau": 1,
+  "serveAimMarteau": -0.15,
+  "serveFromMarteau": 0,
+  "serveMou": 1,
+  "serveAimMou": 0,
+  "serveFromMou": 0.5,
+  "serveCoupe": 1,
+  "serveAimCoupe": -0.45,
+  "serveFromCoupe": -0.25,
+  "serveBombe": 0,
+  "serveAimBombe": 0,
+  "serveFromBombe": 0.25,
+  "serveLateral": 0,
+  "serveAimLateral": 0.45,
+  "serveFromLateral": 0.5,
+  "returnHighBall": 0.10359561834484339,
+  "returnReady": -0.10295073045417666,
+  "returnTopSpeed": 7.100642495555803,
+  "returnTopBrush": 12.36481721047312,
+  "returnTopDepth": 0.9328799451235681,
+  "returnTopWide": 0.5811254220083355,
+  "returnPushSpeed": 1.9378881037700921,
+  "returnPushBrush": -1.7437373641878366,
+  "returnDepth": 0.685,
+  "returnWide": 0.23149882843717937,
+  "returnSoftDepth": 0.8321663798764348,
+  "returnSoftWide": 0.2179408595431596,
+  "thirdHighBall": 0.10359561834484339,
+  "thirdReady": -0.10295073045417666,
+  "thirdTopSpeed": 7.100642495555803,
+  "thirdTopBrush": 12.36481721047312,
+  "thirdTopDepth": 0.9328799451235681,
+  "thirdTopWide": 0.5811254220083355,
+  "thirdPushSpeed": 1.9378881037700921,
+  "thirdPushBrush": -1.7437373641878366,
+  "thirdDepth": 0.685,
+  "thirdWide": 0.23149882843717937,
+  "thirdSoftDepth": 0.8321663798764348,
+  "thirdSoftWide": 0.2179408595431596
+ },
+ "version": 0,
+ "maxStrokes": 20,
+ "limitScore": "shared",
+ "generations": [
+  {
+   "generation": 0,
+   "kept": false,
+   "version": 0,
+   "tried": [
+    {
+     "part": 0.5,
+     "low": 0.491
+    },
+    {
+     "part": 0.505,
+     "low": 0.493
+    }
+   ]
+  },
+  {
+   "generation": 1,
+   "kept": false,
+   "version": 0,
+   "tried": [
+    {
+     "part": 0.506,
+     "low": 0.488
+    }
+   ]
+  }
+ ]
+}

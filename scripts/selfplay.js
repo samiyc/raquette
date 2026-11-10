@@ -33,7 +33,10 @@ const THREADS = Number(process.env.MCTS_THREADS) || 1;
 const PANEL = ["R0", "R1", "R3", "U", "V", "W", "X", "Y", "Z", "F", "G", "H", "I"];
 const CURRENT = "version";
 const VARIANT = "variante";
-const SERVING = "choice"; // A rule that picks its service does; the others get a random one, as with "mix".
+// A rule that picks its service does; the others get a random one, as with "mix". `--serving mix` draws every service at random in the
+// generations, so that a return is tuned on all of them: against its own version, which serves I's four at their places, lineage k1
+// learnt to return those and lost to H (docs/recherche/autojeu.md). The panel and the final check keep the choice.
+const SERVING = option("--serving", "choice");
 const LIMIT_SCORE = "shared"; // "againstA" gave a variant equal to its version 50 % less half the rallies at the limit: x and y kept nothing in 40 generations (6/11/2026).
 const BUDGET = 24;
 const FOLDER = fileURLToPath(new URL("../docs/selfplay/", import.meta.url));
@@ -53,7 +56,7 @@ const startNumbers = { ...based, ...phased, ...setNumbers };
 const FOCUS = option("--focus", "") ? new RegExp(option("--focus", "")) : null; // Only the numbers whose name matches move.
 const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, numbers: startNumbers, version: 0, maxStrokes: 20, limitScore: LIMIT_SCORE, sparring: SPARRING || undefined, generations: [] };
 
-const pairs = (names, catalog, seeds, limitScore = LIMIT_SCORE) => playOnThreads({ names, budget: BUDGET, from: seeds.from, seeds: seeds.count, replays: false, serving: SERVING, catalog, limitScore }, THREADS);
+const pairs = (names, catalog, seeds, { limitScore = LIMIT_SCORE, serving = SERVING } = {}) => playOnThreads({ names, budget: BUDGET, from: seeds.from, seeds: seeds.count, replays: false, serving, catalog, limitScore }, THREADS);
 
 /** Variant against the current version, on few seeds. */
 async function screen(variants, from) {
@@ -90,7 +93,7 @@ async function judge(numbers, against, from, entry) {
 /** A version kept, against the panel: only read, to see whether the lineage goes round in circles. */
 async function readPanel(numbers, from) {
   const panel = [];
-  for (const name of PANEL) panel.push((await pairs([VARIANT, name], { [VARIANT]: numbers }, { from, count: CONFIRM })).report);
+  for (const name of PANEL) panel.push((await pairs([VARIANT, name], { [VARIANT]: numbers }, { from, count: CONFIRM }, { serving: "choice" })).report);
   return panel;
 }
 
@@ -105,7 +108,7 @@ async function finalCheck() {
   const final = {};
   const catalog = { [VARIANT]: history.numbers };
   for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH], ["S-mW", FINAL_SEARCH], ["S-mY", FINAL_SEARCH], ["S-mH", FINAL_SEARCH]]) {
-    const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count }, "shared");
+    const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count }, { limitScore: "shared", serving: "choice" });
     final[name] = { part: Number(report.part.toFixed(3)), low: Number((0.5 + report.gap.low / 4).toFixed(3)), high: Number((0.5 + report.gap.high / 4).toFixed(3)), strokes: Number(report.strokes.toFixed(1)), limits: Number(report.limits.toFixed(3)) };
   }
   return final;

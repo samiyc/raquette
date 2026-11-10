@@ -585,3 +585,31 @@ D'où deux changements (`47d264f`) :
 | les six | 56,8 % | | | |
 
 Le gain tient, sans perte due à la sélection : le service était le plus gros levier resté au hasard. Le répertoire à quatre services devient **I**. Il perd un point sur le coupé seul, mais un robot qui sert toujours le même service se lit d'avance. Les robots d'avant ne choisissent rien : leur service reste tiré au hasard, ce qui les désavantage contre I.
+
+### Le retour et la 3e balle : les lignées `k1` et `k2` (10/11/2026)
+
+Deux lignées partent de I avec `--phases`, 60 générations chacune. `k1` ne règle que le retour et la 3e balle (`--focus "^(return|third)"`). `k2` y ajoute le service.
+
+| Lignée | I | H | S-mW | S-mH | l'une contre l'autre |
+|---|---:|---:|---:|---:|---:|
+| `k1`, version 4 | **58,8 % [57,0-60,6]** | 53,7 % | 58,3 % | 52,8 % | 42,8 % |
+| `k2`, version 8 | 53,9 % [52,0-55,7] | 51,9 % | 56,7 % | 51,8 % | 57,2 % |
+
+(1 200 graines, 600 contre les recherches.)
+
+**`k1` bat I de 9 points, et pourtant fait moins bien que I contre H** : 53,7 % contre 58,0 %. `k2` le bat aussi de 7 points. Ce qu'il a appris :
+- à relancer les quatre services de I à leurs places fixes, c'est-à-dire ceux de sa version, son seul adversaire ;
+- son retour pousse moins vite (1,7 m/s au lieu de 1,9) et son top de retour vise moins profond ;
+- il a perdu sur les services qu'il ne voyait pas : ceux de H, tirés au hasard, et ceux de `k2`, déplacés.
+
+Avec des services tirés au hasard des deux côtés, `k1` et I sont à égalité (48,9 % sur 1 000 graines). C'est le défaut connu de l'autojeu contre soi : une lignée apprend les manies de sa version. Contre une version qui sert toujours la même chose, le retour en devient une.
+
+`k2` a bougé aussi son service :
+- un peu plus de marteaux, servis de −0,14 ;
+- son coupé servi de −0,12 vers −0,38 ;
+- un peu de bombes ;
+- un top de retour plus rapide (8,5 m/s).
+
+Son retour s'adaptait à un service qui bougeait, ce qui l'a gardé plus général. Mais il ne bat I que de 4 points, et fait moins bien que I contre H.
+
+**D'où `--serving mix`**. Dans les générations, chaque service est alors tiré au hasard, et un retour se règle sur tous les services. Le panel et la vérification finale gardent le choix du service. La lignée `k3` règle ainsi le retour seul. `k4` règle la 3e balle seule, contre le retour général de I. Une lignée ne sera adoptée que si elle bat I **et** fait mieux que I contre H.
