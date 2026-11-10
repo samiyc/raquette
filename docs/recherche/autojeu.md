@@ -540,3 +540,48 @@ Le serveur gagne 63 % avec le marteau ou le mou, 54 % avec le latéral. Après u
 | décisif bord | 36 % (54) | 59 % (26) | 31 % (64) | 25 % (11) |
 
 Aucune 3e balle fixe ne vaut le choix de H, qui dépend de la balle : un top si elle est haute et qu'il a le temps, sinon un coup doux. Un schéma rentable est une réponse à une situation, pas une suite de coups fixée d'avance. D'où la suite : régler le choix du service, puis des réponses propres à la 3e balle et au retour, et laisser l'autojeu trouver les schémas.
+
+### Le choix du service : les lignées `j1` et `j2` (10/11/2026)
+
+Une règle réglable peut choisir son service (`src/rules/serving.js`) : un poids par service, tiré au prorata, un écart au milieu de la table où il tombe et une place du serveur derrière sa ligne. Avec `--serves`, l'autojeu règle ces nombres. Deux lignées partent de H, les six services à égalité, 60 générations chacune :
+
+| Lignée | H | G | S-mW | S-mH | ce qui a bougé dans le service |
+|---|---:|---:|---:|---:|---|
+| `j1`, version 2 | 49,0 % [47,2-50,9] | 54,0 % | 59,1 % | 48,5 % | rien |
+| `j2`, version 1 | 51,1 % [49,2-52,9] | 57,9 % | 54,5 % | 52,3 % | le latéral à 0,74, l'écart à 0,38 |
+
+Aucune ne bat H. Les poids partaient de 1, leur borne haute : un pas ne pouvait que baisser un service de 0,3, ce qui change à peine le mélange, et un criblage de 150 graines ne le voit pas.
+
+**Ce que vaut le levier.** Une mesure directe, H qui ne sert qu'un service contre H, 2 000 graines, chaque service tombant à 0,3 m du milieu d'un côté ou de l'autre au hasard :
+
+| Service seul | Marteau | Mou | Pendule | Coupé | Latéral | Bombe | les six |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| contre H | **54,2 %** | 52,0 % | 50,0 % | 49,4 % | 46,8 % | 45,1 % | 49,0 % |
+
+**La place compte autant que le service.** Le côté tiré au hasard mélangeait un service le long de la ligne et un service croisé. Chaque service seul, avec une visée et une place du serveur signées, dans le repère du serveur, 1 500 graines par case (part contre H) :
+
+| Visée ↓ / serveur → | Coupé −0,25 | Coupé 0 | Coupé 0,25 | Marteau −0,25 | Marteau 0 | Marteau 0,25 |
+|---|---:|---:|---:|---:|---:|---:|
+| −0,45 | **59,0** | 51,5 | 53,0 | 38,1 | 51,7 | 49,6 |
+| −0,15 | 49,7 | 47,6 | 48,7 | 45,9 | **56,7** | 55,8 |
+| 0 | 47,0 | 47,1 | 47,3 | 49,1 | 48,5 | 54,7 |
+| 0,15 | 49,1 | 47,8 | 50,6 | 52,1 | 51,9 | 50,1 |
+| 0,45 | 52,5 | 51,4 | **58,7** | 53,5 | 54,3 | 38,0 |
+
+Le coupé gagne le long de la ligne, d'un côté comme de l'autre, et perd au milieu. Le marteau, dont l'effet latéral courbe la balle, perd 38 % le long de la ligne et gagne au milieu, légèrement décalé. Les meilleures places des autres : le pendule de 0,25 vers 0,45 (57,3 %), le mou de 0,5 vers le milieu (55,4 %), la bombe et le latéral nulle part au-dessus de 52 %. Le meilleur de 210 cases est flatté par la sélection, de 2 points environ, d'où une vérification sur des graines neuves.
+
+D'où deux changements (`47d264f`) :
+- **la place.** Chaque service a sa visée et sa place (`serveAimCoupe`, `serveFromCoupe`…), sans côté tiré au hasard ;
+- **les poids.** Ils vont de 0 à 4 par pas de 1.
+
+**Le retour et la 3e balle.** Une règle qui a des nombres `return…` ou `third…` (`src/rules/phases.js`) joue son retour de service ou sa 3e balle avec eux, et le reste de l'échange avec les siens. Les nombres concernés : quand attaquer (`highBall`, `ready`), le top, la poussette et leurs cibles. Chacun part du nombre de la règle, qui reste donc identique, échange pour échange (test). `--phases` les ajoute à une lignée, `--focus` ne fait bouger que les nombres dont le nom correspond.
+
+**La vérification, et I.** Chaque service à sa meilleure place, sur des graines neuves :
+
+| Répertoire | H, 4 000 graines | G, 2 000 | S-mH, 600 | S-mW, 600 |
+|---|---:|---:|---:|---:|
+| le coupé seul | **59,0 % [58,0-59,9]** | 61,0 % | 56,4 % | 55,9 % |
+| pendule, marteau, mou, coupé | 58,0 % [57,0-58,9] | 59,7 % | 54,9 % | 54,8 % |
+| les six | 56,8 % | | | |
+
+Le gain tient, sans perte due à la sélection : le service était le plus gros levier resté au hasard. Le répertoire à quatre services devient **I**. Il perd un point sur le coupé seul, mais un robot qui sert toujours le même service se lit d'avance. Les robots d'avant ne choisissent rien : leur service reste tiré au hasard, ce qui les désavantage contre I.
