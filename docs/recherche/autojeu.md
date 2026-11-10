@@ -493,3 +493,13 @@ Duels, 1 200 graines (600 contre les recherches) :
 | l'une contre l'autre | 48,3 % | 51,7 % |
 
 Aucune ne bat H nettement : H reste le robot le plus fort. Le coup décisif plus sélectif de `h3` change la façon de finir sans changer le score. Contre H, il en joue 12 % de ses coups au lieu de 16 %, et en gagne 35 pour 29 ratés, quand H en gagne 39 pour 48 ratés. Mais il ne gagne qu'un point. L'autojeu contre les règles semble arrivé au bout de ce que sa règle peut faire : `h2`, qui explore deux fois plus large, ne trouve rien.
+
+### S-mH (10/11/2026)
+
+La recherche qui prend l'adversaire pour H, 600 graines par duel :
+
+| Contre | H | G | S-mW | S-mG |
+|---|---:|---:|---:|---:|
+| S-mH | 51,2 % [48,7-53,8] | 51,7 % [49,1-54,4] | 53,8 % [50,9-56,6] | 52,8 % [50,2-55,5] |
+
+La recherche n'ajoute rien à H : à égalité contre lui, et contre G elle fait moins bien que lui (51,7 % contre 55,8 %). Elle est plus réactive, 3,5 coups par échange contre H, mais sa note d'une variante tient sur 8 parties de 4 coups, avec la dispersion des deux joueurs : autour d'une règle déjà bien réglée, le bruit de cette note pèse autant que ce qu'elle trouve. Elle bat de peu S-mW et S-mG et devient la recherche la plus forte ; elle rejoint les menus.

@@ -21,6 +21,7 @@ const ROBOTS = [
   ["S-mV", "La recherche, modèle V"],
   ["S-mW", "La recherche, modèle W"],
   ["S-mY", "La recherche, modèle Y"],
+  ["S-mH", "La recherche, modèle H"],
 ];
 const BETWEEN_RALLIES = 700; // Milliseconds to see how the point ended.
 

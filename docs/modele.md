@@ -337,7 +337,7 @@ contre une copie exacte de soi : 98 % (`mcts-codingame/docs/strategies.md`). Ici
 
 **Où en est l'autojeu** (9/11/2026). T, U et V ont été réglés avant le bras court. Tous les robots réglés l'ont été avant l'erreur sur l'angle de la face. À faire, sans ordre fixé :
 
-- sur le modèle à l'angle, W passait en tête des robots, devant les lignées parties de F ; G, partie de W, les bat tous, et H, partie de G, bat G (`recherche/autojeu.md`). S-mG ne fait pas mieux que S-mW (51,2 % [48,5-54,0]) et n'est pas ajoutée aux menus ;
+- sur le modèle à l'angle, W passait en tête des robots, devant les lignées parties de F ; G, partie de W, les bat tous, et H, partie de G, bat G (`recherche/autojeu.md`). S-mG ne fait pas mieux que S-mW (51,2 % [48,5-54,0]) et n'est pas ajoutée aux menus ; S-mH bat de peu S-mW (53,8 %) mais pas H (51,2 %) ;
 
 - finir le point : le coup décisif survit à l'autojeu et ramène X contre X de 30 à 10,5 coups (lignée `t`, `recherche/autojeu.md`), mais il ne finit qu'un échange sur trois quand il est joué, et les longueurs restent en deux paquets, loin des 4 à 5 coups de l'élite (`chiffres.md`, § 6). Le seuil `easyBall` reste à 10 m/s : le baisser casse le duel top contre bloc, sous ses 10 coups ;
 - une lignée peut s'éloigner de son meilleur niveau, maintenant qu'elle n'a que sa version à battre (`t`, version 19 contre version 26). L'historique garde désormais les nombres de chaque version gardée ;
