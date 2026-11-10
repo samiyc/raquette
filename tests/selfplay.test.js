@@ -9,7 +9,7 @@ import { RULES } from "../src/rules/ladder.js";
 import { namedRule } from "../src/rules/named.js";
 import { createTunable, R3_NUMBERS } from "../src/rules/tunable.js";
 import { TUNED } from "../src/rules/tuned.js";
-import { bestOfScreen, isKept, mutateNumbers, NUMBER_RANGES } from "../src/selfplay.js";
+import { bestOfScreen, isKept, isKeptWithSparring, mutateNumbers, NUMBER_RANGES } from "../src/selfplay.js";
 
 describe("the rule with its numbers in the open", () => {
   it("is R3 with R3's numbers, rally for rally", () => {
@@ -79,6 +79,15 @@ describe("what is kept", () => {
     assert.equal(isKept({ gap: { low: 0.01 } }), true);
     assert.equal(isKept({ gap: { low: -0.01 } }), false);
     assert.equal(isKept({ gap: { low: 0 } }), false);
+  });
+
+  it("with a sparring partner, adds what the variant gains against it to what it gains against its version", () => {
+    const even = { gap: { mean: 0.05, low: -0.05, high: 0.15 } };
+    assert.equal(isKeptWithSparring(even, { mean: 0.1, low: 0, high: 0.2 }), true, "0.15 against a margin of 0.14");
+    assert.equal(isKeptWithSparring(even, { mean: -0.1, low: -0.2, high: 0 }), false, "what it loses to the sparring partner counts");
+    const strong = { gap: { mean: 0.2, low: 0.1, high: 0.3 } };
+    assert.equal(isKept(strong), true);
+    assert.equal(isKeptWithSparring(strong, { mean: -0.15, low: -0.25, high: -0.05 }), false, "beating its version is no longer enough");
   });
 
   it("a screen keeps the best, and never a variant that does not win it", () => {

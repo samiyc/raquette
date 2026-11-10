@@ -72,3 +72,18 @@ export function bestOfScreen(variants, reports, keep) {
     .slice(0, keep)
     .filter(({ part }) => part > 0.5);
 }
+
+/**
+ * Is a variant kept, when a sparring partner also judges it (Sami, 10/11/2026: self-play against S-mH)? The search picks the service
+ * that makes a rule miss, which no version of a lineage does. The gain is the sum of two measures, in points per seed: the variant
+ * against its version, and the variant against the sparring partner less its version against it, on the same seeds. Kept if that
+ * sum beats chance, its margins put together as those of two independent measures.
+ * @param {{gap: {mean: number, low: number, high: number}}} againstVersion
+ * @param {{mean: number, low: number, high: number}} sparringGap variant less version against the sparring partner, per seed
+ * @returns {boolean}
+ */
+export function isKeptWithSparring(againstVersion, sparringGap) {
+  const { gap } = againstVersion;
+  const margin = Math.hypot((gap.high - gap.low) / 2, (sparringGap.high - sparringGap.low) / 2);
+  return gap.mean + sparringGap.mean - margin > 0;
+}

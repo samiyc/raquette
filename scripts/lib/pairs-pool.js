@@ -20,7 +20,7 @@ export function batchesOf(from, seeds, size = BATCH) {
 /**
  * @param {{names: string[], budget: number, from: number, seeds: number, replays: boolean, serving?: string, catalog?: any, limitScore?: string}} match
  * @param {number} threads
- * @returns {Promise<{report: any, lines: any[]}>}
+ * @returns {Promise<{report: any, lines: any[], scoresA: number[]}>} `scoresA`: A's points seed by seed, to pair two duels on the same seeds
  */
 export function playOnThreads(match, threads) {
   const batches = batchesOf(match.from, match.seeds);
@@ -39,7 +39,7 @@ export function playOnThreads(match, threads) {
       done += part.scoresA.length;
       progress("duel", done, match.seeds, { unit: "graine" });
       hand(worker);
-      if (parts.filter(Boolean).length === batches.length) resolve({ report: mergePairs(parts), lines: parts.flatMap((one) => one.lines) });
+      if (parts.filter(Boolean).length === batches.length) resolve({ report: mergePairs(parts), lines: parts.flatMap((one) => one.lines), scoresA: parts.flatMap((one) => one.scoresA) });
     };
     for (let i = 0; i < Math.max(1, threads); i += 1) {
       const worker = new Worker(WORKER, { workerData: match });
