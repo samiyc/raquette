@@ -613,3 +613,30 @@ Avec des services tirés au hasard des deux côtés, `k1` et I sont à égalité
 Son retour s'adaptait à un service qui bougeait, ce qui l'a gardé plus général. Mais il ne bat I que de 4 points, et fait moins bien que I contre H.
 
 **D'où `--serving mix`**. Dans les générations, chaque service est alors tiré au hasard, et un retour se règle sur tous les services. Le panel et la vérification finale gardent le choix du service. La lignée `k3` règle ainsi le retour seul. `k4` règle la 3e balle seule, contre le retour général de I. Une lignée ne sera adoptée que si elle bat I **et** fait mieux que I contre H.
+
+### Le retour sur tous les services : `k3`, et la 3e balle : `k4` (10/11/2026)
+
+Les deux lignées partent de I, 60 générations chacune.
+- **`k3`** règle le retour seul, les services tirés au hasard (`--serving mix`). Elle garde trois versions : elle attaque un peu plus de retours (`returnHighBall` 0,13), en top plus rapide (8,6 m/s) et plus près des lignes, et pousse un peu plus vite.
+- **`k4`** règle la 3e balle seule et ne garde qu'une version, qui vise un peu plus large.
+
+Vérification sur 4 000 graines neuves :
+
+| Duel | Services | Part |
+|---|---|---:|
+| `k3` contre I | choisis | 50,5 % [49,7-51,4] |
+| `k3` contre I | au hasard | 52,8 % [52,0-53,5] |
+| `k3` contre H | choisis | **59,3 % [58,3-60,2]** |
+| I contre H | choisis | 56,5 % [55,5-57,5] |
+| `k4` contre I | choisis | 50,3 % [49,5-51,2] |
+
+Le retour de `k3` vaut mieux que celui de I sur des services quelconques : près de 3 points contre H, et contre I quand les services sont tirés au hasard. Contre les services choisis de I, il est à égalité. `k3` ne bat donc pas I et n'est pas adoptée. Elle reste la meilleure candidate pour un joueur qui sert de tout, comme Sami à la souris.
+
+La 3e balle n'apporte rien. Le choix de H, un top si la balle est haute et qu'il a le temps, un coup doux sinon, était déjà le bon (la 3e balle imposée, plus haut).
+
+**Bilan des schémas de jeu.**
+- **Le service est le gros levier**, 8 points, une fois chaque service mis à sa place.
+- **Le retour** donne 1 à 3 points, selon les services d'en face.
+- **La 3e balle** ne donne rien.
+
+Le schéma vu par Sami, un service court coupé, une poussette au milieu puis un top sur un bord, est celui que l'autojeu retrouve. Son point fort est le service : le coupé le long de la ligne.
