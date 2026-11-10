@@ -8,6 +8,7 @@ import { playRally } from "../src/rally.js";
 import { RULES } from "../src/rules/ladder.js";
 import { namedRule } from "../src/rules/named.js";
 import { createTunable, R3_NUMBERS } from "../src/rules/tunable.js";
+import { phaseNumbers } from "../src/rules/phases.js";
 import { SERVE_KEYS, SERVE_NUMBERS, servicePicker } from "../src/rules/serving.js";
 import { TUNED } from "../src/rules/tuned.js";
 import { bestOfScreen, isKept, isKeptWithSparring, mutateNumbers, NUMBER_RANGES } from "../src/selfplay.js";
@@ -31,8 +32,10 @@ describe("the rule with its numbers in the open", () => {
   it("keeps what self-play found inside the ranges it searched, and by name", () => {
     for (const [name, numbers] of Object.entries(TUNED)) {
       assert.equal(namedRule(name).name, name);
+      const full = { ...R3_NUMBERS, ...SERVE_NUMBERS, ...numbers }; // What a kept rule does not name, it leaves as R3 has it.
+      const all = { ...full, ...phaseNumbers(full), ...numbers };
       for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) {
-        const value = numbers[key] ?? R3_NUMBERS[key] ?? SERVE_NUMBERS[key]; // What a kept rule does not name, it leaves as R3 has it.
+        const value = all[key];
         assert.ok(value >= low && value <= high, `${name} ${key}`);
       }
     }
@@ -56,7 +59,7 @@ describe("the rule with its numbers in the open", () => {
 describe("a mutation", () => {
   it("moves a few numbers, within their bounds, and leaves the parent alone", () => {
     const rng = createRng(4);
-    let numbers = { ...R3_NUMBERS, ...SERVE_NUMBERS };
+    let numbers = { ...R3_NUMBERS, ...SERVE_NUMBERS, ...phaseNumbers(R3_NUMBERS) };
     for (let i = 0; i < 400; i += 1) {
       const parent = { ...numbers };
       const child = mutateNumbers(numbers, rng);
@@ -68,10 +71,19 @@ describe("a mutation", () => {
     }
   });
 
-  it("has a range for every number of the rule and of its service, and R3 starts inside them", () => {
-    const start = { ...R3_NUMBERS, ...SERVE_NUMBERS };
+  it("has a range for every number of the rule, of its service and of its phases, and R3 starts inside them", () => {
+    const start = { ...R3_NUMBERS, ...SERVE_NUMBERS, ...phaseNumbers(R3_NUMBERS) };
     assert.deepEqual(Object.keys(NUMBER_RANGES).sort(), Object.keys(start).sort());
     for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) assert.ok(start[key] >= low && start[key] <= high, key);
+  });
+
+  it("moves only the numbers it is told to", () => {
+    const rng = createRng(9);
+    const numbers = { ...R3_NUMBERS, ...SERVE_NUMBERS };
+    for (let i = 0; i < 100; i += 1) {
+      const child = mutateNumbers(numbers, rng, /^serve/);
+      assert.ok(Object.keys(child).every((key) => key.startsWith("serve") || child[key] === numbers[key]));
+    }
   });
 
   it("moves no number of the service in a rule that has none", () => {
@@ -111,7 +123,7 @@ describe("a rule that picks its service", () => {
     for (let seed = 0; seed < 2000; seed += 1) {
       const { key, y, from } = pick({ seed, server: seed % 2 });
       counts[key] = (counts[key] ?? 0) + 1;
-      assert.equal(Math.abs(y), SERVE_NUMBERS.serveWide);
+      assert.equal(y, 0);
       assert.equal(from, 0);
     }
     assert.equal(counts.pendule, undefined);

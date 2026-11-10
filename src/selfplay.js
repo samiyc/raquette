@@ -1,3 +1,6 @@
+import { PHASE_KEYS, PHASES, phaseKey } from "./rules/phases.js";
+import { SERVE_AIMS, SERVE_FROMS } from "./rules/serving.js";
+
 /**
  * Self-play (Sami, 2/11/2026; docs/modele.md, § 8): a rule's numbers move, and a variant is kept only if it beats the version it comes
  * from. On CodinGame, three local gains vanished on the site because the arena only measured against the bot's own line: a panel that
@@ -5,7 +8,7 @@
  */
 
 /** How far each number may go, and how far a mutation moves it at most. All hypotheses: the bounds keep a rule within what the model was fitted on. */
-export const NUMBER_RANGES = Object.freeze({
+const BASE_RANGES = {
   wide: [0, 0.65, 0.1],
   depth: [0.35, 1.15, 0.1],
   topWide: [0, 0.65, 0.1],
@@ -31,15 +34,21 @@ export const NUMBER_RANGES = Object.freeze({
   killSpeed: [8, 16, 1.5],
   killBrush: [0, 16, 2],
   killWide: [0.1, 0.7, 0.1],
+};
+
+export const NUMBER_RANGES = Object.freeze({
+  ...BASE_RANGES,
   // The service (src/rules/serving.js): moved only in a rule that has them.
-  servePendule: [0, 1, 0.3],
-  serveMarteau: [0, 1, 0.3],
-  serveMou: [0, 1, 0.3],
-  serveCoupe: [0, 1, 0.3],
-  serveBombe: [0, 1, 0.3],
-  serveLateral: [0, 1, 0.3],
-  serveWide: [0, 0.45, 0.1],
-  serveFrom: [-0.5, 0.5, 0.15],
+  servePendule: [0, 4, 1],
+  serveMarteau: [0, 4, 1],
+  serveMou: [0, 4, 1],
+  serveCoupe: [0, 4, 1],
+  serveBombe: [0, 4, 1],
+  serveLateral: [0, 4, 1],
+  ...Object.fromEntries(SERVE_AIMS.map((key) => [key, [-0.45, 0.45, 0.1]])),
+  ...Object.fromEntries(SERVE_FROMS.map((key) => [key, [-0.5, 0.5, 0.15]])),
+  // The return and the third ball (src/rules/phases.js), each in the range of the number it stands for.
+  ...Object.fromEntries(Object.keys(PHASES).flatMap((phase) => PHASE_KEYS.map((key) => [phaseKey(phase, key), BASE_RANGES[key]]))),
 });
 
 const clamp = (value, [low, high]) => Math.max(low, Math.min(high, value));
@@ -49,10 +58,11 @@ const MOVED = 3; // Numbers moved by a mutation, at most.
  * A variant: a few numbers moved, within their bounds, among those the rule has.
  * @param {Record<string, number>} numbers
  * @param {{next: () => number, int: (n: number) => number}} rng
+ * @param {RegExp | null} [focus] only the numbers whose name matches move
  * @returns {Record<string, number>}
  */
-export function mutateNumbers(numbers, rng) {
-  const keys = Object.keys(NUMBER_RANGES).filter((key) => key in numbers);
+export function mutateNumbers(numbers, rng, focus = null) {
+  const keys = Object.keys(NUMBER_RANGES).filter((key) => key in numbers && (!focus || focus.test(key)));
   const child = { ...numbers };
   for (let moved = 1 + rng.int(MOVED); moved > 0; moved -= 1) {
     const key = keys[rng.int(keys.length)];

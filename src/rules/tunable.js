@@ -2,6 +2,7 @@ import { aim } from "../aim.js";
 import { BALL_SIZE, TABLE, VX, VY, VZ, X, Z } from "../ball/constants.js";
 import { catchPlan, frames, spareTime } from "../forecast.js";
 import { BY } from "../player.js";
+import { numbersOf, PHASES } from "./phases.js";
 import { servicePicker } from "./serving.js";
 import { variedSwing } from "./vary.js";
 
@@ -17,7 +18,8 @@ import { variedSwing } from "./vary.js";
  * A third (Sami, 4/11/2026): who attacks has to win the point. A ball slow and high enough, with the body set, is hit to finish it
  * (`kill…`), so that a slow rally is no longer safe. At `killSlow` 0, no ball is that slow.
  *
- * A fourth (Sami, 10/11/2026): with the numbers of its service (src/rules/serving.js), it picks it; without, it is drawn for it.
+ * A fourth (Sami, 10/11/2026): with the numbers of its service (src/rules/serving.js), it picks it; without, it is drawn for it. And
+ * with the numbers of a phase (src/rules/phases.js), it plays the return or its third ball with them.
  */
 export const R3_NUMBERS = Object.freeze({
   wide: 0.5, // Metres from the middle line.
@@ -97,13 +99,11 @@ function lowStroke(view, plan, x, { numbers, push, flat }) {
 const attack = (view, plan, swing, target) => lands(view, plan.step, target, swing) && { swing, target, taken: plan };
 
 /**
- * @param {Partial<typeof R3_NUMBERS>} given what differs from R3
- * @param {string} name
- * @param {number} [version]
- * @returns {import("../types.js").Rule}
+ * The swing, the target and the instant a ball calls for, by these numbers.
+ * @param {Record<string, number>} numbers R3's, and any other
+ * @returns {(view: import("../types.js").View, plan: any) => {swing: any, target: number[], taken: any}}
  */
-export function createTunable(given, name, version = 1) {
-  const numbers = { ...R3_NUMBERS, ...given };
+function strokeChooser(numbers) {
   const top = { speed: numbers.topSpeed, brushUp: numbers.topBrush, brushSide: 0 };
   const push = { speed: numbers.pushSpeed, brushUp: numbers.pushBrush, brushSide: 0 };
   const flat = { speed: numbers.flatSpeed, brushUp: 0, brushSide: 0 };
@@ -117,8 +117,7 @@ export function createTunable(given, name, version = 1) {
     const taken = (numbers.softRise > 0 && catchPlan(view, numbers.softRise)) || plan;
     return { swing: soft, target: farSide(view, numbers.softDepth, numbers.softWide), taken };
   }
-  /** The swing, the target and the instant a ball calls for. */
-  function strokeFor(view, plan) {
+  return function strokeFor(view, plan) {
     const contact = contactOf(plan.step);
     const { height } = contact;
     const finish = canFinish(view, plan, contact) && attack(view, plan, kill, farSide(view, numbers.topDepth, numbers.killWide));
@@ -128,7 +127,25 @@ export function createTunable(given, name, version = 1) {
     const topped = high && attack(view, plan, top, farSide(view, numbers.topDepth, numbers.topWide));
     if (topped) return topped;
     return lowStroke(view, plan, contact.x, { numbers, push, flat });
+  };
+}
+
+/**
+ * @param {Partial<typeof R3_NUMBERS>} given what differs from R3
+ * @param {string} name
+ * @param {number} [version]
+ * @returns {import("../types.js").Rule}
+ */
+export function createTunable(given, name, version = 1) {
+  const numbers = { ...R3_NUMBERS, ...given };
+  const rally = strokeChooser(numbers);
+  /** By the strokes already played (PHASES): the return, the third ball, then the rest of the rally. */
+  const phased = [];
+  for (const [phase, count] of Object.entries(PHASES)) {
+    const own = numbersOf(numbers, phase);
+    phased[count] = own ? strokeChooser(own) : rally;
   }
+  const strokeFor = (view, plan) => (phased[view.state.strokes] ?? rally)(view, plan);
   /** Where the body goes once the ball has left for `target`. */
   const recovery = (view, target) => [view.side * (TABLE.halfLength + numbers.wait), 0 - numbers.cover * target[1]];
   const chooseService = servicePicker(given);

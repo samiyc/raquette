@@ -5,6 +5,7 @@ import { progress } from "mcts-commun/trace.js";
 import { paired } from "mcts-commun/measure.js";
 import { bestOfScreen, isKept, isKeptWithSparring, mutateNumbers } from "../src/selfplay.js";
 import { TUNED } from "../src/rules/tuned.js";
+import { phaseNumbers } from "../src/rules/phases.js";
 import { SERVE_NUMBERS } from "../src/rules/serving.js";
 import { R3_NUMBERS } from "../src/rules/tunable.js";
 import { playOnThreads } from "./lib/pairs-pool.js";
@@ -46,7 +47,10 @@ const SEED_BASE = 2000000 + [...run].reduce((sum, c) => sum + c.charCodeAt(0), 0
 mkdirSync(FOLDER, { recursive: true });
 const setNumbers = Object.fromEntries(String(option("--set", "")).split(",").filter(Boolean).map((pair) => pair.split("=")).map(([key, value]) => [key, Number(value)]));
 const serves = args.includes("--serves") ? SERVE_NUMBERS : {}; // The rule picks its service, every kind as likely to start with.
-const startNumbers = { ...R3_NUMBERS, ...serves, ...TUNED[option("--start", "")], ...setNumbers };
+const based = { ...R3_NUMBERS, ...serves, ...TUNED[option("--start", "")], ...setNumbers };
+const phased = args.includes("--phases") ? phaseNumbers(based) : {}; // The return and the third ball, each from the rule's own numbers.
+const startNumbers = { ...based, ...phased, ...setNumbers };
+const FOCUS = option("--focus", "") ? new RegExp(option("--focus", "")) : null; // Only the numbers whose name matches move.
 const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, numbers: startNumbers, version: 0, maxStrokes: 20, limitScore: LIMIT_SCORE, sparring: SPARRING || undefined, generations: [] };
 
 const pairs = (names, catalog, seeds, limitScore = LIMIT_SCORE) => playOnThreads({ names, budget: BUDGET, from: seeds.from, seeds: seeds.count, replays: false, serving: SERVING, catalog, limitScore }, THREADS);
@@ -115,7 +119,7 @@ const summary = (against) => ({
 for (let generation = history.generations.length; generation < GENERATIONS; generation += 1) {
   const seeds = SEED_BASE + generation * 10000;
   const rng = createRng(seeds);
-  const variants = Array.from({ length: VARIANTS }, () => mutateNumbers(history.numbers, rng));
+  const variants = Array.from({ length: VARIANTS }, () => mutateNumbers(history.numbers, rng, FOCUS));
   const best = await screen(variants, seeds);
   const tried = [];
   let kept = false;
