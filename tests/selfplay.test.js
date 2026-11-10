@@ -8,6 +8,7 @@ import { playRally } from "../src/rally.js";
 import { RULES } from "../src/rules/ladder.js";
 import { namedRule } from "../src/rules/named.js";
 import { createTunable, R3_NUMBERS } from "../src/rules/tunable.js";
+import { SERVE_KEYS, SERVE_NUMBERS, servicePicker } from "../src/rules/serving.js";
 import { TUNED } from "../src/rules/tuned.js";
 import { bestOfScreen, isKept, isKeptWithSparring, mutateNumbers, NUMBER_RANGES } from "../src/selfplay.js";
 
@@ -31,7 +32,7 @@ describe("the rule with its numbers in the open", () => {
     for (const [name, numbers] of Object.entries(TUNED)) {
       assert.equal(namedRule(name).name, name);
       for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) {
-        const value = numbers[key] ?? R3_NUMBERS[key]; // What a kept rule does not name, it leaves as R3 has it.
+        const value = numbers[key] ?? R3_NUMBERS[key] ?? SERVE_NUMBERS[key]; // What a kept rule does not name, it leaves as R3 has it.
         assert.ok(value >= low && value <= high, `${name} ${key}`);
       }
     }
@@ -55,7 +56,7 @@ describe("the rule with its numbers in the open", () => {
 describe("a mutation", () => {
   it("moves a few numbers, within their bounds, and leaves the parent alone", () => {
     const rng = createRng(4);
-    let numbers = { ...R3_NUMBERS };
+    let numbers = { ...R3_NUMBERS, ...SERVE_NUMBERS };
     for (let i = 0; i < 400; i += 1) {
       const parent = { ...numbers };
       const child = mutateNumbers(numbers, rng);
@@ -67,9 +68,15 @@ describe("a mutation", () => {
     }
   });
 
-  it("has a range for every number of the rule, and R3 starts inside them", () => {
-    assert.deepEqual(Object.keys(NUMBER_RANGES).sort(), Object.keys(R3_NUMBERS).sort());
-    for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) assert.ok(R3_NUMBERS[key] >= low && R3_NUMBERS[key] <= high, key);
+  it("has a range for every number of the rule and of its service, and R3 starts inside them", () => {
+    const start = { ...R3_NUMBERS, ...SERVE_NUMBERS };
+    assert.deepEqual(Object.keys(NUMBER_RANGES).sort(), Object.keys(start).sort());
+    for (const [key, [low, high]] of Object.entries(NUMBER_RANGES)) assert.ok(start[key] >= low && start[key] <= high, key);
+  });
+
+  it("moves no number of the service in a rule that has none", () => {
+    const rng = createRng(7);
+    for (let i = 0; i < 200; i += 1) assert.ok(SERVE_KEYS.every((key) => !(key in mutateNumbers(R3_NUMBERS, rng))));
   });
 });
 
@@ -94,5 +101,32 @@ describe("what is kept", () => {
     const reports = [{ part: 0.49 }, { part: 0.56 }, { part: 0.52 }, { part: 0.5 }];
     assert.deepEqual(bestOfScreen(["a", "b", "c", "d"], reports, 2).map(({ numbers }) => numbers), ["b", "c"]);
     assert.deepEqual(bestOfScreen(["a"], [{ part: 0.49 }], 2), []);
+  });
+});
+
+describe("a rule that picks its service", () => {
+  it("draws each kind in proportion to its weight, the same for the same seed, and none at weight 0", () => {
+    const pick = servicePicker({ ...SERVE_NUMBERS, servePendule: 0, serveLateral: 0, serveMou: 3 });
+    const counts = {};
+    for (let seed = 0; seed < 2000; seed += 1) {
+      const { key, y, from } = pick({ seed, server: seed % 2 });
+      counts[key] = (counts[key] ?? 0) + 1;
+      assert.equal(Math.abs(y), SERVE_NUMBERS.serveWide);
+      assert.equal(from, 0);
+    }
+    assert.equal(counts.pendule, undefined);
+    assert.equal(counts.lateral, undefined);
+    assert.ok(counts.mou > 2.2 * counts.coupe && counts.mou < 3.8 * counts.coupe, JSON.stringify(counts));
+    assert.deepEqual(pick({ seed: 5, server: 1 }), pick({ seed: 5, server: 1 }));
+  });
+
+  it("is only given to a rule with the numbers of its service, and a rally with a choice asks it", () => {
+    assert.equal(createTunable(TUNED.H, "H").chooseService, undefined);
+    const rule = createTunable({ ...TUNED.H, ...SERVE_NUMBERS, servePendule: 0, serveMarteau: 0, serveMou: 0, serveBombe: 0, serveLateral: 0 }, "Hs");
+    const asked = [];
+    const asking = { ...rule, chooseService: (rally) => asked.push(rule.chooseService(rally).key) && rule.chooseService(rally) };
+    const players = [{ rule: asking, profile: CLUB_PLAYER }, { rule: asking, profile: CLUB_PLAYER }];
+    for (let seed = 0; seed < 5; seed += 1) playRally({ seed, players, server: seed % 2, choosing: true });
+    assert.deepEqual(asked, ["coupe", "coupe", "coupe", "coupe", "coupe"]);
   });
 });

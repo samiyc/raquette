@@ -5,6 +5,7 @@ import { progress } from "mcts-commun/trace.js";
 import { paired } from "mcts-commun/measure.js";
 import { bestOfScreen, isKept, isKeptWithSparring, mutateNumbers } from "../src/selfplay.js";
 import { TUNED } from "../src/rules/tuned.js";
+import { SERVE_NUMBERS } from "../src/rules/serving.js";
 import { R3_NUMBERS } from "../src/rules/tunable.js";
 import { playOnThreads } from "./lib/pairs-pool.js";
 
@@ -14,7 +15,8 @@ import { playOnThreads } from "./lib/pairs-pool.js";
  * against it; a version kept reads the panel, which decides nothing (Sami, 4/11/2026). Many confirmations let a few lucky variants through, so the last version plays the panel once
  * more, on seeds no generation saw: that figure is the result. `--start V --set cover=0.3,ready=0` starts from a rule self-play already kept. The history goes to docs/selfplay/, a generation at a time, so that a
  * job stopped keeps its work. `--sparring S-mH` also judges each variant that won its confirmation against the search, which picks its
- * service (src/selfplay.js, isKeptWithSparring), on `--sparring-seeds` seeds.
+ * service (src/selfplay.js, isKeptWithSparring), on `--sparring-seeds` seeds. `--serves` lets the rule pick its own service
+ * (src/rules/serving.js), and self-play set it.
  */
 const args = process.argv.slice(2);
 const option = (name, fallback) => {
@@ -30,7 +32,7 @@ const THREADS = Number(process.env.MCTS_THREADS) || 1;
 const PANEL = ["R0", "R1", "R3", "U", "V", "W", "X", "Y", "Z", "F", "G", "H"];
 const CURRENT = "version";
 const VARIANT = "variante";
-const SERVING = "mix";
+const SERVING = "choice"; // A rule that picks its service does; the others get a random one, as with "mix".
 const LIMIT_SCORE = "shared"; // "againstA" gave a variant equal to its version 50 % less half the rallies at the limit: x and y kept nothing in 40 generations (6/11/2026).
 const BUDGET = 24;
 const FOLDER = fileURLToPath(new URL("../docs/selfplay/", import.meta.url));
@@ -43,7 +45,8 @@ const SEED_BASE = 2000000 + [...run].reduce((sum, c) => sum + c.charCodeAt(0), 0
 
 mkdirSync(FOLDER, { recursive: true });
 const setNumbers = Object.fromEntries(String(option("--set", "")).split(",").filter(Boolean).map((pair) => pair.split("=")).map(([key, value]) => [key, Number(value)]));
-const startNumbers = { ...R3_NUMBERS, ...TUNED[option("--start", "")], ...setNumbers };
+const serves = args.includes("--serves") ? SERVE_NUMBERS : {}; // The rule picks its service, every kind as likely to start with.
+const startNumbers = { ...R3_NUMBERS, ...serves, ...TUNED[option("--start", "")], ...setNumbers };
 const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, numbers: startNumbers, version: 0, maxStrokes: 20, limitScore: LIMIT_SCORE, sparring: SPARRING || undefined, generations: [] };
 
 const pairs = (names, catalog, seeds, limitScore = LIMIT_SCORE) => playOnThreads({ names, budget: BUDGET, from: seeds.from, seeds: seeds.count, replays: false, serving: SERVING, catalog, limitScore }, THREADS);

@@ -31,19 +31,28 @@ export const NUMBER_RANGES = Object.freeze({
   killSpeed: [8, 16, 1.5],
   killBrush: [0, 16, 2],
   killWide: [0.1, 0.7, 0.1],
+  // The service (src/rules/serving.js): moved only in a rule that has them.
+  servePendule: [0, 1, 0.3],
+  serveMarteau: [0, 1, 0.3],
+  serveMou: [0, 1, 0.3],
+  serveCoupe: [0, 1, 0.3],
+  serveBombe: [0, 1, 0.3],
+  serveLateral: [0, 1, 0.3],
+  serveWide: [0, 0.45, 0.1],
+  serveFrom: [-0.5, 0.5, 0.15],
 });
 
 const clamp = (value, [low, high]) => Math.max(low, Math.min(high, value));
 const MOVED = 3; // Numbers moved by a mutation, at most.
 
 /**
- * A variant: a few numbers moved, within their bounds.
+ * A variant: a few numbers moved, within their bounds, among those the rule has.
  * @param {Record<string, number>} numbers
  * @param {{next: () => number, int: (n: number) => number}} rng
  * @returns {Record<string, number>}
  */
 export function mutateNumbers(numbers, rng) {
-  const keys = Object.keys(NUMBER_RANGES);
+  const keys = Object.keys(NUMBER_RANGES).filter((key) => key in numbers);
   const child = { ...numbers };
   for (let moved = 1 + rng.int(MOVED); moved > 0; moved -= 1) {
     const key = keys[rng.int(keys.length)];
