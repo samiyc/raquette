@@ -463,3 +463,33 @@ Les trois autres n'apportent rien :
 | S-mG | 51,2 % [48,5-54,0] | 59,7 % | 51,3 % [48,7-53,9] | 58,4 % | 63,5 % |
 
 Elle ne fait pas mieux que S-mW et n'est pas ajoutée aux menus. S-mW reste la recherche la plus forte, et H la bat.
+
+### Les lignées `h1` à `h3` : H tient (10/11/2026)
+
+Trois lignées parties de H, 40 générations chacune :
+
+- `h1`, avec les réglages ordinaires ;
+- `h2`, avec 16 variantes par génération au lieu de 8 ;
+- `h3`, avec le coup décisif de G : sur des balles plus hautes (29 cm au lieu de 24) et plus rapide (14,8 m/s de raquette au lieu de 13,8). H rate deux fois plus de coups décisifs qu'il n'en gagne.
+
+`h2` ne garde aucune version. `h1` garde une version, qui ralentit sa poussette (1,9 → 1,5 m/s) et vise son coup doux plus près du milieu. `h3` en garde une, qui ne change que la largeur de son top.
+
+Finals, 2 000 graines neuves contre les règles, 600 contre les recherches :
+
+| Lignée | R0 | R3 | W | X | Z | F | G | H | S | S-mW | S-mY |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `h1`, version 1 | 72,1 | 68,3 | 66,9 | 65,7 | 63,1 | 62,8 | 54,9 | 49,6 | 69,1 | 61,7 | 65,1 |
+| `h2`, version 0 (H) | 72,3 | 71,1 | 65,7 | 66,4 | 66,1 | 63,3 | 55,1 | 50,0 | 67,7 | 61,8 | 64,2 |
+| `h3`, version 1 | 72,6 | 67,3 | 67,0 | 64,9 | 64,6 | 62,1 | 56,0 | 50,5 | 66,2 | 61,8 | 66,2 |
+
+Duels, 1 200 graines (600 contre les recherches) :
+
+| Contre | `h1` | `h3` |
+|---|---:|---:|
+| H | 50,1 % [49,2-51,1] | 51,0 % [49,8-52,1] |
+| G | 56,2 % | 56,1 % |
+| S-mW | 57,1 % | 56,5 % |
+| S-mY | 66,5 % | 67,2 % |
+| l'une contre l'autre | 48,3 % | 51,7 % |
+
+Aucune ne bat H nettement : H reste le robot le plus fort. Le coup décisif plus sélectif de `h3` change la façon de finir sans changer le score. Contre H, il en joue 12 % de ses coups au lieu de 16 %, et en gagne 35 pour 29 ratés, quand H en gagne 39 pour 48 ratés. Mais il ne gagne qu'un point. L'autojeu contre les règles semble arrivé au bout de ce que sa règle peut faire : `h2`, qui explore deux fois plus large, ne trouve rien.
