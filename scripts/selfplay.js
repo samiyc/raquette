@@ -44,7 +44,7 @@ const FILE = `${FOLDER}${run}.json`;
 const FINAL = Number(option("--final", 2000));
 const SPARRING = option("--sparring", "");
 const SPARRING_SEEDS = Number(option("--sparring-seeds", 300));
-const FINAL_SEARCH = Number(option("--final-search", 600)); // The search is outside the panel, and slow: a judge that no generation played.
+const FINAL_SEARCH = Number(option("--final-search", 600)); // The search is outside the panel, and slow: a judge that no generation played; 0 leaves it out.
 const SEED_BASE = 2000000 + [...run].reduce((sum, c) => sum + c.charCodeAt(0), 0) * 1000000;
 
 mkdirSync(FOLDER, { recursive: true });
@@ -107,7 +107,7 @@ function note(generation, entry) {
 async function finalCheck() {
   const final = {};
   const catalog = { [VARIANT]: history.numbers };
-  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH], ["S-mW", FINAL_SEARCH], ["S-mY", FINAL_SEARCH], ["S-mH", FINAL_SEARCH]]) {
+  for (const [name, count] of [...PANEL.map((one) => [one, FINAL]), ["S", FINAL_SEARCH], ["S-mV", FINAL_SEARCH], ["S-mW", FINAL_SEARCH], ["S-mY", FINAL_SEARCH], ["S-mH", FINAL_SEARCH]].filter(([, count]) => Number(count) > 0)) {
     const { report } = await pairs([VARIANT, name], catalog, { from: SEED_BASE + 900000, count }, { limitScore: "shared", serving: "choice" });
     final[name] = { part: Number(report.part.toFixed(3)), low: Number((0.5 + report.gap.low / 4).toFixed(3)), high: Number((0.5 + report.gap.high / 4).toFixed(3)), strokes: Number(report.strokes.toFixed(1)), limits: Number(report.limits.toFixed(3)) };
   }
