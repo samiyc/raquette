@@ -11,7 +11,7 @@ centre de la table.
 mesures, les jalons) et [`docs/recherche/`](docs/recherche/README.md) (les chiffres et leurs sources, le glossaire, les
 questions, le prompt de recherche). **La balle existe** (`src/ball/`) : son vol, son rebond, le filet, testés contre les
 valeurs publiées. **Deux robots s'échangent la balle** (`src/rally.js`), avec la raquette, la visée et le corps : R0, et deux duels d'entraînement. **La page les montre** :
-`npm run page`, puis http://127.0.0.1:4804/web/index.html. **On joue contre R0 à la souris** sur http://127.0.0.1:4804/web/play.html. Les règles R0 à R5 sont mesurées, et une première recherche les bat (`docs/recherche/chiffres.md`, § 8).
+`npm run page`, puis http://127.0.0.1:4804/web/index.html. **On joue contre R0 à la souris** sur http://127.0.0.1:4804/web/play.html. Les règles R0 à R5 sont mesurées, et une première recherche les bat (`docs/recherche/chiffres.md`, § 8). **Qui est qui parmi les robots**, et leur Elo : [`docs/robots.md`](docs/robots.md).
 
 ## Les commandes
 
@@ -28,6 +28,7 @@ valeurs publiées. **Deux robots s'échangent la balle** (`src/rally.js`), avec 
 | `npm run duels` | les trois duels de référence, comparés à `docs/duels-reference.json` |
 | `npm run positions` | rejoue les points perdus par le robot, rangés dans `positions/` |
 | `npm run page` | sert la page sur le port 4804 : http://127.0.0.1:4804/web/index.html |
+| `node scripts/elo.js` | tous les robots les uns contre les autres, et leur Elo (`docs/robots.md`) |
 | `npm run changelog` | refait `web/changelog.html` depuis `docs/changelog.json` |
 
 Les règles du dépôt sont dans [`CLAUDE.md`](CLAUDE.md).
