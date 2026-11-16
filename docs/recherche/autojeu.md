@@ -691,3 +691,37 @@ qu'il attaque (le reste est poussé), et `shortShare`, la part des poussettes en
 La remise courte passe une fois sur quatre et ne gagne jamais en deux rebonds ; sans doute le serveur l'attaque-t-il encore, la balle
 montant au-dessus de ses 10 cm (à vérifier). La 4e balle reste le nœud : **le lift de 3e balle est sans doute trop sûr et trop fort** (Q-P9). L'autojeu dira
 ce que le retour gagne avec ces nombres.
+
+Avec le facteur à 0,03, contre les services choisis de I (4 000 points) : le relanceur qui pousse toutes les balles courtes
+(`returnFlipShare` 0) ne laisse au serveur que **54,0 %**, contre 66,7 % s'il flippe, et ne rate plus que 22 % de ses 4es balles.
+I avec ce seul nombre bat I à 55,7 % [54,6-56,8], J à 55,6 %, H à 57,5 % et G à 62,3 % (3 000 graines chacun, services choisis).
+L'autojeu `m1` (80 générations, retour seul, services tirés au hasard) ne l'a pas trouvé : il a gardé le flip et la poussette
+longue. Sur des services au hasard, souvent longs, la poussette sert peu ; c'est contre les services courts choisis qu'elle paie.
+C'est l'inverse de la leçon de `k1` : l'adversaire contre lequel on règle décide de ce qu'on trouve.
+
+### CMA-ES contre l'escalade (16/11/2026)
+
+Sami : CMA-ES fait-il mieux que notre escalade, et avec plus de budget ? `scripts/cmaes.js` règle les 25 nombres de jeu de I, ses
+services fixes, chaque gène ramené à [0, 1] par sa plage. Chaque génération, chaque candidat joue I, H et G sur les mêmes graines.
+Tous les 10 (ou 5) générations, la moyenne de la stratégie joue I et `k2` sur 1 000 graines fixes, les mêmes pour tous ; `k2`, qui
+sert autrement que I, n'est jamais un adversaire de la recherche. L'escalade `l1` part de I, contre sa propre version, comme d'usage.
+Facteur de lecture à 0,1, avant le changement plus haut.
+
+| Run | Méthode | Graines jouées | Contre I | Contre H | Contre G | Contre `k2` |
+|---|---|---|---|---|---|---|
+| `c1` | CMA-ES, 13 candidats, pas 0,1, 200 générations | 1,56 M | 63,2 % | 61,8 % | 63,3 % | 52,9 % |
+| `c2` | CMA-ES, 26 candidats, pas 0,2, 100 générations | 1,56 M | **65,7 %** | 60,8 % | 63,3 % | **54,0 %** |
+| `l1` | escalade, 500 générations | 1,0 M | 56,1 % | 53,5 % | 57,3 % | 48,7 % |
+
+Finales sur 4 000 graines neuves, fourchettes de ±1 point. Entre eux : `c2` bat `l1` à 54,8 %, `c1` le bat à 52,7 %, `c2` bat `c1` à
+53,9 %.
+
+- **CMA-ES gagne nettement**, à budget voisin, et `l1` perd même un peu contre `k2`. Mais l'objectif diffère aussi : CMA-ES règle
+  contre trois adversaires, l'escalade contre sa propre version.
+- **Presque tout vient tôt.** `c1` passe de 49 % à 61 % contre I dans ses 156 000 premières graines, puis gagne 2 points avec dix
+  fois plus. Son pas tombe de 0,1 à 0,012 et y reste : la recherche ne regarde plus que tout près. `c2`, avec une population double,
+  descend moins vite (0,03 à la fin) et va un peu plus loin. Plus de budget n'apporte presque rien une fois le pas petit ; c'est une
+  population plus grande, ou une relance, qui va plus loin.
+- **Le gain se transfère mal.** 14 à 16 points contre les adversaires de la recherche, 3 à 4 contre `k2`. CMA-ES apprend surtout à
+  battre ceux qu'il voit : le groupe d'adversaires compte plus que la méthode.
+- `c2` joue moins lourd (`topBrush` 8,3 au lieu de 12,4), pousse plus coupé (−5,3), finit plus de balles (`killSlow` 13,6).
