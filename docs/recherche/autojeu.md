@@ -698,6 +698,7 @@ I avec ce seul nombre bat I à 55,7 % [54,6-56,8], J à 55,6 %, H à 57,5 % et G
 L'autojeu `m1` (80 générations, retour seul, services tirés au hasard) ne l'a pas trouvé : il a gardé le flip et la poussette
 longue. Sur des services au hasard, souvent longs, la poussette sert peu ; c'est contre les services courts choisis qu'elle paie.
 C'est l'inverse de la leçon de `k1` : l'adversaire contre lequel on règle décide de ce qu'on trouve.
+Sami l'adopte comme **K** (16/11/2026), pour la souris.
 
 ### CMA-ES contre l'escalade (16/11/2026)
 

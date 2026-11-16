@@ -15,7 +15,9 @@ import { EARLY } from "./tuned-early.js";
  * g1, from G, version 6: a faster top and a deeper cut, the strongest of g1 to g4 (docs/selfplay/g1.json). `I`: H, which picks its
  * service, each kind at the best place a map of 1 500 seeds a place found against H (raq-place, 10/11/2026): the pendulum, the hammer,
  * the soft and the cut service, as likely, none of the bomb and the sidespin (docs/recherche/autojeu.md). `J`: lineage k3, from I, its
- * return tuned on services drawn at random: level with I, better than I against every other rule (docs/selfplay/k3.json).
+ * return tuned on services drawn at random: level with I, better than I against every other rule (docs/selfplay/k3.json). `K`: I,
+ * which pushes every short service instead of flipping it (Q-P9, 16/11/2026): the flip gave the server its third-ball loop
+ * (docs/recherche/autojeu.md).
  */
 /** H, apart: I is H with a service of its own. */
 const H = Object.freeze({
@@ -132,4 +134,6 @@ export const TUNED = Object.freeze({
     returnSoftDepth: 0.8584402306005359,
     returnSoftWide: 0.2179408595431596,
   }),
+  // The return of a ball over the table high enough to attack: pushed, never attacked (src/rules/tunable.js, flipShare).
+  K: Object.freeze({ ...I, returnFlipShare: 0 }),
 });
