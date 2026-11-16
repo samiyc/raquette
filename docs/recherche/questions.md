@@ -61,7 +61,7 @@ préparateur physique. Pas de donnée nominative. Modèle fictif : on ne cherche
 |---|---|---|---|---|
 | **Q-P7** | Quelle vitesse de raquette pour un bloc, un contre, un top, une frappe, à ce niveau ? Et quelle vitesse de balle pour un coup d'échange tranquille ? | E, H | **Jusqu'à 20 m/s**, et une balle à 6,5 m/s pour R0. | Les limites de `aim`, R0. |
 | **Q-P8** | Quelle vitesse et quel effet joue un bon joueur de club ? Les chiffres publiés (117 tr/s, 23 m/s, de jeunes joueurs confirmés) sont-ils loin de lui ? | E, H | **Pas de borne de niveau**, seulement les bornes physiques (35 m/s, 1 000 rad/s) et la limite de raquette. | Le réalisme de R3 et de la recherche. |
-| **Q-P9** | Lit-on bien l'effet adverse ? Quelle part des fautes vient d'un effet mal lu, à ce niveau ? | E, J | **Lu à 2 % près, et 10 % de l'effet de la balle d'avant reste dans la lecture** (Sami, 6/11/2026, H) : un effet qui change est lu en retard. Lecture parfaite jusque-là. | **Le rôle de l'ISMCTS.** C'est la question qui décide si MCTS a sa place ici. |
+| **Q-P9** | Lit-on bien l'effet adverse ? Quelle part des fautes vient d'un effet mal lu, à ce niveau ? | E, J | **Lu à 2 % près, et 3 % de l'effet de la balle d'avant reste dans la lecture** (Sami, 6/11/2026, H ; 10 % jusqu'au 16/11, qui donnaient au serveur 73 % des points : la 4e balle du relanceur, lue d'après son service, `autojeu.md`) : un effet qui change est lu en retard. Lecture parfaite jusque-là. | **Le rôle de l'ISMCTS.** C'est la question qui décide si MCTS a sa place ici. |
 | **Q-P14** | Les picots et l'anti-top changent-ils le jeu d'un duel de club au point de les modéliser ? | E | **Non pour l'instant**, un backside offensif des deux côtés. | Le périmètre. |
 
 ### Le service et la tactique

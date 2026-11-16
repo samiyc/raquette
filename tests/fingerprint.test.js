@@ -21,8 +21,8 @@ const EXPECTED = {
   // 6/11/2026: a rally stops at 20 strokes instead of 60 (Sami).
   // 6/11/2026: tired by the strokes of the rally, and the spin read within 2 %, late when it changes (Sami).
   // 9/11/2026: the error up turns the face alone, as an angle, not the racket's way (Sami).
-  rally: "8d37d95b3f7c954f",
-  duels: "808e35931fcd0deb",
+  rally: "98de315fc1f29fa8",
+  duels: "5aee8ea7df66a739",
 };
 
 /** Launches across the model's range: drives, loops, pushes, sidespin, net balls, long balls, the bounds. */

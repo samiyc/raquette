@@ -31,7 +31,8 @@ export const CLUB_PLAYER = Object.freeze({
   rushedScatter: 2, // Q-P2: the scatter with no preparation at all
   tiredLoss: 10, // Q-P26: what the strokes of a rally spend, an ordinary top being 1, for one more scatter (Sami, 6/11/2026)
   spinRead: 0.02, // Q-P9: the spin is read within this part of it, one standard deviation (Sami, 6/11/2026)
-  spinAnchor: 0.1, // Q-P9: the part of the last ball's spin that stays in the read: a change of spin is read late
+  spinAnchor: 0.03, // Q-P9: the part of the last ball's spin that stays in the read: a change of spin is read late. At 0.1 (6/11/2026), the
+  // receiver read the loop of the third ball 12 turns a second off, from its own service's spin, and missed 63 % of them (16/11/2026)
 });
 
 /** cos 110°, kept as a constant so that the test reads no cosine: 220° around the axis, 110° on each side (Sami, 2/11/2026). */

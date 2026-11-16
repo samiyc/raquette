@@ -2,6 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { CLUB_PLAYER } from "../src/player.js";
 import { playRally } from "../src/rally.js";
+import { TABLE_BOUNCE } from "../src/ball/table.js";
 import { numbersOf, PHASE_KEYS, phaseKey, phaseNumbers } from "../src/rules/phases.js";
 import { createTunable, R3_NUMBERS } from "../src/rules/tunable.js";
 import { TUNED } from "../src/rules/tuned.js";
@@ -39,5 +40,38 @@ describe("strokes of their own for the return and the third ball", () => {
     };
     const [mine, theirs] = [tops({ ...H, ...phaseNumbers(H), [phaseKey("return", "highBall")]: 0.5 }), tops(H)];
     assert.ok(theirs[0] > 0 && mine[0] < theirs[0] / 2, `${mine} ${theirs}`);
+  });
+});
+
+describe("answers to a service with depth and spin (Sami, 16/11/2026)", () => {
+  const I = { ...R3_NUMBERS, ...TUNED.I };
+  /** The return's swings against I's services, and where each first comes down past the net. */
+  const returns = (numbers, seeds = 60) => {
+    const players = [{ rule: createTunable(TUNED.I, "I"), profile: CLUB_PLAYER }, { rule: createTunable(numbers, "x"), profile: CLUB_PLAYER }];
+    const found = [];
+    for (let seed = 0; seed < seeds; seed += 1) {
+      let swing = null;
+      let landed = null;
+      const listener = {
+        impact: ({ plan }, state) => state.strokes === 0 && (swing = plan.swing),
+        flight: (kind, state) => state.strokes === 1 && kind === TABLE_BOUNCE && landed === null && (landed = Math.abs(state.ball[0])),
+      };
+      playRally({ seed, players, server: 0, choosing: true, listener });
+      if (swing) found.push({ swing, landed });
+    }
+    return found;
+  };
+
+  it("pushes instead of attacking a ball over the table, at flipShare 0", () => {
+    const tops = (list) => list.filter(({ swing }) => swing.brushUp === I.topBrush).length;
+    const [mine, theirs] = [returns({ ...I, returnFlipShare: 0 }), returns(I)];
+    assert.ok(tops(theirs) > 20 && tops(mine) < tops(theirs) / 3, `${tops(mine)} ${tops(theirs)}`);
+  });
+
+  it("sends a part of its pushes short, when they land", () => {
+    const list = returns({ ...I, returnFlipShare: 0, returnShortShare: 1, shortSpeed: 2, shortBrush: -1.5, returnShortDepth: 0.45 });
+    const short = list.filter(({ swing }) => swing.brushUp === -1.5);
+    assert.ok(short.length > 5, `${short.length}`);
+    for (const { landed } of short) if (landed !== null) assert.ok(landed < 0.9, `${landed}`);
   });
 });

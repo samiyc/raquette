@@ -640,3 +640,54 @@ La 3e balle n'apporte rien. Le choix de H, un top si la balle est haute et qu'il
 - **La 3e balle** ne donne rien.
 
 Le schéma vu par Sami, un service court coupé, une poussette au milieu puis un top sur un bord, est celui que l'autojeu retrouve. Son point fort est le service : le coupé le long de la ligne.
+
+### Le serveur à 73 % : la 4e balle (16/11/2026)
+
+Sami trouvait élevé que le serveur gagne 73 % des points avec les services de I. La référence publiée est de 53 % chez les pros
+(`chiffres.md`, « Au service »). Ce n'est pas un défaut du code : en changeant les côtés, on retrouve exactement les mêmes points,
+et avec le service long et plat, H contre H donne 49,8 %. Trois hypothèses du modèle se combinent. Mesures sur 2 000 à 3 000 points,
+I contre I, chaque serveur choisissant son service.
+
+| Moment du point | Réel (Djokic, pros) | I contre I |
+|---|---|---|
+| Gagné sur le service même | 11,6 % | 13,6 % |
+| Gagné à la 3e balle (balle gagnante, ou 4e balle ratée) | 22,4 % | 40 % |
+
+Le relanceur rate 14 % de ses retours, le serveur 11 % de ses 3es balles, **mais le relanceur rate 47 % de ses 4es balles**.
+
+**1. La lecture de l'effet (Q-P9) pèse sur le relanceur seul.** 10 % de l'effet de la balle d'avant restaient dans la lecture. Pour la
+4e balle, la balle d'avant du relanceur est le service, coupé ou latéral, alors que la 3e balle est un gros lift : il la lisait de
+12 tours par seconde trop loin. Le serveur, lui, lit sa 5e balle après le retour, déjà un lift. Grille sur ce facteur et sur l'erreur
+de lecture (3 000 points par case, part du serveur, coups par échange) :
+
+| Effet d'avant gardé | Erreur de lecture | I contre I | H contre H, services au hasard | R3 contre R3, service long |
+|---|---|---|---|---|
+| 0 | 2 % | 66,3 %, 4,2 coups | 56,3 %, 4,7 | 59,1 %, 5,1 |
+| 0,03 | 2 % | 67,2 %, 4,0 | 56,7 %, 4,6 | 58,8 %, 5,1 |
+| 0,06 | 2 % | 69,3 %, 3,8 | 56,7 %, 4,3 | 58,1 %, 4,9 |
+| 0,1 | 2 % | 73,1 %, 3,5 | 60,0 %, 3,9 | 55,8 %, 4,7 |
+| 0,03 | 5 % | 64,2 %, 3,6 | 50,9 %, 4,0 | 58,8 %, 4,8 |
+| 0,03 | 10 % | 56,9 %, 2,9 | 45,2 %, 3,1 | 63,0 %, 4,2 |
+
+Aucune case n'approche les 53 % sans raccourcir les échanges sous 4 coups. **Le facteur passe à 0,03** : l'effet qui change reste lu
+en retard, sans faire à lui seul le gain du serveur. Les empreintes changent, et les mesures écrites plus haut valent pour 0,1.
+
+**2. La 3e balle est un lift très lourd, et le relanceur est sorti de sa place.** Le lift de I part à 10,2 m/s et 107 tours par
+seconde. Le relanceur s'est avancé au-dessus de la table pour le service court, et sa dispersion double à la 4e balle : il est étiré,
+il court, la balle est rapide. Il rate 63 % de ces 4es balles (47 % à 0,03), mais 9 % après une 3e balle douce et 8 % après une plate.
+
+**3. Il n'avait pas la bonne réponse.** Contre un service court, il flippait ou poussait long, jamais court. Deux nombres neutres pour
+R3, I et J lui donnent du choix, chacun par tirage sur la graine de l'échange : `flipShare`, la part des balles au-dessus de la table
+qu'il attaque (le reste est poussé), et `shortShare`, la part des poussettes envoyées court (`shortDepth`, `shortSpeed`,
+`shortBrush`), à défaut d'une longue si la courte ne passe pas. Les deux existent aussi pour le retour et la 3e balle (`return…`,
+`third…`). Contre I, avec le facteur à 0,1 :
+
+| Retour de I | Serveur | 4e balle ratée |
+|---|---|---|
+| Comme I (flip ou poussette longue) | 72,7 % | 47 % |
+| Poussette à chaque fois (`returnFlipShare` 0) | 65,3 % | 47 % |
+| Poussette, courte quand elle passe (0,45 m, 2 m/s, brossage −1,5 ; 400 points) | 62,5 % | 45 % |
+
+La remise courte passe une fois sur quatre et ne gagne jamais en deux rebonds ; sans doute le serveur l'attaque-t-il encore, la balle
+montant au-dessus de ses 10 cm (à vérifier). La 4e balle reste le nœud : **le lift de 3e balle est sans doute trop sûr et trop fort** (Q-P9). L'autojeu dira
+ce que le retour gagne avec ces nombres.

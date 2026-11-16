@@ -34,6 +34,11 @@ const BASE_RANGES = {
   killSpeed: [8, 16, 1.5],
   killBrush: [0, 16, 2],
   killWide: [0.1, 0.7, 0.1],
+  flipShare: [0, 1, 0.2],
+  shortShare: [0, 1, 0.2],
+  shortDepth: [0.2, 0.6, 0.1],
+  shortSpeed: [2, 6, 0.5],
+  shortBrush: [-9, -2, 1],
 };
 
 export const NUMBER_RANGES = Object.freeze({

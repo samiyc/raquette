@@ -6,7 +6,7 @@
  */
 
 /** The numbers a phase may set apart: when to attack, and how, where to and how hard to push or play soft. */
-export const PHASE_KEYS = Object.freeze(["highBall", "ready", "topSpeed", "topBrush", "topDepth", "topWide", "pushSpeed", "pushBrush", "depth", "wide", "softDepth", "softWide"]);
+export const PHASE_KEYS = Object.freeze(["highBall", "ready", "topSpeed", "topBrush", "topDepth", "topWide", "pushSpeed", "pushBrush", "depth", "wide", "softDepth", "softWide", "flipShare", "shortShare", "shortDepth"]);
 
 /** Each phase, by the strokes played before it in the rally: none before the return, the service and the return before the third ball. */
 export const PHASES = Object.freeze({ return: 0, third: 1 });
@@ -24,12 +24,13 @@ export function phaseNumbers(numbers) {
 }
 
 /**
- * The numbers a phase plays with, or null if the rule has none for it.
+ * The numbers a phase plays with, or null if the rule has none for it. A rule set apart before a key was added plays it with its own.
  * @param {Record<string, number>} numbers
  * @param {string} phase
  * @returns {Record<string, number> | null}
  */
 export function numbersOf(numbers, phase) {
-  if (!PHASE_KEYS.every((key) => phaseKey(phase, key) in numbers)) return null;
-  return { ...numbers, ...Object.fromEntries(PHASE_KEYS.map((key) => [key, numbers[phaseKey(phase, key)]])) };
+  const own = PHASE_KEYS.filter((key) => phaseKey(phase, key) in numbers);
+  if (own.length === 0) return null;
+  return { ...numbers, ...Object.fromEntries(own.map((key) => [key, numbers[phaseKey(phase, key)]])) };
 }

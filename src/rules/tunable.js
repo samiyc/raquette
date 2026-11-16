@@ -1,3 +1,4 @@
+import { streamOf } from "mcts-commun/random.js";
 import { aim } from "../aim.js";
 import { BALL_SIZE, TABLE, VX, VY, VZ, X, Z } from "../ball/constants.js";
 import { catchPlan, frames, spareTime } from "../forecast.js";
@@ -20,6 +21,10 @@ import { variedSwing } from "./vary.js";
  *
  * A fourth (Sami, 10/11/2026): with the numbers of its service (src/rules/serving.js), it picks it; without, it is drawn for it. And
  * with the numbers of a phase (src/rules/phases.js), it plays the return or its third ball with them.
+ *
+ * A fifth (Sami, 16/11/2026): the answers to a service lacked depth and spin. A short service drew a flick or a long push, always,
+ * and the third ball was attacked at once: the server won 73 % of its points. On a ball over the table, a part of the attacks
+ * becomes a push (`flipShare`), and a part of the pushes goes short (`short…`), to bounce twice, by draws of the rally's seed.
  */
 export const R3_NUMBERS = Object.freeze({
   wide: 0.5, // Metres from the middle line.
@@ -47,11 +52,31 @@ export const R3_NUMBERS = Object.freeze({
   killSpeed: 14,
   killBrush: 12, // A low ball hit hard and with little brush does not stay hard: the aim gives back half the speed to land it.
   killWide: 0.6,
+  flipShare: 1, // Of the balls over the table high enough to attack, the part attacked: the rest is pushed (H).
+  shortShare: 0, // Of the pushes, the part sent short, to bounce twice (H).
+  shortDepth: 0.35, // Metres past the net.
+  shortSpeed: 4, // The cut that bounces twice (src/rules/short.js): about 4.7 m/s off the racket, 23° up.
+  shortBrush: -6,
 });
 
 const RUSHED = 0.15; // Seconds: under this, a prudent player hits softer (Q-P6).
 const SOFT = 0.7;
 const tilts = new Float64Array(3);
+const FLIP_STREAM = 8021; // Next to the varied push's (src/rules/vary.js).
+const SHORT_STREAM = 8041;
+
+/** True for a part `share` of the strokes, by a draw of the rally's seed and stroke: the same rally plays the same way. */
+function drawn(view, share, stream) {
+  if (share >= 1) return true;
+  return share > 0 && streamOf(view.state.seed, stream + view.state.strokes).next() < share;
+}
+
+/** Is the contact over the table, where a push may be played? */
+const overTable = (view, x) => view.side * x < TABLE.halfLength;
+
+/** High enough to attack, and, over the table, one of the part of those balls that is attacked. */
+const highEnough = (view, { height, x }, numbers) =>
+  height >= numbers.highBall && (!overTable(view, x) || drawn(view, numbers.flipShare, FLIP_STREAM));
 
 /**
  * The side of the other camp furthest from the opponent, given by where the opponent stands: a target wide, and as deep as asked.
@@ -87,11 +112,20 @@ function lands(view, step, target, swing) {
   return aim({ ball, forward: -view.side, target, swing }, tilts);
 }
 
-/** A ball too low to attack, or an attack that would not land: pushed if it is over the table and the push lands, flat otherwise. */
+/**
+ * A ball too low to attack, or an attack that would not land: pushed if it is over the table and the push lands, short for a part of
+ * them if that lands too, flat otherwise.
+ */
 function lowStroke(view, plan, x, { numbers, push, flat }) {
+  const over = overTable(view, x);
+  if (over && drawn(view, numbers.shortShare, SHORT_STREAM)) {
+    const target = farSide(view, numbers.shortDepth, numbers.wide);
+    const swing = { speed: numbers.shortSpeed, brushUp: numbers.shortBrush, brushSide: 0 };
+    if (lands(view, plan.step, target, swing)) return { swing, target, taken: plan };
+  }
   const target = farSide(view, numbers.depth, numbers.wide);
   const pushed = variedSwing(push, numbers.pushVary, view);
-  const pushing = view.side * x < TABLE.halfLength && lands(view, plan.step, target, pushed);
+  const pushing = over && lands(view, plan.step, target, pushed);
   return { swing: pushing ? pushed : flat, target, taken: plan };
 }
 
@@ -119,10 +153,9 @@ function strokeChooser(numbers) {
   }
   return function strokeFor(view, plan) {
     const contact = contactOf(plan.step);
-    const { height } = contact;
     const finish = canFinish(view, plan, contact) && attack(view, plan, kill, farSide(view, numbers.topDepth, numbers.killWide));
     if (finish) return finish;
-    const high = height >= numbers.highBall;
+    const high = highEnough(view, contact, numbers);
     if (high && spareTime(view, plan) < numbers.ready) return steady(view, plan);
     const topped = high && attack(view, plan, top, farSide(view, numbers.topDepth, numbers.topWide));
     if (topped) return topped;
