@@ -781,3 +781,14 @@ neuves, de nouveau ±1 point :
   la table (`returnReady` −0,10 au lieu de 0,50). La 3e balle ouvre encore plus fort (`thirdTopSpeed` 18,2 m/s, hypothèse non
   sourcée pour un joueur de club) mais flippe moins (0,62 au lieu de 0,93). En jeu, il flippe bien moins (`flipShare` 0,11) et
   remet moins court (`shortShare` 0,27), avec un coup décisif plus brossé (13,9 au lieu de 9,0).
+
+**`f5`, le quatrième tour** (17/11/2026, Sami : « ok pour la piste 2 ») : depuis `f4`, contre sept adversaires (L, K, I, J, H, U,
+R3) pour qu'il ne se spécialise plus ; contrôle `k2`, W, `f2b`, G ; pas de départ 0,15, 260 générations, 9,5 M de graines, aucune
+relance IPOP. Sur 4 000 graines neuves : **`f4` 47,8 %**, L 52,4 %, K 61,1 %, I 62,5 %, J 62,6 %, H 60,4 %, G 63,1 %, W 69,1 %,
+U 68,6 %, R3 74,2 %, `k2` 58,3 %, `f2a` 58,7 %, `f2b` 59,1 % (±1 point) ; en miroir, le serveur gagne 58,0 %.
+
+- **Rejeté** : il perd contre `f4`, et recule encore contre I, J et H. Ses gains vont à U (+9 points), R3 (+9) et W (+5).
+- **Pourquoi** : la note est la moyenne des parts sur le groupe ; écraser un faible y vaut autant que battre un fort. Élargir le
+  groupe à des robots plus faibles a tiré la recherche vers eux. Et un pas de départ de 0,15 depuis un run déjà réglé l'a jeté loin
+  (contre G : 65 % au départ, 58 % à la génération 10), d'où il n'est jamais tout à fait revenu.
+- **Les gains par tour fondent** : `f3` battait `f2a` à 56,8 %, `f4` bat `f3` à 54,7 %, `f5` perd contre `f4`.
