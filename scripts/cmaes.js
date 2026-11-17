@@ -16,7 +16,7 @@ import { createRulePool } from "./lib/rule-pool.js";
  * `--check-every` generations, the mean of the strategy, its best guess, plays I and k2 on seeds fixed for every run and every
  * checkpoint: the curve of the result against the seeds played. k2 serves otherwise than I and is no opponent of the search: it says
  * whether the gain holds off what was tuned on. `--controls I,k2,W` sets those judges, and `--phases return` adds the numbers of the
- * return of service (src/rules/phases.js) to the genes, each starting as the start has it, or as its own number. The history and the state go to docs/selfplay/cmaes-<run>.json at each generation, so
+ * return of service (src/rules/phases.js) to the genes (`--phases return,third`: and of the third ball), each starting as the start has it, or as its own number. The history and the state go to docs/selfplay/cmaes-<run>.json at each generation, so
  * that a job stopped goes on from there.
  */
 const args = process.argv.slice(2);
@@ -38,8 +38,11 @@ const SEED_BASE = 70000000 + [...run].reduce((sum, c) => sum + c.charCodeAt(0), 
 
 const FOLDER = fileURLToPath(new URL("../docs/selfplay/", import.meta.url));
 const FILE = `${FOLDER}cmaes-${run}.json`;
-const k2 = JSON.parse(readFileSync(`${FOLDER}k2.json`, "utf8")).numbers;
-const own = { ...R3_NUMBERS, ...TUNED[option("--start", "I")] };
+/** A rule not in src/rules/tuned.js, by the numbers a lineage or a run kept: `k2` from docs/selfplay/k2.json, `f2a` from cmaes-f2a.json. */
+const kept = (name) => [`${FOLDER}${name}.json`, `${FOLDER}cmaes-${name}.json`].filter((file) => existsSync(file)).map((file) => JSON.parse(readFileSync(file, "utf8")).numbers)[0];
+const START = option("--start", "I");
+const catalog = Object.fromEntries([...new Set(["k2", ...OPPONENTS, ...CONTROLS])].filter((name) => !TUNED[name] && kept(name)).map((name) => [name, kept(name)]));
+const own = { ...R3_NUMBERS, ...(TUNED[START] ?? kept(START)) };
 const PHASED_KEYS = new Set(PHASED.flatMap((phase) => PHASE_KEYS.map((key) => phaseKey(phase, key))));
 const phased = Object.fromEntries(Object.entries(phaseNumbers(own)).filter(([key]) => PHASED_KEYS.has(key)));
 const start = { ...phased, ...own };
@@ -53,9 +56,9 @@ const outside = (plan) => Array.from(plan).reduce((sum, g) => sum + (g - clamp01
 const mean = (values) => values.reduce((sum, v) => sum + v, 0) / values.length;
 
 mkdirSync(FOLDER, { recursive: true });
-const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, start: option("--start", "I"), keys: KEYS, opponents: OPPONENTS, controls: CONTROLS, seeds: SEEDS, sigma: SIGMA, played: 0, generations: [], checks: [] };
+const history = existsSync(FILE) ? JSON.parse(readFileSync(FILE, "utf8")) : { run, start: START, keys: KEYS, opponents: OPPONENTS, controls: CONTROLS, seeds: SEEDS, sigma: SIGMA, played: 0, generations: [], checks: [] };
 const es = createCmaes({ genes: KEYS.length, mean: KEYS.map((key) => encode(key, start[key])), sigma: SIGMA, population: POPULATION, seed: SEED_BASE, ...(history.state && { from: history.state }) });
-const pool = createRulePool(THREADS, { k2 });
+const pool = createRulePool(THREADS, catalog);
 
 /** The scores of a population: each plan against each opponent, on the same seeds. */
 async function scoresOf(population, from) {

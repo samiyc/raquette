@@ -726,3 +726,31 @@ Finales sur 4 000 graines neuves, fourchettes de ±1 point. Entre eux : `c2` bat
 - **Le gain se transfère mal.** 14 à 16 points contre les adversaires de la recherche, 3 à 4 contre `k2`. CMA-ES apprend surtout à
   battre ceux qu'il voit : le groupe d'adversaires compte plus que la méthode.
 - `c2` joue moins lourd (`topBrush` 8,3 au lieu de 12,4), pousse plus coupé (−5,3), finit plus de balles (`killSlow` 13,6).
+
+### F2 : CMA-ES sur le jeu et le retour, depuis K (17/11/2026)
+
+Sami dit oui à F2 : `scripts/cmaes.js --start K --phases return`, 45 gènes (les 25 nombres de jeu, les cinq de la remise courte, les
+15 du retour), contre I, J, H, G et K, 200 graines par génération ; le contrôle joue I, `k2` et W, qu'aucune génération n'a vus. Deux
+runs au même budget, 3,9 M de graines, pas de départ 0,2 : `f2a` à 26 candidats sur 150 générations, `f2b` à 52 sur 75.
+
+| Sur 4 000 graines neuves | K | I | J | H | G | W | U | R3 | `k2` |
+|---|---|---|---|---|---|---|---|---|---|
+| `f2a` | **60,6 %** | 66,4 % | 66,1 % | 64,1 % | 65,6 % | 64,9 % | 62,7 % | 67,4 % | **58,2 %** |
+| `f2b` | 59,6 % | 65,3 % | 64,9 % | 63,5 % | 65,1 % | 62,8 % | 58,1 % | 64,3 % | 57,8 % |
+
+Fourchettes de ±1 point. `f2a` bat `f2b` à 53,0 % [52,1-54,0] ; K et `k2` sont à égalité (49,1 %).
+
+- **Cette fois le gain se transfère** : 58 % contre `k2` et 65 % contre W, contre 54 % pour `c2`. Le groupe de cinq adversaires, et
+  les nombres du retour, y font sans doute plus que la méthode.
+- **Le gain vient lentement** : 45 gènes, et `f2a` monte jusqu'à la génération 100 environ (contre I : 56 % à 20, 68 % à 100), quand
+  `c1` avait tout pris en 20. Le pas tombe à 0,034. La population double (`f2b`) ne fait pas mieux à budget égal.
+- **Le retour de `f2a`** : il n'attaque presque plus (`returnHighBall` 0,44 m au lieu de 0,10), pousse vite (5,3 m/s de raquette au
+  lieu de 1,9), profond (93 cm) et au milieu (6 cm), remet court une fois sur quatre, puis recule de 34 cm (`returnReady` 0,35).
+  En jeu, il vise aussi le milieu (`wide` 0,04) et profond (0,93), et couvre davantage (`cover` 0,46).
+- **Mais en miroir, le serveur ne gagne plus que 36,6 % des points** (`f2b` : 40,3 %), contre 53,6 % pour K contre K et 53 % chez
+  les pros. Contre les autres robots, le serveur de `f2a` reste entre 47 et 55 %. Coup par coup, contre lui-même : sa 3e balle
+  rate peu (7 %) mais ne gagne rien (1 %) ; elle part lente, à 5,8 m/s, vers un relanceur qui a reculé et a tout son temps
+  (dispersion ×1,12), et qui gagne 14 % de ses 4es balles. La 5e balle du serveur, débordée (×2,07), en rate 29 %.
+- **Pourquoi** : les adversaires étaient figés, et seuls le jeu et le retour étaient réglés. La recherche a trouvé le retour contre
+  lequel leur 3e balle ne sait rien faire ; la sienne n'a jamais été réglée contre ce retour. D'où un deuxième tour, `f3` : depuis
+  `f2a`, avec les nombres de la 3e balle (60 gènes), contre K, I, H, `f2a` et `f2b`, contrôlé par K, `k2` et W.
