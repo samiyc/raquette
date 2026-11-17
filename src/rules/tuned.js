@@ -1,4 +1,5 @@
 import { EARLY } from "./tuned-early.js";
+import { L } from "./tuned-late.js";
 
 /**
  * What self-play kept: the numbers of the attacking rule (src/rules/tunable.js), copied whole from a lineage's history, so that a
@@ -17,7 +18,7 @@ import { EARLY } from "./tuned-early.js";
  * the soft and the cut service, as likely, none of the bomb and the sidespin (docs/recherche/autojeu.md). `J`: lineage k3, from I, its
  * return tuned on services drawn at random: level with I, better than I against every other rule (docs/selfplay/k3.json). `K`: I,
  * which pushes every short service instead of flipping it (Q-P9, 16/11/2026): the flip gave the server its third-ball loop
- * (docs/recherche/autojeu.md).
+ * (docs/recherche/autojeu.md). `L`: what CMA-ES kept, apart (src/rules/tuned-late.js).
  */
 /** H, apart: I is H with a service of its own. */
 const H = Object.freeze({
@@ -136,4 +137,5 @@ export const TUNED = Object.freeze({
   }),
   // The return of a ball over the table high enough to attack: pushed, never attacked (src/rules/tunable.js, flipShare).
   K: Object.freeze({ ...I, returnFlipShare: 0 }),
+  L,
 });

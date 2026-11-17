@@ -4,6 +4,18 @@
   "intro": "Le ping-pong en simulation : le vol de la balle d'abord, puis un robot, un joueur à la souris pour l'éprouver, et l'autojeu.",
   "versions": [
     {
+      "version": "0.36.0",
+      "title": "L, réglé par CMA-ES",
+      "date": "17/11/2026",
+      "commits": [],
+      "items": [
+        "Un nouveau robot, L : ses nombres de jeu, de retour et de 3e balle sont réglés par CMA-ES, en deux tours, contre K, I, H et les robots du premier tour.",
+        "L bat K à 63,5 % des points, et 58 à 63 % contre deux robots que la recherche n'a jamais affrontés. Entre deux L, le serveur gagne 48,5 % des points, les échanges durent 6 coups.",
+        "Sa 3e balle ouvre fort, et il remet court deux balles basses sur trois.",
+        "Les menus ne gardent que R0, R3, I, J, K, L et deux recherches : les anciens robots, réglés sur une physique dépassée, restent dans la doc."
+      ]
+    },
+    {
       "version": "0.35.0",
       "title": "K, qui pousse les services courts",
       "date": "16/11/2026",

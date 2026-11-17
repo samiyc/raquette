@@ -3,35 +3,20 @@ import { rallyText } from "./readout.js";
 
 const ROBOTS = [
   ["R0", "R0, renvoie au centre"],
-  ["R1", "R1, vise les coins"],
   ["R3", "R3, attaque"],
-  ["T", "T, l'angle"],
-  ["U", "U, le régulier"],
-  ["V", "V, fait courir"],
-  ["W", "W, top et coupé"],
-  ["X", "X, se replace"],
-  ["Y", "Y, attend pour finir"],
-  ["Z", "Z, patient"],
-  ["F", "F, réglé avec la fatigue"],
-  ["G", "G, réglé sur l'erreur d'angle"],
-  ["H", "H, le top rapide"],
   ["I", "I, H qui choisit son service"],
   ["J", "J, I avec un retour réglé à part"],
   ["K", "K, I qui pousse les services courts"],
+  ["L", "L, réglé par CMA-ES"],
   ["S", "La recherche"],
-  ["S-mT", "La recherche, modèle T"],
-  ["S-mU", "La recherche, modèle U"],
-  ["S-mV", "La recherche, modèle V"],
-  ["S-mW", "La recherche, modèle W"],
-  ["S-mY", "La recherche, modèle Y"],
   ["S-mH", "La recherche, modèle H"],
 ];
 const BETWEEN_RALLIES = 700; // Milliseconds to see how the point ended.
 
 function fillMenus(byId) {
   for (const id of ["left", "right"]) for (const [name, label] of ROBOTS) byId(id).add(new Option(label, name));
-  byId("left").value = "U";
-  byId("right").value = "R3";
+  byId("left").value = "L";
+  byId("right").value = "K";
 }
 
 const scoreText = (match) => `${match.left} ${match.score[0]} – ${match.score[1]} ${match.right}`;

@@ -16,8 +16,9 @@ import { createRulePool } from "./lib/rule-pool.js";
  * `--check-every` generations, the mean of the strategy, its best guess, plays I and k2 on seeds fixed for every run and every
  * checkpoint: the curve of the result against the seeds played. k2 serves otherwise than I and is no opponent of the search: it says
  * whether the gain holds off what was tuned on. `--controls I,k2,W` sets those judges, and `--phases return` adds the numbers of the
- * return of service (src/rules/phases.js) to the genes (`--phases return,third`: and of the third ball), each starting as the start has it, or as its own number. The history and the state go to docs/selfplay/cmaes-<run>.json at each generation, so
- * that a job stopped goes on from there.
+ * return of service (src/rules/phases.js) to the genes (`--phases return,third`: and of the third ball), each starting as the start
+ * has it, or as its own number. `--restarts 3` lets IPOP start a descent with nothing left to give again (mcts-commun/cmaes.js). The
+ * history and the state go to docs/selfplay/cmaes-<run>.json at each generation, so that a job stopped goes on from there.
  */
 const args = process.argv.slice(2);
 const option = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
@@ -31,6 +32,7 @@ const CHECK_EVERY = Number(option("--check-every", 10));
 const CHECK_SEEDS = Number(option("--check-seeds", 1000));
 const CONTROLS = option("--controls", "I,k2").split(",");
 const PHASED = option("--phases", "").split(",").filter(Boolean);
+const RESTARTS = Number(option("--restarts", 0));
 const THREADS = Number(process.env.MCTS_THREADS) || 6;
 const SERVING = "choice";
 const CHECK_FROM = 60000000; // The same for every run: the checkpoints of two runs, and of the self-play lineage, compare seed for seed.
@@ -79,12 +81,20 @@ async function check(generation) {
   console.error(`contrôle ${generation} : ${history.played} graines jouées, ${text}, pas ${entry.sigma}`);
 }
 
+/** IPOP (mcts-commun/cmaes.js): a descent with nothing left to give starts again from the start, its population doubled. */
+function restart(generation) {
+  history.restarts = [...(history.restarts ?? []), { generation, played: history.played, why: es.stopped, sigma: Number(es.sigma.toFixed(4)) }];
+  console.error(`relance à la génération ${generation} (${es.stopped}), population ${es.population * 2}`);
+  es.restart();
+}
+
 const save = () => writeFileSync(FILE, `${JSON.stringify({ ...history, state: es.snapshot(), numbers: decode(es.mean) }, null, 1)}\n`);
 if (history.checks.length === 0) await check(0);
 for (let generation = history.generations.length; generation < GENERATIONS; generation += 1) {
   const population = es.ask().map((plan) => Float64Array.from(plan));
   const scores = await scoresOf(population, SEED_BASE + generation * 1000);
   es.tell(scores);
+  if (es.restarts < RESTARTS && es.stopped) restart(generation);
   history.generations.push({ generation, played: history.played, best: Number(Math.max(...scores).toFixed(4)), average: Number(mean(scores).toFixed(4)), sigma: Number(es.sigma.toFixed(4)) });
   if ((generation + 1) % CHECK_EVERY === 0) await check(generation + 1);
   save();

@@ -11,7 +11,7 @@ import { playOnThreads } from "./lib/pairs-pool.js";
  */
 const args = process.argv.slice(2);
 const option = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
-const NAMES = option("--names", "R0,R1,R2,R3,R4,R5,T,U,V,W,X,Y,Z,F,G,H,I,J,K").split(",");
+const NAMES = option("--names", "R0,R1,R2,R3,R4,R5,T,U,V,W,X,Y,Z,F,G,H,I,J,K,L").split(",");
 const SEEDS = Number(option("--seeds", 1000));
 const FROM = Number(option("--from", 50000000));
 const THREADS = Number(process.env.MCTS_THREADS) || 1;

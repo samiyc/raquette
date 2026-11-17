@@ -13,7 +13,7 @@ const BASE_RANGES = {
   depth: [0.35, 1.15, 0.1],
   topWide: [0, 0.65, 0.1],
   topDepth: [0.45, 1.2, 0.1],
-  topSpeed: [3, 16, 1.5],
+  topSpeed: [3, 20, 1.5], // 16 until 17/11/2026: f3 sat at 15.8 (docs/recherche/autojeu.md).
   topBrush: [2, 16, 2],
   pushSpeed: [1.5, 6, 0.5],
   pushBrush: [-8, 0, 1],
