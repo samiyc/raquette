@@ -754,3 +754,10 @@ Fourchettes de ±1 point. `f2a` bat `f2b` à 53,0 % [52,1-54,0] ; K et `k2` sont
 - **Pourquoi** : les adversaires étaient figés, et seuls le jeu et le retour étaient réglés. La recherche a trouvé le retour contre
   lequel leur 3e balle ne sait rien faire ; la sienne n'a jamais été réglée contre ce retour. D'où un deuxième tour, `f3` : depuis
   `f2a`, avec les nombres de la 3e balle (60 gènes), contre K, I, H, `f2a` et `f2b`, contrôlé par K, `k2` et W.
+
+**`f3`, le deuxième tour** (17/11/2026) : depuis `f2a`, 60 gènes avec la 3e balle, contre K, I, H, `f2a` et `f2b`, 26 candidats,
+150 générations, 3,9 M de graines. Sur 4 000 graines neuves : K 63,5 %, I 67,1 %, J 66,7 %, H 65,5 %, G 66,9 %, W 62,6 %, U 62,1 %,
+R3 67,0 %, `k2` 58,3 %, `f2a` 56,8 %, `f2b` 57,8 % (±1 point). **En miroir, le serveur revient à 48,5 %** (36,6 % pour `f2a`), en
+6,0 coups par échange. Sa 3e balle ouvre fort (`thirdTopSpeed` 15,8 m/s de raquette, au bord de la plage, au lieu de 7,7), à 27 cm du
+milieu au lieu du milieu, et remet court deux balles basses sur trois. Son retour attaque plus vite (15,5 m/s) mais remet moins court
+(10 %), et il flippe moins en jeu (`flipShare` 0,38). La borne de 16 m/s sur le top est à revoir si un tour suivant y reste collé.
