@@ -59,7 +59,7 @@ Each of these exists in the other clients; copy it from them when there is somet
 
 ## The machine
 
-- **Every measure goes through the queue** (`mcts-backlog --add`, a job of 3, 6 or 9 threads: `scripts/duel.js` plays on `MCTS_THREADS`), never in a slot. `mcts-backlog --slot N -- cmd` (4 threads, 15 min at most) is
+- **Every measure goes through the queue** (`mcts-backlog --add`, a job of 3, 6 or 9 threads, a job of 9 with `--min-threads 6` since 17/11/2026: the scripts play on `MCTS_THREADS`), never in a slot. `mcts-backlog --slot N -- cmd` (4 threads, 15 min at most) is
   for quick priority tests only, such as `npm run check` (Sami, 3/11/2026). Follow a job with `--wait`, instead of polling it.
 - **Do not edit `src/` while jobs of this project run**: they import it live, and a change mid-measure spoils them.
 - **The board**: `mcts-board`, multiline bodies with `--body-file` only. A session is the project of the folder where

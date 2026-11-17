@@ -761,3 +761,23 @@ R3 67,0 %, `k2` 58,3 %, `f2a` 56,8 %, `f2b` 57,8 % (±1 point). **En miroir, le 
 6,0 coups par échange. Sa 3e balle ouvre fort (`thirdTopSpeed` 15,8 m/s de raquette, au bord de la plage, au lieu de 7,7), à 27 cm du
 milieu au lieu du milieu, et remet court deux balles basses sur trois. Son retour attaque plus vite (15,5 m/s) mais remet moins court
 (10 %), et il flippe moins en jeu (`flipShare` 0,38). La borne de 16 m/s sur le top est à revoir si un tour suivant y reste collé.
+
+**`f4`, le troisième tour (G3)** (17/11/2026) : depuis L (`f3`), mêmes 60 gènes, contre I, K, `f2a` et `f3`, contrôlé par `k2`, W
+et `f2b` ; 26 candidats, 260 générations, 5,4 M de graines, la plage du top élargie à 20 m/s, l'IPOP permis (trois relances).
+**L'IPOP ne s'est pas déclenché** : le pas est tombé de 0,15 à 0,019 sans qu'aucun critère d'arrêt ne tombe. Sur 4 000 graines
+neuves, de nouveau ±1 point :
+
+| | L | K | I | J | H | G | W | U | R3 | `k2` | `f2a` | `f2b` |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `f4` | **54,7 %** | 63,7 % | 64,6 % | 64,9 % | 61,8 % | 65,5 % | 64,5 % | 59,7 % | 65,0 % | 59,3 % | 63,0 % | 62,2 % |
+| L (`f3`) | | 63,5 % | 67,1 % | 66,7 % | 65,5 % | 66,9 % | 62,6 % | 62,1 % | 67,0 % | 58,3 % | 56,8 % | 57,8 % |
+
+- **`f4` bat L à 54,7 % [53,7-55,8]**, au-dessus du seuil de 53 % fixé avant le run : la piste n'est pas close.
+- **Mais il recule contre la moitié des autres** : 2 à 4 points de moins que L contre I, J, H, U et R3, autant contre K. Il gagne
+  surtout contre ce qu'il a joué (`f3`, `f2a`) et ce qui leur ressemble (`f2b`). Le jeu n'est pas transitif : `f4` s'est
+  spécialisé contre la lignée récente.
+- **En miroir, le serveur gagne 55,2 %** (48,5 % pour L), en 7,1 coups : le plus proche des pros (53 %) depuis K.
+- **Ce qui a bougé** : le retour attaque moins vite (11,0 m/s au lieu de 15,5) avec plus de brossage, et le relanceur reste près de
+  la table (`returnReady` −0,10 au lieu de 0,50). La 3e balle ouvre encore plus fort (`thirdTopSpeed` 18,2 m/s, hypothèse non
+  sourcée pour un joueur de club) mais flippe moins (0,62 au lieu de 0,93). En jeu, il flippe bien moins (`flipShare` 0,11) et
+  remet moins court (`shortShare` 0,27), avec un coup décisif plus brossé (13,9 au lieu de 9,0).
